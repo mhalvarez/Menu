@@ -1,0 +1,66 @@
+﻿
+-- Ejecutar como usuario Integracion
+
+CREATE TABLE TH_SATI
+(
+  SATI_TASA  NUMBER,
+  SATI_ARAX  VARCHAR2(50)
+)
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+NOMONITORING;
+
+COMMENT ON TABLE TH_SATI IS 'Tabla de Converson de Igic y Articulo equivalente axapta para ajuste de redondeos';
+
+COMMENT ON COLUMN TH_SATI.SATI_TASA IS 'Tasa de Impuesto Newhotel';
+
+COMMENT ON COLUMN TH_SATI.SATI_ARAX IS 'Articulo equivalente Axapta';
+
+
+ALTER TABLE TH_SATI ADD (
+  CONSTRAINT TH_SATI_PK
+  PRIMARY KEY
+  (SATI_TASA));
+
+
+
+
+Insert into TH_SATI
+   (SATI_TASA, SATI_ARAX)
+ Values
+   (5, 'IMP5');
+Insert into TH_SATI
+   (SATI_TASA, SATI_ARAX)
+ Values
+   (2, 'IMP2');
+
+Insert into TH_SATI
+   (SATI_TASA, SATI_ARAX)
+ Values
+   (3, 'IMP3');   
+   
+Insert into TH_SATI
+   (SATI_TASA, SATI_ARAX)
+ Values
+   (7, 'IMP7');   
+COMMIT;
+
+
+ALTER TABLE TH_PARA
+ ADD (PARA_AX_AJUSTABASE  VARCHAR2(50));
+
+
+COMMENT ON COLUMN TH_PARA.PARA_AX_AJUSTABASE IS 'Articulo Axapta Ajuste Base Imponible';
+
+
+ALTER TABLE TH_PARA
+MODIFY(PARA_AX_AJUSTABASE  DEFAULT 'IMP0');
+
+
+UPDATE TH_PARA SET PARA_PAT_NUM = 'PAT0030';
+UPDATE TH_PARA SET PARA_FECHA_BASE = '01-APR-2012';
+UPDATE TH_PARA SET PARA_FECHA_EXE  = '01-APR-2012';
+
+COMMIT;

@@ -1,0 +1,4 @@
+ALTER TABLE H_PARA
+  ADD PARA_DEBUG NUMBER DEFAULT 0
+
+COMMENT ON COLUMN H_PARA.PARA_DEBUG IS '1=Indica si se ejecutan sentencias actualmente en modo de prueba'

@@ -1,0 +1,29 @@
+CUANDO FALTEN REGISTROS EN UN DIA 
+
+GENERAR EL MISMO DIA EN INTEGRACION2
+CORRER ESTA SELECT PARA VER QUE REGISTROS ESTAN EN INTEGRACION2 QUE NO ESTAN EN INTEGRACION
+BORRAR los registros que si estan con el delete de abajo
+ENVIAR A AXAPRA DESDE INTEGRACION2 !!! EL RESTO DE REGISTROS QUE QUEDEN
+
+
+
+select * from integracion2.th_asnt where asnt_f_valor = '19-mar-2014'
+
+and (asnt_tipo_registro,asnt_empgrupo_cod,asnt_emp_cod,asnt_cfatocab_refer,asnt_f_valor,asnt_ampcpto,asnt_cfcptos_cod,asnt_ampcpto,asnt_i_monemp)
+
+not in
+
+(select asnt_tipo_registro,asnt_empgrupo_cod,asnt_emp_cod,asnt_cfatocab_refer,asnt_f_valor,asnt_ampcpto,asnt_cfcptos_cod,asnt_ampcpto,asnt_i_monemp from integracion.th_asnt
+
+where asnt_f_valor = '19-mar-2014')
+-----------------------------------------
+
+delete from integracion2.th_asnt where asnt_f_valor = '19-mar-2014'
+
+and (asnt_tipo_registro,asnt_empgrupo_cod,asnt_emp_cod,asnt_cfatocab_refer,asnt_f_valor,asnt_ampcpto,asnt_cfcptos_cod,asnt_ampcpto,asnt_i_monemp)
+
+in
+
+(select asnt_tipo_registro,asnt_empgrupo_cod,asnt_emp_cod,asnt_cfatocab_refer,asnt_f_valor,asnt_ampcpto,asnt_cfcptos_cod,asnt_ampcpto,asnt_i_monemp from integracion.th_asnt
+
+where asnt_f_valor = '19-mar-2014')

@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://schemas.microsoft.com/dynamics/2006/02/documents/SAT_NHVendPackingSlipJour" xmlns:s1="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKeyList" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s2="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKey" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://schemas.microsoft.com/dynamics/2006/02/documents/SAT_NHVendPackingSlipJour" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/dynamics/2006/02/documents/SAT_NHVendPackingSlipJour">
+      <s:import namespace="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKeyList" />
+      <s:element name="createListSAT_NHVendPackingSlipJour">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DocumentContext" nillable="true" type="tns:DocumentContext" />
+            <s:element minOccurs="0" maxOccurs="1" name="SAT_NHVendPackingSlipJour" type="tns:AxdSAT_NHVendPackingSlipJour" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="DocumentContext">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="MessageId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SourceEndpointUser" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SourceEndpoint" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DestinationEndpoint" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="createListSAT_NHVendPackingSlipJourResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:EntityKeyList" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SAT_NHVendPackingSlipJour" type="tns:AxdSAT_NHVendPackingSlipJour" />
+      <s:complexType name="AxdSAT_NHVendPackingSlipJour">
+        <s:sequence>
+          <s:element minOccurs="0" name="DocPurpose" nillable="true" type="tns:AxdEnum_XMLDocPurpose" />
+          <s:element minOccurs="0" name="SenderId" nillable="true" type="tns:AxdExtType_dataAreaId" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SAT_NHVendPackingSlipJour" type="tns:AxdEntity_SAT_NHVendPackingSlipJour" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="AxdEnum_XMLDocPurpose">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Propósito:Propósito</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:enumeration value="Original" />
+          <s:enumeration value="Duplicate" />
+          <s:enumeration value="Proforma" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_dataAreaId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Empresa:Id. para un área de datos</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="3" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="AxdEntity_SAT_NHVendPackingSlipJour">
+        <s:sequence>
+          <s:element minOccurs="1" name="CounterLines" type="tns:AxdExtType_Counter" />
+          <s:element minOccurs="0" name="DeliveryDate" nillable="true" type="tns:AxdExtType_TransDate" />
+          <s:element minOccurs="0" name="DtoPercent" nillable="true" type="tns:AxdExtType_Real10Dec" />
+          <s:element minOccurs="0" name="DtoValue" nillable="true" type="tns:AxdExtType_Real10Dec" />
+          <s:element minOccurs="0" name="EsAnulacion" nillable="true" type="tns:AxdExtType_NoYesId" />
+          <s:element minOccurs="1" name="HotelId" type="tns:AxdExtType_NHHotelId" />
+          <s:element minOccurs="0" name="IsBack" nillable="true" type="tns:AxdExtType_NoYesId" />
+          <s:element minOccurs="0" name="MOVG_ANCI" nillable="true" type="tns:AxdType_Decimal2" />
+          <s:element minOccurs="0" name="MOVG_CODI" nillable="true" type="tns:AxdType_Decimal2" />
+          <s:element minOccurs="0" name="MOVG_DADO" nillable="true" type="s:date" />
+          <s:element minOccurs="0" name="MOVG_DEST" nillable="true" type="tns:AxdType_Decimal2" />
+          <s:element minOccurs="0" name="MOVG_DORE" nillable="true" type="tns:AxdUnion_AxdType_Str_AxdType_ExtCodeValue" />
+          <s:element minOccurs="0" name="MOVG_IDDO" nillable="true" type="tns:AxdUnion_AxdType_Str_AxdType_ExtCodeValue" />
+          <s:element minOccurs="0" name="MOVG_IDID" nillable="true" type="tns:AxdUnion_AxdType_Str_AxdType_ExtCodeValue" />
+          <s:element minOccurs="0" name="MOVG_ORIG" nillable="true" type="tns:AxdType_Decimal2" />
+          <s:element minOccurs="0" name="MOVG_TIDE" nillable="true" type="tns:AxdType_Decimal2" />
+          <s:element minOccurs="0" name="MOVG_TIOR" nillable="true" type="tns:AxdType_Decimal2" />
+          <s:element minOccurs="0" name="MOVG_VATO" nillable="true" type="tns:AxdType_Decimal2" />
+          <s:element minOccurs="1" name="PackingSlipId" type="tns:AxdExtType_PackingSlipId" />
+          <s:element minOccurs="1" name="PackingSlipIdNH" type="tns:AxdExtType_PackingSlipIdNH" />
+          <s:element minOccurs="0" name="PEDG_CODI" nillable="true" type="tns:AxdType_Decimal2" />
+          <s:element minOccurs="0" name="PurchId" nillable="true" type="tns:AxdExtType_PurchId" />
+          <s:element minOccurs="0" name="RecId" nillable="true" type="tns:AxdExtType_recId" />
+          <s:element minOccurs="0" name="RecVersion" nillable="true" type="tns:AxdExtType_recVersion" />
+          <s:element minOccurs="0" name="RefRecIdSend" nillable="true" type="tns:AxdExtType_RefRecId" />
+          <s:element minOccurs="1" name="Total" type="tns:AxdExtType_Real10Dec" />
+          <s:element minOccurs="1" name="TotalNoVat" type="tns:AxdExtType_Real10Dec" />
+          <s:element minOccurs="1" name="TransDate" type="tns:AxdExtType_TransDate" />
+          <s:element minOccurs="1" name="ValueDate" type="tns:AxdExtType_TransDate" />
+          <s:element minOccurs="1" name="Vendor" type="tns:AxdExtType_VATNum" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SAT_NHVendPackingSlipTrans" type="tns:AxdEntity_SAT_NHVendPackingSlipTrans" />
+        </s:sequence>
+        <s:attribute fixed="entity" name="class" use="required" />
+      </s:complexType>
+      <s:simpleType name="AxdExtType_Counter">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Contador:Para la variable del contador de bucles interna al programa.</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Integer" />
+      </s:simpleType>
+      <s:simpleType name="AxdType_Integer">
+        <s:restriction base="s:int">
+          <s:minInclusive value="-2147483648" />
+          <s:maxInclusive value="2147483647" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_TransDate">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Fecha:Fecha de la transacción.</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:date" />
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_Real10Dec">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Real:Número real con formato estándar.</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Decimal">
+          <s:fractionDigits value="10" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdType_Decimal">
+        <s:restriction base="s:decimal" />
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_NoYesId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">:</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:enumeration value="No" />
+          <s:enumeration value="Yes" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_NHHotelId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Id del hotel:Identificador único del hotel</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="30" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdType_Decimal2">
+        <s:restriction base="tns:AxdType_Decimal">
+          <s:fractionDigits value="2" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdType_ExtCodeValue">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Valor:El valor real del registro relacionado en comparación con el tipo de código externo.</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="50" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdUnion_AxdType_Str_AxdType_ExtCodeValue">
+        <s:union memberTypes="tns:AxdType_Str tns:AxdType_ExtCodeValue" />
+      </s:simpleType>
+      <s:simpleType name="AxdType_Str">
+        <s:annotation>
+          <s:documentation xml:lang="ES">MOVG_DORE:Identificación interna del documento</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="20" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_PackingSlipId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Albarán:Identificación del albarán.</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="20" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_PackingSlipIdNH">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Albarán NewStock:Identificación del albaran NewStock</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="20" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_PurchId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Pedido de compra:Identificación de la compra.</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="20" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_recId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Id. del registro:Id. único para el registro en la base de datos</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Int64" />
+      </s:simpleType>
+      <s:simpleType name="AxdType_Int64">
+        <s:restriction base="s:long">
+          <s:minInclusive value="-9223372036854775808" />
+          <s:maxInclusive value="9223372036854775807" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_recVersion">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Versión del registro:Versión del registro en la base de datos</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Integer" />
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_RefRecId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Referencia:Campo de referencia en una tabla diferente.</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Int64" />
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_VATNum">
+        <s:annotation>
+          <s:documentation xml:lang="ES">NIF:Número de identificación fiscal (NIF) para la extracción de estadísticas.</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="20" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="AxdEntity_SAT_NHVendPackingSlipTrans">
+        <s:sequence>
+          <s:element minOccurs="0" name="ALMA_CODI" nillable="true" type="tns:AxdType_Decimal2" />
+          <s:element minOccurs="0" name="AmountVAT" nillable="true" type="tns:AxdExtType_Real10Dec" />
+          <s:element minOccurs="0" name="CAPR_CODI" nillable="true" type="tns:AxdType_Decimal2" />
+          <s:element minOccurs="0" name="DtoPercent" nillable="true" type="tns:AxdExtType_Real10Dec" />
+          <s:element minOccurs="0" name="DtoValue" nillable="true" type="tns:AxdExtType_Real10Dec" />
+          <s:element minOccurs="0" name="HoldBackValue" nillable="true" type="tns:AxdType_Decimal2" />
+          <s:element minOccurs="0" name="ItemNHInternal" nillable="true" type="tns:AxdExtType_SAT_NHItemId" />
+          <s:element minOccurs="0" name="IVAS_CODI" nillable="true" type="tns:AxdType_Decimal2" />
+          <s:element minOccurs="0" name="LineAmount" nillable="true" type="tns:AxdExtType_Real10Dec" />
+          <s:element minOccurs="0" name="MOVD_CODI" nillable="true" type="tns:AxdType_Decimal2" />
+          <s:element minOccurs="0" name="MOVD_CONT" nillable="true" type="tns:AxdExtType_Integer" />
+          <s:element minOccurs="0" name="MOVD_IVAS" nillable="true" type="tns:AxdType_Decimal2" />
+          <s:element minOccurs="0" name="MOVG_ANCI" nillable="true" type="tns:AxdType_Decimal2" />
+          <s:element minOccurs="0" name="MOVG_CODI" nillable="true" type="tns:AxdType_Decimal2" />
+          <s:element minOccurs="0" name="PackingSlipIdNH" nillable="true" type="tns:AxdExtType_PackingSlipIdNH" />
+          <s:element minOccurs="0" name="PriceUnit" nillable="true" type="tns:AxdExtType_Real10Dec" />
+          <s:element minOccurs="0" name="PurchIdNH" nillable="true" type="tns:AxdExtType_Num" />
+          <s:element minOccurs="0" name="Qty" nillable="true" type="tns:AxdExtType_Real10Dec" />
+          <s:element minOccurs="0" name="QtyOrdered" nillable="true" type="tns:AxdExtType_Real10Dec" />
+          <s:element minOccurs="0" name="RecId" nillable="true" type="tns:AxdExtType_recId" />
+          <s:element minOccurs="0" name="RecVersion" nillable="true" type="tns:AxdExtType_recVersion" />
+          <s:element minOccurs="0" name="RefRecId" nillable="true" type="tns:AxdType_Int64" />
+          <s:element minOccurs="0" name="RETE_CODI" nillable="true" type="tns:AxdType_Decimal2" />
+          <s:element minOccurs="0" name="RETE_TAXA" nillable="true" type="tns:AxdType_Decimal2" />
+          <s:element minOccurs="0" name="SAT_NHItemId" nillable="true" type="tns:AxdExtType_SAT_NHItemId" />
+          <s:element minOccurs="0" name="TaxValue" nillable="true" type="tns:AxdType_Decimal2" />
+          <s:element minOccurs="0" name="UNME_CODI" nillable="true" type="tns:AxdType_Decimal2" />
+        </s:sequence>
+        <s:attribute fixed="entity" name="class" use="required" />
+      </s:complexType>
+      <s:simpleType name="AxdExtType_SAT_NHItemId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Código Artículo New Hotel:</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="20" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_Integer">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Entero:Entero.</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Integer" />
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_Num">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Número:Número.</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="20" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKeyList">
+      <s:import namespace="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKey" />
+      <s:element name="EntityKeyList" type="s1:EntityKeyList" />
+      <s:complexType name="EntityKeyList">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" ref="s2:EntityKey" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+    <xsd:schema xmlns="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKey" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKey" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:element name="EntityKey" type="s2:EntityKey" />
+      <xsd:complexType name="EntityKey">
+        <xsd:sequence>
+          <xsd:element name="KeyData" type="s2:KeyData" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="KeyData">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="KeyField" type="s2:KeyField" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="KeyField">
+        <xsd:sequence>
+          <xsd:element name="Field" type="xsd:string" />
+          <xsd:element name="Value" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="createListSAT_NHVendPackingSlipJourSoapIn">
+    <wsdl:part name="parameters" element="tns:createListSAT_NHVendPackingSlipJour" />
+  </wsdl:message>
+  <wsdl:message name="createListSAT_NHVendPackingSlipJourSoapOut">
+    <wsdl:part name="parameters" element="tns:createListSAT_NHVendPackingSlipJourResponse" />
+  </wsdl:message>
+  <wsdl:portType name="SAT_NHVendPackingSlipJourServiceSoap">
+    <wsdl:operation name="createListSAT_NHVendPackingSlipJour">
+      <wsdl:input message="tns:createListSAT_NHVendPackingSlipJourSoapIn" />
+      <wsdl:output message="tns:createListSAT_NHVendPackingSlipJourSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SAT_NHVendPackingSlipJourServiceSoap" type="tns:SAT_NHVendPackingSlipJourServiceSoap">
+    <wsdl:documentation>
+      <wsi:Claim conformsTo="http://ws-i.org/profiles/basic/1.1" xmlns:wsi="http://ws-i.org/schemas/conformanceClaim/" />
+    </wsdl:documentation>
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="createListSAT_NHVendPackingSlipJour">
+      <soap:operation soapAction="http://schemas.microsoft.com/dynamics/2006/02/documents/SAT_NHVendPackingSlipJour/createListSAT_NHVendPackingSlipJour" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SAT_NHVendPackingSlipJourServiceSoap12" type="tns:SAT_NHVendPackingSlipJourServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="createListSAT_NHVendPackingSlipJour">
+      <soap12:operation soapAction="http://schemas.microsoft.com/dynamics/2006/02/documents/SAT_NHVendPackingSlipJour/createListSAT_NHVendPackingSlipJour" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SAT_NHVendPackingSlipJourService">
+    <wsdl:port name="SAT_NHVendPackingSlipJourServiceSoap" binding="tns:SAT_NHVendPackingSlipJourServiceSoap">
+      <soap:address location="http://192.168.0.11:8080/DynamicsWebService/SAT_NHVendPackingSlipJourService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SAT_NHVendPackingSlipJourServiceSoap12" binding="tns:SAT_NHVendPackingSlipJourServiceSoap12">
+      <soap12:address location="http://192.168.0.11:8080/DynamicsWebService/SAT_NHVendPackingSlipJourService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

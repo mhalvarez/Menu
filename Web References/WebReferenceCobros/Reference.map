@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DiscoveryClientResultsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Results>
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.DiscoveryDocumentReference" url="http://srvwspruebas/DynamicsWebService/SAT_NHJournalCustPaymentQueryService.asmx?disco" filename="SAT_NHJournalCustPaymentQueryService.disco" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://srvwspruebas/DynamicsWebService/SAT_NHJournalCustPaymentQueryService.asmx?wsdl" filename="SAT_NHJournalCustPaymentQueryService.wsdl" />
+  </Results>
+</DiscoveryClientResultsFile>

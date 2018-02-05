@@ -1,0 +1,96 @@
+﻿-**************************************************************
+*
+* CREAR TANTOS TRIGGERS COMO ESTE , COMO ESQUEMAS DE BASE DE DATOS HAYA 
+* OJO REVISAR:
+*  (1)
+*   ON RMC1.TNHT_ENTI REFERENCING NEW AS NEW OLD AS OLD
+    ON RMC2.TNHT_ENTI REFERENCING NEW AS NEW OLD AS OLD
+    ON RMC3.TNHT_ENTI REFERENCING NEW AS NEW OLD AS OLD
+(2) 
+  VARIAR EL NOMBRE DEL TRIGGER 
+  TG_TRANS_CLIE_H1
+  TG_TRANS_CLIE_H2
+  TG_TRANS_CLIE_H3
+
+  (3) 
+
+  REVISAR LOS VALORES DE "empgrupo_cod  , emp_cod y emp_num ponerlo a mano segun cada esquema"
+
+   MEJOR COGER ESTOS (EMPGRUPO_COD,EMP_COD,EMP_NUM)VALORES DE ALGUN LUGAR DE TNHT_PARA PENDIENTE ¡!!!!!!!
+
+
+*******************************************************************
+
+
+CREATE OR REPLACE TRIGGER TG_TRANS_CLIE_H1
+AFTER DELETE OR INSERT OR UPDATE
+ON TNHT_ENTI REFERENCING NEW AS NEW OLD AS OLD
+FOR EACH ROW
+DECLARE
+   vcodigo   NUMBER;
+BEGIN
+   SELECT TG_TRANS_SEC.NEXTVAL INTO vcodigo FROM DUAL;
+
+   IF INSERTING
+   THEN
+      INSERT INTO TG_TRANS (TRANS_CODI,TRANS_EMPGRUPO_COD,TRANS_EMP_COD,TRANS_EMP_NUM,
+                            TRANS_TABL,
+                             TRANS_PKEY,
+                            TRANS_TYPE,
+                            TRANS_STAT,
+                            TRANS_HOTE,
+                            TRANS_ERRO)
+           VALUES (vcodigo,'GRTI','1',1,
+                   'TNHT_ENTI',
+                   :NEW.ENTI_CODI,
+                   1,
+                   0,
+                   0,
+                   NULL);
+   END IF;
+
+
+   IF UPDATING
+   THEN
+      INSERT INTO TG_TRANS (TRANS_CODI,TRANS_EMPGRUPO_COD,TRANS_EMP_COD,TRANS_EMP_NUM,
+                            TRANS_TABL,
+                            TRANS_PKEY,
+                            TRANS_TYPE,
+                            TRANS_STAT,
+                            TRANS_HOTE,
+                            TRANS_ERRO)
+           VALUES (vcodigo,'GRTI','1',1,
+                   'TNHT_ENTI',
+                    :OLD.ENTI_CODI,
+                   2,
+                   0,
+                   0,
+                   NULL);
+   END IF;
+
+
+
+   IF DELETING
+   THEN
+      INSERT INTO TG_TRANS (TRANS_CODI,TRANS_EMPGRUPO_COD,TRANS_EMP_COD,TRANS_EMP_NUM,
+                            TRANS_TABL,
+                             TRANS_PKEY,
+                            TRANS_TYPE,
+                            TRANS_STAT,
+                            TRANS_HOTE,
+                            TRANS_ERRO)
+           VALUES (vcodigo,'GRTI','1',1,
+                   'TNHT_ENTI',
+                     :OLD.ENTI_CODI,
+                   3,
+                   0,
+                   0,
+                   NULL);
+   END IF;
+EXCEPTION
+   WHEN OTHERS
+   THEN
+      -- Consider logging the error and then re-raise
+      RAISE;
+END TG_TRANS_CLIE_H1;
+/

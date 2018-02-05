@@ -1,0 +1,25 @@
+﻿Dia para probar Anticipos rectificados 
+
+Ipaema 08-05-2010
+
+
+
+Dia para probar Anticipos Devueltos Parciales 
+
+ dia             recibido     dvuelto en recubo    saldo de anticipos facturados 
+ 03-05             162
+ 07-05                         27 
+ 08-05                                                             135
+ 
+ 
+ 
+ Revisar la implicacion de conertir cobros en anticipos cuendo hay devoluciones
+ 
+ 
+ ----------------------------------------------------------------------------------------------
+ DOMINGO ENVIAR PDFS
+ 
+ HOTEL                 RESERVA                   PRUEBA 
+ 
+ Ipanema                  2940/2009                Devolucion por Contabildad 
+ 

@@ -1,0 +1,9 @@
+
+
+ 
+"SAT_NHCreateProdOrdersQueryService" then "1- Pedido de Producción Axapta"
+ "SAT_NHPrePaymentService" then "2- Anticipos Recibidos"
+ "SAT_NHCreateSalesOrdersQueryService" then "3- Pedido de Ventas (Facturas) Axapta"
+ "SAT_NHJournalCustPaymentQueryService" then "4- Pedido de Cobros Axapta"
+ "SAT_JournalLossProfitQueryService" then "5- Perdidas y Ganancias Venta de Tikets"
+ "SAT_NHInfoAnalyticalQueryService" then "6- Analítica (Estadísticas)"

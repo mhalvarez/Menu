@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://schemas.microsoft.com/dynamics/2006/02/documents/SAT_NHInfoAnalyticalQuery" xmlns:s1="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKeyList" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s2="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKey" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://schemas.microsoft.com/dynamics/2006/02/documents/SAT_NHInfoAnalyticalQuery" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/dynamics/2006/02/documents/SAT_NHInfoAnalyticalQuery">
+      <s:import namespace="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKeyList" />
+      <s:element name="createListSAT_NHInfoAnalyticalQuery">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DocumentContext" nillable="true" type="tns:DocumentContext" />
+            <s:element minOccurs="0" maxOccurs="1" name="SAT_NHInfoAnalyticalQuery" type="tns:AxdSAT_NHInfoAnalyticalQuery" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="DocumentContext">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="MessageId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SourceEndpointUser" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SourceEndpoint" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DestinationEndpoint" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="createListSAT_NHInfoAnalyticalQueryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:EntityKeyList" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SAT_NHInfoAnalyticalQuery" type="tns:AxdSAT_NHInfoAnalyticalQuery" />
+      <s:complexType name="AxdSAT_NHInfoAnalyticalQuery">
+        <s:sequence>
+          <s:element minOccurs="0" name="DocPurpose" nillable="true" type="tns:AxdEnum_XMLDocPurpose" />
+          <s:element minOccurs="0" name="SenderId" nillable="true" type="tns:AxdExtType_dataAreaId" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SAT_NHInfoAnalytical_1" type="tns:AxdEntity_SAT_NHInfoAnalytical_1" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="AxdEnum_XMLDocPurpose">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Propósito:Propósito</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:enumeration value="Original" />
+          <s:enumeration value="Duplicate" />
+          <s:enumeration value="Proforma" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_dataAreaId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Empresa:Id. para un área de datos</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="3" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="AxdEntity_SAT_NHInfoAnalytical_1">
+        <s:sequence>
+          <s:element minOccurs="0" name="AnalyticalConcept" nillable="true" type="tns:AxdEnum_SAT_NHAnalyticalConcept" />
+          <s:element minOccurs="1" name="HotelId" type="tns:AxdExtType_NHHotelId" />
+          <s:element minOccurs="0" name="Qty" nillable="true" type="tns:AxdExtType_Amount" />
+          <s:element minOccurs="0" name="Qty2" nillable="true" type="tns:AxdExtType_PositiveNumber" />
+          <s:element minOccurs="0" name="RecId" nillable="true" type="tns:AxdExtType_recId" />
+          <s:element minOccurs="0" name="RecVersion" nillable="true" type="tns:AxdExtType_recVersion" />
+          <s:element minOccurs="1" name="TransDate" type="tns:AxdExtType_TransDate" />
+        </s:sequence>
+        <s:attribute fixed="entity" name="class" use="required" />
+      </s:complexType>
+      <s:simpleType name="AxdEnum_SAT_NHAnalyticalConcept">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Concepto Analítico:Concepto Analítico</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:enumeration value="None" />
+          <s:enumeration value="NumOverNightStays" />
+          <s:enumeration value="NumRooms" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_NHHotelId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Id del hotel:Identificador único del hotel</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="30" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_Amount">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Importe:Importe en divisa predeterminada.</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Decimal">
+          <s:fractionDigits value="2" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdType_Decimal">
+        <s:restriction base="s:decimal" />
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_PositiveNumber">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Cifras positivas:Para la variable del contador de bucles interna al programa.</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Integer" />
+      </s:simpleType>
+      <s:simpleType name="AxdType_Integer">
+        <s:restriction base="s:int">
+          <s:minInclusive value="-2147483648" />
+          <s:maxInclusive value="2147483647" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_recId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Id. del registro:Id. único para el registro en la base de datos</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Int64" />
+      </s:simpleType>
+      <s:simpleType name="AxdType_Int64">
+        <s:restriction base="s:long">
+          <s:minInclusive value="-9223372036854775808" />
+          <s:maxInclusive value="9223372036854775807" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_recVersion">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Versión del registro:Versión del registro en la base de datos</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Integer" />
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_TransDate">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Fecha:Fecha de la transacción.</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:date" />
+      </s:simpleType>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKeyList">
+      <s:import namespace="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKey" />
+      <s:element name="EntityKeyList" type="s1:EntityKeyList" />
+      <s:complexType name="EntityKeyList">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" ref="s2:EntityKey" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+    <xsd:schema xmlns="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKey" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKey" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:element name="EntityKey" type="s2:EntityKey" />
+      <xsd:complexType name="EntityKey">
+        <xsd:sequence>
+          <xsd:element name="KeyData" type="s2:KeyData" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="KeyData">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="KeyField" type="s2:KeyField" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="KeyField">
+        <xsd:sequence>
+          <xsd:element name="Field" type="xsd:string" />
+          <xsd:element name="Value" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="createListSAT_NHInfoAnalyticalQuerySoapIn">
+    <wsdl:part name="parameters" element="tns:createListSAT_NHInfoAnalyticalQuery" />
+  </wsdl:message>
+  <wsdl:message name="createListSAT_NHInfoAnalyticalQuerySoapOut">
+    <wsdl:part name="parameters" element="tns:createListSAT_NHInfoAnalyticalQueryResponse" />
+  </wsdl:message>
+  <wsdl:portType name="SAT_NHInfoAnalyticalQueryServiceSoap">
+    <wsdl:operation name="createListSAT_NHInfoAnalyticalQuery">
+      <wsdl:input message="tns:createListSAT_NHInfoAnalyticalQuerySoapIn" />
+      <wsdl:output message="tns:createListSAT_NHInfoAnalyticalQuerySoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SAT_NHInfoAnalyticalQueryServiceSoap" type="tns:SAT_NHInfoAnalyticalQueryServiceSoap">
+    <wsdl:documentation>
+      <wsi:Claim conformsTo="http://ws-i.org/profiles/basic/1.1" xmlns:wsi="http://ws-i.org/schemas/conformanceClaim/" />
+    </wsdl:documentation>
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="createListSAT_NHInfoAnalyticalQuery">
+      <soap:operation soapAction="http://schemas.microsoft.com/dynamics/2006/02/documents/SAT_NHInfoAnalyticalQuery/createListSAT_NHInfoAnalyticalQuery" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SAT_NHInfoAnalyticalQueryServiceSoap12" type="tns:SAT_NHInfoAnalyticalQueryServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="createListSAT_NHInfoAnalyticalQuery">
+      <soap12:operation soapAction="http://schemas.microsoft.com/dynamics/2006/02/documents/SAT_NHInfoAnalyticalQuery/createListSAT_NHInfoAnalyticalQuery" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SAT_NHInfoAnalyticalQueryService">
+    <wsdl:port name="SAT_NHInfoAnalyticalQueryServiceSoap" binding="tns:SAT_NHInfoAnalyticalQueryServiceSoap">
+      <soap:address location="http://srvwspruebas/DynamicsWebService/SAT_NHInfoAnalyticalQueryService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SAT_NHInfoAnalyticalQueryServiceSoap12" binding="tns:SAT_NHInfoAnalyticalQueryServiceSoap12">
+      <soap12:address location="http://srvwspruebas/DynamicsWebService/SAT_NHInfoAnalyticalQueryService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

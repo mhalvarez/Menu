@@ -1,0 +1,3 @@
+alter session set nls_language = 'AMERICAN';
+alter session set nls_territory = 'AMERICA';
+alter session set nls_date_format = 'DD-MON-YYYY';

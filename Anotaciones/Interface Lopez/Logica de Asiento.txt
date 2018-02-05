@@ -1,0 +1,9 @@
+se hace la contabilizacion dependiendo de la serie de facturas 
+
+                               cada serie de facturas llevara su cuenta contable 
+
+
+Interface de Almacen 
+
+  Ver el tema de retenciones en NewStock.
+                    ( es en el momento de hacer la factura de los Albaranes cuando se pide el importe de la retencion ) 

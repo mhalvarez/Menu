@@ -1,0 +1,7 @@
+﻿revisar que las referencias del proyecto menu apuntan toddas a las dll de las carpetas RELEASE 
+de cada proyecto , a veces al mover la solucion quedan a pountando a la carpeta DEBUG !!!
+
+
+FOLlon depuracion (pdb)
+Siempre  que se añada un NUEVO proyecto a la solucion , abrilo tambien , desde fuera de la solucion 
+y configurar las opciones de complicacion (debug y release x86 ) y compilarlo al menos una vez de forma independiente (fuera de la solucion)

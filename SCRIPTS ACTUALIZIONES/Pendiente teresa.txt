@@ -1,0 +1,55 @@
+
+
+la aplicacion no contabilizo los pagos a cuenta en una de las versiones 
+
+los dias que hay que que hay que revisar son del 22 al 28 de septiembre de marina suites
+                                                 22 al 28 de septiembre de ipanema 
+                                                 
+ ojo revisar tambien dia 21 en ambos casos                 
+ 
+ 
+ QUE HACER CON LOS BONOS VIGENTES 0.01 EUROS 
+ 
+ 
+ 
+ cuenta de comisiones de visa ( pedir centro de costo ) !!!!!!!!!!!!!!
+                         marina     1011
+                         ipanema    1010
+                         salobre    11016
+                         
+                         
+                         
+                         MOVIMNIENTOS FACTURADOS SIN IGIC 
+                         
+                         
+                         SELECT MOVI_DATR ,MOVI_VCRE,FACT_CODI FROM RMC.TNHT_MOVI
+ WHERE MOVI_VCRE > 0  AND MOVI_IMP1 = 0 AND MOVI_DATR >= '01-05/2008' AND MOVI_DATR <='31/05/2008' AND FACT_CODI IS NOT NULL
+ 
+ 
+ poner las notas de credito anuladas en el haber negativo
+ 
+ REVISAR EL TEMA DE LAS DEVOLUCIONES ( VERIFICAR QUE SOLO SE CONTABILIZAN SI NUNCA SERAN FACTURADAS ) 
+ SI SE FACTURAN SE 
+ 
+ 
+                         
+                         
+------------------------------------------------------------
+13-noviembre 2008
+
+revisar Notas de credito ( cuentas de venta ) 
+No hacer apuntes en zero en las visas cuando el group  by sume zero 1000  , -1000  = 0 ( hacer los dos movimientos ) 
+
+Ver asiento 32 en el fichero del salobre ( pagos a cuenta de No alojados ) 
+
+
+03- DICIEMBRE 2008
+
+ Se corrige las facturas de newgolf anuladas que contenian pagos a cuenta para deshacer la facturacion el pago a cuenta 
+
+
+
+
+                         
+ 
+                                 

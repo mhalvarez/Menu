@@ -1,0 +1,14 @@
+//
+//  hay veces que se emite una factura y no se generan los registros en la tabla tnht_famo
+//
+
+
+SELECT tnht_movi.movi_codi, tnht_movi.movi_dare, tnht_movi.movi_hore,
+       tnht_movi.fact_codi,tnht_movi.sefa_codi,tnht_famo.fact_codi,tnht_famo.sefa_codi
+  FROM tnht_movi, tnht_famo
+ WHERE 
+      tnht_movi.fact_codi = tnht_famo.fact_codi(+)
+        AND tnht_movi.sefa_codi = tnht_famo.sefa_codi(+)
+		AND tnht_movi.sefa_codi is not null
+		AND tnht_famo.sefa_codi is null
+		order by  tnht_movi.fact_codi

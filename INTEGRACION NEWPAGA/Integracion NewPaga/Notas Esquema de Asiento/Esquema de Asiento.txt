@@ -1,0 +1,17 @@
+
+
+
+
+- 1  asiengto de emision de pagos 
+
+           por el total del pago a la cuenta de banco ( de la forma de pago ) al debe
+           por el total del pago a la cuenta de depositos anticipados del proveedor ( o generica ) al haber
+
+
+
+
+
+-2 asiento de facturas regularizadas
+
+           por el total regularizado del documento a la cuenta de depositos anticipados del proveedor al debe
+           por el total regularizado del documento a la cuenta cuentas por pagar        del proveedor al haber

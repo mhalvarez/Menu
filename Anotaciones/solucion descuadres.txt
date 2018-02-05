@@ -1,0 +1,5 @@
+descuadres gran hotel madrid
+
+
+  cuando descuadra por anulaciones de facturas "viejas"  hay que omitir la suma de 
+  la comision de esa factura en el "total liquido del asiento"

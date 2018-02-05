@@ -1,0 +1,35 @@
+DROP VIEW QWE_VNST_GUIA;
+
+/* Formatted on 30/04/2013 11:07:28 (QP5 v5.149.1003.31008) */
+CREATE OR REPLACE FORCE VIEW QWE_VNST_GUIA
+(
+   MOVG_CODI,
+   MOVG_ANCI,
+   MOVG_DAVA,
+   MOVG_CONS,
+   MOVG_DADO,
+   MOVG_IDDO,
+   DORE_CODI,
+   DORE_ANCI,
+   MOVG_VATO,
+   MOVG_VATO_B,
+   MOVG_VATO_S,
+   TIMO_TIPO
+)
+AS
+   SELECT movg_codi,
+          movg_anci,
+          movg_dava,
+          movg_cons,
+          movg_dado,
+          movg_iddo,
+          TO_NUMBER (SUBSTR (movg_dore, 1, INSTR (movg_dore, '/') - 1))
+             dore_codi,
+          TO_NUMBER (SUBSTR (movg_dore, INSTR (movg_dore, '/') + 1, 4))
+             dore_anci,
+          movg_vato,
+          movg_vato_b,
+          movg_vato_s,
+          tnst_timo.timo_tipo
+     FROM tnst_movg, tnst_timo
+    WHERE TNST_MOVG.TIMO_CODI = TNST_TIMO.TIMO_CODI AND movg_anul = 0;

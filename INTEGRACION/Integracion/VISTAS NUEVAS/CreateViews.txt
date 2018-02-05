@@ -1,0 +1,132 @@
+------------------------------------------------------------------------------------------------
+' Total Liquido de las facturas emitidas en una fecha (filtar por fact_stat para asientos)
+------------------------------------------------------------------------------------------------
+CREATE OR REPLACE VIEW qweif_facturas_liquido (total,
+                                             fact_daem,
+                                             fact_stat,
+                                             estado
+                                            )
+AS
+   SELECT   (SUM (faiv_inci) - SUM (faiv_vimp)) total, fact_daem, fact_stat,
+            DECODE (fact_stat,
+                    '1', 'COBRADA',
+                    '2', 'TRANSFERIDA',
+                    '3', 'PAGOS PARCIALES',
+                    '?'
+                   )
+       FROM tnht_faiv, tnht_fact, tnht_enti
+      WHERE tnht_fact.enti_codi = tnht_enti.enti_codi
+        AND tnht_faiv.sefa_codi = tnht_fact.sefa_codi
+        AND tnht_faiv.fact_codi = tnht_fact.fact_codi
+   GROUP BY tnht_fact.fact_daem, fact_stat;
+   
+------------------------------------------------------------------------------------------------
+' Total Liquido de una factura (filtar por fact_stat/numero de factura  para asientos)
+' Se usa para calcular el liquido de una factura y restarlo a la base imponible de la factura 
+' para tratar de calcular la comision aplicada por la diferencia 
+------------------------------------------------------------------------------------------------   
+   
+CREATE OR REPLACE VIEW QWEIF_FACTURA_LIQUIDO
+(
+  SEFA_CODI,
+  FACT_CODI,
+  LIQUIDO,
+  FACT_STAT,
+  ESTADO
+)
+AS /* Formatted on 2007/06/05 18:12 (Formatter Plus v4.8.5) */
+SELECT   tnht_famo.sefa_codi, tnht_famo.fact_codi,
+         SUM (tnht_movi.movi_vliq) AS liquido, fact_stat,
+         DECODE (fact_stat,
+                 '1', 'COBRADA',
+                 '2', 'TRANSFERIDA',
+                 '3', 'PAGOS PARCIALES',
+                 '?'
+                )
+    FROM rmcghc.tnht_famo, rmcghc.tnht_movi, rmcghc.tnht_fact
+   WHERE tnht_movi.movi_codi = tnht_famo.movi_codi
+     AND tnht_movi.movi_dare = tnht_famo.movi_dare
+     AND tnht_famo.sefa_codi = tnht_fact.sefa_codi
+     AND tnht_famo.fact_codi = tnht_fact.fact_codi
+     AND tnht_movi.movi_vcre > 0
+GROUP BY tnht_famo.sefa_codi, tnht_famo.fact_codi, fact_stat;
+
+------------------------------------------------------------------------------------------------
+' Total Base Imponible de una factura (filtar por fact_stat/numero de factura  para asientos)
+' Se usa para calcular la base imponible de una factura y restarlo al liquido de la factura 
+' para tratar de calcular la comision aplicada por la diferencia 
+------------------------------------------------------------------------------------------------   
+
+
+CREATE OR REPLACE VIEW qweif_factura_basei (sefa_codi,
+                                          fact_codi,
+                                          base,
+                                          fact_stat,
+                                          estado
+                                         )
+AS
+   SELECT   tnht_faiv.sefa_codi, tnht_faiv.fact_codi,
+            SUM (faiv_inci) - SUM (faiv_vimp) base, fact_stat,
+            DECODE (fact_stat,
+                    '1', 'COBRADA',
+                    '2', 'TRANSFERIDA',
+                    '3', 'PAGOS PARCIALES',
+                    '?'
+                   ) estado
+       FROM tnht_faiv, tnht_fact
+      WHERE tnht_faiv.sefa_codi = tnht_fact.sefa_codi
+        AND tnht_faiv.fact_codi = tnht_fact.fact_codi
+   GROUP BY tnht_faiv.sefa_codi, tnht_faiv.fact_codi, fact_stat;
+------------------------------------------------------------------------------------------------
+' Facturas(todoas) 
+------------------------------------------------------------------------------------------------      
+   
+   
+   CREATE OR REPLACE VIEW qweif_facturas (fact_stat,fact_codi,
+                                             sefa_codi,
+                                             fact_daem,
+                                             fact_daan,
+                                             fact_tota,
+                                             fact_cont,
+                                             enti_codi,
+                                             ccex_codi
+                                            )
+AS
+   SELECT tnht_fact.fact_stat,tnht_fact.fact_codi, tnht_fact.sefa_codi, tnht_fact.fact_daem,
+          tnht_fact.fact_daan, tnht_fact.fact_tota,tnht_fact.fact_cont,
+          tnht_fact.enti_codi,tnht_fact.ccex_codi
+     FROM tnht_fact;
+    
+    
+------------------------------------------------------------------------------------------------
+' Movimientos de Visa en Facturas
+------------------------------------------------------------------------------------------------     
+CREATE OR REPLACE VIEW qweif_facturas_visas (fact_codi,
+                                           sefa_codi,
+                                           fact_stat,
+                                           fact_daem,
+                                           fact_daan,
+                                           total,
+                                           tarjeta,
+                                           cuenta
+                                          )
+AS
+   SELECT   tnht_fact.fact_codi, tnht_fact.sefa_codi, tnht_fact.fact_stat,
+            tnht_fact.fact_daem, tnht_fact.fact_daan, SUM (movi_vdeb) total,
+            cacr_desc tarjeta, NVL (cacr_cont, '0') cuenta
+       FROM tnht_movi, tnht_cacr, tnht_fact, tnht_famo
+      WHERE tnht_famo.fact_codi = tnht_fact.fact_codi
+        AND tnht_famo.sefa_codi = tnht_fact.sefa_codi
+        AND tnht_famo.movi_dare = tnht_movi.movi_dare
+        AND tnht_famo.movi_codi = tnht_movi.movi_codi
+        AND tnht_movi.tire_codi = '1'
+        AND tnht_movi.cacr_codi = tnht_cacr.cacr_codi
+        AND tnht_movi.movi_auto = 1
+   GROUP BY tnht_fact.fact_codi,
+            tnht_fact.sefa_codi,
+            tnht_fact.fact_stat,
+            tnht_fact.fact_daem,
+            tnht_fact.fact_daan,
+            tnht_cacr.cacr_desc,
+            tnht_cacr.cacr_cont;
+    

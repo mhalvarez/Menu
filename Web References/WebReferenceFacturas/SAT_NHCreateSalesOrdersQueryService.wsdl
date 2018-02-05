@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://schemas.microsoft.com/dynamics/2006/02/documents/SAT_NHCreateSalesOrdersQuery" xmlns:s1="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKeyList" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s2="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKey" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://schemas.microsoft.com/dynamics/2006/02/documents/SAT_NHCreateSalesOrdersQuery" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/dynamics/2006/02/documents/SAT_NHCreateSalesOrdersQuery">
+      <s:import namespace="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKeyList" />
+      <s:element name="createListSAT_NHCreateSalesOrdersQuery">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DocumentContext" nillable="true" type="tns:DocumentContext" />
+            <s:element minOccurs="0" maxOccurs="1" name="SAT_NHCreateSalesOrdersQuery" type="tns:AxdSAT_NHCreateSalesOrdersQuery" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="DocumentContext">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="MessageId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SourceEndpointUser" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SourceEndpoint" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DestinationEndpoint" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="createListSAT_NHCreateSalesOrdersQueryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:EntityKeyList" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SAT_NHCreateSalesOrdersQuery" type="tns:AxdSAT_NHCreateSalesOrdersQuery" />
+      <s:complexType name="AxdSAT_NHCreateSalesOrdersQuery">
+        <s:sequence>
+          <s:element minOccurs="0" name="DocPurpose" nillable="true" type="tns:AxdEnum_XMLDocPurpose" />
+          <s:element minOccurs="0" name="SenderId" nillable="true" type="tns:AxdExtType_dataAreaId" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SAT_NHCreateSalesOrdersTable_1" type="tns:AxdEntity_SAT_NHCreateSalesOrdersTable_1" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="AxdEnum_XMLDocPurpose">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Propósito:Propósito</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:enumeration value="Original" />
+          <s:enumeration value="Duplicate" />
+          <s:enumeration value="Proforma" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_dataAreaId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Empresa:Id. para un área de datos</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="3" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="AxdEntity_SAT_NHCreateSalesOrdersTable_1">
+        <s:sequence>
+          <s:element minOccurs="0" name="Bond" nillable="true" type="tns:AxdExtType_NoYesId" />
+          <s:element minOccurs="0" name="BookId" nillable="true" type="tns:AxdExtType_Str200" />
+          <s:element minOccurs="0" name="ContClient" nillable="true" type="tns:AxdExtType_NoYesId" />
+          <s:element minOccurs="0" name="CustAccount" nillable="true" type="tns:AxdUnion_AxdExtType_CustAccount_AxdType_ExtCodeValue" />
+          <s:element minOccurs="0" name="DocumentDate" nillable="true" type="tns:AxdExtType_DocumentDate" />
+          <s:element minOccurs="0" name="FixedDueDate" nillable="true" type="tns:AxdExtType_FixedDueDate" />
+          <s:element minOccurs="1" name="HotelId" type="tns:AxdExtType_NHHotelId" />
+          <s:element minOccurs="1" name="InvoiceDate" type="tns:AxdExtType_InvoiceDate" />
+          <s:element minOccurs="1" name="InvoiceId" type="tns:AxdExtType_InvoiceId" />
+          <s:element minOccurs="0" name="NHCustAccount" nillable="true" type="tns:AxdUnion_AxdExtType_NHCustAccount_AxdType_ExtCodeValue" />
+          <s:element minOccurs="0" name="RecId" nillable="true" type="tns:AxdExtType_recId" />
+          <s:element minOccurs="0" name="RecVersion" nillable="true" type="tns:AxdExtType_recVersion" />
+          <s:element minOccurs="0" name="SalesAmount" nillable="true" type="tns:AxdExtType_SalesAmount" />
+          <s:element minOccurs="0" name="SalesOrderId" nillable="true" type="tns:AxdExtType_SAT_NHSalesOrderId" />
+          <s:element minOccurs="1" name="VATNum" type="tns:AxdExtType_VATNum" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SAT_NHCreateSalesOrdersLine_1" type="tns:AxdEntity_SAT_NHCreateSalesOrdersLine_1" />
+        </s:sequence>
+        <s:attribute fixed="entity" name="class" use="required" />
+      </s:complexType>
+      <s:simpleType name="AxdExtType_NoYesId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">:</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:enumeration value="No" />
+          <s:enumeration value="Yes" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_Str200">
+        <s:annotation>
+          <s:documentation xml:lang="ES">:</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="200" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdType_ExtCodeValue">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Valor:El valor real del registro relacionado en comparación con el tipo de código externo.</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="50" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdUnion_AxdExtType_CustAccount_AxdType_ExtCodeValue">
+        <s:union memberTypes="tns:AxdExtType_CustAccount tns:AxdType_ExtCodeValue" />
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_CustAccount">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Cuenta de cliente:Número de cuenta de cliente.</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="20" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_DocumentDate">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Fecha de documento:Fecha de la transacción.</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:date" />
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_FixedDueDate">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Fecha de vencimiento:La fecha de vencimiento es independiente a las condiciones de pago.</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:date" />
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_NHHotelId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Id del hotel:Identificador único del hotel</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="30" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_InvoiceDate">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Fecha de la factura:Fecha de la factura.</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:date" />
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_InvoiceId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Factura:Identificación de la factura.</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="20" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdUnion_AxdExtType_NHCustAccount_AxdType_ExtCodeValue">
+        <s:union memberTypes="tns:AxdExtType_NHCustAccount tns:AxdType_ExtCodeValue" />
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_NHCustAccount">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Id del cliente NH:Identificador único del cliente en NewHotel</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="20" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_recId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Id. del registro:Id. único para el registro en la base de datos</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Int64" />
+      </s:simpleType>
+      <s:simpleType name="AxdType_Int64">
+        <s:restriction base="s:long">
+          <s:minInclusive value="-9223372036854775808" />
+          <s:maxInclusive value="9223372036854775807" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_recVersion">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Versión del registro:Versión del registro en la base de datos</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Integer" />
+      </s:simpleType>
+      <s:simpleType name="AxdType_Integer">
+        <s:restriction base="s:int">
+          <s:minInclusive value="-2147483648" />
+          <s:maxInclusive value="2147483647" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_SalesAmount">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Importe de ventas:Importe de ventas para la cantidad</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Decimal">
+          <s:fractionDigits value="2" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdType_Decimal">
+        <s:restriction base="s:decimal" />
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_SAT_NHSalesOrderId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Pedido de Venta:</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="20" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_VATNum">
+        <s:annotation>
+          <s:documentation xml:lang="ES">NIF:Número de identificación fiscal (NIF) para la extracción de estadísticas.</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="20" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="AxdEntity_SAT_NHCreateSalesOrdersLine_1">
+        <s:sequence>
+          <s:element minOccurs="0" name="ItemId" nillable="true" type="tns:AxdUnion_AxdExtType_SAT_NHItemId_AxdType_ExtCodeValue" />
+          <s:element minOccurs="0" name="LineNum" nillable="true" type="tns:AxdExtType_PositiveNumber" />
+          <s:element minOccurs="0" name="Qty" nillable="true" type="tns:AxdExtType_Qty" />
+          <s:element minOccurs="0" name="RecId" nillable="true" type="tns:AxdExtType_recId" />
+          <s:element minOccurs="0" name="RecVersion" nillable="true" type="tns:AxdExtType_recVersion" />
+          <s:element minOccurs="0" name="RefRecIdSalesLine" nillable="true" type="tns:AxdExtType_RefRecId" />
+          <s:element minOccurs="0" name="SalesOrderId" nillable="true" type="tns:AxdExtType_SAT_NHSalesOrderId" />
+          <s:element minOccurs="0" name="SalesPrice" nillable="true" type="tns:AxdExtType_SAT_SalesPrice" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SAT_NHCreateSalesOrdersTaxLine_1" type="tns:AxdEntity_SAT_NHCreateSalesOrdersTaxLine_1" />
+        </s:sequence>
+        <s:attribute fixed="entity" name="class" use="required" />
+      </s:complexType>
+      <s:simpleType name="AxdUnion_AxdExtType_SAT_NHItemId_AxdType_ExtCodeValue">
+        <s:union memberTypes="tns:AxdExtType_SAT_NHItemId tns:AxdType_ExtCodeValue" />
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_SAT_NHItemId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Código Artículo New Hotel:</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="20" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_PositiveNumber">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Cifras positivas:Para la variable del contador de bucles interna al programa.</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Integer" />
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_Qty">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Cantidad:Número de unidades</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Decimal">
+          <s:fractionDigits value="5" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_RefRecId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Referencia:Campo de referencia en una tabla diferente.</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Int64" />
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_SAT_SalesPrice">
+        <s:annotation>
+          <s:documentation xml:lang="ES">:</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Decimal">
+          <s:fractionDigits value="20" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="AxdEntity_SAT_NHCreateSalesOrdersTaxLine_1">
+        <s:sequence>
+          <s:element minOccurs="0" name="LineNum" nillable="true" type="tns:AxdExtType_PositiveNumber" />
+          <s:element minOccurs="0" name="RecId" nillable="true" type="tns:AxdExtType_recId" />
+          <s:element minOccurs="0" name="RecVersion" nillable="true" type="tns:AxdExtType_recVersion" />
+          <s:element minOccurs="0" name="SalesOrderId" nillable="true" type="tns:AxdExtType_SAT_NHSalesOrderId" />
+          <s:element minOccurs="0" name="TaxAmount" nillable="true" type="tns:AxdExtType_SAT_NHTaxAmount" />
+          <s:element minOccurs="0" name="TaxBase" nillable="true" type="tns:AxdExtType_SAT_NHTaxBase" />
+          <s:element minOccurs="0" name="TaxCode" nillable="true" type="tns:AxdExtType_TaxCode" />
+          <s:element minOccurs="0" name="TaxPercent" nillable="true" type="tns:AxdExtType_Percent" />
+        </s:sequence>
+        <s:attribute fixed="entity" name="class" use="required" />
+      </s:complexType>
+      <s:simpleType name="AxdExtType_SAT_NHTaxAmount">
+        <s:annotation>
+          <s:documentation xml:lang="ES">:</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Decimal">
+          <s:fractionDigits value="20" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_SAT_NHTaxBase">
+        <s:annotation>
+          <s:documentation xml:lang="ES">:</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Decimal">
+          <s:fractionDigits value="20" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_TaxCode">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Código de impuestos:Código que identifica el impuesto.</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="50" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_Percent">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Porcentaje:Cifra especificada en porcentaje.</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Decimal">
+          <s:fractionDigits value="2" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKeyList">
+      <s:import namespace="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKey" />
+      <s:element name="EntityKeyList" type="s1:EntityKeyList" />
+      <s:complexType name="EntityKeyList">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" ref="s2:EntityKey" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+    <xsd:schema xmlns="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKey" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKey" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:element name="EntityKey" type="s2:EntityKey" />
+      <xsd:complexType name="EntityKey">
+        <xsd:sequence>
+          <xsd:element name="KeyData" type="s2:KeyData" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="KeyData">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="KeyField" type="s2:KeyField" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="KeyField">
+        <xsd:sequence>
+          <xsd:element name="Field" type="xsd:string" />
+          <xsd:element name="Value" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="createListSAT_NHCreateSalesOrdersQuerySoapIn">
+    <wsdl:part name="parameters" element="tns:createListSAT_NHCreateSalesOrdersQuery" />
+  </wsdl:message>
+  <wsdl:message name="createListSAT_NHCreateSalesOrdersQuerySoapOut">
+    <wsdl:part name="parameters" element="tns:createListSAT_NHCreateSalesOrdersQueryResponse" />
+  </wsdl:message>
+  <wsdl:portType name="SAT_NHCreateSalesOrdersQueryServiceSoap">
+    <wsdl:operation name="createListSAT_NHCreateSalesOrdersQuery">
+      <wsdl:input message="tns:createListSAT_NHCreateSalesOrdersQuerySoapIn" />
+      <wsdl:output message="tns:createListSAT_NHCreateSalesOrdersQuerySoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SAT_NHCreateSalesOrdersQueryServiceSoap" type="tns:SAT_NHCreateSalesOrdersQueryServiceSoap">
+    <wsdl:documentation>
+      <wsi:Claim conformsTo="http://ws-i.org/profiles/basic/1.1" xmlns:wsi="http://ws-i.org/schemas/conformanceClaim/" />
+    </wsdl:documentation>
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="createListSAT_NHCreateSalesOrdersQuery">
+      <soap:operation soapAction="http://schemas.microsoft.com/dynamics/2006/02/documents/SAT_NHCreateSalesOrdersQuery/createListSAT_NHCreateSalesOrdersQuery" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SAT_NHCreateSalesOrdersQueryServiceSoap12" type="tns:SAT_NHCreateSalesOrdersQueryServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="createListSAT_NHCreateSalesOrdersQuery">
+      <soap12:operation soapAction="http://schemas.microsoft.com/dynamics/2006/02/documents/SAT_NHCreateSalesOrdersQuery/createListSAT_NHCreateSalesOrdersQuery" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SAT_NHCreateSalesOrdersQueryService">
+    <wsdl:port name="SAT_NHCreateSalesOrdersQueryServiceSoap" binding="tns:SAT_NHCreateSalesOrdersQueryServiceSoap">
+      <soap:address location="http://srvwspruebas/DynamicsWebService/SAT_NHCreateSalesOrdersQueryService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SAT_NHCreateSalesOrdersQueryServiceSoap12" binding="tns:SAT_NHCreateSalesOrdersQueryServiceSoap12">
+      <soap12:address location="http://srvwspruebas/DynamicsWebService/SAT_NHCreateSalesOrdersQueryService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

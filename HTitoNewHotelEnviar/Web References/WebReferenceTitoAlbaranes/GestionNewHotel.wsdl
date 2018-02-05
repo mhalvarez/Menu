@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:tns="urn:microsoft-dynamics-schemas/codeunit/GestionNewHotel" targetNamespace="urn:microsoft-dynamics-schemas/codeunit/GestionNewHotel" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <schema elementFormDefault="qualified" targetNamespace="urn:microsoft-dynamics-schemas/codeunit/GestionNewHotel" xmlns="http://www.w3.org/2001/XMLSchema">
+      <element name="CrearAlbCompra">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="documentoNewHotel" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="codProveedor" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="numAlbProveedor" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="fechaRegistro" type="date" />
+            <element minOccurs="1" maxOccurs="1" name="fechaDoc" type="date" />
+            <element minOccurs="1" maxOccurs="1" name="numProducto" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="descripcion" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="codAlmacen" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="cantidad" type="decimal" />
+            <element minOccurs="1" maxOccurs="1" name="codUdMedida" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="costeUnit" type="decimal" />
+            <element minOccurs="1" maxOccurs="1" name="globalDim1" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="globalDim2" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="shortcutDim3" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="numDocExterno" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="grupoIvaNeg" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="grupoIvaProd" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="grupoContableNeg" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="grupoContableProd" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="CrearAlbCompra_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+    </schema>
+  </types>
+  <message name="CrearAlbCompra">
+    <part name="parameters" element="tns:CrearAlbCompra" />
+  </message>
+  <message name="CrearAlbCompra_Result">
+    <part name="parameters" element="tns:CrearAlbCompra_Result" />
+  </message>
+  <portType name="GestionNewHotel_Port">
+    <operation name="CrearAlbCompra">
+      <input name="CrearAlbCompra" message="tns:CrearAlbCompra" />
+      <output name="CrearAlbCompra_Result" message="tns:CrearAlbCompra_Result" />
+    </operation>
+  </portType>
+  <binding name="GestionNewHotel_Binding" type="tns:GestionNewHotel_Port">
+    <binding transport="http://schemas.xmlsoap.org/soap/http" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+    <operation name="CrearAlbCompra">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/GestionNewHotel:CrearAlbCompra" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="CrearAlbCompra">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="CrearAlbCompra_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+  </binding>
+  <service name="GestionNewHotel">
+    <port name="GestionNewHotel_Port" binding="tns:GestionNewHotel_Binding">
+      <address location="http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%20TURIST.%20MORASOL/Codeunit/GestionNewHotel" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+    </port>
+  </service>
+</definitions>

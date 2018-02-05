@@ -1,0 +1,12 @@
+
+
+Crear un grupo de articulos denominado "BONOS ASOCIACION"   
+
+Buscar los bonos de la asocicion y asignarles este grupo de articulos
+
+
+
+LLENAR EL CAMPO HOTEL_ODBC_NEWGOLF
+
+PONER EN LAS CADENAS DE CONEXION :
+          OLE DB Services = -8;min pool size=0

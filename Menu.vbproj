@@ -1,0 +1,996 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{19A00901-6615-4FC8-BB1E-6A0D92677563}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>Menu</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>WinExe</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>Off</OptionStrict>
+    <RootNamespace>Menu</RootNamespace>
+    <StartupObject>Menu.FormMenu</StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>WindowsFormsWithCustomSubMain</MyType>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <PublishUrl>http://localhost/Menu/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Menu.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Menu.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
+    <DebugType>none</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <BaseAddress>285212672</BaseAddress>
+    <DocumentationFile>Menu.xml</DocumentationFile>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <BaseAddress>285212672</BaseAddress>
+    <DocumentationFile>Menu.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Axapta, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Axapta\Axapta\Axapta\bin\x86\Release\Axapta.dll</HintPath>
+    </Reference>
+    <Reference Include="AxaptaAlmacen, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>AxaptaAlmacen\bin\x86\Release\AxaptaAlmacen.dll</HintPath>
+    </Reference>
+    <Reference Include="ContanetNewHotel, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ContanetNewHotel\bin\x86\Release\ContanetNewHotel.dll</HintPath>
+    </Reference>
+    <Reference Include="ContanetNewStock, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ContanetNewStock\bin\x86\Release\ContanetNewStock.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="C_DATOS, Version=1.0.6604.28241, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C_DATOS\C_DATOS\bin\x86\Release\C_DATOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Ereza, Version=1.0.6604.28243, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Ereza\bin\x86\Release\Ereza.dll</HintPath>
+    </Reference>
+    <Reference Include="HC7, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>HC7\bin\x86\Release\HC7.dll</HintPath>
+    </Reference>
+    <Reference Include="Hlopez2, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Hlopez2\bin\x86\Release\Hlopez2.dll</HintPath>
+    </Reference>
+    <Reference Include="Hoteles Dunas2, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Hoteles Dunas2\bin\x86\Release\Hoteles Dunas2.dll</HintPath>
+    </Reference>
+    <Reference Include="HTitoNewHotel, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>HTitoNewHotel\bin\x86\Release\HTitoNewHotel.dll</HintPath>
+    </Reference>
+    <Reference Include="HTitoNewHotelEnviar, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>HTitoNewHotelEnviar\bin\x86\Release\HTitoNewHotelEnviar.dll</HintPath>
+    </Reference>
+    <Reference Include="Integra NewStock HLopez, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Integra NewStock HLopez\bin\x86\Release\Integra NewStock HLopez.dll</HintPath>
+    </Reference>
+    <Reference Include="IntegraAlmacen, Version=1.0.6604.28242, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>INTEGRACION ALMACEN\IntegraAlmacen\bin\x86\Release\IntegraAlmacen.dll</HintPath>
+    </Reference>
+    <Reference Include="Integracion NewConta Dunas, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Integracion NewConta Dunas\bin\x86\Release\Integracion NewConta Dunas.dll</HintPath>
+    </Reference>
+    <Reference Include="Integracion NewConta, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>INTEGRACION NEWCONTA\Integracion NewConta\bin\x86\Release\Integracion NewConta.dll</HintPath>
+    </Reference>
+    <Reference Include="Integracion NewPaga, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>INTEGRACION NEWPAGA\Integracion NewPaga\bin\x86\Release\Integracion NewPaga.dll</HintPath>
+    </Reference>
+    <Reference Include="Integracion, Version=1.0.6604.28243, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>INTEGRACION\Integracion\bin\x86\Release\Integracion.dll</HintPath>
+    </Reference>
+    <Reference Include="IntegraNewStockTito, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>IntegraNewStockTito\bin\x86\Release\IntegraNewStockTito.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OTRAS DLLS\itextsharp-5.0.5-dll\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="NewGolf, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>NewGolf\bin\x86\Release\NewGolf.dll</HintPath>
+    </Reference>
+    <Reference Include="NewHotel, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>NewHotel\bin\x86\Release\NewHotel.dll</HintPath>
+    </Reference>
+    <Reference Include="Ptropical, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Ptropical\bin\x86\Release\Ptropical.dll</HintPath>
+    </Reference>
+    <Reference Include="Satocan, Version=1.0.6604.28244, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Satocan\bin\x86\Release\Satocan.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\WINDOWS\assembly\GAC_MSIL\System.Web.Services\2.0.0.0__b03f5f7f11d50a3a\System.Web.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="Tahona, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Tahona\bin\x86\Release\Tahona.dll</HintPath>
+    </Reference>
+    <Reference Include="VitalNewHotel, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>VitalNewHotel\bin\x86\Release\VitalNewHotel.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="cIniArray.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FormAuditaCobros.Designer.vb">
+      <DependentUpon>FormAuditaCobros.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormAuditaCobros.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAuditaNif.Designer.vb">
+      <DependentUpon>FormAuditaNif.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormAuditaNif.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCambiaPrefijo.Designer.vb">
+      <DependentUpon>FormCambiaPrefijo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormCambiaPrefijo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCambiarDato.Designer.vb">
+      <DependentUpon>FormCambiarDato.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormCambiarDato.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormConTrolVersiones.Designer.vb">
+      <DependentUpon>FormConTrolVersiones.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormConTrolVersiones.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormConvertir.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormConvertirAxapta.Designer.vb">
+      <DependentUpon>FormConvertirAxapta.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormConvertirAxapta.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormConvertirAxaptaCompras.Designer.vb">
+      <DependentUpon>FormConvertirAxaptaCompras.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormConvertirAxaptaCompras.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCuentasServiciosBloque.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFechasPendientesdeProcesar.Designer.vb">
+      <DependentUpon>FormFechasPendientesdeProcesar.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormFechasPendientesdeProcesar.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormInsertaEmpresa.Designer.vb">
+      <DependentUpon>FormInsertaEmpresa.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormInsertaEmpresa.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormIntegraAlmacen.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormIntegraFront.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormIntegraNewConta.Designer.vb">
+      <DependentUpon>FormIntegraNewConta.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormIntegraNewConta.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormIntegraNewPaga.Designer.vb">
+      <DependentUpon>FormIntegraNewPaga.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormIntegraNewPaga.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormIntegraNominaA3.Designer.vb">
+      <DependentUpon>FormIntegraNominaA3.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormIntegraNominaA3.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormIntegraNominaA3Formato.vb.Designer.vb">
+      <DependentUpon>FormIntegraNominaA3Formato.vb.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormIntegraNominaA3Formato.vb.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormInventarios.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLibroImpuestos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormManoCorriente.Designer.vb">
+      <DependentUpon>FormManoCorriente.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormManoCorriente.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMantenimientoMaster.Designer.vb">
+      <DependentUpon>FormMantenimientoMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormMantenimientoMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMantenimiento_TH_IPOSVEN_AX.Designer.vb">
+      <DependentUpon>FormMantenimiento_TH_IPOSVEN_AX.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormMantenimiento_TH_IPOSVEN_AX.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMenu.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormParametrosAlmacen.Designer.vb">
+      <DependentUpon>FormParametrosAlmacen.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormParametrosAlmacen.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormParametrosConexion.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormParametrosFront.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormParametrosNomina.Designer.vb">
+      <DependentUpon>FormParametrosNomina.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormParametrosNomina.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPassword.Designer.vb">
+      <DependentUpon>FormPassword.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormPassword.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPerfilEnvioAx.Designer.vb">
+      <DependentUpon>FormPerfilEnvioAx.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormPerfilEnvioAx.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPerfilEnvioLopezAlmacen.Designer.vb">
+      <DependentUpon>FormPerfilEnvioLopezAlmacen.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormPerfilEnvioLopezAlmacen.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPideFechas.Designer.vb">
+      <DependentUpon>FormPideFechas.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormPideFechas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormReciplus.Designer.vb">
+      <DependentUpon>FormReciplus.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormReciplus.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormVisorCrystal.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GENERAL.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="modExportarFormatos.vb" />
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="FormPerfilEnvioLopez.Designer.vb">
+      <DependentUpon>FormPerfilEnvioLopez.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormPerfilEnvioLopez.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ResourceFondos.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ResourceFondos.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\WebReferenceAnalitica\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\WebReferenceAnticipos\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\WebReferenceClientes\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\WebReferenceCobros\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\WebReferenceCompras\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\WebReferenceFacturas\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\WebReferenceProduccion\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\WebReferenceVentaTikets\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="FormAuditaCobros.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormAuditaCobros.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAuditaNif.resx">
+      <DependentUpon>FormAuditaNif.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCambiaPrefijo.resx">
+      <DependentUpon>FormCambiaPrefijo.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCambiarDato.resx">
+      <DependentUpon>FormCambiarDato.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormConTrolVersiones.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormConTrolVersiones.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormConvertir.resx">
+      <DependentUpon>FormConvertir.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormConvertirAxapta.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormConvertirAxapta.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormConvertirAxaptaCompras.resx">
+      <DependentUpon>FormConvertirAxaptaCompras.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCuentasServiciosBloque.resx">
+      <DependentUpon>FormCuentasServiciosBloque.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormFechasPendientesdeProcesar.resx">
+      <DependentUpon>FormFechasPendientesdeProcesar.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormInsertaEmpresa.resx">
+      <DependentUpon>FormInsertaEmpresa.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormIntegraAlmacen.resx">
+      <DependentUpon>FormIntegraAlmacen.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormIntegraFront.resx">
+      <DependentUpon>FormIntegraFront.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormIntegraNewConta.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormIntegraNewConta.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormIntegraNewPaga.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormIntegraNewPaga.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormIntegraNominaA3.resx">
+      <DependentUpon>FormIntegraNominaA3.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormIntegraNominaA3Formato.vb.resx">
+      <DependentUpon>FormIntegraNominaA3Formato.vb.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormInventarios.resx">
+      <DependentUpon>FormInventarios.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLibroImpuestos.resx">
+      <DependentUpon>FormLibroImpuestos.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormManoCorriente.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormManoCorriente.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMantenimientoMaster.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormMantenimientoMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMantenimiento_TH_IPOSVEN_AX.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormMantenimiento_TH_IPOSVEN_AX.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMenu.resx">
+      <DependentUpon>FormMenu.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormParametrosAlmacen.resx">
+      <DependentUpon>FormParametrosAlmacen.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormParametrosConexion.resx">
+      <DependentUpon>FormParametrosConexion.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormParametrosFront.resx">
+      <DependentUpon>FormParametrosFront.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormParametrosNomina.resx">
+      <DependentUpon>FormParametrosNomina.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPassword.resx">
+      <DependentUpon>FormPassword.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPerfilEnvioAx.resx">
+      <DependentUpon>FormPerfilEnvioAx.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPerfilEnvioLopezAlmacen.resx">
+      <DependentUpon>FormPerfilEnvioLopezAlmacen.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPideFechas.resx">
+      <DependentUpon>FormPideFechas.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormReciplus.resx">
+      <DependentUpon>FormReciplus.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormVisorCrystal.resx">
+      <DependentUpon>FormVisorCrystal.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <SubType>Designer</SubType>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPerfilEnvioLopez.resx">
+      <DependentUpon>FormPerfilEnvioLopez.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResourceFondos.resx">
+      <SubType>Designer</SubType>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResourceFondos.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <Content Include="Imagenes\Fondo\propietarios.JPG" />
+    <None Include="Resources\Background.png" />
+    <None Include="Resources\FONDO3.jpg" />
+    <Content Include="Problemas de Compiliacion\Notas.txt" />
+    <None Include="Resources\date1.png" />
+    <None Include="Resources\date2.png" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20061122.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20061226.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20070301.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20070327.TXT" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20070529.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20071017.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20071024.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20071116.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20071228.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20080423.TXT" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20080626.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20080715.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20080807.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20080813.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20080904.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20080918.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20080926.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20081028.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20081029.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20090120.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20090312.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20090605.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20090623.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20090714.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20090723.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20090801.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20091026.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20091109.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20091126.sql" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20100420.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20100127.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20100210.sql" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20100215.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20100219-pdte.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20100226.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20100303.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20100317.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20100405.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20100514.sql" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20100527.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20100618.sql" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20100708.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20100914.sql" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20101130.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20110204.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20160328.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20160615.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20160715.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20161026.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20170124.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20170220.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20170405.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20170915.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20171102.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20171220.sql" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20180105.sql" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20180108.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20180130.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\Notas Domingo.TXT" />
+    <Content Include="SCRIPTS ACTUALIZIONES\NOTAS Y OCURRENCIAS  LEER.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\Pendiente Implementacion de Bonos.txt" />
+    <Content Include="SCRIPTS ACTUALIZIONES\Pendiente teresa.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Menu.ini" />
+    <None Include="My Project\app.manifest" />
+    <None Include="My Project\Settings.settings">
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Resources\clear.png" />
+    <None Include="Resources\exec.png" />
+    <None Include="Resources\date.png" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20110311.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20110328.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20110401.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20110613.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20110722.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20110829.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20110929.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20111003.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20111107-RMC.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20111114.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20120208.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20120401.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20121030.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20130124.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20130220.sql" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20130322.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20130401.sql" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20130926.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20140110.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20140413.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20140520.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20140609.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20140711.sql" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20140820.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20150304.SQL" />
+    <None Include="Web References\WebReferenceAnalitica\EntityKey1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebReferenceAnticipos\EntityKey1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebReferenceClientes\EntityKey1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebReferenceCobros\EntityKey1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebReferenceCompras\EntityKey1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebReferenceFacturas\EntityKey1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebReferenceProduccion\EntityKey1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebReferenceVentaTikets\EntityKey1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebReferenceVentaTikets\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\WebReferenceVentaTikets\SAT_JournalLossProfitQueryService.disco" />
+    <None Include="Web References\WebReferenceProduccion\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\WebReferenceProduccion\SAT_NHCreateProdOrdersQueryService.disco" />
+    <None Include="Web References\WebReferenceFacturas\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\WebReferenceFacturas\SAT_NHCreateSalesOrdersQueryService.disco" />
+    <None Include="Web References\WebReferenceCompras\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\WebReferenceCompras\SAT_NHVendPackingSlipJourService.disco" />
+    <None Include="Web References\WebReferenceCobros\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\WebReferenceCobros\SAT_NHJournalCustPaymentQueryService.disco" />
+    <None Include="Web References\WebReferenceClientes\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\WebReferenceClientes\SAT_NHCreateCustQueryService.disco" />
+    <None Include="Web References\WebReferenceAnticipos\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\WebReferenceAnticipos\SAT_NHPrePaymentService.disco" />
+    <None Include="Web References\WebReferenceAnalitica\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\WebReferenceAnalitica\SAT_NHInfoAnalyticalQueryService.disco" />
+    <None Include="Web References\WebReferenceAnalitica\SAT_NHInfoAnalyticalQueryService.wsdl" />
+    <None Include="Web References\WebReferenceAnticipos\SAT_NHPrePaymentService.wsdl" />
+    <None Include="Web References\WebReferenceClientes\SAT_NHCreateCustQueryService.wsdl" />
+    <None Include="Web References\WebReferenceCobros\SAT_NHJournalCustPaymentQueryService.wsdl" />
+    <None Include="Web References\WebReferenceCompras\SAT_NHVendPackingSlipJourService.wsdl" />
+    <None Include="Web References\WebReferenceFacturas\SAT_NHCreateSalesOrdersQueryService.wsdl" />
+    <None Include="Web References\WebReferenceProduccion\SAT_NHCreateProdOrdersQueryService.wsdl" />
+    <None Include="Web References\WebReferenceVentaTikets\SAT_JournalLossProfitQueryService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://srvwspruebas/DynamicsWebService/SAT_JournalLossProfitQueryService.ASMX">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebReferenceVentaTikets\</RelPath>
+      <UpdateFromURL>http://srvwspruebas/DynamicsWebService/SAT_JournalLossProfitQueryService.ASMX</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Menu_WebReferenceVentaTikets2_SAT_JournalLossProfitQueryService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://srvwspruebas/DynamicsWebService/SAT_NHCreateCustQueryService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebReferenceClientes\</RelPath>
+      <UpdateFromURL>http://srvwspruebas/DynamicsWebService/SAT_NHCreateCustQueryService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Menu_WebReferenceClientes2_SAT_NHCreateCustQueryService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://srvwspruebas/DynamicsWebService/SAT_NHCreateProdOrdersQueryService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebReferenceProduccion\</RelPath>
+      <UpdateFromURL>http://srvwspruebas/DynamicsWebService/SAT_NHCreateProdOrdersQueryService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Menu_WebReferenceProduccion2_SAT_NHCreateProdOrdersQueryService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://srvwspruebas/DynamicsWebService/SAT_NHCreateSalesOrdersQueryService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebReferenceFacturas\</RelPath>
+      <UpdateFromURL>http://srvwspruebas/DynamicsWebService/SAT_NHCreateSalesOrdersQueryService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Menu_WebReferenceFacturas2_SAT_NHCreateSalesOrdersQueryService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://srvwspruebas/DynamicsWebService/SAT_NHInfoAnalyticalQueryService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebReferenceAnalitica\</RelPath>
+      <UpdateFromURL>http://srvwspruebas/DynamicsWebService/SAT_NHInfoAnalyticalQueryService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Menu_WebReferenceAnalitica2_SAT_NHInfoAnalyticalQueryService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://srvwspruebas/DynamicsWebService/SAT_NHJournalCustPaymentQueryService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebReferenceCobros\</RelPath>
+      <UpdateFromURL>http://srvwspruebas/DynamicsWebService/SAT_NHJournalCustPaymentQueryService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Menu_WebReferenceCobros2_SAT_NHJournalCustPaymentQueryService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://srvwspruebas/DynamicsWebService/SAT_NHPrePaymentService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebReferenceAnticipos\</RelPath>
+      <UpdateFromURL>http://srvwspruebas/DynamicsWebService/SAT_NHPrePaymentService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Menu_WebReferenceAnticipos2_SAT_NHPrePaymentService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://192.168.0.11:8080/DynamicsWebService/SAT_NHVendPackingSlipJourService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebReferenceCompras\</RelPath>
+      <UpdateFromURL>http://192.168.0.11:8080/DynamicsWebService/SAT_NHVendPackingSlipJourService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Menu_WebReferenceCompras2_SAT_NHVendPackingSlipJourService</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>7</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <Private>True</Private>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <Private>True</Private>
+    </COMReference>
+    <COMReference Include="NSOLE5">
+      <Guid>{4463F9F0-0FCA-45AD-A66C-1C315387DB10}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBA">
+      <Guid>{000204EF-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>6</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>9</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

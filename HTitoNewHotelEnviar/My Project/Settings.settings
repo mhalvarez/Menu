@@ -1,0 +1,27 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
+  <Profiles />
+  <Settings>
+    <Setting Name="HTitoNewHotelEnviar_WebReferenceTiToProduccion_ProduccionDpto_Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%20TURIST.%20MORASOL/Page/ProduccionDpto</Value>
+    </Setting>
+    <Setting Name="HTitoNewHotelEnviar_WebReferenceTiToAnticipos_AplicacionAnticiposFactura_Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%20TURIST.%20MORASOL/Page/AplicacionAnticiposFactura</Value>
+    </Setting>
+    <Setting Name="HTitoNewHotelEnviar_WebReferenceTiToFacturacion_FacturacionEmitidaCargo_Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%20TURIST.%20MORASOL/Page/FacturacionEmitidaCargo</Value>
+    </Setting>
+    <Setting Name="HTitoNewHotelEnviar_WebReferenceTiToPagosCobros_PagosCobrosCajaBanco_Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%20TURIST.%20MORASOL/Page/PagosCobrosCajaBanco</Value>
+    </Setting>
+    <Setting Name="HTitoNewHotelEnviar_WebReferenceTiToAnticiposRecibidos_ConstitucionAnticipos_Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%20TURIST.%20MORASOL/Page/ConstitucionAnticipos</Value>
+    </Setting>
+    <Setting Name="HTitoNewHotelEnviar_WebReferenceTitoAlbaranes_GestionNewHotel" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%20TURIST.%20MORASOL/Codeunit/GestionNewHotel</Value>
+    </Setting>
+    <Setting Name="HTitoNewHotelEnviar_WebReferenceClientesNewHotel_Clientes_Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%20TURIST.%20MORASOL/Page/Clientes</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

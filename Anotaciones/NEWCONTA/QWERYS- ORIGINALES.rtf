@@ -1,0 +1,266 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang3082{\fonttbl{\f0\fmodern Courier;}{\f1\fswiss\fcharset0 Arial;}}
+{\colortbl ;\red0\green0\blue255;\red255\green255\blue255;\red0\green0\blue0;\red255\green0\blue0;\red0\green128\blue0;\red128\green128\blue0;\red128\green0\blue0;}
+{\*\generator Msftedit 5.41.15.1515;}\viewkind4\uc1\pard\cf1\highlight2\lang1033\f0\fs20 SELECT\cf3  \cf4 '1'\cf1 ,\cf3  \cf5\i /*+ INDEX(TNCO_MORE TNCO_MORE_PRIMARY) */\cf3\i0  tac1\cf1 .\cf3 taco_coda\par
+                                                                    taco_dacr\cf1 ,\cf3\par
+       tac1\cf1 .\cf3 taco_coco taco_cocr\cf1 ,\cf3  tac2\cf1 .\cf3 taco_coda taco_dadb\cf1 ,\cf3\par
+       tac2\cf1 .\cf3 taco_coco taco_codb\cf1 ,\cf3  moco\cf1 .\cf3 moco_codi moco_debi\cf1 ,\cf3\par
+       moco\cf1 .\cf3 timo_codi timo_debi\cf1 ,\cf3  moco\cf1 .\cf3 moco_docu docu_debi\cf1 ,\cf3\par
+       moco\cf1 .\cf3 moco_desc desc_debi\cf1 ,\cf3  moc1\cf1 .\cf3 moco_codi moco_cred\cf1 ,\cf3\par
+       moc1\cf1 .\cf3 timo_codi timo_cred\cf1 ,\cf3  moc1\cf1 .\cf3 moco_docu docu_cred\cf1 ,\cf3\par
+       moc1\cf1 .\cf3 moco_desc desc_cred\cf1 ,\cf3  more_dare\cf1 ,\cf3  more_vapa\cf1 ,\cf3  more_dean\cf1 ,\cf3\par
+       timo_debi\cf1 .\cf3 timo_cdia debi_cdia\cf1 ,\cf3  timo_debi\cf1 .\cf3 timo_cdoc debi_cdoc\cf1 ,\cf3\par
+       timo_cred\cf1 .\cf3 timo_cdia cred_cdia\cf1 ,\cf3  timo_cred\cf1 .\cf3 timo_cdoc cred_cdoc\cf1 ,\cf3\par
+       moco\cf1 .\cf3 taco_codi taco_debi\cf1 ,\cf3  moc1\cf1 .\cf3 taco_codi taco_cred\par
+  \cf1 FROM\cf3  \cf6 tnco_more\cf1 ,\cf3\par
+       \cf6 tnco_moco\cf3  moco\cf1 ,\cf3\par
+       \cf6 tnco_moco\cf3  moc1\cf1 ,\cf3\par
+       \cf6 tnco_taco\cf3  tac1\cf1 ,\cf3\par
+       \cf6 tnco_taco\cf3  tac2\cf1 ,\cf3\par
+       \cf6 tnco_timo\cf3  timo_debi\cf1 ,\cf3\par
+       \cf6 tnco_timo\cf3  timo_cred\par
+ \cf1 WHERE\cf3  \cf6 tnco_more\cf1 .\cf3 taco_cod1 \cf1 =\cf3  tac1\cf1 .\cf3 taco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_more\cf1 .\cf3 taco_cod2 \cf1 =\cf3  tac2\cf1 .\cf3 taco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_more\cf1 .\cf3 taco_cod2 \cf1 =\cf3  moco\cf1 .\cf3 taco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_more\cf1 .\cf3 moco_cod2 \cf1 =\cf3  moco\cf1 .\cf3 moco_codi\par
+   \cf1 AND\cf3  moco\cf1 .\cf3 timo_codi \cf1 =\cf3  timo_debi\cf1 .\cf3 timo_codi\par
+   \cf1 AND\cf3  \cf6 tnco_more\cf1 .\cf3 taco_cod1 \cf1 =\cf3  moc1\cf1 .\cf3 taco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_more\cf1 .\cf3 moco_cod1 \cf1 =\cf3  moc1\cf1 .\cf3 moco_codi\par
+   \cf1 AND\cf3  moc1\cf1 .\cf3 timo_codi \cf1 =\cf3  timo_cred\cf1 .\cf3 timo_codi\par
+   \cf1 AND\cf3  \cf6 tnco_more\cf1 .\cf3 more_regu \cf1 =\cf3  \cf7 1\cf3\par
+  \cf1 AND\cf3  more_dare \cf1 >=\cf3  \cf1 TO_DATE\cf3  \cf1 (\cf4 '21-4-2009 00:00:00'\cf1 ,\cf3  \cf4 'DD-MM-YYYY HH24:MI:SS'\cf1 )\cf3\par
+   \cf1 AND\cf3  more_dare \cf1 <=\cf3  \cf1 TO_DATE\cf3  \cf1 (\cf4 '21-4-2009 23:59:59'\cf1 ,\cf3  \cf4 'DD-MM-YYYY HH24:MI:SS'\cf1 )\par
+\par
+\par
+SELECT\cf3  \cf4 '2'\cf1 ,\cf3  tac1\cf1 .\cf3 taco_coda taco_dacr\cf1 ,\cf3  tac1\cf1 .\cf3 taco_coco taco_cocr\cf1 ,\cf3\par
+       tac1\cf1 .\cf3 taco_copm taco_pmcr\cf1 ,\cf3  tac2\cf1 .\cf3 taco_coda taco_dadb\cf1 ,\cf3\par
+       tac2\cf1 .\cf3 taco_coco taco_codb\cf1 ,\cf3  tac2\cf1 .\cf3 taco_copm taco_pmdb\cf1 ,\cf3\par
+       \cf6 tnco_moco\cf1 .\cf3 moco_codi\cf1 ,\cf3  moco_docu\cf1 ,\cf3  more_dare\cf1 ,\cf3  \cf6 tnco_more\cf1 .\cf3 more_vapa\cf1 ,\cf3\par
+       \cf6 tnco_paco\cf1 .\cf3 paco_coti\cf1 ,\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_coco\cf1 ,\cf3  \cf6 tnco_moli\cf1 .\cf3 moli_desc\cf1 ,\cf3\par
+       \cf6 tnco_moco\cf1 .\cf3 timo_codi\cf1 ,\cf3  moco_desc\cf1 ,\cf3  more_dean\cf1 ,\cf3  timo_cdia\cf1 ,\cf3  timo_cdoc\cf1 ,\cf3\par
+       tac1\cf1 .\cf3 taco_codi taco_cred\cf1 ,\cf3  tac2\cf1 .\cf3 taco_codi taco_debi\par
+  \cf1 FROM\cf3  \cf6 tnco_more\cf1 ,\cf3\par
+       \cf6 tnco_moco\cf1 ,\cf3\par
+       \cf6 tnco_taco\cf3  tac1\cf1 ,\cf3\par
+       \cf6 tnco_taco\cf3  tac2\cf1 ,\cf3\par
+       \cf6 tnco_timo\cf1 ,\cf3\par
+       \cf6 tnco_moli\cf1 ,\cf3\par
+       \cf6 tnco_paco\cf3\par
+ \cf1 WHERE\cf3  \cf6 tnco_more\cf1 .\cf3 taco_cod1 \cf1 =\cf3  tac1\cf1 .\cf3 taco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_more\cf1 .\cf3 taco_cod2 \cf1 =\cf3  tac2\cf1 .\cf3 taco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_more\cf1 .\cf3 taco_cod1 \cf1 =\cf3  \cf6 tnco_moco\cf1 .\cf3 taco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_more\cf1 .\cf3 moco_cod1 \cf1 =\cf3  \cf6 tnco_moco\cf1 .\cf3 moco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_moco\cf1 .\cf3 timo_codi \cf1 =\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_codi\par
+   \cf1 AND\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_codi \cf1 =\cf3  \cf6 tnco_moli\cf1 .\cf3 timo_codi\par
+   \cf1 AND\cf3  \cf6 tnco_moli\cf1 .\cf3 licl_codi \cf1 =\cf3  \cf6 tnco_paco\cf1 .\cf3 licl_codi\par
+   \cf1 AND\cf3  \cf6 tnco_more\cf1 .\cf3 more_regu \cf1 =\cf3  \cf7 0\cf3\par
+   \cf1 AND\cf3  more_dare \cf1 >=\cf3  \cf1 TO_DATE\cf3  \cf1 (\cf4 '21-4-2009'\cf1 ,\cf3  \cf4 'DD-MM-YYYY'\cf1 )\cf3\par
+   \cf1 AND\cf3  more_dare \cf1 <=\cf3  \cf1 TO_DATE\cf3  \cf1 (\cf4 '21-4-2009'\cf1 ,\cf3  \cf4 'DD-MM-YYYY'\cf1 )\par
+\par
+\par
+\par
+SELECT\cf3  \cf4 '3'\cf1 ,\cf3  taco_coco\cf1 ,\cf3  taco_coda\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 moco_codi\cf1 ,\cf3  moco_docu\cf1 ,\cf3  moco_dala\cf1 ,\cf3\par
+       moco_dava\cf1 ,\cf3  moco_desc\cf1 ,\cf3  moco_datr\cf1 ,\cf3  \cf1 (\cf3 moco_vaor * moco_camb\cf1 )\cf3  moco_debi\cf1 ,\cf3\par
+       \cf6 tnco_timo\cf1 .\cf3 timo_coco\cf1 ,\cf3  \cf6 tnco_moli\cf1 .\cf3 moli_desc\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 timo_codi\cf1 ,\cf3\par
+       moco_dean\cf1 ,\cf3  timo_cdia\cf1 ,\cf3  timo_cdoc\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 taco_codi\par
+  \cf1 FROM\cf3  \cf6 tnco_moco\cf1 ,\cf3  \cf6 tnco_taco\cf1 ,\cf3  \cf6 tnco_timo\cf1 ,\cf3  \cf6 tnco_moli\cf1 ,\cf3  \cf6 tnco_paco\cf3\par
+ \cf1 WHERE\cf3  \cf6 tnco_moco\cf1 .\cf3 taco_codi \cf1 =\cf3  \cf6 tnco_taco\cf1 .\cf3 taco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_moco\cf1 .\cf3 timo_codi \cf1 =\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_codi\par
+   \cf1 AND\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_codi \cf1 =\cf3  \cf6 tnco_moli\cf1 .\cf3 timo_codi\par
+   \cf1 AND\cf3  \cf6 tnco_moli\cf1 .\cf3 licl_codi \cf1 =\cf3  \cf6 tnco_paco\cf1 .\cf3 licl_codi\par
+   \cf1 AND\cf3  \cf1 (\cf6 tnco_moco\cf1 .\cf3 taco_codi\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 moco_codi\cf1 )\cf3  \cf1 IN\cf3  \cf1 (\cf3\par
+                               \cf1 SELECT\cf3  \cf6 tnco_more\cf1 .\cf3 taco_cod2\cf1 ,\cf3\par
+                                      \cf6 tnco_more\cf1 .\cf3 moco_cod2\par
+                                 \cf1 FROM\cf3  \cf6 tnco_more\cf3\par
+                                \cf1 WHERE\cf3  more_regu \cf1 =\cf3  \cf7 2\cf1 )\cf3\par
+   \cf1 AND\cf3  moco_datr \cf1 >=\cf3  \cf1 TO_DATE\cf3  \cf1 (\cf4 '21-4-2009 00:00:00'\cf1 ,\cf3  \cf4 'DD-MM-YYYY HH24:MI:SS'\cf1 )\cf3\par
+   \cf1 AND\cf3  moco_datr \cf1 <=\cf3  \cf1 TO_DATE\cf3  \cf1 (\cf4 '21-4-2009 23:59:59'\cf1 ,\cf3  \cf4 'DD-MM-YYYY HH24:MI:SS'\cf1 )\cf3\par
+   \cf1 AND\cf3  moco_debi \cf1 >\cf3  \cf7 0\par
+\par
+\par
+\cf1 SELECT\cf3  \cf4 '4'\cf1 ,\cf3  taco_coco\cf1 ,\cf3  taco_coda\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 moco_codi\cf1 ,\cf3  moco_docu\cf1 ,\cf3  moco_dala\cf1 ,\cf3\par
+       moco_dava\cf1 ,\cf3  moco_desc\cf1 ,\cf3  moco_datr\cf1 ,\cf3  \cf1 (\cf3 moco_vaor * moco_camb\cf1 )\cf3  moco_cred\cf1 ,\cf3\par
+       \cf6 tnco_timo\cf1 .\cf3 timo_coco\cf1 ,\cf3  \cf6 tnco_moli\cf1 .\cf3 moli_desc\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 timo_codi\cf1 ,\cf3\par
+       moco_dean\cf1 ,\cf3  timo_cdia\cf1 ,\cf3  timo_cdoc\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 taco_codi\par
+  \cf1 FROM\cf3  \cf6 tnco_moco\cf1 ,\cf3  \cf6 tnco_taco\cf1 ,\cf3  \cf6 tnco_timo\cf1 ,\cf3  \cf6 tnco_moli\cf1 ,\cf3  \cf6 tnco_paco\cf3\par
+ \cf1 WHERE\cf3  \cf6 tnco_moco\cf1 .\cf3 taco_codi \cf1 =\cf3  \cf6 tnco_taco\cf1 .\cf3 taco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_moco\cf1 .\cf3 timo_codi \cf1 =\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_codi\par
+   \cf1 AND\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_codi \cf1 =\cf3  \cf6 tnco_moli\cf1 .\cf3 timo_codi\par
+   \cf1 AND\cf3  \cf6 tnco_moli\cf1 .\cf3 licl_codi \cf1 =\cf3  \cf6 tnco_paco\cf1 .\cf3 licl_codi\par
+   \cf1 AND\cf3  \cf1 (\cf6 tnco_moco\cf1 .\cf3 taco_codi\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 moco_codi\cf1 )\cf3  \cf1 IN\cf3  \cf1 (\cf3\par
+                               \cf1 SELECT\cf3  \cf6 tnco_more\cf1 .\cf3 taco_cod2\cf1 ,\cf3\par
+                                      \cf6 tnco_more\cf1 .\cf3 moco_cod2\par
+                                 \cf1 FROM\cf3  \cf6 tnco_more\cf3\par
+                                \cf1 WHERE\cf3  more_regu \cf1 =\cf3  \cf7 2\cf1 )\cf3\par
+   \cf1 AND\cf3  moco_datr \cf1 >=\cf3  \cf1 TO_DATE\cf3  \cf1 (\cf4 '21-4-2009 00:00:00'\cf1 ,\cf3  \cf4 'DD-MM-YYYY HH24:MI:SS'\cf1 )\cf3\par
+   \cf1 AND\cf3  moco_datr \cf1 <=\cf3  \cf1 TO_DATE\cf3  \cf1 (\cf4 '21-4-2009 23:59:59'\cf1 ,\cf3  \cf4 'DD-MM-YYYY HH24:MI:SS'\cf1 )\cf3\par
+   \cf1 AND\cf3  moco_cred \cf1 >\cf3  \cf7 0\par
+\par
+\cf1 SELECT\cf3  \cf4 '5'\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 taco_codi\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 moco_codi\cf1 ,\cf3  taco_coco\cf1 ,\cf3  taco_coin\cf1 ,\cf3\par
+       moco_docu\cf1 ,\cf3  moco_desc\cf1 ,\cf3  moco_dala\cf1 ,\cf3  \cf1 (\cf3 moco_vaor * moco_camb\cf1 )\cf3  moco_debi\cf1 ,\cf3\par
+       moco_camb\cf1 ,\cf3  moco_daan\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 timo_codi\cf1 ,\cf3  timo_cdia\cf1 ,\cf3  timo_cdoc\cf1 ,\cf3\par
+       moco_anul\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 fact_codi\par
+  \cf1 FROM\cf3  \cf6 tnco_taco\cf1 ,\cf3  \cf6 tnco_moco\cf1 ,\cf3  \cf6 tnco_timo\cf1 ,\cf3  \cf6 tnco_paco\cf3\par
+ \cf1 WHERE\cf3  \cf6 tnco_moco\cf1 .\cf3 taco_codi \cf1 =\cf3  \cf6 tnco_taco\cf1 .\cf3 taco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_moco\cf1 .\cf3 timo_codi \cf1 =\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_codi\par
+   \cf1 AND\cf3  moco_debi \cf1 >\cf3  \cf7 0\cf3\par
+   \cf1 AND\cf3  moco_exte \cf1 =\cf3  \cf4 '0'\cf3\par
+   \cf1 AND\cf3  moco_anul \cf1 IN\cf3  \cf1 (\cf4 '1'\cf1 ,\cf3  \cf4 '2'\cf1 ,\cf3  \cf4 '3'\cf1 )\cf3\par
+   \cf1 AND\cf3  \cf1 NOT\cf3  \cf1 EXISTS\cf3  \cf1 (\cf3\par
+          \cf1 SELECT\cf3  \cf7 1\cf3\par
+            \cf1 FROM\cf3  \cf6 tnco_more\cf3\par
+           \cf1 WHERE\cf3  taco_cod2 \cf1 =\cf3  \cf6 tnco_moco\cf1 .\cf3 taco_codi\par
+             \cf1 AND\cf3  moco_cod2 \cf1 =\cf3  \cf6 tnco_moco\cf1 .\cf3 moco_codi\par
+             \cf1 AND\cf3  more_regu \cf1 =\cf3  \cf1 TO_CHAR\cf3  \cf1 (\cf7 2\cf1 ))\cf3\par
+   \cf1 AND\cf3  moco_daan \cf1 >=\cf3  \cf1 TO_DATE\cf3  \cf1 (\cf4 '21-4-2009 00:00:00'\cf1 ,\cf3  \cf4 'DD-MM-YYYY HH24:MI:SS'\cf1 )\cf3\par
+   \cf1 AND\cf3  moco_daan \cf1 <=\cf3  \cf1 TO_DATE\cf3  \cf1 (\cf4 '21-4-2009 23:59:59'\cf1 ,\cf3  \cf4 'DD-MM-YYYY HH24:MI:SS'\cf1 )\par
+\par
+\par
+SELECT\cf3  \cf4 '6'\cf1 ,\cf3  \cf6 tnco_taco\cf1 .\cf3 taco_coda\cf1 ,\cf3  moco_docu\cf1 ,\cf3  moco_daan\cf1 ,\cf3  moco_desc\cf1 ,\cf3\par
+       \cf1 (\cf3 moco_cred * moco_camb\cf1 )\cf3  moco_cred\cf1 ,\cf3  valo_dean\cf1 ,\cf3  moco_dean\cf1 ,\cf3\par
+       \cf6 tnco_moco\cf1 .\cf3 moco_codi\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 timo_codi\cf1 ,\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_coco\cf1 ,\cf3\par
+       \cf6 tnco_moli\cf1 .\cf3 moli_desc\cf1 ,\cf3  \cf6 tnco_paco\cf1 .\cf3 paco_coti\cf1 ,\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_cdia\cf1 ,\cf3\par
+       \cf6 tnco_timo\cf1 .\cf3 timo_cdoc\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 taco_codi\par
+  \cf1 FROM\cf3  \cf6 tnco_taco\cf1 ,\cf3  \cf6 tnco_moco\cf1 ,\cf3  \cf6 tnco_timo\cf1 ,\cf3  \cf6 tnco_moli\cf1 ,\cf3  \cf6 tnco_paco\cf3\par
+ \cf1 WHERE\cf3  \cf6 tnco_moco\cf1 .\cf3 taco_codi \cf1 =\cf3  \cf6 tnco_taco\cf1 .\cf3 taco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_moco\cf1 .\cf3 timo_codi \cf1 =\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_codi\par
+   \cf1 AND\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_codi \cf1 =\cf3  \cf6 tnco_moli\cf1 .\cf3 timo_codi\par
+   \cf1 AND\cf3  \cf6 tnco_moli\cf1 .\cf3 licl_codi \cf1 =\cf3  \cf6 tnco_paco\cf1 .\cf3 licl_codi\par
+   \cf1 AND\cf3  moco_cred \cf1 >\cf3  \cf7 0\cf3\par
+   \cf1 AND\cf3  moco_anul \cf1 <>\cf3  \cf4 '0'\cf3\par
+   \cf1 AND\cf3  \cf1 NOT\cf3  \cf1 EXISTS\cf3  \cf1 (\cf3\par
+          \cf1 SELECT\cf3  \cf7 1\cf3\par
+            \cf1 FROM\cf3  \cf6 tnco_more\cf3\par
+           \cf1 WHERE\cf3  taco_cod2 \cf1 =\cf3  \cf6 tnco_moco\cf1 .\cf3 taco_codi\par
+             \cf1 AND\cf3  moco_cod2 \cf1 =\cf3  \cf6 tnco_moco\cf1 .\cf3 moco_codi\par
+             \cf1 AND\cf3  more_regu \cf1 =\cf3  \cf1 TO_CHAR\cf3  \cf1 (\cf7 2\cf1 ))\cf3\par
+   \cf1 AND\cf3  moco_daan \cf1 >=\cf3  \cf1 TO_DATE\cf3  \cf1 (\cf4 '21-4-2009 00:00:00'\cf1 ,\cf3  \cf4 'DD-MM-YYYY HH24:MI:SS'\cf1 )\cf3\par
+   \cf1 AND\cf3  moco_daan \cf1 <=\cf3  \cf1 TO_DATE\cf3  \cf1 (\cf4 '21-4-2009 23:59:59'\cf1 ,\cf3  \cf4 'DD-MM-YYYY HH24:MI:SS'\cf1 )\par
+\par
+\par
+\par
+\cf5\i /* Formatted on 2009/06/04 12:47 (Formatter Plus v4.8.8) */\cf3\i0\par
+\cf1 SELECT\cf3  \cf4 '7'\cf1 ,\cf3  deof_coco\cf1 ,\cf3  moco_docu\cf1 ,\cf3  moco_daan\cf1 ,\cf3  moco_desc\cf1 ,\cf3  deof_valo\cf1 ,\cf3\par
+       \cf6 tnco_moco\cf1 .\cf3 moco_codi\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 timo_codi\cf1 ,\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_coco\cf1 ,\cf3\par
+       \cf6 tnco_moli\cf1 .\cf3 moli_desc\cf1 ,\cf3  opfi_desc\cf1 ,\cf3  timo_cdia\cf1 ,\cf3  timo_cdoc\cf1 ,\cf3\par
+       \cf6 tnco_moco\cf1 .\cf3 taco_codi\par
+  \cf1 FROM\cf3  \cf6 tnco_moco\cf1 ,\cf3  \cf6 tnco_deof\cf1 ,\cf3  \cf6 tnco_opfi\cf1 ,\cf3  \cf6 tnco_timo\cf1 ,\cf3  \cf6 tnco_moli\cf1 ,\cf3  \cf6 tnco_paco\cf3\par
+ \cf1 WHERE\cf3  \cf6 tnco_moco\cf1 .\cf3 taco_codi \cf1 =\cf3  \cf6 tnco_deof\cf1 .\cf3 taco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_moco\cf1 .\cf3 moco_codi \cf1 =\cf3  \cf6 tnco_deof\cf1 .\cf3 moco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_moco\cf1 .\cf3 timo_codi \cf1 =\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_codi\par
+   \cf1 AND\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_codi \cf1 =\cf3  \cf6 tnco_moli\cf1 .\cf3 timo_codi\par
+   \cf1 AND\cf3  \cf6 tnco_moli\cf1 .\cf3 licl_codi \cf1 =\cf3  \cf6 tnco_paco\cf1 .\cf3 licl_codi\par
+   \cf1 AND\cf3  \cf6 tnco_deof\cf1 .\cf3 opfi_codi \cf1 =\cf3  \cf6 tnco_opfi\cf1 .\cf3 opfi_codi\par
+   \cf1 AND\cf3  moco_cred \cf1 >\cf3  \cf7 0\cf3\par
+   \cf1 AND\cf3  \cf6 tnco_deof\cf1 .\cf3 opfi_codi \cf1 <>\cf3  opfi_dica\par
+   \cf1 AND\cf3  moco_anul \cf1 <>\cf3  \cf4 '0'\cf3\par
+   \cf1 AND\cf3  moco_daan \cf1 >=\cf3  \cf1 TO_DATE\cf3  \cf1 (\cf4 '21-4-2009 00:00:00'\cf1 ,\cf3  \cf4 'DD-MM-YYYY HH24:MI:SS'\cf1 )\cf3\par
+   \cf1 AND\cf3  moco_daan \cf1 <=\cf3  \cf1 TO_DATE\cf3  \cf1 (\cf4 '21-4-2009 23:59:59'\cf1 ,\cf3  \cf4 'DD-MM-YYYY HH24:MI:SS'\cf1 )\par
+\par
+\par
+\par
+\cf5\i /* Formatted on 2009/06/04 12:47 (Formatter Plus v4.8.8) */\cf3\i0\par
+\cf1 SELECT\cf3  \cf4 '8'\cf1 ,\cf3  \cf5\i /*+ INDEX(TNCO_MORE TNCO_MORE_PRIMARY) */\cf3\i0  tac1\cf1 .\cf3 taco_coda\par
+                                                                    taco_dacr\cf1 ,\cf3\par
+       tac1\cf1 .\cf3 taco_coco taco_cocr\cf1 ,\cf3  tac2\cf1 .\cf3 taco_coda taco_dadb\cf1 ,\cf3\par
+       tac2\cf1 .\cf3 taco_coco taco_codb\cf1 ,\cf3  moco\cf1 .\cf3 moco_codi moco_debi\cf1 ,\cf3\par
+       moco\cf1 .\cf3 timo_codi timo_debi\cf1 ,\cf3  moco\cf1 .\cf3 moco_docu docu_debi\cf1 ,\cf3\par
+       moco\cf1 .\cf3 moco_desc desc_debi\cf1 ,\cf3  moc1\cf1 .\cf3 moco_codi moco_cred\cf1 ,\cf3\par
+       moc1\cf1 .\cf3 timo_codi timo_cred\cf1 ,\cf3  moc1\cf1 .\cf3 moco_docu docu_cred\cf1 ,\cf3\par
+       moc1\cf1 .\cf3 moco_desc desc_cred\cf1 ,\cf3  more_dare\cf1 ,\cf3  more_vapa\cf1 ,\cf3  more_dean\cf1 ,\cf3\par
+       timo_debi\cf1 .\cf3 timo_cdia debi_cdia\cf1 ,\cf3  timo_debi\cf1 .\cf3 timo_cdoc debi_cdoc\cf1 ,\cf3\par
+       timo_cred\cf1 .\cf3 timo_cdia cred_cdia\cf1 ,\cf3  timo_cred\cf1 .\cf3 timo_cdoc cred_cdoc\cf1 ,\cf3\par
+       more_daan\cf1 ,\cf3  tac2\cf1 .\cf3 taco_codi taco_cred\cf1 ,\cf3  tac1\cf1 .\cf3 taco_codi taco_debi\par
+  \cf1 FROM\cf3  \cf6 tnco_more\cf1 ,\cf3\par
+       \cf6 tnco_moco\cf3  moco\cf1 ,\cf3\par
+       \cf6 tnco_moco\cf3  moc1\cf1 ,\cf3\par
+       \cf6 tnco_taco\cf3  tac1\cf1 ,\cf3\par
+       \cf6 tnco_taco\cf3  tac2\cf1 ,\cf3\par
+       \cf6 tnco_timo\cf3  timo_debi\cf1 ,\cf3\par
+       \cf6 tnco_timo\cf3  timo_cred\par
+ \cf1 WHERE\cf3  \cf6 tnco_more\cf1 .\cf3 taco_cod1 \cf1 =\cf3  tac2\cf1 .\cf3 taco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_more\cf1 .\cf3 taco_cod2 \cf1 =\cf3  tac1\cf1 .\cf3 taco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_more\cf1 .\cf3 taco_cod2 \cf1 =\cf3  moco\cf1 .\cf3 taco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_more\cf1 .\cf3 moco_cod2 \cf1 =\cf3  moco\cf1 .\cf3 moco_codi\par
+   \cf1 AND\cf3  moco\cf1 .\cf3 timo_codi \cf1 =\cf3  timo_debi\cf1 .\cf3 timo_codi\par
+   \cf1 AND\cf3  \cf6 tnco_more\cf1 .\cf3 taco_cod1 \cf1 =\cf3  moc1\cf1 .\cf3 taco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_more\cf1 .\cf3 moco_cod1 \cf1 =\cf3  moc1\cf1 .\cf3 moco_codi\par
+   \cf1 AND\cf3  moc1\cf1 .\cf3 timo_codi \cf1 =\cf3  timo_cred\cf1 .\cf3 timo_codi\par
+   \cf1 AND\cf3  \cf6 tnco_more\cf1 .\cf3 more_regu \cf1 =\cf3  \cf7 1\cf3\par
+   \cf1 AND\cf3  \cf6 tnco_more\cf1 .\cf3 more_anul \cf1 =\cf3  \cf7 1\cf3\par
+   \cf1 AND\cf3  more_daan \cf1 >=\cf3  \cf1 TO_DATE\cf3  \cf1 (\cf4 '21-4-2009 00:00:00'\cf1 ,\cf3  \cf4 'DD-MM-YYYY HH24:MI:SS'\cf1 )\cf3\par
+   \cf1 AND\cf3  more_daan \cf1 <=\cf3  \cf1 TO_DATE\cf3  \cf1 (\cf4 '21-4-2009 23:59:59'\cf1 ,\cf3  \cf4 'DD-MM-YYYY HH24:MI:SS'\cf1 )\par
+\par
+\par
+\par
+SELECT\cf3  \cf4 '9'\cf1 ,\cf3  tac1\cf1 .\cf3 taco_coda taco_dacr\cf1 ,\cf3  tac1\cf1 .\cf3 taco_coco taco_cocr\cf1 ,\cf3\par
+       tac1\cf1 .\cf3 taco_copm taco_pmcr\cf1 ,\cf3  tac2\cf1 .\cf3 taco_coda taco_dadb\cf1 ,\cf3\par
+       tac2\cf1 .\cf3 taco_coco taco_codb\cf1 ,\cf3  tac2\cf1 .\cf3 taco_copm taco_pmdb\cf1 ,\cf3\par
+       \cf6 tnco_moco\cf1 .\cf3 moco_codi\cf1 ,\cf3  moco_docu\cf1 ,\cf3  more_dare\cf1 ,\cf3  more_daan\cf1 ,\cf3\par
+       \cf6 tnco_more\cf1 .\cf3 more_vapa\cf1 ,\cf3  \cf6 tnco_paco\cf1 .\cf3 paco_coti\cf1 ,\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_coco\cf1 ,\cf3\par
+       \cf6 tnco_moli\cf1 .\cf3 moli_desc\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 timo_codi\cf1 ,\cf3  moco_desc\cf1 ,\cf3  more_dean\cf1 ,\cf3\par
+       timo_cdia\cf1 ,\cf3  timo_cdoc\cf1 ,\cf3  tac1\cf1 .\cf3 taco_codi taco_cred\cf1 ,\cf3\par
+       tac2\cf1 .\cf3 taco_codi taco_debi\par
+  \cf1 FROM\cf3  \cf6 tnco_more\cf1 ,\cf3\par
+       \cf6 tnco_moco\cf1 ,\cf3\par
+       \cf6 tnco_taco\cf3  tac1\cf1 ,\cf3\par
+       \cf6 tnco_taco\cf3  tac2\cf1 ,\cf3\par
+       \cf6 tnco_timo\cf1 ,\cf3\par
+       \cf6 tnco_moli\cf1 ,\cf3\par
+       \cf6 tnco_paco\cf3\par
+ \cf1 WHERE\cf3  \cf6 tnco_more\cf1 .\cf3 taco_cod1 \cf1 =\cf3  tac1\cf1 .\cf3 taco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_more\cf1 .\cf3 taco_cod2 \cf1 =\cf3  tac2\cf1 .\cf3 taco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_more\cf1 .\cf3 taco_cod1 \cf1 =\cf3  \cf6 tnco_moco\cf1 .\cf3 taco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_more\cf1 .\cf3 moco_cod1 \cf1 =\cf3  \cf6 tnco_moco\cf1 .\cf3 moco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_moco\cf1 .\cf3 timo_codi \cf1 =\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_codi\par
+   \cf1 AND\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_codi \cf1 =\cf3  \cf6 tnco_moli\cf1 .\cf3 timo_codi\par
+   \cf1 AND\cf3  \cf6 tnco_moli\cf1 .\cf3 licl_codi \cf1 =\cf3  \cf6 tnco_paco\cf1 .\cf3 licl_codi\par
+   \cf1 AND\cf3  \cf6 tnco_more\cf1 .\cf3 more_regu \cf1 =\cf3  \cf7 0\cf3\par
+   \cf1 AND\cf3  \cf6 tnco_more\cf1 .\cf3 more_anul \cf1 =\cf3  \cf7 1\cf3\par
+   \cf1 AND\cf3  more_daan \cf1 >=\cf3  \cf1 TO_DATE\cf3  \cf1 (\cf4 '21-4-2009 00:00:00'\cf1 ,\cf3  \cf4 'DD-MM-YYYY HH24:MI:SS'\cf1 )\cf3\par
+   \cf1 AND\cf3  more_daan \cf1 <=\cf3  \cf1 TO_DATE\cf3  \cf1 (\cf4 '21-4-2009 23:59:59'\cf1 ,\cf3  \cf4 'DD-MM-YYYY HH24:MI:SS'\cf1 )\par
+\par
+\par
+\par
+\cf5\i /* Formatted on 2009/06/04 12:48 (Formatter Plus v4.8.8) */\cf3\i0\par
+\cf1 SELECT\cf3  \cf4 '10'\cf1 ,\cf3  taco_coco\cf1 ,\cf3  taco_coda\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 moco_codi\cf1 ,\cf3  moco_docu\cf1 ,\cf3  moco_daan\cf1 ,\cf3\par
+       moco_desc\cf1 ,\cf3  \cf1 (\cf3 moco_vaor * moco_camb\cf1 )\cf3  moco_debi\cf1 ,\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_coco\cf1 ,\cf3\par
+       \cf6 tnco_moli\cf1 .\cf3 moli_desc\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 timo_codi\cf1 ,\cf3  moco_dean\cf1 ,\cf3  timo_cdia\cf1 ,\cf3\par
+       timo_cdoc\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 taco_codi\par
+  \cf1 FROM\cf3  \cf6 tnco_moco\cf1 ,\cf3  \cf6 tnco_taco\cf1 ,\cf3  \cf6 tnco_timo\cf1 ,\cf3  \cf6 tnco_moli\cf1 ,\cf3  \cf6 tnco_paco\cf3\par
+ \cf1 WHERE\cf3  \cf6 tnco_moco\cf1 .\cf3 taco_codi \cf1 =\cf3  \cf6 tnco_taco\cf1 .\cf3 taco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_moco\cf1 .\cf3 timo_codi \cf1 =\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_codi\par
+   \cf1 AND\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_codi \cf1 =\cf3  \cf6 tnco_moli\cf1 .\cf3 timo_codi\par
+   \cf1 AND\cf3  \cf6 tnco_moli\cf1 .\cf3 licl_codi \cf1 =\cf3  \cf6 tnco_paco\cf1 .\cf3 licl_codi\par
+   \cf1 AND\cf3  \cf1 (\cf6 tnco_moco\cf1 .\cf3 taco_codi\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 moco_codi\cf1 )\cf3  \cf1 IN\cf3  \cf1 (\cf3\par
+                               \cf1 SELECT\cf3  \cf6 tnco_more\cf1 .\cf3 taco_cod2\cf1 ,\cf3\par
+                                      \cf6 tnco_more\cf1 .\cf3 moco_cod2\par
+                                 \cf1 FROM\cf3  \cf6 tnco_more\cf3\par
+                                \cf1 WHERE\cf3  more_regu \cf1 =\cf3  \cf7 2\cf3  \cf1 AND\cf3  more_anul \cf1 =\cf3  \cf4 '1'\cf1 )\cf3\par
+   \cf1 AND\cf3  moco_daan \cf1 >=\cf3  \cf1 TO_DATE\cf3  \cf1 (\cf4 '21-4-2009 00:00:00'\cf1 ,\cf3  \cf4 'DD-MM-YYYY HH24:MI:SS'\cf1 )\cf3\par
+   \cf1 AND\cf3  moco_daan \cf1 <=\cf3  \cf1 TO_DATE\cf3  \cf1 (\cf4 '21-4-2009 23:59:59'\cf1 ,\cf3  \cf4 'DD-MM-YYYY HH24:MI:SS'\cf1 )\cf3\par
+   \cf1 AND\cf3  moco_debi \cf1 >\cf3  \cf7 0\cf3\par
+   \cf1 AND\cf3  moco_anul \cf1 =\cf3  \cf4 '1'\par
+\par
+\par
+\cf1 SELECT\cf3  \cf4 '11'\cf1 ,\cf3  taco_coco\cf1 ,\cf3  taco_coda\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 moco_codi\cf1 ,\cf3  moco_docu\cf1 ,\cf3  moco_daan\cf1 ,\cf3\par
+       moco_desc\cf1 ,\cf3  \cf1 (\cf3 moco_vaor * moco_camb\cf1 )\cf3  moco_cred\cf1 ,\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_coco\cf1 ,\cf3\par
+       \cf6 tnco_moli\cf1 .\cf3 moli_desc\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 timo_codi\cf1 ,\cf3  moco_dean\cf1 ,\cf3  timo_cdia\cf1 ,\cf3\par
+       timo_cdoc\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 taco_codi\par
+  \cf1 FROM\cf3  \cf6 tnco_moco\cf1 ,\cf3  \cf6 tnco_taco\cf1 ,\cf3  \cf6 tnco_timo\cf1 ,\cf3  \cf6 tnco_moli\cf1 ,\cf3  \cf6 tnco_paco\cf3\par
+ \cf1 WHERE\cf3  \cf6 tnco_moco\cf1 .\cf3 taco_codi \cf1 =\cf3  \cf6 tnco_taco\cf1 .\cf3 taco_codi\par
+   \cf1 AND\cf3  \cf6 tnco_moco\cf1 .\cf3 timo_codi \cf1 =\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_codi\par
+   \cf1 AND\cf3  \cf6 tnco_timo\cf1 .\cf3 timo_codi \cf1 =\cf3  \cf6 tnco_moli\cf1 .\cf3 timo_codi\par
+   \cf1 AND\cf3  \cf6 tnco_moli\cf1 .\cf3 licl_codi \cf1 =\cf3  \cf6 tnco_paco\cf1 .\cf3 licl_codi\par
+   \cf1 AND\cf3  \cf1 (\cf6 tnco_moco\cf1 .\cf3 taco_codi\cf1 ,\cf3  \cf6 tnco_moco\cf1 .\cf3 moco_codi\cf1 )\cf3  \cf1 IN\cf3  \cf1 (\cf3\par
+                               \cf1 SELECT\cf3  \cf6 tnco_more\cf1 .\cf3 taco_cod2\cf1 ,\cf3\par
+                                      \cf6 tnco_more\cf1 .\cf3 moco_cod2\par
+                                 \cf1 FROM\cf3  \cf6 tnco_more\cf3\par
+                                \cf1 WHERE\cf3  more_regu \cf1 =\cf3  \cf7 2\cf3  \cf1 AND\cf3  more_anul \cf1 =\cf3  \cf4 '1'\cf1 )\cf3\par
+   \cf1 AND\cf3  moco_daan \cf1 >=\cf3  \cf1 TO_DATE\cf3  \cf1 (\cf4 '21-4-2009 00:00:00'\cf1 ,\cf3  \cf4 'DD-MM-YYYY HH24:MI:SS'\cf1 )\cf3\par
+   \cf1 AND\cf3  moco_daan \cf1 <=\cf3  \cf1 TO_DATE\cf3  \cf1 (\cf4 '21-4-2009 23:59:59'\cf1 ,\cf3  \cf4 'DD-MM-YYYY HH24:MI:SS'\cf1 )\cf3\par
+   \cf1 AND\cf3  moco_cred \cf1 >\cf3  \cf7 0\cf3\par
+   \cf1 AND\cf3  moco_anul \cf1 =\cf3  \cf4 '1'\par
+\cf1\par
+\cf0\highlight0\lang3082\f1\par
+}
+ 

@@ -1,0 +1,4 @@
+ALTER TABLE TH_PARA
+  ADD PARA_COMISIONES NUMBER DEFAULT 1
+
+COMMENT ON COLUMN TH_PARA.PARA_COMISIONES IS '1=Base Imponible si esta afectada por las comisiones , 0 = no esta'

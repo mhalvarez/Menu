@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
+  <contractRef ref="http://srvwspruebas/DynamicsWebService/SAT_NHCreateCustQueryService.asmx?wsdl" docRef="http://srvwspruebas/DynamicsWebService/SAT_NHCreateCustQueryService.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://srvwspruebas/DynamicsWebService/SAT_NHCreateCustQueryService.asmx" xmlns:q1="http://schemas.microsoft.com/dynamics/2006/02/documents/SAT_NHCreateCustQuery" binding="q1:SAT_NHCreateCustQueryServiceSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://srvwspruebas/DynamicsWebService/SAT_NHCreateCustQueryService.asmx" xmlns:q2="http://schemas.microsoft.com/dynamics/2006/02/documents/SAT_NHCreateCustQuery" binding="q2:SAT_NHCreateCustQueryServiceSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+</discovery>

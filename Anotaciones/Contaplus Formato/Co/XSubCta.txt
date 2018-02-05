@@ -1,0 +1,81 @@
+1000000     Capital Social                                                                                                                              F     FF 
+1100000     Prima de emisión de acciones                                                                                                                F     FF 
+1120000     Reserva legal                                                                                                                               F     FF 
+1200000     Remanente                                                                                                                                   F     FF 
+1700001     Deudas con el Bco. Zaragozano                                                                                                               F     FF 
+1730001     Prov. Inmovilizado a largo plazo leasing                                                                                                    F     FF 
+1730002     Prov. de inmov. a L/P - Construcci.                                                                                                         F     FF 
+1730003     Prov. de inmov. a L/P - Ele. Trans.                                                                                                         F     FF 
+1900000     Accion. desemb. no exigidos                                                                                                                 F     FF 
+2020000     Gtos. Ampliación de capital                                                                                                                 F     FF 
+2200000     Terrenos y bienes naturales                                                                                                                 F     FF 
+2210001     CENTRO 1                                               Pol. Industrial San Marcos         Getafe                   Madrid              28154F     FF 
+2210002     CENTRO 2                                               María de Molina, 35                Madrid                   Madrid              28006F     FF 
+2230000     Maquinaria                                                                                                                                  F     FF 
+2280001     El. Transp.-Utilitarios                                                                                                                     F     FF 
+2280002     El. Trans. - Camiones                                                                                                                       F     FF 
+2700001     Gts. Forz. Deud. B. Zaragozano                                                                                                              F     FF 
+2720001     Gtos. Int. Dife.- Bco.Zaragozano                                                                                                            F     FF 
+2820001     Amort. Acumulada Inmovilizado Material                                                                                                      F     FF 
+2820002     Amor. Acu. In. Ma.- Construc.                                                                                                               F     FF 
+2820003     Am. Acu. Inm. Mat.-El. Transp.                                                                                                              F     FF 
+4000001     Prov. Prods. A                          A09875754      C/ Londres Nº 36                   Madrid                   Madrid              28028F     FF 
+4000002     Prov. Prods. B                          B02454836      C/ Aprisco Nº10                    Puertollano              Ciudad Real         13500F     FF 
+4100000     Acreedores Prestación Servicio                                                                                                              F     FF 
+4100001     Acreedo. por transporte                                                                                                                     F     FF 
+4300001     Cliente Prods. A                        04785786J      C/ Arzobispo Morcillo Nº5          Alcalá de Henares        Madrid              28830F     FF 
+4300002     Cliente Prods. B                        A00986513      Avda. Príncipes de España, Nº140   Rota                     Cádiz               11520F     FF 
+4300003     Cliente - Efectos comerciales                                                                                                               F     FF 
+4300004     Cliente - Letras                                                                                                                            F     FF 
+4300005     Cliente - Exportaciones 1                                                                                                                   F     FF 
+4310003     Cliente Efec. comer. a cobrar                                                                                                               F     FF 
+4311003     Cliente - Efectos comer. descontados                                                                                                        F     FF 
+4312004     Cliente - Letras descontadas                                                                                                                F     FF 
+4315004     Efectos impagados - Letra                                                                                                                   F     FF 
+4720001     IVA Ded. en Adqu. Intrac.                                                                                                                   F     FFC
+4720004     H.P. Iva Soportado 4%                                                                                                                       F     FFO
+4720016     H.P. Iva Soportado 16 %                                                                                                                     F     FFO
+4750001     HP. Acreedora-  Rec. al 1%                                                                                                                  F     FF 
+4750004     Hda. Públ. Acree.- Rec. 4%                                                                                                                  F     FF 
+4751000     H.P. Acree. Reten. Practicadas                                                                                                              F     FF 
+4770001     IVA - Deve. en oper. intrac.                                                                                                                F     FFN
+4770002     IVA - Entreg. Intrac. Exentas                                                                                                               F     FFX
+4770003     IVA - Devengado en Export.                                                                                                                  F     FFE
+4770004     H.P Iva Devengado 4%                                                                                                                        F     FFG
+4770016     H.P. Iva Devengado 16%                                                                                                                      F     FFG
+4770107     IVA Repercutido al 7% Rec 1%                                                                                                                F     FFG
+4770416     I.V.A. 16% Recargo 4%                                                                                                                       F     FFG
+5200001     Prest. a C/P Bco. Zaragozano                                                                                                                F     FF 
+5208003     Deudas por efectos descontados                                                                                                              F     FF 
+5230001     Prov. inmov. C/P - Maquinaria                                                                                                               F     FF 
+5230002     Prov. inmov. a C/P - Construc.                                                                                                              F     FF 
+5230003     Prov. inmov. C/P - El. Trans.                                                                                                               F     FF 
+5550000     Partidas pendientes de aplicación                                                                                                           F     FF 
+5580000     Accion. Desemb. Exigidos                                                                                                                    F     FF 
+5700000     Caja                                                                                                                                        F     FF 
+5720000     Bancos                                                                                                                                      F     FF 
+5720001     Banco Zaragozano                        A00001354                                                                                           F     FF 
+5720002     BBV                                     A00012354      C/ Núñez de Arce 1                 Puertollano              Ciudad Real         13500F     FF 
+5720003     Bankinter                                                                                                                                   F     FF 
+5720004     Banesto                                                                                                                                     F     FF 
+6000001     Compras Prods. A                                                                                                                            F     FF 
+6000002     Compras Prods. B                                                                                                                            F     FF 
+6080001     Devol. Compras Prods A.                                                                                                                     F     FF 
+6240000     Transportes                                                                                                                                 F     FF 
+6260003     Servs. banc. por Dscto. Efec.                                                                                                               F     FF 
+6260004     Servs. banc. por giro de letra                                                                                                              F     FF 
+6283000     Suministro de Agua                                                                                                                          F     FF 
+6620001     Intereses de deudas a largo plazo                                                                                                           F     FF 
+6640003     Intereses por Dscto. Efectos                                                                                                                F     FF 
+6690000     Gastos por diferencias redondeo euro                                                                                                        F     FF 
+6691001     G.Fin. Form. Deu.- B. Zaragozano                                                                                                            F     FF 
+6820003     Amort. Inmov. Mat.- El. Transp.                                                                                                             F     FF 
+7000000     Ventas                                                                                                                                      F     FF 
+7000001     Vtas. Prods. A                                                                                                                              F     FF 
+7000002     Vtas. Prods. B                                                                                                                              F     FF 
+7000003     Ventas - Dscto. de Efectos                                                                                                                  F     FF 
+7000004     Ventas - Letras                                                                                                                             F     FF 
+7000005     Exportaciones 1                                                                                                                             F     FF 
+7400000     Subven. ofic. a la explotación                                                                                                              F     FF 
+7690000     Ingresos por diferencias redondeo euro                                                                                                      F     FF 
+

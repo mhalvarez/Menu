@@ -1,0 +1,111 @@
+DEVOLUCIONES
+
+CONTABILIZAR TODAS LAS DEVOLUCIONES TIRE_CODI = 5 Y  MOVI_AUTO = 0 EN UN ASIENTO DE DEVOLUCIONES 
+
+               MAS
+               
+CONTABILIZAR TODAS LAS DEVOLUCIONES ENCONTRADAS EN UNA FACTURA EN EL ASIENTO DE COBROS DE FACTURA 
+ SOLO SI MOVI_AUTO = 1   O SEA SE USO PARA "DEVOLVER EN LA FACTURA"
+ 
+ 
+ 
+ 
+ 
+ NUEVO TRATAMIENTO DE FILTRO DE TIPO DE FACTURA ( IMPLEMENTAR EN RESTO DE CODIGO ) 
+ 
+ 
+            ' se quita null de codigo de entidad y ceex_codi de la sql  
+            ' se quita debajo de la quiery  ( if   de ccex_codi = 'tpv' paso de valor o producccion 
+
+            SQL = "SELECT  TNHT_FACT.FACT_STAT AS ESTADO, TNHT_FACT.FACT_DAEM, TNHT_FACT.FACT_CODI AS NUMERO, NVL(TNHT_FACT.SEFA_CODI,'?')  SERIE, "
+            SQL += "  TNHT_FACT.FACT_CODI ||'/'|| TNHT_FACT.SEFA_CODI DESCRIPCION,TNHT_FACT.FACT_TOTA TOTAL,TNHT_FACT.FACT_VALO VALOR, ENTI_CODI,CCEX_CODI,NVL(CLIE_CODI,'0') AS CLIENTE "
+            SQL += " , NVL(TNHT_FACT.FACT_TITU,'') TITULAR "
+            SQL += "FROM TNHT_FACT "
+            SQL += "WHERE "
+            SQL += "(TNHT_FACT.FACT_DAEM = " & "'" & Me.mFecha & "') "
+            SQL += "ORDER BY TNHT_FACT.SEFA_CODI ASC, TNHT_FACT.FACT_CODI ASC"
+
+            Me.DbLeeHotel.TraerLector(SQL)
+
+            While Me.DbLeeHotel.mDbLector.Read
+
+
+                Linea = Linea + 1
+                TotalFactura = Decimal.Round(CType(Me.DbLeeHotel.mDbLector("VALOR"), Decimal), 2)
+ 
+
+                ' DETERMINAR EL TIPO DE FACTURA 
+                ' FACTURA DE CONTADO NUEVO
+
+
+
+                If IsDBNull(Me.DbLeeHotel.mDbLector("ENTI_CODI")) = False Then
+                    SQL = "SELECT NVL(ENTI_NCON_AF,0) CUENTA FROM TNHT_ENTI WHERE ENTI_CODI = '" & CType(Me.DbLeeHotel.mDbLector("ENTI_CODI"), String) & "'"
+                    Cuenta = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+                    If Cuenta = "0" Or IsNothing(Cuenta) = True Then
+                        Cuenta = "0"
+                    End If
+
+                    SQL = "SELECT NVL(ENTI_NUCO,'0') FROM TNHT_ENTI WHERE ENTI_CODI = '" & CType(Me.DbLeeHotel.mDbLector("ENTI_CODI"), String) & "'"
+                    Dni = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+                    If Dni = "0" Or IsNothing(Dni) = True Then
+                        Dni = "0"
+                    End If
+
+                ElseIf IsDBNull(Me.DbLeeHotel.mDbLector("CCEX_CODI")) = False Then
+                    SQL = "SELECT NVL(CCEX_NCON,0) CUENTA FROM TNHT_CCEX WHERE CCEX_CODI = '" & CType(Me.DbLeeHotel.mDbLector("CCEX_CODI"), String) & "'"
+                    Cuenta = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+                    If Cuenta = "0" Or IsNothing(Cuenta) = True Then
+                        Cuenta = "0"
+                    End If
+
+
+                    SQL = "SELECT NVL(CCEX_NUCO,'0') FROM TNHT_CCEX WHERE CCEX_CODI = '" & CType(Me.DbLeeHotel.mDbLector("CCEX_CODI"), String) & "'"
+                    Dni = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+                    If Dni = "0" Or IsNothing(Dni) = True Then
+                        Dni = "0"
+                    End If
+                Else
+
+                    SQL = "SELECT NVL(CLIE_NUID,'0') FROM TNHT_CLIE WHERE CLIE_CODI = " & CType(Me.DbLeeHotel.mDbLector("CLIENTE"), Integer)
+                    Dni = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+                    If Dni = "0" Or IsNothing(Dni) = True Then
+                        Dni = Me.mClientesContadoCif
+                    End If
+                    Cuenta = Me.mCtaClientesContado
+                End If
+
+
+
+
+                Titular = CType(Me.DbLeeHotel.mDbLector("TITULAR"), String)
+
+
+                If IsDBNull(Cuenta) = True Or IsNothing(Cuenta) = True Then
+                    MsgBox("Atención Factura Sin Regularizar " & CType(Me.DbLeeHotel.mDbLector("DESCRIPCION"), String) & " " & Titular, MsgBoxStyle.Exclamation, "Atención")
+                    Cuenta = InputBox("Ingrese Cuenta contable para Factura " & CType(Me.DbLeeHotel.mDbLector("DESCRIPCION"), String), Titular)
+
+                    If IsDBNull(Cuenta) = True Or IsNothing(Cuenta) = True Or Cuenta = "" Then
+                        Cuenta = "0"
+                    End If
+                End If
+
+
+                Me.mTipoAsiento = "DEBE"
+                Me.InsertaOracle("FV", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("DESCRIPCION"), String), TotalFactura, "NO", Dni, Titular, "SI")
+                Me.GeneraFileFV2("FV", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), TotalFactura, CType(Me.DbLeeHotel.mDbLector("DESCRIPCION"), String).PadRight(15, CChar(" ")), Cuenta, Dni)
+
+            End While
+            Me.DbLeeHotel.mDbLector.Close()
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Information, "Total Facturas")
+        End Try
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+    

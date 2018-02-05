@@ -1,0 +1,30 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
+  <Profiles />
+  <Settings>
+    <Setting Name="Menu_WebReferenceAnalitica2_SAT_NHInfoAnalyticalQueryService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://srvwspruebas/DynamicsWebService/SAT_NHInfoAnalyticalQueryService.asmx</Value>
+    </Setting>
+    <Setting Name="Menu_WebReferenceAnticipos2_SAT_NHPrePaymentService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://srvwspruebas/DynamicsWebService/SAT_NHPrePaymentService.asmx</Value>
+    </Setting>
+    <Setting Name="Menu_WebReferenceClientes2_SAT_NHCreateCustQueryService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://srvwspruebas/DynamicsWebService/SAT_NHCreateCustQueryService.asmx</Value>
+    </Setting>
+    <Setting Name="Menu_WebReferenceCobros2_SAT_NHJournalCustPaymentQueryService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://srvwspruebas/DynamicsWebService/SAT_NHJournalCustPaymentQueryService.asmx</Value>
+    </Setting>
+    <Setting Name="Menu_WebReferenceCompras2_SAT_NHVendPackingSlipJourService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://192.168.0.11:8080/DynamicsWebService/SAT_NHVendPackingSlipJourService.asmx</Value>
+    </Setting>
+    <Setting Name="Menu_WebReferenceFacturas2_SAT_NHCreateSalesOrdersQueryService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://srvwspruebas/DynamicsWebService/SAT_NHCreateSalesOrdersQueryService.asmx</Value>
+    </Setting>
+    <Setting Name="Menu_WebReferenceProduccion2_SAT_NHCreateProdOrdersQueryService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://srvwspruebas/DynamicsWebService/SAT_NHCreateProdOrdersQueryService.asmx</Value>
+    </Setting>
+    <Setting Name="Menu_WebReferenceVentaTikets2_SAT_JournalLossProfitQueryService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://srvwspruebas/DynamicsWebService/SAT_JournalLossProfitQueryService.ASMX</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

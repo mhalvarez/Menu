@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://schemas.microsoft.com/dynamics/2006/02/documents/SAT_NHPrePayment" xmlns:s1="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKeyList" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s2="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKey" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://schemas.microsoft.com/dynamics/2006/02/documents/SAT_NHPrePayment" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/dynamics/2006/02/documents/SAT_NHPrePayment">
+      <s:import namespace="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKeyList" />
+      <s:element name="SendPrePayment">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DocumentContext" nillable="true" type="tns:DocumentContext" />
+            <s:element minOccurs="0" maxOccurs="1" name="SAT_NHPrePayment" type="tns:AxdSAT_NHPrePayment" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="DocumentContext">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="MessageId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SourceEndpointUser" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SourceEndpoint" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DestinationEndpoint" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SendPrePaymentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:EntityKeyList" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SAT_NHPrePayment" type="tns:AxdSAT_NHPrePayment" />
+      <s:complexType name="AxdSAT_NHPrePayment">
+        <s:sequence>
+          <s:element minOccurs="0" name="DocPurpose" nillable="true" type="tns:AxdEnum_XMLDocPurpose" />
+          <s:element minOccurs="0" name="SenderId" nillable="true" type="tns:AxdExtType_dataAreaId" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Tabla" type="tns:AxdEntity_Tabla" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="AxdEnum_XMLDocPurpose">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Propósito:Propósito</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:enumeration value="Original" />
+          <s:enumeration value="Duplicate" />
+          <s:enumeration value="Proforma" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_dataAreaId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Empresa:Id. para un área de datos</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="3" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="AxdEntity_Tabla">
+        <s:sequence>
+          <s:element minOccurs="0" name="BookID" nillable="true" type="tns:AxdExtType_PaymReference" />
+          <s:element minOccurs="0" name="ContClient" nillable="true" type="tns:AxdExtType_NoYesId" />
+          <s:element minOccurs="1" name="HotelId" type="tns:AxdExtType_NHHotelId" />
+          <s:element minOccurs="0" name="PaymMode" nillable="true" type="tns:AxdExtType_CustPaymMode" />
+          <s:element minOccurs="0" name="PrePaymentAmount" nillable="true" type="tns:AxdExtType_AmountCurCredit" />
+          <s:element minOccurs="0" name="RecId" nillable="true" type="tns:AxdExtType_recId" />
+          <s:element minOccurs="0" name="RecVersion" nillable="true" type="tns:AxdExtType_recVersion" />
+          <s:element minOccurs="1" name="TransDate" type="tns:AxdExtType_TransDate" />
+          <s:element minOccurs="0" name="Txt" nillable="true" type="tns:AxdExtType_LedgerJournalTransTxt" />
+          <s:element minOccurs="0" name="VatNum" nillable="true" type="tns:AxdExtType_VATNum" />
+        </s:sequence>
+        <s:attribute fixed="entity" name="class" use="required" />
+      </s:complexType>
+      <s:simpleType name="AxdExtType_PaymReference">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Referencia del pago:Referencia a un pago específico.</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="20" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_NoYesId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">:</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:enumeration value="No" />
+          <s:enumeration value="Yes" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_NHHotelId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Id del hotel:Identificador único del hotel</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="30" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_CustPaymMode">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Forma de pago:Identificación de la forma de pago del cliente.</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="50" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_AmountCurCredit">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Crédito:Importe del abono en la divisa especificada.</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Decimal">
+          <s:fractionDigits value="2" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdType_Decimal">
+        <s:restriction base="s:decimal" />
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_recId">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Id. del registro:Id. único para el registro en la base de datos</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Int64" />
+      </s:simpleType>
+      <s:simpleType name="AxdType_Int64">
+        <s:restriction base="s:long">
+          <s:minInclusive value="-9223372036854775808" />
+          <s:maxInclusive value="9223372036854775807" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_recVersion">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Versión del registro:Versión del registro en la base de datos</s:documentation>
+        </s:annotation>
+        <s:restriction base="tns:AxdType_Integer" />
+      </s:simpleType>
+      <s:simpleType name="AxdType_Integer">
+        <s:restriction base="s:int">
+          <s:minInclusive value="-2147483648" />
+          <s:maxInclusive value="2147483647" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_TransDate">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Fecha:Fecha de la transacción.</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:date" />
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_LedgerJournalTransTxt">
+        <s:annotation>
+          <s:documentation xml:lang="ES">Texto de la transacción:Texto que describe la transacción.</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="200" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AxdExtType_VATNum">
+        <s:annotation>
+          <s:documentation xml:lang="ES">NIF:Número de identificación fiscal (NIF) para la extracción de estadísticas.</s:documentation>
+        </s:annotation>
+        <s:restriction base="s:string">
+          <s:minLength value="0" />
+          <s:maxLength value="20" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKeyList">
+      <s:import namespace="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKey" />
+      <s:element name="EntityKeyList" type="s1:EntityKeyList" />
+      <s:complexType name="EntityKeyList">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" ref="s2:EntityKey" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+    <xsd:schema xmlns="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKey" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/dynamics/2006/02/documents/EntityKey" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:element name="EntityKey" type="s2:EntityKey" />
+      <xsd:complexType name="EntityKey">
+        <xsd:sequence>
+          <xsd:element name="KeyData" type="s2:KeyData" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="KeyData">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="KeyField" type="s2:KeyField" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="KeyField">
+        <xsd:sequence>
+          <xsd:element name="Field" type="xsd:string" />
+          <xsd:element name="Value" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="SendPrePaymentSoapIn">
+    <wsdl:part name="parameters" element="tns:SendPrePayment" />
+  </wsdl:message>
+  <wsdl:message name="SendPrePaymentSoapOut">
+    <wsdl:part name="parameters" element="tns:SendPrePaymentResponse" />
+  </wsdl:message>
+  <wsdl:portType name="SAT_NHPrePaymentServiceSoap">
+    <wsdl:operation name="SendPrePayment">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Recepcion de anticipos</wsdl:documentation>
+      <wsdl:input message="tns:SendPrePaymentSoapIn" />
+      <wsdl:output message="tns:SendPrePaymentSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SAT_NHPrePaymentServiceSoap" type="tns:SAT_NHPrePaymentServiceSoap">
+    <wsdl:documentation>
+      <wsi:Claim conformsTo="http://ws-i.org/profiles/basic/1.1" xmlns:wsi="http://ws-i.org/schemas/conformanceClaim/" />
+    </wsdl:documentation>
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SendPrePayment">
+      <soap:operation soapAction="http://schemas.microsoft.com/dynamics/2006/02/documents/SAT_NHPrePayment/SendPrePayment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SAT_NHPrePaymentServiceSoap12" type="tns:SAT_NHPrePaymentServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SendPrePayment">
+      <soap12:operation soapAction="http://schemas.microsoft.com/dynamics/2006/02/documents/SAT_NHPrePayment/SendPrePayment" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SAT_NHPrePaymentService">
+    <wsdl:port name="SAT_NHPrePaymentServiceSoap" binding="tns:SAT_NHPrePaymentServiceSoap">
+      <soap:address location="http://srvwspruebas/DynamicsWebService/SAT_NHPrePaymentService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SAT_NHPrePaymentServiceSoap12" binding="tns:SAT_NHPrePaymentServiceSoap12">
+      <soap12:address location="http://srvwspruebas/DynamicsWebService/SAT_NHPrePaymentService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
