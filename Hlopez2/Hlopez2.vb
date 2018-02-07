@@ -3369,11 +3369,10 @@ Public Class Hlopez2
                 Cuenta = ""
                 Dni = "0"
 
-                TotalFactura = Decimal.Round(CType(Me.DbLeeHotel.mDbLector("VALOR"), Decimal), 2)
+                TotalFactura = Decimal.Round(CType(Me.DbLeeHotel.mDbLector("VALOR"), Decimal), 2, MidpointRounding.AwayFromZero)
                 TotalPendiente = Decimal.Round(CType(Me.DbLeeHotel.mDbLector("PENDIENTE"), Decimal), 2)
 
                 ' DETERMINAR EL TIPO DE FACTURA 
-
 
 
 
@@ -3563,6 +3562,9 @@ Public Class Hlopez2
             '2017
             ' BASE REDONDEADA PARA TRATAR DE EVITAR AJUSTE DE REDONDEO 
             SQL += "  ,SUM ( (round(FAIV_INCI,2) - round(FAIV_VIMP,2))) BASER "
+            'SQL += "  , ROUND(SUM((FAIV_INCI - FAIV_VIMP)), 2) BASER "
+
+
             '
 
             SQL += "FROM TNHT_FAIV, TNHT_FACT,TNHT_TIVA "
@@ -3614,7 +3616,7 @@ Public Class Hlopez2
 
 
                 TotalBase = CType(Me.DbLeeHotel.mDbLector("BASER"), Double)
-                TotalBase = Decimal.Round(CType(TotalBase, Decimal), 2)
+                '    TotalBase = Decimal.Round(CType(TotalBase, Decimal), 2)
 
                 DescripcionAsiento = "Total Serie " & CStr(Me.DbLeeHotel.mDbLector("SERIE")) & TipoSerie
 
