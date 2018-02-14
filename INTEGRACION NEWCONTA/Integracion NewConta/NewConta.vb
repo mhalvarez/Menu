@@ -163,12 +163,15 @@ Public Class NewConta
     Private mTransferenciaCfbcotmov As String
     Private mTransferenciaFPagoCod As String
 
+    Private mTransferenciaBancosCod As String
+
 
     Private mResultStr As String
     Private mResultInt As Integer
     Private mComprobante As Integer
     Private mBanco As String
     Private mTipoComprobantesVersion As Integer
+    Private mTipodeEfecto As String
 
 
 
@@ -514,6 +517,7 @@ Public Class NewConta
             SQL += "NVL(PARA_CTA_56DIGITO,'0') PARA_CTA_56DIGITO"
 
             SQL += ",NVL(PARA_LOPEZ_TIPO_COMPROBANTES,'0') PARA_LOPEZ_TIPO_COMPROBANTES"
+            SQL += ", NVL(PARA_TEFECT_COD,'?') PARA_TEFECT_COD "
 
 
             SQL += " FROM TH_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod
@@ -561,6 +565,7 @@ Public Class NewConta
                 Me.mCta56DigitoCuentaClientes = CType(Me.DbLeeCentral.mDbLector.Item("PARA_CTA_56DIGITO"), String)
 
                 Me.mTipoComprobantesVersion = CInt(Me.DbLeeCentral.mDbLector.Item("PARA_LOPEZ_TIPO_COMPROBANTES"))
+                Me.mTipodeEfecto = CStr(Me.DbLeeCentral.mDbLector.Item("PARA_TEFECT_COD"))
             End If
             Me.DbLeeCentral.mDbLector.Close()
         Catch EX As Exception
@@ -844,9 +849,9 @@ Public Class NewConta
     Private Sub SpyroCompruebaCuentaOld(ByVal vCuenta As String, ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vLinea As Integer, ByVal vDebeHaber As String)
         Try
 
-            Me.mTextDebug.Text = "Validando Plan de Cuentas Spyro " & vCuenta
+            Me.mTextDebug.Text = "Validando Plan de Cuentas Spyro " & vCuenta & "  " & Format(Now, "dd/MM/yyyy H:mm:ss")
             Me.mTextDebug.Update()
-            System.Windows.Forms.Application.DoEvents()
+            '  System.Windows.Forms.Application.DoEvents()
 
 
 
@@ -1054,7 +1059,7 @@ Public Class NewConta
     Private Sub SpyroCompruebaBanco(ByVal vCuenta As String, ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vLinea As Integer, ByVal vDebeHaber As String, ByVal vAmpcpto As String, ByVal vNombre As String, vBanco As String)
         Try
 
-            Me.mTextDebug.Text = "Validando Bancos Spyro " & vCuenta.PadRight(20, CChar(" ")) & " Longitud : " & vCuenta.Length
+            Me.mTextDebug.Text = "Validando Bancos Spyro " & vCuenta.PadRight(20, CChar(" ")) & " Longitud : " & vCuenta.Length & "  " & Format(Now, "dd/MM/yyyy H:mm:ss")
 
             Me.mTextDebug.Update()
             Me.mForm.Update()
@@ -1088,7 +1093,7 @@ Public Class NewConta
     Private Sub SpyroCompruebaCuenta(ByVal vCuenta As String, ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vLinea As Integer, ByVal vDebeHaber As String, ByVal vAmpcpto As String, ByVal vNombre As String)
         Try
 
-            Me.mTextDebug.Text = "Validando Plan de Cuentas Spyro " & vCuenta.PadRight(20, CChar(" ")) & " Longitud : " & vCuenta.Length & " Para : " & vAmpcpto & " " & vNombre
+            Me.mTextDebug.Text = "Validando Plan de Cuentas Spyro " & vCuenta.PadRight(20, CChar(" ")) & " Longitud : " & vCuenta.Length & " Para : " & vAmpcpto & " " & vNombre & "  " & Format(Now, "dd/MM/yyyy H:mm:ss")
 
             Me.mTextDebug.Update()
             Me.mForm.Update()
@@ -1223,7 +1228,7 @@ Public Class NewConta
     Private Sub SpyroCompruebaCuentaCorto(ByVal vCuenta As String, ByVal vTipo As String, ByVal vDebeHaber As String)
         Try
 
-            Me.mTextDebug.Text = "Validando Plan de Cuentas Spyro " & vCuenta.PadRight(20, CChar(" ")) & " Longitud : " & vCuenta.Length & " Para : " & vDebeHaber
+            Me.mTextDebug.Text = "Validando Plan de Cuentas Spyro " & vCuenta.PadRight(20, CChar(" ")) & " Longitud : " & vCuenta.Length & " Para : " & vDebeHaber & "  " & Format(Now, "dd/MM/yyyy H:mm:ss")
 
             Me.mTextDebug.Update()
             Me.mForm.Update()
@@ -1657,6 +1662,53 @@ Public Class NewConta
             MsgBox(EX.Message, MsgBoxStyle.Information, "Genera FileIV")
         End Try
     End Sub
+    Private Sub GeneraFileVV(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String,
+    ByVal vSerie As String, ByVal vNfactura As Integer, ByVal vImonep As Double, ByVal vSfactura As String, ByVal vCuenta As String, ByVal vCif As String,
+    ByVal vPendiente As Double, vCfbcotmovCod As String, vBancosCod As String, vComprobante As String, vNsec As Integer, vHistorico As String)
+
+        Try
+
+            '    TotalRegistros = TotalRegistros + 1
+            '-------------------------------------------------------------------------------------------------
+            '  Vencimientos
+            '-------------------------------------------------------------------------------------------------
+
+            Me.Filegraba.WriteLine(vTipo.PadRight(2, CChar(" ")) &
+            vEmpGrupoCod.PadRight(4, CChar(" ")) &
+            vEmpCod.PadRight(4, CChar(" ")) &
+            Me.mCfivaLibro_Cod.PadRight(2, CChar(" ")) &
+            vSerie.PadRight(6, CChar(" ")) &
+            CType(vNfactura, String).PadLeft(8, CChar(" ")) &
+            CType(vNsec, String).PadLeft(2, CChar(" ")) &
+            Format(Me.mFecha, "ddMMyyyy") &
+            CType(vImonep, String).PadLeft(16, CChar(" ")) &
+            Me.mMonedas_Cod.PadRight(4, CChar(" ")) &
+            CType(vImonep, String).PadLeft(16, CChar(" ")) &
+            vEmpGrupoCod.PadRight(4, CChar(" ")) &
+            vEmpCod.PadRight(4, CChar(" ")) &
+            Mid(vBancosCod, 1, 4).PadRight(4, CChar(" ")) &
+            vCuenta.PadRight(15, CChar(" ")) &
+            Me.mTipodeEfecto.PadRight(4, CChar(" ")) &
+            " ".PadRight(20, CChar(" ")) &
+            " ".PadRight(4, CChar(" ")) &  ' pdte
+            CType(vPendiente, String).PadLeft(16, CChar(" ")) &
+            CType(vPendiente, String).PadLeft(16, CChar(" ")) &
+            CType(0, String).PadLeft(16, CChar(" ")) &
+            CType(0, String).PadLeft(16, CChar(" ")) &
+            "N" &
+           vHistorico.PadRight(1, CChar(" ")) &
+            " ".PadRight(4, CChar(" ")) ' pdte 
+               )
+
+
+
+
+            '     Me.mForm.ParentForm.Text = CStr(TotalRegistros)
+
+        Catch EX As Exception
+            MsgBox(EX.Message, MsgBoxStyle.Information, "Genera FileVV")
+        End Try
+    End Sub
     Private Sub GeneraFileACconFechaValorComprobanteBancario(ByVal vTipo As String, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vCefejerc_Cod As String,
      ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As String, ByVal vImonep As Double, ByVal vFechaValor As Date, vBancosCod As String, vCfbCotMov As String, vComprobante As Integer)
         Try
@@ -2038,7 +2090,13 @@ Public Class NewConta
 
                     If IsDBNull(Me.DbNewConta.mDbLector("TIMO_CECO")) = False Then
                         'FASE 2 2016 COMPROBANTES BANCARIOS 
-                        Me.GeneraComprobanteBanco(111, Total, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), CType(Me.DbNewConta.mDbLector("TIMO_CECO"), String), CType(Me.DbNewConta.mDbLector("TACO_CODI"), String), CInt(Me.DbNewConta.mDbLector("MOCO_CODI")))
+
+                        If Me.mTipoComprobantesVersion = 0 Then
+                            Me.GeneraComprobanteBanco(111, Total, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), CType(Me.DbNewConta.mDbLector("TIMO_CECO"), String), CType(Me.DbNewConta.mDbLector("TACO_CODI"), String), CInt(Me.DbNewConta.mDbLector("MOCO_CODI")))
+                        Else
+                            Me.GeneraComprobanteBanco2(111, Total, CType(Me.DbNewConta.mDbLector("TIMO_CECO"), String), CType(Me.DbNewConta.mDbLector("TACO_CODI"), String), CInt(Me.DbNewConta.mDbLector("MOCO_CODI")), 9999, "serie factura")
+
+                        End If
                         Me.InsertaOracle("AC", 111, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, "NO", "", CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", CDate(Me.DbNewConta.mDbLector("DAVA")), CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), "Comprobante Bancario Nº: " & Me.mTransferenciaComprobante, CType(Me.DbNewConta.mDbLector("TIMO_CECO"), String), Me.mTransferenciaCfbcotmov, CStr(Me.mTransferenciaComprobante), "S")
                         Me.GeneraFileACconFechaValorComprobanteBancario("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, CDate(Me.DbNewConta.mDbLector("DAVA")), CStr(Me.DbNewConta.mDbLector("TIMO_CECO")), Me.mTransferenciaCfbcotmov, Me.mTransferenciaComprobante)
 
@@ -2059,7 +2117,7 @@ Public Class NewConta
             End While
             Me.DbNewConta.mDbLector.Close()
 
-            '' lo mismo al revez ( deposito anticipado ) 
+            '' lo mismo al reves ( deposito anticipado ) 
 
             SQL = "SELECT  'MOVIMIENTOS DE CREDITO TIPO PAGO' , 'DEBE',KEY_FIELD, VNCO_MOCO.HOTE_CODI,VNCO_MOCO.TACO_CODI AS TACO_CODI ,NVL(TNCO_TACO.TACO_CODA,'0') AS CUENTA, VNCO_MOCO.TIMO_CODI, "
             SQL += "         VNCO_MOCO.MOCO_DOCU, VNCO_MOCO.MOCO_DOC1, VNCO_MOCO.UNMO_CODI, "
@@ -2101,7 +2159,7 @@ Public Class NewConta
                 End If
 
 
-               
+
                 Linea = Linea + 1
                 Total = CType(Me.DbNewConta.mDbLector("TOTAL"), Double)
                 If Total <> 0 Then
@@ -2175,7 +2233,7 @@ Public Class NewConta
             End While
             Me.DbNewConta.mDbLector.Close()
 
-            '' lo mismo al revez ( deposito anticipado ) 
+            '' lo mismo al reves ( deposito anticipado ) 
 
             SQL = "SELECT  'MOVIMIENTOS DE CREDITO TIPO PAGO' , 'DEBE',KEY_FIELD, VNCO_MOCO.HOTE_CODI,VNCO_MOCO.TACO_CODI AS TACO_CODI ,NVL(TNCO_TACO.TACO_CODA,'0') AS CUENTA, VNCO_MOCO.TIMO_CODI, "
             SQL += "         VNCO_MOCO.MOCO_DOCU, VNCO_MOCO.MOCO_DOC1, VNCO_MOCO.UNMO_CODI, "
@@ -2365,7 +2423,7 @@ Public Class NewConta
             End While
             Me.DbNewConta.mDbLector.Close()
 
-            '' lo mismo al revez ( deposito anticipado ) 
+            '' lo mismo al reves ( deposito anticipado ) 
 
             SQL = "SELECT '1', /*+ INDEX(TNCO_MORE TNCO_MORE_PRIMARY) */ TAC1.TACO_CODA "
             SQL += "                                                                    TACO_DACR, "
@@ -2604,7 +2662,7 @@ Public Class NewConta
             End While
             Me.DbNewConta.mDbLector.Close()
 
-            '' lo mismo al revez ( deposito anticipado ) 
+            '' lo mismo al reves ( deposito anticipado ) 
 
             SQL = "SELECT '1', /*+ INDEX(TNCO_MORE TNCO_MORE_PRIMARY) */ TAC1.TACO_CODA "
             SQL += "                                                                    TACO_DACR, "
@@ -2769,7 +2827,7 @@ Public Class NewConta
             End While
             Me.DbNewConta.mDbLector.Close()
 
-            '' lo mismo al revez ( deposito anticipado ) 
+            '' lo mismo al reves ( deposito anticipado ) 
 
             SQL = "SELECT  'MOVIMIENTOS DE CREDITO TIPO PAGO' , 'DEBE',KEY_FIELD, VNCO_MOCO.HOTE_CODI,VNCO_MOCO.TACO_CODI AS TACO_CODI ,NVL(TNCO_TACO.TACO_CODA,'0') AS CUENTA, VNCO_MOCO.TIMO_CODI, "
             SQL += "         VNCO_MOCO.MOCO_DOCU, VNCO_MOCO.MOCO_DOC1, VNCO_MOCO.UNMO_CODI, "
@@ -2896,7 +2954,7 @@ Public Class NewConta
             End While
             Me.DbNewConta.mDbLector.Close()
 
-            '' lo mismo al revez (  ) 
+            '' lo mismo al reves (  ) 
 
             SQL = "SELECT  'MOVIMIENTOS DE CREDITO TIPO PAGO' , 'DEBE',KEY_FIELD, VNCO_MOCO.HOTE_CODI,VNCO_MOCO.TACO_CODI AS TACO_CODI ,NVL(TNCO_TACO.TACO_CODA,'0') AS CUENTA, VNCO_MOCO.TIMO_CODI, "
             SQL += "         VNCO_MOCO.MOCO_DOCU, VNCO_MOCO.MOCO_DOC1, VNCO_MOCO.UNMO_CODI, "
@@ -3197,6 +3255,116 @@ Public Class NewConta
             Me.GeneraFileFVDiariodeCobros("FV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, Me.mTransferenciaFactura & "/" & Me.mTransferenciaFacturaSerie, Cuenta, Cif, 0, Me.mTransferenciaFPagoCod)
             Me.GeneraFileCB("CB", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, "", "", "", vTotal, vBancosCod, Me.mTransferenciaCfbcotmov, Me.mTransferenciaComprobante, "N")
             Me.GeneraFileMG("MG", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, "", "", "", 0, Me.mTransferenciaCfbcotmov, vBancosCod, CStr(Me.mTransferenciaComprobante))
+
+
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+    Private Sub GeneraComprobanteBanco2(vNumAsiento As Integer, vTotal As Double, vBancosCod As String, vTacoCodi As String, vMocoCodi As Integer, vFactura As Integer, vSerie As String)
+        Try
+
+
+            SQL = "SELECT TH_COMPROBANTES.NEXTVAL FROM DUAL"
+            Me.mTransferenciaComprobante = CInt(Me.DbLeeCentral.EjecutaSqlScalar2(SQL))
+
+            SQL = "SELECT TH_FACTURAS.NEXTVAL FROM DUAL"
+            Me.mTransferenciaFactura = CInt(Me.DbLeeCentral.EjecutaSqlScalar2(SQL))
+
+            SQL = "SELECT NVL(PARA_FACTUTIPO_COD,'?')  "
+            SQL += " FROM TH_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod
+            SQL += "' AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
+            Me.mTransferenciaFacturaSerie = CStr(Me.DbLeeCentral.EjecutaSqlScalar(SQL))
+
+
+
+            SQL = "SELECT NVL(PARA_CFBCOTMOV_COD2,'?')  "
+            SQL += " FROM TC_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod
+            SQL += "' AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
+            Me.mTransferenciaCfbcotmov = CStr(Me.DbLeeCentral.EjecutaSqlScalar(SQL))
+
+
+
+            SQL = "SELECT NVL(PARA_FPAGO_COD2,'?')  "
+            SQL += " FROM TC_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod
+            SQL += "' AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
+            Me.mTransferenciaFPagoCod = CStr(Me.DbLeeCentral.EjecutaSqlScalar(SQL))
+
+
+
+            SQL = "SELECT NVL(PARA_BANCOS_COD,'?')  "
+            SQL += " FROM TC_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod
+            SQL += "' AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
+            Me.mTransferenciaBancosCod = CStr(Me.DbLeeCentral.EjecutaSqlScalar(SQL))
+
+
+
+            ' Control tabla de Cobros/Comprobantes TC_COMP
+
+            SQL = "SELECT COUNT(*) AS TOTAL  "
+            SQL += " FROM TC_COMP WHERE TACO_CODI = '" & vTacoCodi & "'"
+            SQL += " AND MOCO_CODI = " & vMocoCodi
+
+            Me.mResultInt = CInt(Me.DbLeeCentral.EjecutaSqlScalar(SQL))
+
+            If Me.mResultInt = 0 Then
+                SQL = "INSERT INTO TC_COMP (TACO_CODI,MOCO_CODI,COMP_NUME,TIMO_CECO) VALUES ("
+                SQL += "'" & vTacoCodi & "'," & vMocoCodi & "," & Me.mTransferenciaComprobante & ",'" & vBancosCod & "')"
+                Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+            Else
+                SQL = "UPDATE  TC_COMP "
+                SQL += "SET COMP_NUME = " & Me.mTransferenciaComprobante
+                SQL += ", TIMO_CECO = '" & vBancosCod & "'"
+                SQL += " WHERE TACO_CODI = '" & vTacoCodi & "'"
+                SQL += " AND MOCO_CODI = " & vMocoCodi
+                Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+            End If
+
+
+
+
+
+
+
+            ' Busca Cuenta Cliente 430
+            Dim CuentaCliente As String
+            Dim CifCliente As String
+            If mOrigenCuentasNewConta = 1 Then
+                CuentaCliente = BuscaCuentaClienteCentral(vTacoCodi)
+                CifCliente = BuscaCifClienteCentral(vTacoCodi)
+            Else
+                CuentaCliente = BuscaCuentaClienteNewHotel(vTacoCodi)
+                CifCliente = BuscaCifClienteNewHotel(vTacoCodi)
+            End If
+
+
+            ' Busca Cuenta Anticipos del Cliente 438
+
+            Dim CuentaAnticipos As String
+            Dim CifAnticipos As String
+            If mOrigenCuentasNewConta = 1 Then
+                CuentaAnticipos = BuscaCuentaPagosAnticipadosCentral(vTacoCodi)
+                CifAnticipos = BuscaCifClienteCentral(vTacoCodi)
+            Else
+                CuentaAnticipos = BuscaCuentaPagosAnticipadosNewHotel(vTacoCodi)
+                CifAnticipos = BuscaCifClienteNewHotel(vTacoCodi)
+            End If
+
+
+
+            Me.GeneraFileFVDiariodeCobros("FV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, Me.mTransferenciaFactura & "/" & Me.mTransferenciaFacturaSerie, CuentaCliente, CifCliente, 0, Me.mTransferenciaFPagoCod)
+
+            Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, "", CuentaCliente, CifCliente, 0, Me.mTransferenciaCfbcotmov, vBancosCod, CStr(Me.mTransferenciaComprobante), 1, "S")
+            Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, "", CuentaAnticipos, CifAnticipos, vTotal, Me.mTransferenciaCfbcotmov, vBancosCod, CStr(Me.mTransferenciaComprobante), 2, "N")
+
+
+            Me.GeneraFileCB("CB", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, "", "", "", vTotal, Me.mTransferenciaBancosCod, Me.mTransferenciaCfbcotmov, Me.mTransferenciaComprobante, "N")
+            Me.GeneraFileMG("MG", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, "", "", "", 0, Me.mTransferenciaCfbcotmov, Me.mTransferenciaBancosCod, CStr(Me.mTransferenciaComprobante))
 
 
         Catch ex As Exception

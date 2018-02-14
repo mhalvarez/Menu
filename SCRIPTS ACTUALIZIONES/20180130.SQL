@@ -9,6 +9,17 @@ ALTER TABLE TH_PARA
 COMMENT ON COLUMN TH_PARA.PARA_TEFECT_COD IS 'Tipo de efecto spyro';
 
 
+ALTER TABLE TC_PARA
+ ADD (PARA_BANCOS_COD  VARCHAR2(8 BYTE));
+
+ALTER TABLE TC_PARA
+ ADD (PARA_BANCOS_COD2  VARCHAR2(8));
+
+
+COMMENT ON COLUMN TC_PARA.PARA_BANCOS_COD IS 'Banco para Cobros con Visa';
+
+COMMENT ON COLUMN TC_PARA.PARA_BANCOS_COD2 IS 'Banco para Cobros con Transferencias Bancarias';
+
 
 alter session set nls_language = 'AMERICAN';
 alter session set nls_territory = 'AMERICA';

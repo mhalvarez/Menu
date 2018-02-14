@@ -222,7 +222,7 @@ Public Class FormParametrosFront
     Friend WithEvents Button2 As Button
     Friend WithEvents TextBoxNewContaFPagoBanc2 As TextBox
     Friend WithEvents Label104 As Label
-    Friend WithEvents Button3 As Button
+    Friend WithEvents ButtonNewContaBanco As Button
     Friend WithEvents TextBoxNewContaFPagoBanc As TextBox
     Friend WithEvents Label106 As Label
     Friend WithEvents TabPageVital As TabPage
@@ -275,6 +275,12 @@ Public Class FormParametrosFront
     Friend WithEvents ButtonTiposdeEfectoSpyro As Button
     Friend WithEvents Label126 As Label
     Friend WithEvents TextBoxTefect_Cod As TextBox
+    Friend WithEvents TextBoxNewContaBanco2 As TextBox
+    Friend WithEvents TextBoxNewContaBanco As TextBox
+    Friend WithEvents Label128 As Label
+    Friend WithEvents Label127 As Label
+    Friend WithEvents Button As Button
+    Friend WithEvents Button3 As Button
     Dim SQL As String
 
 #Region " Código generado por el Diseñador de Windows Forms "
@@ -464,11 +470,18 @@ Public Class FormParametrosFront
         Me.TextBoxCftatodiariCod2 = New System.Windows.Forms.TextBox()
         Me.Label87 = New System.Windows.Forms.Label()
         Me.GroupBox6 = New System.Windows.Forms.GroupBox()
+        Me.TextBoxNewContaBanco2 = New System.Windows.Forms.TextBox()
+        Me.TextBoxNewContaBanco = New System.Windows.Forms.TextBox()
+        Me.Label128 = New System.Windows.Forms.Label()
+        Me.Label127 = New System.Windows.Forms.Label()
+        Me.ButtonTiposdeEfectoSpyro = New System.Windows.Forms.Button()
+        Me.Label126 = New System.Windows.Forms.Label()
+        Me.TextBoxTefect_Cod = New System.Windows.Forms.TextBox()
         Me.CheckBoxTipoComprobantes = New System.Windows.Forms.CheckBox()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.TextBoxNewContaFPagoBanc2 = New System.Windows.Forms.TextBox()
         Me.Label104 = New System.Windows.Forms.Label()
-        Me.Button3 = New System.Windows.Forms.Button()
+        Me.ButtonNewContaBanco = New System.Windows.Forms.Button()
         Me.TextBoxNewContaFPagoBanc = New System.Windows.Forms.TextBox()
         Me.Label106 = New System.Windows.Forms.Label()
         Me.ButtonCobMovSpyro2 = New System.Windows.Forms.Button()
@@ -712,9 +725,8 @@ Public Class FormParametrosFront
         Me.TextBoxEmpCod = New System.Windows.Forms.TextBox()
         Me.Label78 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.ButtonTiposdeEfectoSpyro = New System.Windows.Forms.Button()
-        Me.Label126 = New System.Windows.Forms.Label()
-        Me.TextBoxTefect_Cod = New System.Windows.Forms.TextBox()
+        Me.Button = New System.Windows.Forms.Button()
+        Me.Button3 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.TabControlOpciones.SuspendLayout()
         Me.TabPageGeneral.SuspendLayout()
@@ -1492,7 +1504,7 @@ Public Class FormParametrosFront
         Me.GroupBox8.Controls.Add(Me.Label87)
         Me.GroupBox8.Location = New System.Drawing.Point(15, 18)
         Me.GroupBox8.Name = "GroupBox8"
-        Me.GroupBox8.Size = New System.Drawing.Size(505, 123)
+        Me.GroupBox8.Size = New System.Drawing.Size(505, 57)
         Me.GroupBox8.TabIndex = 41
         Me.GroupBox8.TabStop = False
         Me.GroupBox8.Text = "General"
@@ -1500,7 +1512,7 @@ Public Class FormParametrosFront
         'CheckBoxValidaCuentasSpyro
         '
         Me.CheckBoxValidaCuentasSpyro.AutoSize = True
-        Me.CheckBoxValidaCuentasSpyro.Location = New System.Drawing.Point(6, 19)
+        Me.CheckBoxValidaCuentasSpyro.Location = New System.Drawing.Point(355, 19)
         Me.CheckBoxValidaCuentasSpyro.Name = "CheckBoxValidaCuentasSpyro"
         Me.CheckBoxValidaCuentasSpyro.Size = New System.Drawing.Size(127, 17)
         Me.CheckBoxValidaCuentasSpyro.TabIndex = 4
@@ -1510,7 +1522,7 @@ Public Class FormParametrosFront
         'Label88
         '
         Me.Label88.AutoSize = True
-        Me.Label88.Location = New System.Drawing.Point(6, 80)
+        Me.Label88.Location = New System.Drawing.Point(137, 21)
         Me.Label88.Name = "Label88"
         Me.Label88.Size = New System.Drawing.Size(134, 13)
         Me.Label88.TabIndex = 1
@@ -1519,23 +1531,23 @@ Public Class FormParametrosFront
         'TextBoxCftatodiariCod
         '
         Me.TextBoxCftatodiariCod.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxCftatodiariCod.Location = New System.Drawing.Point(200, 41)
+        Me.TextBoxCftatodiariCod.Location = New System.Drawing.Point(97, 19)
         Me.TextBoxCftatodiariCod.Name = "TextBoxCftatodiariCod"
-        Me.TextBoxCftatodiariCod.Size = New System.Drawing.Size(125, 20)
+        Me.TextBoxCftatodiariCod.Size = New System.Drawing.Size(34, 20)
         Me.TextBoxCftatodiariCod.TabIndex = 2
         '
         'TextBoxCftatodiariCod2
         '
         Me.TextBoxCftatodiariCod2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxCftatodiariCod2.Location = New System.Drawing.Point(197, 78)
+        Me.TextBoxCftatodiariCod2.Location = New System.Drawing.Point(281, 19)
         Me.TextBoxCftatodiariCod2.Name = "TextBoxCftatodiariCod2"
-        Me.TextBoxCftatodiariCod2.Size = New System.Drawing.Size(128, 20)
+        Me.TextBoxCftatodiariCod2.Size = New System.Drawing.Size(45, 20)
         Me.TextBoxCftatodiariCod2.TabIndex = 3
         '
         'Label87
         '
         Me.Label87.AutoSize = True
-        Me.Label87.Location = New System.Drawing.Point(6, 43)
+        Me.Label87.Location = New System.Drawing.Point(6, 19)
         Me.Label87.Name = "Label87"
         Me.Label87.Size = New System.Drawing.Size(85, 13)
         Me.Label87.TabIndex = 0
@@ -1543,6 +1555,12 @@ Public Class FormParametrosFront
         '
         'GroupBox6
         '
+        Me.GroupBox6.Controls.Add(Me.Button3)
+        Me.GroupBox6.Controls.Add(Me.Button)
+        Me.GroupBox6.Controls.Add(Me.TextBoxNewContaBanco2)
+        Me.GroupBox6.Controls.Add(Me.TextBoxNewContaBanco)
+        Me.GroupBox6.Controls.Add(Me.Label128)
+        Me.GroupBox6.Controls.Add(Me.Label127)
         Me.GroupBox6.Controls.Add(Me.ButtonTiposdeEfectoSpyro)
         Me.GroupBox6.Controls.Add(Me.Label126)
         Me.GroupBox6.Controls.Add(Me.TextBoxTefect_Cod)
@@ -1550,7 +1568,7 @@ Public Class FormParametrosFront
         Me.GroupBox6.Controls.Add(Me.Button2)
         Me.GroupBox6.Controls.Add(Me.TextBoxNewContaFPagoBanc2)
         Me.GroupBox6.Controls.Add(Me.Label104)
-        Me.GroupBox6.Controls.Add(Me.Button3)
+        Me.GroupBox6.Controls.Add(Me.ButtonNewContaBanco)
         Me.GroupBox6.Controls.Add(Me.TextBoxNewContaFPagoBanc)
         Me.GroupBox6.Controls.Add(Me.Label106)
         Me.GroupBox6.Controls.Add(Me.ButtonCobMovSpyro2)
@@ -1562,29 +1580,89 @@ Public Class FormParametrosFront
         Me.GroupBox6.Controls.Add(Me.Label103)
         Me.GroupBox6.Controls.Add(Me.Label102)
         Me.GroupBox6.Controls.Add(Me.TextBoxFactuTipoCod)
-        Me.GroupBox6.Location = New System.Drawing.Point(15, 147)
+        Me.GroupBox6.Location = New System.Drawing.Point(15, 81)
         Me.GroupBox6.Name = "GroupBox6"
-        Me.GroupBox6.Size = New System.Drawing.Size(505, 294)
+        Me.GroupBox6.Size = New System.Drawing.Size(505, 387)
         Me.GroupBox6.TabIndex = 40
         Me.GroupBox6.TabStop = False
         Me.GroupBox6.Text = "Gestión de Comprobantes Bancarios"
+        '
+        'TextBoxNewContaBanco2
+        '
+        Me.TextBoxNewContaBanco2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxNewContaBanco2.Location = New System.Drawing.Point(304, 239)
+        Me.TextBoxNewContaBanco2.Name = "TextBoxNewContaBanco2"
+        Me.TextBoxNewContaBanco2.Size = New System.Drawing.Size(128, 20)
+        Me.TextBoxNewContaBanco2.TabIndex = 57
+        '
+        'TextBoxNewContaBanco
+        '
+        Me.TextBoxNewContaBanco.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxNewContaBanco.Location = New System.Drawing.Point(304, 112)
+        Me.TextBoxNewContaBanco.Name = "TextBoxNewContaBanco"
+        Me.TextBoxNewContaBanco.Size = New System.Drawing.Size(128, 20)
+        Me.TextBoxNewContaBanco.TabIndex = 56
+        '
+        'Label128
+        '
+        Me.Label128.AutoSize = True
+        Me.Label128.Location = New System.Drawing.Point(6, 247)
+        Me.Label128.Name = "Label128"
+        Me.Label128.Size = New System.Drawing.Size(234, 13)
+        Me.Label128.TabIndex = 55
+        Me.Label128.Text = "Banco ""Not""  ?  Para Cobros Con Transferencia"
+        '
+        'Label127
+        '
+        Me.Label127.AutoSize = True
+        Me.Label127.Location = New System.Drawing.Point(6, 112)
+        Me.Label127.Name = "Label127"
+        Me.Label127.Size = New System.Drawing.Size(199, 13)
+        Me.Label127.TabIndex = 54
+        Me.Label127.Text = "Banco ""Not""  ? Para Cobros Con Tarjeta"
+        '
+        'ButtonTiposdeEfectoSpyro
+        '
+        Me.ButtonTiposdeEfectoSpyro.Location = New System.Drawing.Point(438, 357)
+        Me.ButtonTiposdeEfectoSpyro.Name = "ButtonTiposdeEfectoSpyro"
+        Me.ButtonTiposdeEfectoSpyro.Size = New System.Drawing.Size(44, 23)
+        Me.ButtonTiposdeEfectoSpyro.TabIndex = 53
+        Me.ButtonTiposdeEfectoSpyro.Text = ":::"
+        Me.ButtonTiposdeEfectoSpyro.UseVisualStyleBackColor = True
+        '
+        'Label126
+        '
+        Me.Label126.AutoSize = True
+        Me.Label126.Location = New System.Drawing.Point(63, 362)
+        Me.Label126.Name = "Label126"
+        Me.Label126.Size = New System.Drawing.Size(191, 13)
+        Me.Label126.TabIndex = 51
+        Me.Label126.Text = "Tipo de Efecto (Cobros con Visa Hotel)"
+        '
+        'TextBoxTefect_Cod
+        '
+        Me.TextBoxTefect_Cod.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxTefect_Cod.Location = New System.Drawing.Point(304, 362)
+        Me.TextBoxTefect_Cod.Name = "TextBoxTefect_Cod"
+        Me.TextBoxTefect_Cod.Size = New System.Drawing.Size(128, 20)
+        Me.TextBoxTefect_Cod.TabIndex = 52
         '
         'CheckBoxTipoComprobantes
         '
         Me.CheckBoxTipoComprobantes.AutoSize = True
         Me.CheckBoxTipoComprobantes.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBoxTipoComprobantes.Location = New System.Drawing.Point(10, 241)
+        Me.CheckBoxTipoComprobantes.Location = New System.Drawing.Point(12, 335)
         Me.CheckBoxTipoComprobantes.Name = "CheckBoxTipoComprobantes"
-        Me.CheckBoxTipoComprobantes.Size = New System.Drawing.Size(316, 17)
+        Me.CheckBoxTipoComprobantes.Size = New System.Drawing.Size(363, 17)
         Me.CheckBoxTipoComprobantes.TabIndex = 50
-        Me.CheckBoxTipoComprobantes.Text = "Usar Gestión de Comprobantes (Segunda Revisión)"
+        Me.CheckBoxTipoComprobantes.Text = "Usar Gestión de Comprobantes (Segunda Revisión) Reg VV"
         Me.CheckBoxTipoComprobantes.UseVisualStyleBackColor = True
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(441, 159)
+        Me.Button2.Location = New System.Drawing.Point(438, 201)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(41, 23)
+        Me.Button2.Size = New System.Drawing.Size(44, 23)
         Me.Button2.TabIndex = 49
         Me.Button2.Text = ":::"
         Me.Button2.UseVisualStyleBackColor = True
@@ -1592,7 +1670,7 @@ Public Class FormParametrosFront
         'TextBoxNewContaFPagoBanc2
         '
         Me.TextBoxNewContaFPagoBanc2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxNewContaFPagoBanc2.Location = New System.Drawing.Point(304, 162)
+        Me.TextBoxNewContaFPagoBanc2.Location = New System.Drawing.Point(304, 204)
         Me.TextBoxNewContaFPagoBanc2.Name = "TextBoxNewContaFPagoBanc2"
         Me.TextBoxNewContaFPagoBanc2.Size = New System.Drawing.Size(128, 20)
         Me.TextBoxNewContaFPagoBanc2.TabIndex = 48
@@ -1600,25 +1678,25 @@ Public Class FormParametrosFront
         'Label104
         '
         Me.Label104.AutoSize = True
-        Me.Label104.Location = New System.Drawing.Point(6, 156)
+        Me.Label104.Location = New System.Drawing.Point(3, 198)
         Me.Label104.Name = "Label104"
-        Me.Label104.Size = New System.Drawing.Size(263, 26)
+        Me.Label104.Size = New System.Drawing.Size(262, 26)
         Me.Label104.TabIndex = 47
-        Me.Label104.Text = "Forma de PAgo (SPYRO) para Transferencia Bancaria" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & " (FPAGO_COD)"
+        Me.Label104.Text = "Forma de Pago (SPYRO) para Transferencia Bancaria" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & " (FPAGO_COD)"
         '
-        'Button3
+        'ButtonNewContaBanco
         '
-        Me.Button3.Location = New System.Drawing.Point(441, 119)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(41, 23)
-        Me.Button3.TabIndex = 46
-        Me.Button3.Text = ":::"
-        Me.Button3.UseVisualStyleBackColor = True
+        Me.ButtonNewContaBanco.Location = New System.Drawing.Point(438, 161)
+        Me.ButtonNewContaBanco.Name = "ButtonNewContaBanco"
+        Me.ButtonNewContaBanco.Size = New System.Drawing.Size(44, 23)
+        Me.ButtonNewContaBanco.TabIndex = 46
+        Me.ButtonNewContaBanco.Text = ":::"
+        Me.ButtonNewContaBanco.UseVisualStyleBackColor = True
         '
         'TextBoxNewContaFPagoBanc
         '
         Me.TextBoxNewContaFPagoBanc.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxNewContaFPagoBanc.Location = New System.Drawing.Point(304, 119)
+        Me.TextBoxNewContaFPagoBanc.Location = New System.Drawing.Point(304, 161)
         Me.TextBoxNewContaFPagoBanc.Name = "TextBoxNewContaFPagoBanc"
         Me.TextBoxNewContaFPagoBanc.Size = New System.Drawing.Size(128, 20)
         Me.TextBoxNewContaFPagoBanc.TabIndex = 45
@@ -1626,7 +1704,7 @@ Public Class FormParametrosFront
         'Label106
         '
         Me.Label106.AutoSize = True
-        Me.Label106.Location = New System.Drawing.Point(6, 113)
+        Me.Label106.Location = New System.Drawing.Point(3, 155)
         Me.Label106.Name = "Label106"
         Me.Label106.Size = New System.Drawing.Size(234, 26)
         Me.Label106.TabIndex = 44
@@ -1661,9 +1739,9 @@ Public Class FormParametrosFront
         '
         'ButtonFactutipoSpyro
         '
-        Me.ButtonFactutipoSpyro.Location = New System.Drawing.Point(441, 195)
+        Me.ButtonFactutipoSpyro.Location = New System.Drawing.Point(438, 295)
         Me.ButtonFactutipoSpyro.Name = "ButtonFactutipoSpyro"
-        Me.ButtonFactutipoSpyro.Size = New System.Drawing.Size(41, 23)
+        Me.ButtonFactutipoSpyro.Size = New System.Drawing.Size(44, 23)
         Me.ButtonFactutipoSpyro.TabIndex = 40
         Me.ButtonFactutipoSpyro.Text = ":::"
         Me.ButtonFactutipoSpyro.UseVisualStyleBackColor = True
@@ -1688,7 +1766,7 @@ Public Class FormParametrosFront
         'Label103
         '
         Me.Label103.AutoSize = True
-        Me.Label103.Location = New System.Drawing.Point(6, 205)
+        Me.Label103.Location = New System.Drawing.Point(9, 305)
         Me.Label103.Name = "Label103"
         Me.Label103.Size = New System.Drawing.Size(196, 13)
         Me.Label103.TabIndex = 5
@@ -1707,9 +1785,9 @@ Public Class FormParametrosFront
         'TextBoxFactuTipoCod
         '
         Me.TextBoxFactuTipoCod.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxFactuTipoCod.Location = New System.Drawing.Point(304, 198)
+        Me.TextBoxFactuTipoCod.Location = New System.Drawing.Point(304, 298)
         Me.TextBoxFactuTipoCod.Name = "TextBoxFactuTipoCod"
-        Me.TextBoxFactuTipoCod.Size = New System.Drawing.Size(131, 20)
+        Me.TextBoxFactuTipoCod.Size = New System.Drawing.Size(128, 20)
         Me.TextBoxFactuTipoCod.TabIndex = 6
         '
         'TabPageCadenasOdbc
@@ -3954,31 +4032,23 @@ Public Class FormParametrosFront
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'ButtonTiposdeEfectoSpyro
+        'Button
         '
-        Me.ButtonTiposdeEfectoSpyro.Location = New System.Drawing.Point(441, 265)
-        Me.ButtonTiposdeEfectoSpyro.Name = "ButtonTiposdeEfectoSpyro"
-        Me.ButtonTiposdeEfectoSpyro.Size = New System.Drawing.Size(41, 23)
-        Me.ButtonTiposdeEfectoSpyro.TabIndex = 53
-        Me.ButtonTiposdeEfectoSpyro.Text = ":::"
-        Me.ButtonTiposdeEfectoSpyro.UseVisualStyleBackColor = True
+        Me.Button.Location = New System.Drawing.Point(441, 112)
+        Me.Button.Name = "Button"
+        Me.Button.Size = New System.Drawing.Size(41, 23)
+        Me.Button.TabIndex = 58
+        Me.Button.Text = ":::"
+        Me.Button.UseVisualStyleBackColor = True
         '
-        'Label126
+        'Button3
         '
-        Me.Label126.AutoSize = True
-        Me.Label126.Location = New System.Drawing.Point(73, 268)
-        Me.Label126.Name = "Label126"
-        Me.Label126.Size = New System.Drawing.Size(191, 13)
-        Me.Label126.TabIndex = 51
-        Me.Label126.Text = "Tipo de Efecto (Cobros con Visa Hotel)"
-        '
-        'TextBoxTefect_Cod
-        '
-        Me.TextBoxTefect_Cod.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxTefect_Cod.Location = New System.Drawing.Point(304, 268)
-        Me.TextBoxTefect_Cod.Name = "TextBoxTefect_Cod"
-        Me.TextBoxTefect_Cod.Size = New System.Drawing.Size(131, 20)
-        Me.TextBoxTefect_Cod.TabIndex = 52
+        Me.Button3.Location = New System.Drawing.Point(438, 239)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(44, 23)
+        Me.Button3.TabIndex = 59
+        Me.Button3.Text = ":::"
+        Me.Button3.UseVisualStyleBackColor = True
         '
         'FormParametrosFront
         '
@@ -4812,6 +4882,7 @@ Public Class FormParametrosFront
     Private Sub MostrarDatosNewConta()
         Try
             SQL = "SELECT  PARA_ORIGENCUENTAS,NVL(PARA_ESTABLECIMIENTO,'<Ninguno>') AS PARA_ESTABLECIMIENTO ,PARA_TRATA_ANULACIONES,PARA_CFBCOTMOV_COD,PARA_CFBCOTMOV_COD2,PARA_FPAGO_COD,PARA_FPAGO_COD2  "
+            SQL += " ,PARA_BANCOS_COD,PARA_BANCOS_COD2 "
             SQL += "  FROM TC_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"
             SQL += " AND PARA_EMP_NUM = " & Me.mParaEmpNum
@@ -4871,6 +4942,19 @@ Public Class FormParametrosFront
                 Else
                     Me.TextBoxNewContaFPagoBanc2.Text = ""
                 End If
+
+                If IsDBNull(Me.DbLee.mDbLector.Item("PARA_BANCOS_COD2")) = False Then
+                    Me.TextBoxNewContaBanco2.Text = CStr(Me.DbLee.mDbLector.Item("PARA_BANCOS_COD2"))
+                Else
+                    Me.TextBoxNewContaBanco2.Text = ""
+                End If
+
+                If IsDBNull(Me.DbLee.mDbLector.Item("PARA_BANCOS_COD")) = False Then
+                    Me.TextBoxNewContaBanco.Text = CStr(Me.DbLee.mDbLector.Item("PARA_BANCOS_COD"))
+                Else
+                    Me.TextBoxNewContaBanco.Text = ""
+                End If
+
 
             End While
             Me.DbLee.mDbLector.Close()
@@ -5342,6 +5426,19 @@ Public Class FormParametrosFront
 
 
 
+            If Me.TextBoxNewContaBanco.TextLength > 0 Then
+                SQL += " ,PARA_BANCOS_COD = '" & Me.TextBoxNewContaBanco.Text & "'"
+            Else
+                SQL += ",PARA_BANCOS_COD = ''"
+            End If
+
+            If Me.TextBoxNewContaBanco2.TextLength > 0 Then
+                SQL += " ,PARA_BANCOS_COD2 = '" & Me.TextBoxNewContaBanco2.Text & "'"
+            Else
+                SQL += ",PARA_BANCOS_COD2 = ''"
+            End If
+
+
             SQL += " ,PARA_ESTABLECIMIENTO = '" & Me.TextBoxNewContaEstablecimientoNewConta.Text & "'"
 
             SQL += " WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
@@ -5678,7 +5775,7 @@ Public Class FormParametrosFront
 
     End Sub
 
-    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles ButtonNewContaBanco.Click
         Try
 
             Me.ListBoxRegistrosSpyro.Items.Clear()
@@ -5848,6 +5945,78 @@ Public Class FormParametrosFront
                     SQL = "SELECT COD , DESCRIP FROM TEFECT "
                     ''      SQL += "WHERE CFIVALIBRO_COD = '" & Me.mParaCfIvaLibroCod & "'"
                     SQL += " ORDER BY DESCRIP ASC"
+                    DbNh.TraerLector(SQL)
+                    While DbNh.mDbLector.Read
+                        Me.ListBoxRegistrosSpyro.Items.Add(CStr(DbNh.mDbLector.Item("COD")).PadRight(5, " ") & " = " & DbNh.mDbLector.Item("DESCRIP"))
+                    End While
+                    DbNh.mDbLector.Close()
+                    DbNh.CerrarConexion()
+                    DbNh = Nothing
+
+                End If
+
+            Else
+                MsgBox("No existe Interfaz Odbc con el Hotel", MsgBoxStyle.Information, "Atención")
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Private Sub Button_Click(sender As Object, e As EventArgs) Handles Button.Click
+        Try
+
+            Me.ListBoxRegistrosSpyro.Items.Clear()
+            Me.ListBoxRegistrosSpyro.Update()
+            If Me.CheckBoxValidaCuentasSpyro.Checked = True Then
+                Dim StrSpyro As String
+                Dim Result As String = ""
+                SQL = "SELECT HOTEL_SPYRO FROM TH_HOTEL WHERE HOTEL_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
+                SQL += " AND HOTEL_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"
+                SQL += " AND HOTEL_EMP_NUM = " & Me.TextBoxEmpNum.Text
+                StrSpyro = CStr(Me.DbLeeAux.EjecutaSqlScalar(SQL))
+
+                If StrSpyro <> "" Then
+                    Dim DbNh As New C_DATOS.C_DatosOledb
+                    DbNh.StrConexion = StrSpyro
+                    DbNh.AbrirConexion()
+                    SQL = "SELECT COD , DESCRIP FROM BANCOS ORDER BY COD ASC"
+                    DbNh.TraerLector(SQL)
+                    While DbNh.mDbLector.Read
+                        Me.ListBoxRegistrosSpyro.Items.Add(CStr(DbNh.mDbLector.Item("COD")).PadRight(5, " ") & " = " & DbNh.mDbLector.Item("DESCRIP"))
+                    End While
+                    DbNh.mDbLector.Close()
+                    DbNh.CerrarConexion()
+                    DbNh = Nothing
+
+                End If
+
+            Else
+                MsgBox("No existe Interfaz Odbc con el Hotel", MsgBoxStyle.Information, "Atención")
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Private Sub Button3_Click_1(sender As Object, e As EventArgs) Handles Button3.Click
+        Try
+
+            Me.ListBoxRegistrosSpyro.Items.Clear()
+            Me.ListBoxRegistrosSpyro.Update()
+            If Me.CheckBoxValidaCuentasSpyro.Checked = True Then
+                Dim StrSpyro As String
+                Dim Result As String = ""
+                SQL = "SELECT HOTEL_SPYRO FROM TH_HOTEL WHERE HOTEL_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
+                SQL += " AND HOTEL_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"
+                SQL += " AND HOTEL_EMP_NUM = " & Me.TextBoxEmpNum.Text
+                StrSpyro = CStr(Me.DbLeeAux.EjecutaSqlScalar(SQL))
+
+                If StrSpyro <> "" Then
+                    Dim DbNh As New C_DATOS.C_DatosOledb
+                    DbNh.StrConexion = StrSpyro
+                    DbNh.AbrirConexion()
+                    SQL = "SELECT COD , DESCRIP FROM BANCOS ORDER BY COD ASC"
                     DbNh.TraerLector(SQL)
                     While DbNh.mDbLector.Read
                         Me.ListBoxRegistrosSpyro.Items.Add(CStr(DbNh.mDbLector.Item("COD")).PadRight(5, " ") & " = " & DbNh.mDbLector.Item("DESCRIP"))

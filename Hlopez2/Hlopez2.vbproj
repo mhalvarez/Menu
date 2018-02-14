@@ -67,7 +67,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="C_DATOS">
+    <Reference Include="C_DATOS, Version=1.0.6617.25362, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\C_DATOS\C_DATOS\bin\x86\Release\C_DATOS.dll</HintPath>
     </Reference>
     <Reference Include="NewHotel">

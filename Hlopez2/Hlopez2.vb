@@ -163,6 +163,8 @@ Public Class Hlopez2
     Private mVisaFacturaCif As String
     Private mVisaCfbcotmov As String
     Private mVisaFPago As String
+
+    Private mVisaFPagoBancosCod As String
     Private mTipoComprobantesVersion As Integer
     Private mTipodeEfecto As String
 
@@ -1155,10 +1157,10 @@ Public Class Hlopez2
     Private Sub SpyroCompruebaBanco(ByVal vCuenta As String, ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vLinea As Integer, ByVal vDebeHaber As String, ByVal vAmpcpto As String, ByVal vNombre As String, ByVal vFactura As String, ByVal vSerie As String, vBanco As String)
         Try
 
-            Me.mTextDebug.Text = "Validando Bancos Spyro " & vCuenta.PadRight(20, CChar(" ")) & " Longitud : " & vCuenta.Length
+            Me.mTextDebug.Text = "Validando Bancos Spyro " & vCuenta.PadRight(20, CChar(" ")) & " Longitud : " & vCuenta.Length & "  " & Format(Now, "dd/MM/yyyy H:mm:ss")
 
             Me.mTextDebug.Update()
-            '    Me.mForm.Update()
+            '    System.Windows.Forms.Application.DoEvents()
 
 
             SQL = "SELECT COD FROM BANCOS WHERE  EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
@@ -1191,10 +1193,10 @@ Public Class Hlopez2
     Private Sub SpyroCompruebaCuenta(ByVal vCuenta As String, ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vLinea As Integer, ByVal vDebeHaber As String, ByVal vAmpcpto As String, ByVal vNombre As String, ByVal vFactura As String, ByVal vSerie As String)
         Try
 
-            Me.mTextDebug.Text = "Validando Plan de Cuentas Spyro " & vCuenta.PadRight(20, CChar(" ")) & " Longitud : " & vCuenta.Length & " " & vAmpcpto & " " & vNombre
+            Me.mTextDebug.Text = "Validando Plan de Cuentas Spyro " & vCuenta.PadRight(20, CChar(" ")) & " Longitud : " & vCuenta.Length & " " & vAmpcpto & " " & vNombre & "  " & Format(Now, "dd/MM/yyyy H:mm:ss")
 
             Me.mTextDebug.Update()
-            '    Me.mForm.Update()
+            '   System.Windows.Forms.Application.DoEvents()
 
 
             SQL = "SELECT COD FROM CFCTA WHERE EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
@@ -1346,10 +1348,10 @@ Public Class Hlopez2
     Private Sub SpyroCompruebaCuentaCorto(ByVal vCuenta As String, ByVal vTipo As String, ByVal vDebeHaber As String, vSerie As String)
         Try
 
-            Me.mTextDebug.Text = "Validando Plan de Cuentas Spyro " & vCuenta.PadRight(20, CChar(" ")) & " Longitud : " & vCuenta.Length & " " & vDebeHaber & " " & vSerie
+            Me.mTextDebug.Text = "Validando Plan de Cuentas Spyro " & vCuenta.PadRight(20, CChar(" ")) & " Longitud : " & vCuenta.Length & " " & vDebeHaber & " " & vSerie & "  " & Format(Now, "dd/MM/yyyy H:mm:ss")
 
             Me.mTextDebug.Update()
-            '    Me.mForm.Update()
+            '    System.Windows.Forms.Application.DoEvents()
 
 
             SQL = "SELECT COD FROM CFCTA WHERE EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
@@ -5935,6 +5937,12 @@ Public Class Hlopez2
             Me.mVisaFPago = CStr(Me.DbLeeCentral.EjecutaSqlScalar(SQL))
 
 
+            SQL = "SELECT NVL(PARA_BANCOS_COD,'?')  "
+            SQL += " FROM TC_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod
+            SQL += "' AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
+            Me.mVisaFPagoBancosCod = CStr(Me.DbLeeCentral.EjecutaSqlScalar(SQL))
+
             ' No GENERA FV 
             ' genera CB, MG, AC
             '   Me.GeneraFileFVDiariodeCobros("FV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, Me.mVisaFactura & "/" & Me.mVisaFacturaSerie, vCuenta, vCif, vTotal, Me.mVisaFPago)
@@ -5943,8 +5951,8 @@ Public Class Hlopez2
             Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, vSerie, vFactura, vTotal, "", vCuentaTarjeta, Me.mClientesContadoCif, vTotal, Me.mVisaCfbcotmov, vBancosCod, Me.mVisaComprobante, 2, "N")
 
 
-            Me.GeneraFileCB("CB", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, vSerie, vFactura, vTotal, "", "", "", vTotal, vBancosCod, Me.mVisaCfbcotmov, Me.mVisaComprobante, "S")
-            Me.GeneraFileMG("MG", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, vSerie, vFactura, vTotal, "", "", "", 0, Me.mVisaCfbcotmov, vBancosCod, Me.mVisaComprobante)
+            Me.GeneraFileCB("CB", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, vSerie, vFactura, vTotal, "", "", "", vTotal, Me.mVisaFPagoBancosCod, Me.mVisaCfbcotmov, Me.mVisaComprobante, "S")
+            Me.GeneraFileMG("MG", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, vSerie, vFactura, vTotal, "", "", "", 0, Me.mVisaCfbcotmov, Me.mVisaFPagoBancosCod, Me.mVisaComprobante)
 
 
         Catch ex As Exception
