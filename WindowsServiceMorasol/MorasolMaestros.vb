@@ -222,6 +222,7 @@ Public Class MorasolMaestros
 
 
         Catch ex As Exception
+            EnviaTito = Nothing
             Me.mProcesando = False
 
             ' fin 

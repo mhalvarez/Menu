@@ -22,7 +22,7 @@ Public Class HTitoNewHotelEnviar
     Private mDebugFilePath As String
     Private mDebugFile As StreamWriter
     Private mDebugFileEstaOk As Boolean = False
-    Private mWebServiveError As String
+    Private mWebServiceError As String
 
     Private mUrl As String
 
@@ -125,9 +125,10 @@ Public Class HTitoNewHotelEnviar
     Private WebServiceAlbaranesBase As WebReferenceTitoAlbaranes.GestionNewHotel
 
 
-    ' Web Services NewStock Albaranes  (1.1)
+    ' Web Services Clientes 
     Private WebServiceClientesBase As WebReferenceClientesNewHotel.Clientes_Service
     Private WebServiceClientesDatos As WebReferenceClientesNewHotel.Clientes
+    Private WebServiceClientesDatosControl As WebReferenceClientesNewHotel.Clientes
 
 
 
@@ -658,8 +659,8 @@ Public Class HTitoNewHotelEnviar
                         Me.mDebugFile.WriteLine(Now & " Produccion = Nothing")
                     End If
                     ' Gestion de Error
-                    Me.WebServiveTrataenvios(0, Me.mWebServiveError, 1, "", "WEBPRODUCCION", 0, "")
-                    Me.mDebugFile.WriteLine(Now & " Produccion = " & Me.mWebServiveError)
+                    Me.WebServiveTrataenvios(0, Me.mWebServiceError, 1, "", "WEBPRODUCCION", 0, "")
+                    Me.mDebugFile.WriteLine(Now & " Produccion = " & Me.mWebServiceError)
                 End If
 
             End If
@@ -678,8 +679,8 @@ Public Class HTitoNewHotelEnviar
                 Me.mDebugFile.WriteLine(Now & " Produccion = Nothing")
             End If
             ' Gestion de Error
-            Me.WebServiveTrataenvios(0, Me.mWebServiveError, 1, "", "WEBPRODUCCION", 0, "")
-            Me.mDebugFile.WriteLine(Now & " Produccion = " & Me.mWebServiveError)
+            Me.WebServiveTrataenvios(0, Me.mWebServiceError, 1, "", "WEBPRODUCCION", 0, "")
+            Me.mDebugFile.WriteLine(Now & " Produccion = " & Me.mWebServiceError)
         End Try
     End Sub
 
@@ -879,8 +880,8 @@ Public Class HTitoNewHotelEnviar
                         Me.mDebugFile.WriteLine(Now & " Anticipos = Nothing")
                     End If
                     ' Gestion de Error
-                    Me.WebServiveTrataenvios(0, Me.mWebServiveError, 2, "", "WEBANTICIPOS", 0, "")
-                    Me.mDebugFile.WriteLine(Now & " Anticipos = " & Me.mWebServiveError)
+                    Me.WebServiveTrataenvios(0, Me.mWebServiceError, 2, "", "WEBANTICIPOS", 0, "")
+                    Me.mDebugFile.WriteLine(Now & " Anticipos = " & Me.mWebServiceError)
                 End If
 
 
@@ -1107,8 +1108,8 @@ Public Class HTitoNewHotelEnviar
                         Me.mDebugFile.WriteLine(Now & " Anticipos Aplicados = Nothing")
                     End If
                     ' Gestion de Error
-                    Me.WebServiveTrataenvios(0, Me.mWebServiveError, 350, "", "WEBANTICIPOS FACTURADOS", 0, "")
-                    Me.mDebugFile.WriteLine(Now & " Anticipos Aplicados = " & Me.mWebServiveError)
+                    Me.WebServiveTrataenvios(0, Me.mWebServiceError, 350, "", "WEBANTICIPOS FACTURADOS", 0, "")
+                    Me.mDebugFile.WriteLine(Now & " Anticipos Aplicados = " & Me.mWebServiceError)
                 End If
             End If
         Catch ex As Exception
@@ -1219,8 +1220,8 @@ Public Class HTitoNewHotelEnviar
                             Me.mDebugFile.WriteLine(Now & " Facturación = Nothing")
                         End If
                         ' Gestion de Error
-                        Me.WebServiveTrataenvios(0, Me.mWebServiveError, ControlAsiento, "", "WEBFACTURAS", ControlFactura, ControlSerie)
-                        Me.mDebugFile.WriteLine(Now & " Facturación = " & Me.mWebServiveError)
+                        Me.WebServiveTrataenvios(0, Me.mWebServiceError, ControlAsiento, "", "WEBFACTURAS", ControlFactura, ControlSerie)
+                        Me.mDebugFile.WriteLine(Now & " Facturación = " & Me.mWebServiceError)
 
                     End If
 
@@ -1467,8 +1468,8 @@ Public Class HTitoNewHotelEnviar
                         Me.mDebugFile.WriteLine(Now & " Facturación = Nothing")
                     End If
                     ' Gestion de Error
-                    Me.WebServiveTrataenvios(0, Me.mWebServiveError, ControlAsiento, "", "WEBFACTURAS", ControlFactura, ControlSerie)
-                    Me.mDebugFile.WriteLine(Now & " Facturación = " & Me.mWebServiveError)
+                    Me.WebServiveTrataenvios(0, Me.mWebServiceError, ControlAsiento, "", "WEBFACTURAS", ControlFactura, ControlSerie)
+                    Me.mDebugFile.WriteLine(Now & " Facturación = " & Me.mWebServiceError)
 
                 End If
                 Me.DbLeeCentral.mDbLector.Close()
@@ -1711,8 +1712,8 @@ Public Class HTitoNewHotelEnviar
                         Me.mDebugFile.WriteLine(Now & " Cobros = Nothing")
                     End If
                     ' Gestion de Error
-                    Me.WebServiveTrataenvios(0, Me.mWebServiveError, 0, "", "WEBCOBROS", 0, "")
-                    Me.mDebugFile.WriteLine(Now & " Cobros = " & Me.mWebServiveError)
+                    Me.WebServiveTrataenvios(0, Me.mWebServiceError, 0, "", "WEBCOBROS", 0, "")
+                    Me.mDebugFile.WriteLine(Now & " Cobros = " & Me.mWebServiceError)
                 End If
             End If
 
@@ -1728,8 +1729,8 @@ Public Class HTitoNewHotelEnviar
                 Me.mDebugFile.WriteLine(Now & " Cobros = Nothing")
             End If
             ' Gestion de Error
-            Me.WebServiveTrataenvios(0, Me.mWebServiveError, 0, "", "WEBCOBROS", 0, "")
-            Me.mDebugFile.WriteLine(Now & " Produccion = " & Me.mWebServiveError)
+            Me.WebServiveTrataenvios(0, Me.mWebServiceError, 0, "", "WEBCOBROS", 0, "")
+            Me.mDebugFile.WriteLine(Now & " Produccion = " & Me.mWebServiceError)
         End Try
     End Sub
 
@@ -1825,8 +1826,8 @@ Public Class HTitoNewHotelEnviar
                             Me.mDebugFile.WriteLine(Now & " Facturación = Nothing")
                         End If
                         ' Gestion de Error
-                        Me.WebServiveTrataenvios(0, Me.mWebServiveError, 3, "", "WEBFACTURAS", ControlFactura, ControlSerie)
-                        Me.mDebugFile.WriteLine(Now & " Facturación = " & Me.mWebServiveError)
+                        Me.WebServiveTrataenvios(0, Me.mWebServiceError, 3, "", "WEBFACTURAS", ControlFactura, ControlSerie)
+                        Me.mDebugFile.WriteLine(Now & " Facturación = " & Me.mWebServiceError)
 
                     End If
 
@@ -2025,8 +2026,8 @@ Public Class HTitoNewHotelEnviar
                         Me.mDebugFile.WriteLine(Now & " Facturación = Nothing")
                     End If
                     ' Gestion de Error
-                    Me.WebServiveTrataenvios(0, Me.mWebServiveError, 3, "", "WEBFACTURAS", ControlFactura, ControlSerie)
-                    Me.mDebugFile.WriteLine(Now & " Facturación = " & Me.mWebServiveError)
+                    Me.WebServiveTrataenvios(0, Me.mWebServiceError, 3, "", "WEBFACTURAS", ControlFactura, ControlSerie)
+                    Me.mDebugFile.WriteLine(Now & " Facturación = " & Me.mWebServiceError)
 
                 End If
                 Me.DbLeeCentral.mDbLector.Close()
@@ -2065,9 +2066,9 @@ Public Class HTitoNewHotelEnviar
         Try
 
             ' DEBUG 
-            'If CrearFichero("C:\TEMPORAL\", "DEBUG") = False Then
-            'Exit Sub
-            'End If
+            '  If CrearFichero("C:\TEMPORAL\", "DEBUG.TXT") = False Then
+            ' Exit Sub
+            '  End If
 
 
             SQL = "SELECT TRANS_CODI,TRANS_EMPGRUPO_COD,TRANS_EMP_COD,TRANS_EMP_NUM,TRANS_TABL,TRANS_PKEY,"
@@ -2134,7 +2135,8 @@ Public Class HTitoNewHotelEnviar
                 SQL += " FROM TNHT_ENTI,TNHT_NACI "
 
                 SQL += " WHERE TNHT_ENTI.NACI_CODI = TNHT_NACI.NACI_CODI"
-                SQL += " AND ENTI_CODI = '" & Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY") & "'"
+                '    SQL += " AND ENTI_CODI = '" & Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY") & "'"
+                SQL += " AND ENTI_CAUX = '" & Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY") & "'"
 
 
 
@@ -2151,7 +2153,7 @@ Public Class HTitoNewHotelEnviar
                 While Me.DbLeeHotel.mDbLector.Read
 
                     ' DEBUG 
-                    '  Me.mDebugFile.WriteLine(Now & "READ ENTI")
+                    '  Me.mDebugFile.WriteLine(Now & "   READ ENTI ")
 
                     If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_MORA")) = False Then
                         Me.WebServiceClientesDatos.Address = Me.DbLeeHotel.mDbLector.Item("ENTI_MORA")
@@ -2224,12 +2226,12 @@ Public Class HTitoNewHotelEnviar
                     End If
 
 
-                    ' Me.WebServiceClientesDatos.Key = "NUMEROC"
+
                     Me.WebServiceClientesDatos.Key = ""
 
 
                     If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_NOME")) = False Then
-                        Me.WebServiceClientesDatos.Name = "" = Me.DbLeeHotel.mDbLector.Item("ENTI_NOME")
+                        Me.WebServiceClientesDatos.Name = Me.DbLeeHotel.mDbLector.Item("ENTI_NOME")
                     Else
                         Me.WebServiceClientesDatos.Name = ""
                     End If
@@ -2273,17 +2275,12 @@ Public Class HTitoNewHotelEnviar
 
 
                     ' DEBUG 
-                    '  Me.mDebugFile.WriteLine(Now & "LLAMA WEB SERVICE")
+                    ' Me.mDebugFile.WriteLine(Now & "  LLAMA WEB SERVICE")
 
                     ' LLAMADA AL WEB SERVICE
 
                     If IsNothing(Me.WebServiceClientesBase) = False Then
                         If Me.WebServiceEnviar(9001, CInt(Me.DbLeeCentral.mDbLector.Item("TIPO")), CStr(Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY"))) = True Then
-                            ' destruye el web wervice
-                            Me.WebServiceClientesBase = Nothing
-                            If Me.mDebugFileEstaOk Then
-                                Me.mDebugFile.WriteLine(Now & " Clientes = Nothing")
-                            End If
 
                             ' Gestion de Error
                             Me.WebServiveTrataenviosClientes(1, "OK", Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))
@@ -2291,20 +2288,12 @@ Public Class HTitoNewHotelEnviar
                                 Me.mDebugFile.WriteLine(Now & " Clientes = " & "Ok")
                             End If
 
-
-
                         Else
-                            ' destruye el web wervice
-                            Me.WebServiceClientesBase = Nothing
-                            If Me.mDebugFileEstaOk Then
-                                Me.mDebugFile.WriteLine(Now & " Clientes = Nothing")
-                            End If
-
 
                             ' Gestion de Error
-                            Me.WebServiveTrataenviosClientes(0, Me.mWebServiveError, Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))
+                            Me.WebServiveTrataenviosClientes(0, Me.mWebServiceError, Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))
                             If Me.mDebugFileEstaOk Then
-                                Me.mDebugFile.WriteLine(Now & " Clientes = " & Me.mWebServiveError)
+                                Me.mDebugFile.WriteLine(Now & " Clientes = " & Me.mWebServiceError)
                             End If
 
                         End If
@@ -2341,14 +2330,19 @@ Public Class HTitoNewHotelEnviar
                 Me.mDebugFile.WriteLine(Now & " Cliented = Nothing")
             End If
             ' Gestion de Error
-            Me.WebServiveTrataenviosClientes(0, Me.mWebServiveError & " + " & ex.Message, Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))
+            Me.WebServiveTrataenviosClientes(0, Me.mWebServiceError & " + " & ex.Message, Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))
             If Me.mDebugFileEstaOk Then
-                Me.mDebugFile.WriteLine(Now & " Clientes = " & Me.mWebServiveError)
+                Me.mDebugFile.WriteLine(Now & " Clientes = " & Me.mWebServiceError)
             End If
 
         Finally
+
+            ' destruye el web wervice
+            If IsNothing(Me.WebServiceClientesBase) = False Then
+                Me.WebServiceClientesBase = Nothing
+            End If
             ' DEBUG 
-            '   CerrarFichero()
+            '  CerrarFichero()
 
         End Try
     End Sub
@@ -2358,7 +2352,7 @@ Public Class HTitoNewHotelEnviar
 #Region "GESTION DE ERRORES"
     Private Function WebServiceEnviar(vAsiento As Integer, vAccionMaestro As Integer, vKey As String) As Boolean
         Try
-            Me.mWebServiveError = ""
+            Me.mWebServiceError = ""
             Me.mUrl = ""
             If vAsiento = 1 Then
                 Me.mUrl = Me.WebServiceProduccionBase.Url
@@ -2376,9 +2370,6 @@ Public Class HTitoNewHotelEnviar
 
             ' Facturas Resumidas
             If vAsiento = 3 Or vAsiento = 51 Then
-                '   Me.mUrl = Me.WebServiceFacturacionBase.Url
-                '   Me.WebServiceFacturacionBase.Create(Me.WebServiceFacturacionBaseList)
-                '   Return True
 
                 Me.mUrl = Me.WebServiceFacturacionLineasBase.Url
                 Me.WebServiceFacturacionLineasBaseList = Me.WebServiceFacturacionLineas
@@ -2388,13 +2379,6 @@ Public Class HTitoNewHotelEnviar
 
             End If
 
-            ' Facturas Detalladas
-            ' If vAsiento = 3 Then
-            'Me.mUrl = Me.WebServiceFacturacionLineasBase.Url
-            ' Me.WebServiceFacturacionLineasBaseList = Me.WebServiceFacturacionLineas
-            ' Me.WebServiceFacturacionLineasBase.CreateMultiple(Me.WebServiceFacturacionLineasBaseList)
-            ' Return True
-            'End If
 
             If vAsiento = 35 Then
                 Me.mUrl = Me.WebServiceCobrosBase.Url
@@ -2417,14 +2401,54 @@ Public Class HTitoNewHotelEnviar
                 Me.mUrl = Me.WebServiceClientesBase.Url
                 Me.WebServiceClientesBase.Timeout = 90000
                 If vAccionMaestro = mEnumAccionMaestro.Insertar Then
-                    Me.WebServiceClientesBase.Create(Me.WebServiceClientesDatos)
-                    Return True
+
+                    ' Verificar que el cliente no exista antes de crearlo 
+
+
+                    Me.WebServiceClientesDatosControl = Me.WebServiceClientesBase.Read(Me.WebServiceClientesDatos.No)
+                    If IsNothing(Me.WebServiceClientesDatosControl) = True Then
+                        Me.WebServiceClientesBase.Create(Me.WebServiceClientesDatos)
+                        Return True
+                    Else
+                        Me.mWebServiceError = "Ya existe un cliente con este Código " & Me.WebServiceClientesDatos.No
+                        Return False
+                    End If
+
+
                 ElseIf vAccionMaestro = mEnumAccionMaestro.Modificar Then
-                    Me.WebServiceClientesBase.Update(Me.WebServiceClientesDatos)
-                    Return True
+
+                    ' Verificar que el cliente no exista antes de MODIFICARLO
+
+                    Me.WebServiceClientesDatosControl = Me.WebServiceClientesBase.Read(Me.WebServiceClientesDatos.No)
+                    If IsNothing(Me.WebServiceClientesDatosControl) = True Then
+                        Me.mWebServiceError = "No existe un cliente para ser MODIFICADO con este Código " & Me.WebServiceClientesDatos.No
+                        Return False
+                    Else
+                        Me.WebServiceClientesDatos.Key = Me.WebServiceClientesDatosControl.Key
+                        Me.WebServiceClientesBase.Update(Me.WebServiceClientesDatos)
+                        Return True
+                    End If
+
+
+
+
                 ElseIf vAccionMaestro = mEnumAccionMaestro.Eliminar Then
-                    Me.WebServiceClientesBase.Delete(vKey)
-                    Return True
+
+                    ' Verificar que el cliente no exista antes de MODIFICARLO
+
+                    Me.WebServiceClientesDatosControl = Me.WebServiceClientesBase.Read(Me.WebServiceClientesDatos.No)
+                    If IsNothing(Me.WebServiceClientesDatosControl) = True Then
+                        Me.mWebServiceError = "No existe un cliente para ser ELIMINADO con este Código " & Me.WebServiceClientesDatos.No
+                        Return False
+                    Else
+
+                        Me.WebServiceClientesBase.Delete(vKey)
+                        Return True
+                    End If
+
+
+
+
                 End If
 
             End If
@@ -2434,7 +2458,7 @@ Public Class HTitoNewHotelEnviar
             Return False
 
         Catch ex As Exception
-            Me.mWebServiveError = ex.Message
+            Me.mWebServiceError = ex.Message
             Return False
         End Try
     End Function

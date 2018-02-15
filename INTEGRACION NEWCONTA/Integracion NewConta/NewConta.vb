@@ -3295,7 +3295,7 @@ Public Class NewConta
             Me.mTransferenciaFPagoCod = CStr(Me.DbLeeCentral.EjecutaSqlScalar(SQL))
 
 
-
+            ' BANCO NOTIFICACION
             SQL = "SELECT NVL(PARA_BANCOS_COD,'?')  "
             SQL += " FROM TC_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod
             SQL += "' AND PARA_EMP_COD = '" & Me.mEmpCod & "'"

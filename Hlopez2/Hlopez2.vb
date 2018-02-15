@@ -5937,7 +5937,7 @@ Public Class Hlopez2
             Me.mVisaFPago = CStr(Me.DbLeeCentral.EjecutaSqlScalar(SQL))
 
 
-            SQL = "SELECT NVL(PARA_BANCOS_COD,'?')  "
+            SQL = "SELECT NVL(PARA_BANCOS_COD2,'?')  "
             SQL += " FROM TC_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod
             SQL += "' AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
             SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
