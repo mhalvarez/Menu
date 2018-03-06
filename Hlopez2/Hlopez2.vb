@@ -168,6 +168,11 @@ Public Class Hlopez2
     Private mTipoComprobantesVersion As Integer
     Private mTipodeEfecto As String
 
+    Private Enum mTipoAnticipo As Integer
+        Anticipo = 0
+        Devolucion = 1
+    End Enum
+
 
 
 #Region "CONSTRUCTOR"
@@ -1588,7 +1593,7 @@ Public Class Hlopez2
         End Try
     End Sub
     Private Sub GeneraFileACMultiDiarioComprobantesBancarios(ByVal vTipo As String, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vCefejerc_Cod As String,
-     ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As String, ByVal vImonep As Double, ByVal vDiario As Boolean, vBancosCod As String, vCfbCotMov As String, vComprobante As Integer)
+     ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As String, ByVal vImonep As Double, ByVal vDiario As Boolean, vBancosCod As String, vCfbCotMov As String, vComprobante As Integer, vLibroIva As String, vSerieFac As String, vFactura As String)
         Try
             Dim FechaAsiento As String
             If Me.mParaFechaRegistroAc = "V" Then
@@ -1625,12 +1630,12 @@ Public Class Hlopez2
             Format(Me.mFecha, "ddMMyyyy") &
             " ".PadRight(40, CChar(" ")) &
             Me.mCfatotip_Cod.PadRight(4, CChar(" ")) &
-              " ".PadRight(2, CChar(" ")) &
-            " ".PadRight(6, CChar(" ")) &
-             " ".PadLeft(8, CChar(" ")) &
-           vBancosCod.PadRight(4, CChar(" ")) &
-           vCfbCotMov.PadRight(4, CChar(" ")) &
-           CStr(vComprobante).PadLeft(8, CChar(" ")))
+            vLibroIva.PadRight(2, CChar(" ")) &
+            vSerieFac.PadRight(6, CChar(" ")) &
+            vFactura.PadLeft(8, CChar(" ")) &
+            vBancosCod.PadRight(4, CChar(" ")) &
+            vCfbCotMov.PadRight(4, CChar(" ")) &
+            CStr(vComprobante).PadLeft(8, CChar(" ")))
 
             Me.mForm.ParentForm.Text = CStr(TotalRegistros)
 
@@ -2030,7 +2035,7 @@ Public Class Hlopez2
         End Try
     End Sub
     Private Sub GeneraFileMG(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String,
-    ByVal vSerie As String, ByVal vNfactura As Integer, ByVal vImonep As Double, ByVal vSfactura As String, ByVal vCuenta As String, ByVal vCif As String, ByVal vPendiente As Double, vCfbcotmovCod As String, vBancosCod As String, vComprobante As String)
+    ByVal vSerie As String, ByVal vNfactura As Integer, ByVal vImonep As Double, ByVal vSfactura As String, ByVal vCuenta As String, ByVal vCif As String, ByVal vPendiente As Double, vCfbcotmovCod As String, vBancosCod As String, vComprobante As String, vSecVto As Integer, vSecComprobante As Integer)
 
         Try
 
@@ -2045,8 +2050,8 @@ Public Class Hlopez2
             Me.mCfivaLibro_Cod.PadRight(2, CChar(" ")) &
             vSerie.PadRight(6, CChar(" ")) &
             CType(vNfactura, String).PadLeft(8, CChar(" ")) &
-            "1 " &
-            "1   " &
+            CType(vSecVto, String).PadLeft(2, CChar(" ")) &
+             CType(vSecComprobante, String).PadLeft(4, CChar(" ")) &
              Format(Me.mFecha, "ddMMyyyy") &
              Format(Me.mFecha, "ddMMyyyy") &
              Mid(vCfbcotmovCod, 1, 4).PadRight(4, CChar(" ")) &
@@ -2444,7 +2449,6 @@ Public Class Hlopez2
 
             SQL = "SELECT TNHT_MOVI.MOVI_VDEB TOTAL,TNHT_CACR.CACR_DESC TARJETA,NVL(TNHT_CACR.CACR_CTBA,'0') CUENTA,"
             SQL += "NVL(FNHT_MOVI_RECI(TNHT_MOVI.MOVI_CODI,TNHT_MOVI.MOVI_DARE,TNHT_MOVI.MOVI_TIMO),'?') RECI_COBR,NVL(MOVI_NUDO,' ') MOVI_NUDO,NVL(MOVI_DESC,' ') MOVI_DESC,NVL(SECC_CODI,'?') AS SECC_CODI,CACR_CTB3 "
-            SQL += ",NVL(SUBSTR(FNHT_MOVI_RECI(TNHT_MOVI.MOVI_CODI,TNHT_MOVI.MOVI_DARE,TNHT_MOVI.MOVI_TIMO),1,20),' ') RECI_COBR "
             SQL = SQL & " FROM " & Me.mStrHayHistorico & " TNHT_MOVI,TNHT_CACR,TNHT_RESE WHERE TNHT_MOVI.CACR_CODI = TNHT_CACR.CACR_CODI"
             SQL = SQL & " AND TNHT_MOVI.RESE_CODI = TNHT_RESE.RESE_CODI(+) "
             SQL = SQL & " AND TNHT_MOVI.RESE_ANCI = TNHT_RESE.RESE_ANCI(+)"
@@ -2484,6 +2488,7 @@ Public Class Hlopez2
                     EsUnDepositoenVisa = True
                     Cuenta = Me.mParaCta4b3Visa
                 Else
+                    ' Es un "anticipo" 
                     EsUnDepositoenVisa = False
                     ' cuenta Tarjeta visa
                     Cuenta = CType(Me.DbLeeHotel.mDbLector("CUENTA"), String)
@@ -2512,8 +2517,7 @@ Public Class Hlopez2
                             Me.GeneraComprobanteBancoVisa(2, Total, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String) & " " & CType(Me.DbLeeHotel.mDbLector("RECI_COBR"), String), CType(Me.DbLeeHotel.mDbLector("CACR_CTB3"), String), CuentaComprobante, Me.mClientesContadoCif)
                         Else
                             'REV 2018 llamar a comprobantes2
-                            Me.GeneraComprobanteBancoVisa(2, Total, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String) & " " & CType(Me.DbLeeHotel.mDbLector("RECI_COBR"), String), CType(Me.DbLeeHotel.mDbLector("CACR_CTB3"), String), CuentaComprobante, Me.mClientesContadoCif)
-                            '      Me.GeneraComprobanteBancoVisa2(2, Total, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String) & " " & CType(Me.DbLeeHotel.mDbLector("RECI_COBR"), String), CType(Me.DbLeeHotel.mDbLector("CACR_CTB3"), String), Cuenta, Me.mClientesContadoCif, CInt(Me.DbLeeHotel.mDbLector("FACT_CODI")), CStr(Me.DbLeeHotel.mDbLector("SEFA_CODI")), CType(Me.DbLeeHotel.mDbLector("CUENTA"), String))
+                            Me.GeneraComprobanteBancoVisaAnticiposyDevoluciones(2, Total, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String) & " " & CType(Me.DbLeeHotel.mDbLector("RECI_COBR"), String), CType(Me.DbLeeHotel.mDbLector("CACR_CTB3"), String), CuentaComprobante, Me.mClientesContadoCif, mTipoAnticipo.Anticipo, Cuenta)
 
                         End If
 
@@ -2521,7 +2525,7 @@ Public Class Hlopez2
                         Linea = Linea + 1
                         Me.mTipoAsiento = "DEBE"
                         Me.InsertaOracle("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String) & "  " & CType(Me.DbLeeHotel.mDbLector("RECI_COBR"), String), Total, "NO", "", "Comprobante Bancario Nº: " & Me.mVisaComprobante, "SI", "ANTICIPO RECIBIDO", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Me.mVisaCfbcotmov, CType(Me.DbLeeHotel.mDbLector("CACR_CTB3"), String), Me.mVisaComprobante)
-                        Me.GeneraFileACMultiDiarioComprobantesBancarios("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String) & "  " & CType(Me.DbLeeHotel.mDbLector("RECI_COBR"), String), Total, Me.Multidiario, CStr(Me.DbLeeHotel.mDbLector("CACR_CTB3")), Me.mVisaCfbcotmov, Me.mVisaComprobante)
+                        Me.GeneraFileACMultiDiarioComprobantesBancarios("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String) & "  " & CType(Me.DbLeeHotel.mDbLector("RECI_COBR"), String), Total, Me.Multidiario, CStr(Me.DbLeeHotel.mDbLector("CACR_CTB3")), Me.mVisaCfbcotmov, Me.mVisaComprobante, Me.mCfivaLibro_Cod, mVisaFacturaSerie, mVisaFactura)
                     Else
                         'OLD
                         Linea = Linea + 1
@@ -3371,7 +3375,8 @@ Public Class Hlopez2
                 Cuenta = ""
                 Dni = "0"
 
-                TotalFactura = Decimal.Round(CType(Me.DbLeeHotel.mDbLector("VALOR"), Decimal), 2, MidpointRounding.AwayFromZero)
+                '   TotalFactura = Decimal.Round(CType(Me.DbLeeHotel.mDbLector("VALOR"), Decimal), 2, MidpointRounding.AwayFromZero)
+                TotalFactura = GetNewHotel.DevuelveTotalFactura(CInt(Me.DbLeeHotel.mDbLector("NUMERO")), CStr(Me.DbLeeHotel.mDbLector("SERIE")))
                 TotalPendiente = Decimal.Round(CType(Me.DbLeeHotel.mDbLector("PENDIENTE"), Decimal), 2)
 
                 ' DETERMINAR EL TIPO DE FACTURA 
@@ -4429,7 +4434,7 @@ Public Class Hlopez2
                 End If
 
                 Me.InsertaOracle("AC", 35, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebe, Descripcion, Total, "NO", "", "Comprobante Bancario Nº: " & Me.mVisaComprobante, "SI", "COBRO", Me.Multidiario, "", Me.mVisaCfbcotmov, CStr(Me.DbLeeHotel.mDbLector("CACR_CTB3")), Me.mVisaComprobante)
-                Me.GeneraFileACMultiDiarioComprobantesBancarios("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebe, Descripcion, Total, Me.Multidiario, CStr(Me.DbLeeHotel.mDbLector("CACR_CTB3")), Me.mVisaCfbcotmov, Me.mVisaComprobante)
+                Me.GeneraFileACMultiDiarioComprobantesBancarios("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebe, Descripcion, Total, Me.Multidiario, CStr(Me.DbLeeHotel.mDbLector("CACR_CTB3")), Me.mVisaCfbcotmov, Me.mVisaComprobante, "", "", "")
 
 
             Else
@@ -5194,13 +5199,15 @@ Public Class Hlopez2
             Dim EsUnDepositoenVisa As Boolean = False
 
             SQL = "SELECT TNHT_MOVI.MOVI_VDEB TOTAL,TNHT_CACR.CACR_DESC TARJETA,NVL(TNHT_CACR.CACR_CTBA,'0') CUENTA,NVL(SECC_CODI,'?') AS SECC_CODI,TNHT_CACR.CACR_CTB3,NVL(MOVI_DESC,' ') MOVI_DESC "
-            SQL = SQL & " FROM " & Me.mStrHayHistorico & " TNHT_MOVI,TNHT_CACR,TNHT_RESE WHERE TNHT_MOVI.CACR_CODI = TNHT_CACR.CACR_CODI"
-            SQL = SQL & " AND TNHT_MOVI.RESE_CODI = TNHT_RESE.RESE_CODI(+) "
-            SQL = SQL & " AND TNHT_MOVI.RESE_ANCI = TNHT_RESE.RESE_ANCI(+)"
+
+            SQL += ",  NVL ( FNHT_MOVI_RECI (TNHT_MOVI.MOVI_CODI,TNHT_MOVI.MOVI_DARE,TNHT_MOVI.MOVI_TIMO), '?')   RECI_COBR "
+            SQL += " FROM " & Me.mStrHayHistorico & " TNHT_MOVI,TNHT_CACR,TNHT_RESE WHERE TNHT_MOVI.CACR_CODI = TNHT_CACR.CACR_CODI"
+            SQL += " AND TNHT_MOVI.RESE_CODI = TNHT_RESE.RESE_CODI(+) "
+            SQL += " AND TNHT_MOVI.RESE_ANCI = TNHT_RESE.RESE_ANCI(+)"
             'SQL = SQL & " AND TNHT_MOVI.TIRE_CODI = 5"
-            SQL = SQL & " AND TNHT_MOVI.TIRE_CODI IN(4,5) "
-            SQL = SQL & " AND TNHT_MOVI.MOVI_DATR = " & "'" & Me.mFecha & "'"
-            SQL = SQL & " AND TNHT_MOVI.MOVI_VDEB <> 0"
+            SQL += " AND TNHT_MOVI.TIRE_CODI IN(4,5) "
+            SQL += " AND TNHT_MOVI.MOVI_DATR = " & "'" & Me.mFecha & "'"
+            SQL += " AND TNHT_MOVI.MOVI_VDEB <> 0"
 
             ' excluir depositos anticipados 
             'SQL = SQL & " AND TNHT_MOVI.MOVI_DEAN ='0'"
@@ -5222,6 +5229,7 @@ Public Class Hlopez2
                     EsUnDepositoenVisa = True
                     Cuenta = Me.mParaCta4b3Visa
                 Else
+                    ' es un anticipo
                     EsUnDepositoenVisa = False
                     ' cuenta Tarjeta visa
                     Cuenta = CType(Me.DbLeeHotel.mDbLector("CUENTA"), String)
@@ -5242,14 +5250,14 @@ Public Class Hlopez2
 
                     Else
                         'REV 2018 llamar a comprobantes2 ? O NO 
-                        Me.GeneraComprobanteBancoVisa(2, Total, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), CType(Me.DbLeeHotel.mDbLector("CACR_CTB3"), String), CuentaComprobante, Me.mClientesContadoCif)
-                        '   Me.GeneraComprobanteBancoVisa2(2, Total,CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), CType(Me.DbLeeHotel.mDbLector("CACR_CTB3"), String), Cuenta, Dni, CInt(Me.DbLeeHotel.mDbLector("FACT_CODI")), CStr(Me.DbLeeHotel.mDbLector("SEFA_CODI")), CType(Me.DbLeeHotel.mDbLector("CUENTA"), String))
+                        Me.GeneraComprobanteBancoVisaAnticiposyDevoluciones(2, Total, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String) & " " & CType(Me.DbLeeHotel.mDbLector("RECI_COBR"), String), CType(Me.DbLeeHotel.mDbLector("CACR_CTB3"), String), CuentaComprobante, Me.mClientesContadoCif, mTipoAnticipo.Devolucion, Cuenta)
+
                     End If
 
 
                     Me.mTipoAsiento = "DEBE"
-                    Me.InsertaOracle("AC", 21, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", "", "SI", "COBRO", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String))
-                    Me.GeneraFileACMultiDiarioComprobantesBancarios("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, Me.Multidiario, CStr(Me.DbLeeHotel.mDbLector("CACR_CTB3")), Me.mVisaCfbcotmov, Me.mVisaComprobante)
+                    Me.InsertaOracle("AC", 21, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", "Comprobante Bancario Nº: " & Me.mVisaComprobante, "SI", "COBRO", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String))
+                    Me.GeneraFileACMultiDiarioComprobantesBancarios("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, Me.Multidiario, CStr(Me.DbLeeHotel.mDbLector("CACR_CTB3")), Me.mVisaCfbcotmov, Me.mVisaComprobante, Me.mCfivaLibro_Cod, mVisaFacturaSerie, mVisaFactura)
 
 
                 Else
@@ -5897,11 +5905,15 @@ Public Class Hlopez2
             Me.mVisaFPago = CStr(Me.DbLeeCentral.EjecutaSqlScalar(SQL))
 
 
+
+
+
+
             ' GENERA FV , CB, MG,AC
 
             Me.GeneraFileFVDiariodeCobros("FV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, Me.mVisaFactura & "/" & Me.mVisaFacturaSerie, vCuenta, vCif, vTotal, Me.mVisaFPago)
             Me.GeneraFileCB("CB", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, "", "", "", vTotal, vBancosCod, Me.mVisaCfbcotmov, Me.mVisaComprobante, "S")
-            Me.GeneraFileMG("MG", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, "", "", "", 0, Me.mVisaCfbcotmov, vBancosCod, Me.mVisaComprobante)
+            Me.GeneraFileMG("MG", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, "", "", "", 0, Me.mVisaCfbcotmov, vBancosCod, Me.mVisaComprobante, 1, 1)
 
 
         Catch ex As Exception
@@ -5947,12 +5959,13 @@ Public Class Hlopez2
             ' genera CB, MG, AC
             '   Me.GeneraFileFVDiariodeCobros("FV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, Me.mVisaFactura & "/" & Me.mVisaFacturaSerie, vCuenta, vCif, vTotal, Me.mVisaFPago)
 
-            Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, vSerie, vFactura, vTotal, "", vCuentaCliente, Me.mClientesContadoCif, 0, Me.mVisaCfbcotmov, vBancosCod, Me.mVisaComprobante, 1, "S")
+            '   Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, vSerie, vFactura, vTotal, "", vCuentaCliente, Me.mClientesContadoCif, 0, Me.mVisaCfbcotmov, vBancosCod, Me.mVisaComprobante, 1, "S")
+            Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, vSerie, vFactura, vTotal, "", vCuentaCliente, Me.mClientesContadoCif, vTotal, Me.mVisaCfbcotmov, vBancosCod, Me.mVisaComprobante, 1, "S")
             Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, vSerie, vFactura, vTotal, "", vCuentaTarjeta, Me.mClientesContadoCif, vTotal, Me.mVisaCfbcotmov, vBancosCod, Me.mVisaComprobante, 2, "N")
 
 
             Me.GeneraFileCB("CB", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, vSerie, vFactura, vTotal, "", "", "", vTotal, Me.mVisaFPagoBancosCod, Me.mVisaCfbcotmov, Me.mVisaComprobante, "S")
-            Me.GeneraFileMG("MG", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, vSerie, vFactura, vTotal, "", "", "", 0, Me.mVisaCfbcotmov, Me.mVisaFPagoBancosCod, Me.mVisaComprobante)
+            Me.GeneraFileMG("MG", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, vSerie, vFactura, vTotal, "", "", "", 0, Me.mVisaCfbcotmov, Me.mVisaFPagoBancosCod, Me.mVisaComprobante, 1, 1)
 
 
         Catch ex As Exception
@@ -5960,7 +5973,69 @@ Public Class Hlopez2
         End Try
 
     End Sub
+    Private Sub GeneraComprobanteBancoVisaAnticiposyDevoluciones(vNumAsiento As Integer, vTotal As Double, vDescripcion As String, vBancosCod As String, vCuentaCliente As String, vCif As String, vTipoAnticipo As Integer, vCuentaTarjeta As String)
 
+        Try
+            SQL = "SELECT TH_COMPROBANTES.NEXTVAL FROM DUAL"
+            Me.mVisaComprobante = CInt(Me.DbLeeCentral.EjecutaSqlScalar2(SQL))
+
+            SQL = "SELECT TH_FACTURAS.NEXTVAL FROM DUAL"
+            Me.mVisaFactura = CInt(Me.DbLeeCentral.EjecutaSqlScalar2(SQL))
+
+            SQL = "SELECT NVL(PARA_FACTUTIPO_COD,'?')  "
+            SQL += " FROM TH_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod
+            SQL += "' AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
+            Me.mVisaFacturaSerie = CStr(Me.DbLeeCentral.EjecutaSqlScalar(SQL))
+
+
+            SQL = "SELECT NVL(PARA_CFBCOTMOV_COD,'?')  "
+            SQL += " FROM TC_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod
+            SQL += "' AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
+            Me.mVisaCfbcotmov = CStr(Me.DbLeeCentral.EjecutaSqlScalar(SQL))
+
+            SQL = "SELECT NVL(PARA_FPAGO_COD,'?')  "
+            SQL += " FROM TC_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod
+            SQL += "' AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
+            Me.mVisaFPago = CStr(Me.DbLeeCentral.EjecutaSqlScalar(SQL))
+
+
+
+            SQL = "SELECT NVL(PARA_BANCOS_COD2,'?')  "
+            SQL += " FROM TC_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod
+            SQL += "' AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
+            Me.mVisaFPagoBancosCod = CStr(Me.DbLeeCentral.EjecutaSqlScalar(SQL))
+
+
+
+            ' GENERA FV , CB, MG,AC
+
+            Me.GeneraFileFVDiariodeCobros("FV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, Me.mVisaFactura & "/" & Me.mVisaFacturaSerie, vCuentaCliente, vCif, vTotal, Me.mVisaFPago)
+
+            Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, "", vCuentaCliente, Me.mClientesContadoCif, vTotal, Me.mVisaCfbcotmov, vBancosCod, Me.mVisaComprobante, 1, "S")
+            Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, "", vCuentaTarjeta, Me.mClientesContadoCif, vTotal, Me.mVisaCfbcotmov, vBancosCod, Me.mVisaComprobante, 2, "N")
+
+
+            Me.GeneraFileCB("CB", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, "", "", "", vTotal, Me.mVisaFPagoBancosCod, Me.mVisaCfbcotmov, Me.mVisaComprobante, "S")
+
+            If vTipoAnticipo = mTipoAnticipo.Devolucion Then
+                ' apunta segundo vv 
+                Me.GeneraFileMG("MG", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, "", "", "", 0, Me.mVisaCfbcotmov, Me.mVisaFPagoBancosCod, Me.mVisaComprobante, 2, 2)
+            Else
+                ' apunta primero vv
+                Me.GeneraFileMG("MG", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, "", "", "", 0, Me.mVisaCfbcotmov, Me.mVisaFPagoBancosCod, Me.mVisaComprobante, 1, 1)
+
+            End If
+
+
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
 
 
 

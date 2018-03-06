@@ -17,4 +17,18 @@
 
         End Try
     End Sub
+
+    Private Sub TextBoxPassword_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBoxPassword.KeyDown
+        Try
+            If e.KeyValue = Keys.F9 Then
+                PARA_PASO_TRY = PARA_PASO_OK
+                Me.Close()
+            End If
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
+
+
 End Class

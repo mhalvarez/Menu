@@ -178,7 +178,7 @@ Public Class MorasolMaestros
                 Me.WriteToFile("Simple Service Log: " + " DataBase Open Ok " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss tt"))
 
 
-                SQL = "SELECT NVL(COUNT(*),0) AS TOTAL FROM TG_TRANS"
+                SQL = "SELECT NVL(COUNT(*),0) AS TOTAL FROM TG_TRANS WHERE TRANS_STAT = 0"
 
                 Me.mResulCint = CInt(Me.DbIntegracion.EjecutaSqlScalar2(SQL))
 

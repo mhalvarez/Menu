@@ -87,6 +87,8 @@ Public Class HTitoNewHotelEnviar
         Eliminar = 3
     End Enum
 
+    Private mProcesar As Boolean = False
+
 
     '
 
@@ -140,7 +142,7 @@ Public Class HTitoNewHotelEnviar
     Sub New(ByVal vfecha As Date, ByVal vStrConexion As String, ByVal vEmpgrupo_Cod As String, ByVal vEmp_Cod As String, ByVal vEmpNum As Integer, vDebugFileName As String, vDebugFilePath As String, vTipoDeEnvio As Integer)
         Try
             If IsDBNull(vfecha) Or IsDBNull(vStrConexion) Or IsDBNull(vEmpgrupo_Cod) Or IsDBNull(vEmpgrupo_Cod) Or IsDBNull(vEmpNum) Then
-                'PDTE: Grabar error en fichero de debug si hay acceso
+
                 Exit Sub
             Else
                 Me.mFecha = vfecha
@@ -247,7 +249,7 @@ Public Class HTitoNewHotelEnviar
     Sub New(ByVal vStrConexion As String, vTipoDeEnvio As Integer)
         Try
             If IsDBNull(vStrConexion) Then
-                'PDTE: Grabar error en fichero de debug si hay acceso
+
                 Exit Sub
             Else
 
@@ -257,7 +259,7 @@ Public Class HTitoNewHotelEnviar
 
 
 
-            Me.AbreConexiones()
+            Me.AbreConexionesParaMAestros()
 
 
             ' Ler Parametros
@@ -330,8 +332,25 @@ Public Class HTitoNewHotelEnviar
             Me.DbLeeCentral.AbrirConexion()
             Me.DbLeeCentral.EjecutaSqlCommit("ALTER SESSION Set NLS_DATE_FORMAT='DD/MM/YYYY'")
 
+
             Me.DbGrabaCentral = New C_DATOS.C_DatosOledb(Me.mStrConexionCentral)
             Me.DbGrabaCentral.AbrirConexion()
+            Me.DbGrabaCentral.EjecutaSqlCommit("ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY'")
+
+
+        Catch ex As Exception
+            ' PDTE: Grabar en Fichero de Errores
+        End Try
+    End Sub
+    Private Sub AbreConexionesParaMAestros()
+        Try
+            Me.DbLeeCentral = New C_DATOS.C_DatosOledb(Me.mStrConexionCentral, False)
+            '    Me.DbLeeCentral.AbrirConexion()
+            Me.DbLeeCentral.EjecutaSqlCommit("ALTER SESSION Set NLS_DATE_FORMAT='DD/MM/YYYY'")
+
+
+            Me.DbGrabaCentral = New C_DATOS.C_DatosOledb(Me.mStrConexionCentral, False)
+            '   Me.DbGrabaCentral.AbrirConexion()
             Me.DbGrabaCentral.EjecutaSqlCommit("ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY'")
 
 
@@ -397,6 +416,10 @@ Public Class HTitoNewHotelEnviar
             SQL += "  FROM TH_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpgrupo_Cod & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.mEmp_Cod & "'"
             SQL += " AND PARA_EMP_NUM = " & Me.mEmp_Num
+            ' DEBUG
+            If Me.mDebugFileEstaOk Then
+                Me.mDebugFile.WriteLine(Now & " SQL " & SQL)
+            End If
 
             Me.DbLeeCentral.TraerLector(SQL)
 
@@ -1073,7 +1096,7 @@ Public Class HTitoNewHotelEnviar
                 End If
 
                 ' Liquidar por numero de documentos 
-                'PDTE: Si hay mas de un anticipo cual se liquida 
+
                 Me.WebServiceAnticiposAplicadosLinea(Ind).Applies_to_Doc_No = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_LIQUIDAR"))
 
                 ' Documento Externo 
@@ -2064,17 +2087,19 @@ Public Class HTitoNewHotelEnviar
 
         Dim Primerregistro As Boolean = True
 
+        Dim ControlKey As String = ""
+
         Try
 
             ' DEBUG 
-            '  If CrearFichero("C:\TEMPORAL\", "DEBUG.TXT") = False Then
-            ' Exit Sub
-            '  End If
+            If CrearFichero("C:\TEMPORAL\", "DEBUG.TXT") = False Then
+                Exit Sub
+            End If
 
 
             SQL = "SELECT TRANS_CODI,TRANS_EMPGRUPO_COD,TRANS_EMP_COD,TRANS_EMP_NUM,TRANS_TABL,TRANS_PKEY,"
             '     SQL += " DECODE(TRANS_TYPE,1,'INSERT',2,'UPDATE',3,'DELETE') AS TIPO"
-            SQL += "NVL(TRANS_TYPE,0) AS TIPO,TRANS_NAV_KEY"
+            SQL += "NVL(TRANS_TYPE,0) AS TIPO,TRANS_NAV_KEY,TRANS_CEXT"
             SQL += " ,HOTEL_ODBC "
 
 
@@ -2097,7 +2122,7 @@ Public Class HTitoNewHotelEnviar
             ' SOLO SIN PROCESAR
             SQL += " AND TRANS_STAT =  0 "
 
-            ' SOLO CON CODIGO EXTERNO RRELENO 
+            ' SOLO CON CODIGO EXTERNO RELLENO 
             SQL += " AND TRANS_CEXT IS NOT NULL  "
             ' No bloqueado por inconsistencia 
             SQL += " AND TRANS_LOCK =  0 "
@@ -2108,18 +2133,64 @@ Public Class HTitoNewHotelEnviar
 
             Me.DbLeeCentral.TraerLector(SQL)
 
-            If Me.DbLeeCentral.mDbLector.HasRows Then
 
+
+
+
+            If Me.DbLeeCentral.mDbLector.HasRows Then
                 '' Enviar Clientes
                 Me.WebServiceClientesBase = New WebReferenceClientesNewHotel.Clientes_Service
                 Me.WebServiceClientesDatos = New WebReferenceClientesNewHotel.Clientes
-
-
-
-
             End If
 
             While Me.DbLeeCentral.mDbLector.Read
+
+
+                '  CONTROL 
+                ' SE LE MODIFICO EL CODIGO NAVISION Y ES DISTINTO AL YA TRANSMITIDO 
+
+                SQL = "SELECT DECODE(COUNT(*), 0, 0, 1)  AS CONTROL FROM TG_TRANS WHERE "
+                SQL += " (TRANS_PKEY = '" & Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY") & "'"
+                SQL += " AND TRANS_CEXT <> '" & Me.DbLeeCentral.mDbLector.Item("TRANS_CEXT") & "'"
+                SQL += " AND TRANS_STAT = 1)"
+
+                SQL += "  OR "
+
+                ' SE PUSO UN CODIGO NAVISION YA ASIGNADO Y TRANSMITIDO DE OTRA ENTIDAD 
+                SQL += " (TRANS_PKEY <> '" & Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY") & "'"
+                SQL += " AND TRANS_CEXT = '" & Me.DbLeeCentral.mDbLector.Item("TRANS_CEXT") & "'"
+                SQL += " AND TRANS_STAT = 1)"
+
+                ' debug
+                If Me.mDebugFileEstaOk Then
+                    Me.mDebugFile.WriteLine(Now & " " & SQL)
+                End If
+
+
+                Me.mAuxInteger = CInt(Me.DbGrabaCentral.EjecutaSqlScalar(SQL))
+
+
+                If Me.mAuxInteger > 0 Then
+                    SQL = "UPDATE TG_TRANS SET TRANS_LOCK = 1 WHERE TRANS_CODI = " & Me.DbLeeCentral.mDbLector.Item("TRANS_CODI")
+
+
+                    Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+                    Me.mProcesar = False
+                Else
+                    Me.mProcesar = True
+                End If
+
+
+
+
+
+                If IsDBNull(Me.DbLeeCentral.mDbLector.Item("TRANS_NAV_KEY")) = False Then
+                    ControlKey = Me.DbLeeCentral.mDbLector.Item("TRANS_NAV_KEY")
+                Else
+                    ControlKey = ""
+                End If
+
+
 
 
                 ' URL
@@ -2133,33 +2204,31 @@ Public Class HTitoNewHotelEnviar
 
 
 
-                SQL = "SELECT ENTI_CODI ,ENTI_NOME"
-                SQL += ",ENTI_MORA,ENTI_MOR1,ENTI_LOCA  "
-                SQL += ",TNHT_ENTI.NACI_CODI,NACI_CISO  "
-                SQL += ",ENTI_NUCO  "
-                SQL += ",ENTI_TELG,ENTI_FAXG,ENTI_MAIG,ENTI_MCNU,ENTI_CPCL  "
-                SQL += " FROM TNHT_ENTI,TNHT_NACI "
+                SQL = "Select ENTI_CODI , ENTI_NOME"
+                SQL += ", ENTI_MORA, ENTI_MOR1, ENTI_LOCA  "
+                SQL += ", TNHT_ENTI.NACI_CODI, NACI_CISO  "
+                SQL += ", ENTI_NUCO  "
+                SQL += ", ENTI_TELG, ENTI_FAXG, ENTI_MAIG, ENTI_MCNU, ENTI_CPCL  "
+                SQL += " FROM TNHT_ENTI, TNHT_NACI "
 
                 SQL += " WHERE TNHT_ENTI.NACI_CODI = TNHT_NACI.NACI_CODI"
-                '    SQL += " AND ENTI_CODI = '" & Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY") & "'"
-                SQL += " AND ENTI_CAUX = '" & Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY") & "'"
+                SQL += " And ENTI_CODI = '" & Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY") & "'"
+                    '   SQL += " AND ENTI_CAUX = '" & Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY") & "'"
 
 
 
-                If IsNothing(Me.DbLeeHotel) Then
+                    If IsNothing(Me.DbLeeHotel) Then
                     Me.DbLeeHotel = New C_DATOS.C_DatosOledb(Me.DbLeeCentral.mDbLector.Item("HOTEL_ODBC"), False)
                     Me.DbLeeHotel.EjecutaSqlCommit("ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY'")
                 End If
 
-                ' DEBUG 
-                ' Me.mDebugFile.WriteLine(Now & SQL)
+
 
                 Me.DbLeeHotel.TraerLector(SQL)
 
                 While Me.DbLeeHotel.mDbLector.Read
 
-                    ' DEBUG 
-                    '  Me.mDebugFile.WriteLine(Now & "   READ ENTI ")
+
 
                     If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_MORA")) = False Then
                         Me.WebServiceClientesDatos.Address = Me.DbLeeHotel.mDbLector.Item("ENTI_MORA")
@@ -2225,7 +2294,7 @@ Public Class HTitoNewHotelEnviar
                     If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_CODI")) = False Then
 
 
-                        Me.WebServiceClientesDatos.No = Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY")
+                        Me.WebServiceClientesDatos.No = Me.DbLeeCentral.mDbLector.Item("TRANS_CEXT")
                     Else
 
                         Me.WebServiceClientesDatos.No = ""
@@ -2276,32 +2345,36 @@ Public Class HTitoNewHotelEnviar
 
 
 
-                    ' DEBUG 
-                    ' Me.mDebugFile.WriteLine(Now & "  LLAMA WEB SERVICE")
 
                     ' LLAMADA AL WEB SERVICE
 
-                    If IsNothing(Me.WebServiceClientesBase) = False Then
-                        If Me.WebServiceEnviar(9001, CInt(Me.DbLeeCentral.mDbLector.Item("TIPO")), CStr(Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY")), CInt(Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY")), CStr(Me.DbLeeCentral.mDbLector.Item("TRANS_NAV_KEY"))) = True Then
+                    If Me.mProcesar = True Then
 
-                            ' Gestion de Error
-                            Me.WebServiveTrataenviosClientes(1, "OK", Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))
-                            If Me.mDebugFileEstaOk Then
-                                Me.mDebugFile.WriteLine(Now & " Clientes = " & "Ok")
+
+
+
+                        If IsNothing(Me.WebServiceClientesBase) = False Then
+                            If Me.WebServiceEnviar(9001, CInt(Me.DbLeeCentral.mDbLector.Item("TIPO")), CStr(Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY")), CInt(Me.DbLeeCentral.mDbLector.Item("TRANS_CODI")), ControlKey) = True Then
+
+                                ' Gestion de Error
+                                Me.WebServiveTrataenviosClientes(1, "OK", Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))
+
+
+                            Else
+
+                                ' Gestion de Error
+                                Me.WebServiveTrataenviosClientes(0, Me.mWebServiceError, Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))
+
+
                             End If
-
-                        Else
-
-                            ' Gestion de Error
-                            Me.WebServiveTrataenviosClientes(0, Me.mWebServiceError, Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))
-                            If Me.mDebugFileEstaOk Then
-                                Me.mDebugFile.WriteLine(Now & " Clientes = " & Me.mWebServiceError)
-                            End If
-
                         End If
+
                     End If
 
                 End While
+
+
+
 
                 Me.DbLeeHotel.mDbLector.Close()
 
@@ -2328,14 +2401,10 @@ Public Class HTitoNewHotelEnviar
                 Me.WebServiceClientesBase = Nothing
             End If
 
-            If Me.mDebugFileEstaOk Then
-                Me.mDebugFile.WriteLine(Now & " Cliented = Nothing")
-            End If
+
             ' Gestion de Error
             Me.WebServiveTrataenviosClientes(0, Me.mWebServiceError & " + " & ex.Message, Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))
-            If Me.mDebugFileEstaOk Then
-                Me.mDebugFile.WriteLine(Now & " Clientes = " & Me.mWebServiceError)
-            End If
+
 
         Finally
 
@@ -2344,7 +2413,7 @@ Public Class HTitoNewHotelEnviar
                 Me.WebServiceClientesBase = Nothing
             End If
             ' DEBUG 
-            '  CerrarFichero()
+            CerrarFichero()
 
         End Try
     End Sub
@@ -2401,20 +2470,28 @@ Public Class HTitoNewHotelEnviar
             If vAsiento = 9001 Then
 
                 Me.mUrl = Me.WebServiceClientesBase.Url
+                ' DEJAR ESTA LINEA NO SE LEEN PARAMETROS EN EL ENVIO DE CLIENTES 
                 Me.WebServiceClientesBase.Timeout = 90000
                 If vAccionMaestro = mEnumAccionMaestro.Insertar Then
 
                     ' Verificar que el cliente no exista antes de crearlo 
 
+                    Me.WebServiceClientesDatosControl = Nothing
 
                     Me.WebServiceClientesDatosControl = Me.WebServiceClientesBase.Read(Me.WebServiceClientesDatos.No)
+
+
+
+
                     If IsNothing(Me.WebServiceClientesDatosControl) = True Then
+                        ' SI NO EXISTE SE  CREA
                         Me.WebServiceClientesBase.Create(Me.WebServiceClientesDatos)
 
+                        ' SE LEE EL REGISTRO CREADO EN NAVISION Y SE HACE UPDATE A TG_TRANS  CON LE KEY CREADA EN NAVISION 
                         Me.WebServiceClientesDatosControl = Me.WebServiceClientesBase.Read(Me.WebServiceClientesDatos.No)
                         Me.mAuxString = Me.WebServiceClientesDatosControl.Key
                         SQL = "UPDATE TG_TRANS SET TRANS_NAV_KEY = " & "'" & Me.mAuxString & "'"
-                        SQL += "WHERE TRANS_KEY = " & vTransCodi
+                        SQL += "WHERE TRANS_CODI = " & vTransCodi
                         Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
                         Return True
                     Else
@@ -2428,6 +2505,7 @@ Public Class HTitoNewHotelEnviar
                     ' Verificar que el cliente  exista antes de MODIFICARLO
 
                     Me.WebServiceClientesDatosControl = Me.WebServiceClientesBase.Read(Me.WebServiceClientesDatos.No)
+
                     If IsNothing(Me.WebServiceClientesDatosControl) = True Then
 
                         'Me.mWebServiceError = "No existe un cliente para ser MODIFICADO con este Código " & Me.WebServiceClientesDatos.No
@@ -2435,22 +2513,35 @@ Public Class HTitoNewHotelEnviar
                         ' si es una modificacion y el cliente NO existe an Navision se crea !!!!
                         ' se hace asi , por si al crear la entidad No se le asigna el codigo de navision , sino que se asigna mas tarde MODIFICANDO 
                         ' la entidad
+
                         Me.WebServiceClientesBase.Create(Me.WebServiceClientesDatos)
+
+                        ' SE LEE EL REGISTRO CREADO EN NAVISION Y SE HACE UPDATE A TG_TRANS  CON LE KEY CREADA EN NAVISION 
+                        Me.WebServiceClientesDatosControl = Me.WebServiceClientesBase.Read(Me.WebServiceClientesDatos.No)
+                        Me.mAuxString = Me.WebServiceClientesDatosControl.Key
+                        SQL = "UPDATE TG_TRANS SET TRANS_NAV_KEY = " & "'" & Me.mAuxString & "'"
+                        SQL += "WHERE TRANS_CODI = " & vTransCodi
+                        Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
                         Return True
 
                     Else
-                        ' validad si el campo key lido de navision es el mismo que el campo del de TG_TRANS de cuando se creo el registro 
-                        If Me.WebServiceClientesDatos.Key = vTransNavKey Then
+
+                        ' validad si el campo key lEido de navision es el mismo que el campo del de TG_TRANS de cuando se creo el registro 
+                        ' PDTE : Guardar la key de navision en algun lugar de la entidad para luego poder comparar ?
+
+                        ' If Me.WebServiceClientesDatosControl.Key = vTransNavKey Then
+                        If 1 = 1 Then
                             Me.WebServiceClientesDatos.Key = Me.WebServiceClientesDatosControl.Key
                             Me.WebServiceClientesBase.Update(Me.WebServiceClientesDatos)
                             Return True
                         Else
                             Me.mWebServiceError = "El Cliente a Modificar no comparte la key de creación Navision = " & Me.WebServiceClientesDatos.Key & " versus Newhotel =  " & vTransNavKey & "  Cliente = " & Me.WebServiceClientesDatos.No
                             Return False
-
                         End If
 
-
+                        'Me.WebServiceClientesDatos.Key = Me.WebServiceClientesDatosControl.Key
+                        'Me.WebServiceClientesBase.Update(Me.WebServiceClientesDatos)
+                        'Return True
 
 
                     End If
@@ -2458,18 +2549,19 @@ Public Class HTitoNewHotelEnviar
 
 
 
-                ElseIf vAccionMaestro = mEnumAccionMaestro.Eliminar Then
+                        ElseIf vAccionMaestro = mEnumAccionMaestro.Eliminar Then
 
-                    ' Verificar que el cliente exista antes de Eliminarlo
+                        ' Verificar que el cliente exista antes de Eliminarlo
 
-                    Me.WebServiceClientesDatosControl = Me.WebServiceClientesBase.Read(Me.WebServiceClientesDatos.No)
+                        Me.WebServiceClientesDatosControl = Me.WebServiceClientesBase.Read(Me.WebServiceClientesDatos.No)
                     If IsNothing(Me.WebServiceClientesDatosControl) = True Then
                         Me.mWebServiceError = "No existe un cliente para ser ELIMINADO con este Código " & Me.WebServiceClientesDatos.No
                         Return False
                     Else
-
+                        ' PDTE :
                         ' validad si el campo key lido de navision es el mismo que el campo del de TG_TRANS de cuando se creo el registro 
-                        If Me.WebServiceClientesDatos.Key = vTransNavKey Then
+                        '    If Me.WebServiceClientesDatosControl.Key = vTransNavKey Then
+                        If 1 = 1 Then
                             Me.WebServiceClientesDatos.Key = Me.WebServiceClientesDatosControl.Key
                             Me.WebServiceClientesBase.Delete(vKey)
                             Return True
@@ -2507,7 +2599,7 @@ Public Class HTitoNewHotelEnviar
 
             SQL = "UPDATE TH_ASNT Set ASNT_AX_STATUS = " & vStatus
             SQL += " , ASNT_ERR_MESSAGE = " & "'[" & Me.mAuxInteger & "] ' || "
-                    SQL += "TO_CHAR(SYSDATE, 'DD/MM/YYYY HH24:MI:SS') || ' '|| '" & Mid(vMessage, 1, 4000).Replace("'", "''").Trim & "'"
+                            SQL += "TO_CHAR(SYSDATE, 'DD/MM/YYYY HH24:MI:SS') || ' '|| '" & Mid(vMessage, 1, 4000).Replace("'", "''").Trim & "'"
 
             SQL += "  WHERE ASNT_F_ATOCAB = '" & Format(Me.mFecha, "dd/MM/yyyy") & "'"
             SQL += " AND TH_ASNT.ASNT_EMPGRUPO_COD = '" & Me.mEmpgrupo_Cod & "'"

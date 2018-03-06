@@ -23,9 +23,9 @@ Partial Class FormPassword
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormPassword))
-        Me.TextBoxPassword = New System.Windows.Forms.TextBox
-        Me.ButtonCancelar = New System.Windows.Forms.Button
-        Me.ButtonAceptar = New System.Windows.Forms.Button
+        Me.TextBoxPassword = New System.Windows.Forms.TextBox()
+        Me.ButtonCancelar = New System.Windows.Forms.Button()
+        Me.ButtonAceptar = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'TextBoxPassword
@@ -39,6 +39,7 @@ Partial Class FormPassword
         '
         'ButtonCancelar
         '
+        Me.ButtonCancelar.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.ButtonCancelar.Location = New System.Drawing.Point(337, 33)
         Me.ButtonCancelar.Name = "ButtonCancelar"
         Me.ButtonCancelar.Size = New System.Drawing.Size(80, 23)

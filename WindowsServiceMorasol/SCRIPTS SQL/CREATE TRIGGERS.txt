@@ -21,32 +21,55 @@
 
 *******************************************************************
 
-
 CREATE OR REPLACE TRIGGER TG_TRANS_CLIE_H1
 AFTER DELETE OR INSERT OR UPDATE
 ON TNHT_ENTI REFERENCING NEW AS NEW OLD AS OLD
 FOR EACH ROW
 DECLARE
    vcodigo   NUMBER;
+   vcontrol  NUMBER;
 BEGIN
    SELECT TG_TRANS_SEC.NEXTVAL INTO vcodigo FROM DUAL;
+   
+    -- CONTROL 1 
+     -- SI SE HA PUESTO A ESTA ENTIDAD UN CODIGO DISTINTO AL YA TRANSMITIDO 
+   SELECT DECODE (COUNT(*) ,0,0,1)  INTO vcontrol FROM TG_TRANS WHERE TRANS_PKEY = :NEW.ENTI_CODI AND TRANS_CEXT <> :NEW.ENTI_NCON_AF
+   AND TRANS_STAT = 1;
+   
+   
+   -- CONTROL 2 
+     -- SI SE HA PUESTO A ESTA ENTIDAD UN CODIGO YA ASIGNADO Y TRANSMITODO EN OTRA ENTIDAD " 
+   SELECT DECODE (COUNT(*) ,0,0,1)  INTO vcontrol FROM TG_TRANS WHERE TRANS_PKEY <>  :NEW.ENTI_CODI AND TRANS_CEXT = :NEW.ENTI_NCON_AF
+   AND TRANS_STAT = 1;  
+   
+ 
+   -- CPONTROL 3 
+     -- SI NO SE HA PUESTO AUN  EL CODIGO  NAVISION  EN ENTI_NCON_AF
+   
+      IF  :NEW.ENTI_NCON_AF  IS NULL THEN   
+        vcontrol := 1;
+      END IF;
+   
+   
 
    IF INSERTING
    THEN
       INSERT INTO TG_TRANS (TRANS_CODI,TRANS_EMPGRUPO_COD,TRANS_EMP_COD,TRANS_EMP_NUM,
                             TRANS_TABL,
                              TRANS_PKEY,
+                             TRANS_CEXT,
                             TRANS_TYPE,
                             TRANS_STAT,
                             TRANS_HOTE,
-                            TRANS_ERRO)
+                            TRANS_ERRO,TRANS_LOCK,TRANS_FCRE)
            VALUES (vcodigo,'GRTI','1',1,
                    'TNHT_ENTI',
                    :NEW.ENTI_CODI,
+                   :NEW.ENTI_NCON_AF,
                    1,
                    0,
                    0,
-                   NULL);
+                   NULL,vcontrol,SYS_EXTRACT_UTC(SYSTIMESTAMP));
    END IF;
 
 
@@ -55,17 +78,19 @@ BEGIN
       INSERT INTO TG_TRANS (TRANS_CODI,TRANS_EMPGRUPO_COD,TRANS_EMP_COD,TRANS_EMP_NUM,
                             TRANS_TABL,
                             TRANS_PKEY,
+                              TRANS_CEXT,
                             TRANS_TYPE,
                             TRANS_STAT,
                             TRANS_HOTE,
-                            TRANS_ERRO)
+                            TRANS_ERRO,TRANS_LOCK,TRANS_FCRE)
            VALUES (vcodigo,'GRTI','1',1,
                    'TNHT_ENTI',
                     :OLD.ENTI_CODI,
+                    :NEW.ENTI_NCON_AF,
                    2,
                    0,
                    0,
-                   NULL);
+                   NULL,vcontrol,SYS_EXTRACT_UTC(SYSTIMESTAMP));
    END IF;
 
 
@@ -75,22 +100,26 @@ BEGIN
       INSERT INTO TG_TRANS (TRANS_CODI,TRANS_EMPGRUPO_COD,TRANS_EMP_COD,TRANS_EMP_NUM,
                             TRANS_TABL,
                              TRANS_PKEY,
+                              TRANS_CEXT,
                             TRANS_TYPE,
                             TRANS_STAT,
                             TRANS_HOTE,
-                            TRANS_ERRO)
+                            TRANS_ERRO,TRANS_LOCK,TRANS_FCRE)
            VALUES (vcodigo,'GRTI','1',1,
                    'TNHT_ENTI',
                      :OLD.ENTI_CODI,
+                      :OLD.ENTI_NCON_AF,
                    3,
                    0,
                    0,
-                   NULL);
+                   NULL,vcontrol,SYS_EXTRACT_UTC(SYSTIMESTAMP));
    END IF;
 EXCEPTION
    WHEN OTHERS
    THEN
       -- Consider logging the error and then re-raise
-      RAISE;
+      
+     RAISE;
+  --    raise_application_error(-20001,'ERROR');
 END TG_TRANS_CLIE_H1;
 /

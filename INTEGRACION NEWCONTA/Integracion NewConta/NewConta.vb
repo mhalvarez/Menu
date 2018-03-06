@@ -3280,7 +3280,8 @@ Public Class NewConta
 
 
 
-            SQL = "SELECT NVL(PARA_CFBCOTMOV_COD2,'?')  "
+            '  SQL = "SELECT NVL(PARA_CFBCOTMOV_COD2,'?')  "
+            SQL = "SELECT NVL(PARA_CFBCOTMOV_COD,'?')  "
             SQL += " FROM TC_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod
             SQL += "' AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
             SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
@@ -3359,7 +3360,8 @@ Public Class NewConta
 
             Me.GeneraFileFVDiariodeCobros("FV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, Me.mTransferenciaFactura & "/" & Me.mTransferenciaFacturaSerie, CuentaCliente, CifCliente, 0, Me.mTransferenciaFPagoCod)
 
-            Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, "", CuentaCliente, CifCliente, 0, Me.mTransferenciaCfbcotmov, vBancosCod, CStr(Me.mTransferenciaComprobante), 1, "S")
+            '  Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, "", CuentaCliente, CifCliente, 0, Me.mTransferenciaCfbcotmov, vBancosCod, CStr(Me.mTransferenciaComprobante), 1, "S")
+            Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, "", CuentaCliente, CifCliente, vTotal, Me.mTransferenciaCfbcotmov, vBancosCod, CStr(Me.mTransferenciaComprobante), 1, "S")
             Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, "", CuentaAnticipos, CifAnticipos, vTotal, Me.mTransferenciaCfbcotmov, vBancosCod, CStr(Me.mTransferenciaComprobante), 2, "N")
 
 

@@ -470,6 +470,8 @@ Public Class FormParametrosFront
         Me.TextBoxCftatodiariCod2 = New System.Windows.Forms.TextBox()
         Me.Label87 = New System.Windows.Forms.Label()
         Me.GroupBox6 = New System.Windows.Forms.GroupBox()
+        Me.Button3 = New System.Windows.Forms.Button()
+        Me.Button = New System.Windows.Forms.Button()
         Me.TextBoxNewContaBanco2 = New System.Windows.Forms.TextBox()
         Me.TextBoxNewContaBanco = New System.Windows.Forms.TextBox()
         Me.Label128 = New System.Windows.Forms.Label()
@@ -725,8 +727,6 @@ Public Class FormParametrosFront
         Me.TextBoxEmpCod = New System.Windows.Forms.TextBox()
         Me.Label78 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.Button = New System.Windows.Forms.Button()
-        Me.Button3 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.TabControlOpciones.SuspendLayout()
         Me.TabPageGeneral.SuspendLayout()
@@ -1587,10 +1587,28 @@ Public Class FormParametrosFront
         Me.GroupBox6.TabStop = False
         Me.GroupBox6.Text = "Gestión de Comprobantes Bancarios"
         '
+        'Button3
+        '
+        Me.Button3.Location = New System.Drawing.Point(438, 147)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(44, 23)
+        Me.Button3.TabIndex = 59
+        Me.Button3.Text = ":::"
+        Me.Button3.UseVisualStyleBackColor = True
+        '
+        'Button
+        '
+        Me.Button.Location = New System.Drawing.Point(438, 112)
+        Me.Button.Name = "Button"
+        Me.Button.Size = New System.Drawing.Size(44, 23)
+        Me.Button.TabIndex = 58
+        Me.Button.Text = ":::"
+        Me.Button.UseVisualStyleBackColor = True
+        '
         'TextBoxNewContaBanco2
         '
         Me.TextBoxNewContaBanco2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxNewContaBanco2.Location = New System.Drawing.Point(304, 239)
+        Me.TextBoxNewContaBanco2.Location = New System.Drawing.Point(304, 147)
         Me.TextBoxNewContaBanco2.Name = "TextBoxNewContaBanco2"
         Me.TextBoxNewContaBanco2.Size = New System.Drawing.Size(128, 20)
         Me.TextBoxNewContaBanco2.TabIndex = 57
@@ -1606,7 +1624,7 @@ Public Class FormParametrosFront
         'Label128
         '
         Me.Label128.AutoSize = True
-        Me.Label128.Location = New System.Drawing.Point(6, 247)
+        Me.Label128.Location = New System.Drawing.Point(6, 155)
         Me.Label128.Name = "Label128"
         Me.Label128.Size = New System.Drawing.Size(234, 13)
         Me.Label128.TabIndex = 55
@@ -1660,7 +1678,7 @@ Public Class FormParametrosFront
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(438, 201)
+        Me.Button2.Location = New System.Drawing.Point(438, 239)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(44, 23)
         Me.Button2.TabIndex = 49
@@ -1670,7 +1688,7 @@ Public Class FormParametrosFront
         'TextBoxNewContaFPagoBanc2
         '
         Me.TextBoxNewContaFPagoBanc2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxNewContaFPagoBanc2.Location = New System.Drawing.Point(304, 204)
+        Me.TextBoxNewContaFPagoBanc2.Location = New System.Drawing.Point(304, 242)
         Me.TextBoxNewContaFPagoBanc2.Name = "TextBoxNewContaFPagoBanc2"
         Me.TextBoxNewContaFPagoBanc2.Size = New System.Drawing.Size(128, 20)
         Me.TextBoxNewContaFPagoBanc2.TabIndex = 48
@@ -1678,7 +1696,7 @@ Public Class FormParametrosFront
         'Label104
         '
         Me.Label104.AutoSize = True
-        Me.Label104.Location = New System.Drawing.Point(3, 198)
+        Me.Label104.Location = New System.Drawing.Point(6, 236)
         Me.Label104.Name = "Label104"
         Me.Label104.Size = New System.Drawing.Size(262, 26)
         Me.Label104.TabIndex = 47
@@ -1686,7 +1704,7 @@ Public Class FormParametrosFront
         '
         'ButtonNewContaBanco
         '
-        Me.ButtonNewContaBanco.Location = New System.Drawing.Point(438, 161)
+        Me.ButtonNewContaBanco.Location = New System.Drawing.Point(438, 199)
         Me.ButtonNewContaBanco.Name = "ButtonNewContaBanco"
         Me.ButtonNewContaBanco.Size = New System.Drawing.Size(44, 23)
         Me.ButtonNewContaBanco.TabIndex = 46
@@ -1696,7 +1714,7 @@ Public Class FormParametrosFront
         'TextBoxNewContaFPagoBanc
         '
         Me.TextBoxNewContaFPagoBanc.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxNewContaFPagoBanc.Location = New System.Drawing.Point(304, 161)
+        Me.TextBoxNewContaFPagoBanc.Location = New System.Drawing.Point(304, 199)
         Me.TextBoxNewContaFPagoBanc.Name = "TextBoxNewContaFPagoBanc"
         Me.TextBoxNewContaFPagoBanc.Size = New System.Drawing.Size(128, 20)
         Me.TextBoxNewContaFPagoBanc.TabIndex = 45
@@ -1704,7 +1722,7 @@ Public Class FormParametrosFront
         'Label106
         '
         Me.Label106.AutoSize = True
-        Me.Label106.Location = New System.Drawing.Point(3, 155)
+        Me.Label106.Location = New System.Drawing.Point(6, 193)
         Me.Label106.Name = "Label106"
         Me.Label106.Size = New System.Drawing.Size(234, 26)
         Me.Label106.TabIndex = 44
@@ -1712,9 +1730,9 @@ Public Class FormParametrosFront
         '
         'ButtonCobMovSpyro2
         '
-        Me.ButtonCobMovSpyro2.Location = New System.Drawing.Point(441, 76)
+        Me.ButtonCobMovSpyro2.Location = New System.Drawing.Point(438, 76)
         Me.ButtonCobMovSpyro2.Name = "ButtonCobMovSpyro2"
-        Me.ButtonCobMovSpyro2.Size = New System.Drawing.Size(41, 23)
+        Me.ButtonCobMovSpyro2.Size = New System.Drawing.Size(44, 23)
         Me.ButtonCobMovSpyro2.TabIndex = 43
         Me.ButtonCobMovSpyro2.Text = ":::"
         Me.ButtonCobMovSpyro2.UseVisualStyleBackColor = True
@@ -1748,9 +1766,9 @@ Public Class FormParametrosFront
         '
         'ButtonCobMovSpyro
         '
-        Me.ButtonCobMovSpyro.Location = New System.Drawing.Point(441, 36)
+        Me.ButtonCobMovSpyro.Location = New System.Drawing.Point(438, 36)
         Me.ButtonCobMovSpyro.Name = "ButtonCobMovSpyro"
-        Me.ButtonCobMovSpyro.Size = New System.Drawing.Size(41, 23)
+        Me.ButtonCobMovSpyro.Size = New System.Drawing.Size(44, 23)
         Me.ButtonCobMovSpyro.TabIndex = 39
         Me.ButtonCobMovSpyro.Text = ":::"
         Me.ButtonCobMovSpyro.UseVisualStyleBackColor = True
@@ -4031,24 +4049,6 @@ Public Class FormParametrosFront
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
-        'Button
-        '
-        Me.Button.Location = New System.Drawing.Point(441, 112)
-        Me.Button.Name = "Button"
-        Me.Button.Size = New System.Drawing.Size(41, 23)
-        Me.Button.TabIndex = 58
-        Me.Button.Text = ":::"
-        Me.Button.UseVisualStyleBackColor = True
-        '
-        'Button3
-        '
-        Me.Button3.Location = New System.Drawing.Point(438, 239)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(44, 23)
-        Me.Button3.TabIndex = 59
-        Me.Button3.Text = ":::"
-        Me.Button3.UseVisualStyleBackColor = True
         '
         'FormParametrosFront
         '

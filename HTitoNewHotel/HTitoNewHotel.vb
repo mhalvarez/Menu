@@ -4445,8 +4445,7 @@ Public Class HTitoNewHotel
 
 
             Me.mTipoAsiento = "HABER"
-            ' PDTE: HACER POR LINEAS NO POR TOTAL
-            ' desbloquear
+
 
             '     Me.InsertaOracleMorasol("AC", 51, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebeFac, "Documento " & CStr(Me.DbLeeHotel.mDbLector("NUMERO")) & "/" & CStr(Me.DbLeeHotel.mDbLector("SERIE")), Total, "NO", "", "", "SI", CType(Me.DbLeeHotel.mDbLector("NUMERO"), String), CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CStr(Me.DbLeeHotel.mDbLector("NUMERO")) & "/" & CStr(Me.DbLeeHotel.mDbLector("SERIE")), Me.mParaMoraTMovCliente, "", "DIM-DEP", Me.mParaMoraDimenHotel, Reserva, "", "", "", Me.mParaMoraTDocAbono, "WEBFACTURAS", "", "", "", "")
             Me.InsertaOracleMorasol("AC", 51, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorHaberFac, Texto, Total, "NO", Dni, Titular, "SI", CType(Me.DbLeeHotel.mDbLector("NUMERO"), String), CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CStr(Me.DbLeeHotel.mDbLector("NUMERO")) & "/" & CStr(Me.DbLeeHotel.mDbLector("SERIE")), Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, "", "", "", Me.mParaMoraTDocAbono, "WEBFACTURAS", "", "", "", "")
@@ -4494,8 +4493,7 @@ Public Class HTitoNewHotel
             End If
 
             Me.mTipoAsiento = "DEBE"
-            ' PDTE: HACER POR LINEAS NO POR TOTAL
-            ' desbloquear
+
             ' Me.InsertaOracleMorasol("AC", 51, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaberFac, "Documento " & CStr(Me.DbLeeHotel.mDbLector("NUMERO")) & "/" & CStr(Me.DbLeeHotel.mDbLector("SERIE")), Total, "NO", "", "", "SI", CType(Me.DbLeeHotel.mDbLector("NUMERO"), String), CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CStr(Me.DbLeeHotel.mDbLector("NUMERO")) & "/" & CStr(Me.DbLeeHotel.mDbLector("SERIE")), Me.mParaMoraTMovCliente, "", "DIM-DEP", Me.mParaMoraDimenHotel, Reserva, "", "", "", Me.mParaMoraTDocAbono, "WEBFACTURAS", "", "", "", "")
             Me.InsertaOracleMorasol("AC", 51, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebeFac, Texto, Total, "NO", Dni, Titular, "SI", CType(Me.DbLeeHotel.mDbLector("NUMERO"), String), CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CStr(Me.DbLeeHotel.mDbLector("NUMERO")) & "/" & CStr(Me.DbLeeHotel.mDbLector("SERIE")), Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, "", "", "", Me.mParaMoraTDocAbono, "WEBFACTURAS", "", "", "", "")
 
@@ -7705,7 +7703,6 @@ Public Class HTitoNewHotel
             ' ---------------------------------------------------------------
             ' Asiento Notas de Credito de Credito Entidades 51
             '----------------------------------------------------------------
-            'PDTE: CAMBIAR A INSERTARORACLE DE AQUI HACIA DEBAJO
 
 
             If Me.DbLeeHotel.EstadoConexion = ConnectionState.Open Then

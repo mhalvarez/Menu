@@ -13,6 +13,7 @@ Public Class NewHotelData
     Private Cursores As Integer
 
 
+
     Enum TipoFactura As Integer
         Entidad = 1
         NoAlojado = 2
@@ -549,6 +550,54 @@ Public Class NewHotelData
         Catch ex As Exception
             MsgBox(ex.Message & " en DevuelveNombreSeccion", MsgBoxStyle.Information, "Atención")
             Return "?"
+        Finally
+            Me.DbLeeHotel.mDbLector.Close()
+        End Try
+    End Function
+    Public Function DevuelveTotalFactura(ByVal vNFactura As Integer, ByVal vSerie As String) As Double
+        Dim Tipo As Integer
+
+        Try
+
+            ' CONTROL CURSORES 
+            SQL = "SELECT NVL(COUNT(*),0) AS TOTAL  FROM V$OPEN_CURSOR"
+            Cursores = CInt(Me.DbLeeHotel.EjecutaSqlScalar(SQL))
+            If Cursores > 300 Then
+                ' Me.CerrarConexiones()
+                ' Me.AbreConexiones()
+            End If
+
+
+            SQL = "  SELECT TNHT_FACT.SEFA_CODI AS SERIE, "
+            SQL += "         TNHT_FACT.FACT_CODI, "
+            SQL += "         (ROUND (FAIV_INCI, 2) - ROUND (FAIV_VIMP, 2)) BASE, "
+            SQL += "         ROUND (TNHT_FAIV.FAIV_VIMP, 2) IGIC, "
+            SQL += "         (ROUND (FAIV_INCI, 2) - ROUND (FAIV_VIMP, 2)) "
+            SQL += "         + ROUND (TNHT_FAIV.FAIV_VIMP, 2) "
+            SQL += "            AS TOTAL "
+            SQL += "    FROM TNHT_FAIV, TNHT_FACT, TNHT_TIVA "
+            SQL += "   WHERE     TNHT_FAIV.SEFA_CODI = TNHT_FACT.SEFA_CODI "
+            SQL += "         AND TNHT_FAIV.FACT_CODI = TNHT_FACT.FACT_CODI "
+            SQL += "         AND TNHT_FAIV.TIVA_CODI = TNHT_TIVA.TIVA_CODI "
+            SQL += "         AND  TNHT_FACT.FACT_CODI =  " & vNFactura
+            SQL += "         AND  TNHT_FACT.SEFA_CODI =  " & "'" & vSerie & "'"
+
+
+
+            Me.DbLeeHotel.TraerLector(SQL)
+            Me.DbLeeHotel.mDbLector.Read()
+            If Me.DbLeeHotel.mDbLector.HasRows Then
+                Return CDbl(Me.DbLeeHotel.mDbLector.Item("TOTAL"))
+            Else
+                Return 0
+            End If
+
+
+
+
+        Catch ex As Exception
+            MsgBox(ex.Message & " en DevuelveTotalFactura", MsgBoxStyle.Information, "Atención")
+            Return 0
         Finally
             Me.DbLeeHotel.mDbLector.Close()
         End Try
