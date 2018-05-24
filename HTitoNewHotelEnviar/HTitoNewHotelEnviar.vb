@@ -257,16 +257,24 @@ Public Class HTitoNewHotelEnviar
             End If
 
 
-
+            ' DEBUG 
+            If CrearFichero("C:\TEMPORAL\", "DEBUG.TXT") = False Then
+                Exit Sub
+            End If
 
             Me.AbreConexionesParaMAestros()
 
 
             ' Ler Parametros
-            Me.LeerParametros()
+
+            '   Me.LeerParametros()
 
 
-            Me.mDebugFileEstaOk = False
+
+
+
+
+            '  Me.mDebugFileEstaOk = False
 
 
 
@@ -284,11 +292,11 @@ Public Class HTitoNewHotelEnviar
 
         Catch ex As Exception
             If Me.mDebugFileEstaOk Then
-                Me.mDebugFile.WriteLine(Now & " Constructor de la Clase HtitoEnviar = " & ex.Message)
+                Me.mDebugFile.WriteLine(Now & " Constructor2 de la Clase HtitoEnviar = " & ex.Message)
             End If
         Finally
             Me.CierraConexiones()
-            '  Me.CerrarFichero()
+            Me.CerrarFichero()
 
         End Try
     End Sub
@@ -2091,10 +2099,7 @@ Public Class HTitoNewHotelEnviar
 
         Try
 
-            ' DEBUG 
-            If CrearFichero("C:\TEMPORAL\", "DEBUG.TXT") = False Then
-                Exit Sub
-            End If
+
 
 
             SQL = "SELECT TRANS_CODI,TRANS_EMPGRUPO_COD,TRANS_EMP_COD,TRANS_EMP_NUM,TRANS_TABL,TRANS_PKEY,"
@@ -2133,261 +2138,281 @@ Public Class HTitoNewHotelEnviar
 
             Me.DbLeeCentral.TraerLector(SQL)
 
-
+            ' debug
+            If Me.mDebugFileEstaOk Then
+                Me.mDebugFile.WriteLine(Now & " " & SQL)
+            End If
 
 
 
             If Me.DbLeeCentral.mDbLector.HasRows Then
-                '' Enviar Clientes
-                Me.WebServiceClientesBase = New WebReferenceClientesNewHotel.Clientes_Service
-                Me.WebServiceClientesDatos = New WebReferenceClientesNewHotel.Clientes
-            End If
-
-            While Me.DbLeeCentral.mDbLector.Read
-
-
-                '  CONTROL 
-                ' SE LE MODIFICO EL CODIGO NAVISION Y ES DISTINTO AL YA TRANSMITIDO 
-
-                SQL = "SELECT DECODE(COUNT(*), 0, 0, 1)  AS CONTROL FROM TG_TRANS WHERE "
-                SQL += " (TRANS_PKEY = '" & Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY") & "'"
-                SQL += " AND TRANS_CEXT <> '" & Me.DbLeeCentral.mDbLector.Item("TRANS_CEXT") & "'"
-                SQL += " AND TRANS_STAT = 1)"
-
-                SQL += "  OR "
-
-                ' SE PUSO UN CODIGO NAVISION YA ASIGNADO Y TRANSMITIDO DE OTRA ENTIDAD 
-                SQL += " (TRANS_PKEY <> '" & Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY") & "'"
-                SQL += " AND TRANS_CEXT = '" & Me.DbLeeCentral.mDbLector.Item("TRANS_CEXT") & "'"
-                SQL += " AND TRANS_STAT = 1)"
 
                 ' debug
                 If Me.mDebugFileEstaOk Then
-                    Me.mDebugFile.WriteLine(Now & " " & SQL)
+                    Me.mDebugFile.WriteLine(Now & " has rows")
                 End If
 
-
-                Me.mAuxInteger = CInt(Me.DbGrabaCentral.EjecutaSqlScalar(SQL))
-
-
-                If Me.mAuxInteger > 0 Then
-                    SQL = "UPDATE TG_TRANS SET TRANS_LOCK = 1 WHERE TRANS_CODI = " & Me.DbLeeCentral.mDbLector.Item("TRANS_CODI")
+                '' Enviar Clientes
+                Me.WebServiceClientesBase = New WebReferenceClientesNewHotel.Clientes_Service
+                Me.WebServiceClientesDatos = New WebReferenceClientesNewHotel.Clientes
 
 
-                    Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
-                    Me.mProcesar = False
-                Else
-                    Me.mProcesar = True
-                End If
+                While Me.DbLeeCentral.mDbLector.Read
+
+
+                    '  CONTROL 
+                    ' SE LE MODIFICO EL CODIGO NAVISION Y ES DISTINTO AL YA TRANSMITIDO 
+
+                    SQL = "SELECT DECODE(COUNT(*), 0, 0, 1)  AS CONTROL FROM TG_TRANS WHERE "
+                    SQL += " (TRANS_PKEY = '" & Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY") & "'"
+                    SQL += " AND TRANS_CEXT <> '" & Me.DbLeeCentral.mDbLector.Item("TRANS_CEXT") & "'"
+                    SQL += " AND TRANS_STAT = 1)"
+
+                    SQL += "  OR "
+
+                    ' SE PUSO UN CODIGO NAVISION YA ASIGNADO Y TRANSMITIDO DE OTRA ENTIDAD 
+                    SQL += " (TRANS_PKEY <> '" & Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY") & "'"
+                    SQL += " AND TRANS_CEXT = '" & Me.DbLeeCentral.mDbLector.Item("TRANS_CEXT") & "'"
+                    SQL += " AND TRANS_STAT = 1)"
+
+                    ' debug
+                    If Me.mDebugFileEstaOk Then
+                        Me.mDebugFile.WriteLine(Now & " " & SQL)
+                    End If
+
+
+                    Me.mAuxInteger = CInt(Me.DbGrabaCentral.EjecutaSqlScalar(SQL))
+
+
+                    If Me.mAuxInteger > 0 Then
+                        SQL = "UPDATE TG_TRANS SET TRANS_LOCK = 1 WHERE TRANS_CODI = " & Me.DbLeeCentral.mDbLector.Item("TRANS_CODI")
+
+                        ' debug
+                        If Me.mDebugFileEstaOk Then
+                            Me.mDebugFile.WriteLine(Now & " " & SQL)
+                        End If
+
+                        Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+                        Me.mProcesar = False
+                    Else
+                        Me.mProcesar = True
+                    End If
 
 
 
 
 
-                If IsDBNull(Me.DbLeeCentral.mDbLector.Item("TRANS_NAV_KEY")) = False Then
-                    ControlKey = Me.DbLeeCentral.mDbLector.Item("TRANS_NAV_KEY")
-                Else
-                    ControlKey = ""
-                End If
+                    If IsDBNull(Me.DbLeeCentral.mDbLector.Item("TRANS_NAV_KEY")) = False Then
+                        ControlKey = Me.DbLeeCentral.mDbLector.Item("TRANS_NAV_KEY")
+                    Else
+                        ControlKey = ""
+                    End If
+
+                    ' debug
+                    If Me.mDebugFileEstaOk Then
+                        Me.mDebugFile.WriteLine(Now & " " & ControlKey)
+                    End If
+
+
+                    ' URL
+                    Me.WebServiceClientesBase.Url = Me.DbLeeCentral.mDbLector.Item("PARA_WEBSERVICE_LOCATION") & Me.DbLeeCentral.mDbLector.Item("PARA_WEBSERVICE_ENAME") & "/Page/Clientes"
+
+                    ' TimeOut
+                    Me.WebServiceClientesBase.Timeout = Me.DbLeeCentral.mDbLector.Item("PARA_WEBSERVICE_TIMEOUT")
+
+                    ' Credenciales
+                    Me.WebServiceClientesBase.Credentials = New System.Net.NetworkCredential(Me.DbLeeCentral.mDbLector.Item("PARA_DOMAIN_USER"), Me.DbLeeCentral.mDbLector.Item("PARA_DOMAIN_PWD"), Me.DbLeeCentral.mDbLector.Item("PARA_DOMAIN_NAME"))
 
 
 
+                    SQL = "Select ENTI_CODI , ENTI_NOME"
+                    SQL += ", ENTI_MORA, ENTI_MOR1, ENTI_LOCA  "
+                    SQL += ", TNHT_ENTI.NACI_CODI, NACI_CISO  "
+                    SQL += ", ENTI_NUCO  "
+                    SQL += ", ENTI_TELG, ENTI_FAXG, ENTI_MAIG, ENTI_MCNU, ENTI_CPCL  "
+                    SQL += " FROM TNHT_ENTI, TNHT_NACI "
 
-                ' URL
-                Me.WebServiceClientesBase.Url = Me.DbLeeCentral.mDbLector.Item("PARA_WEBSERVICE_LOCATION") & Me.DbLeeCentral.mDbLector.Item("PARA_WEBSERVICE_ENAME") & "/Page/Clientes"
-
-                ' TimeOut
-                Me.WebServiceClientesBase.Timeout = Me.DbLeeCentral.mDbLector.Item("PARA_WEBSERVICE_TIMEOUT")
-
-                ' Credenciales
-                Me.WebServiceClientesBase.Credentials = New System.Net.NetworkCredential(Me.DbLeeCentral.mDbLector.Item("PARA_DOMAIN_USER"), Me.DbLeeCentral.mDbLector.Item("PARA_DOMAIN_PWD"), Me.DbLeeCentral.mDbLector.Item("PARA_DOMAIN_NAME"))
-
-
-
-                SQL = "Select ENTI_CODI , ENTI_NOME"
-                SQL += ", ENTI_MORA, ENTI_MOR1, ENTI_LOCA  "
-                SQL += ", TNHT_ENTI.NACI_CODI, NACI_CISO  "
-                SQL += ", ENTI_NUCO  "
-                SQL += ", ENTI_TELG, ENTI_FAXG, ENTI_MAIG, ENTI_MCNU, ENTI_CPCL  "
-                SQL += " FROM TNHT_ENTI, TNHT_NACI "
-
-                SQL += " WHERE TNHT_ENTI.NACI_CODI = TNHT_NACI.NACI_CODI"
-                SQL += " And ENTI_CODI = '" & Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY") & "'"
+                    SQL += " WHERE TNHT_ENTI.NACI_CODI = TNHT_NACI.NACI_CODI"
+                    SQL += " And ENTI_CODI = '" & Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY") & "'"
                     '   SQL += " AND ENTI_CAUX = '" & Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY") & "'"
 
 
 
                     If IsNothing(Me.DbLeeHotel) Then
-                    Me.DbLeeHotel = New C_DATOS.C_DatosOledb(Me.DbLeeCentral.mDbLector.Item("HOTEL_ODBC"), False)
-                    Me.DbLeeHotel.EjecutaSqlCommit("ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY'")
-                End If
-
-
-
-                Me.DbLeeHotel.TraerLector(SQL)
-
-                While Me.DbLeeHotel.mDbLector.Read
-
-
-
-                    If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_MORA")) = False Then
-                        Me.WebServiceClientesDatos.Address = Me.DbLeeHotel.mDbLector.Item("ENTI_MORA")
-                    Else
-                        Me.WebServiceClientesDatos.Address = ""
-                    End If
-
-
-                    If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_MOR1")) = False Then
-                        Me.WebServiceClientesDatos.Address += " " & Me.DbLeeHotel.mDbLector.Item("ENTI_MOR1")
-                    End If
-
-                    If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_LOCA")) = False Then
-                        Me.WebServiceClientesDatos.City = Me.DbLeeHotel.mDbLector.Item("ENTI_LOCA")
-                    Else
-                        Me.WebServiceClientesDatos.City = ""
+                        Me.DbLeeHotel = New C_DATOS.C_DatosOledb(Me.DbLeeCentral.mDbLector.Item("HOTEL_ODBC"), False)
+                        Me.DbLeeHotel.EjecutaSqlCommit("ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY'")
                     End If
 
 
 
+                    Me.DbLeeHotel.TraerLector(SQL)
 
-
-                    Me.WebServiceClientesDatos.Contact = ""
-
-
-
-
-                    If IsDBNull(Me.DbLeeHotel.mDbLector.Item("NACI_CISO")) = False Then
-                        Me.WebServiceClientesDatos.Country_Region_Code = Me.DbLeeHotel.mDbLector.Item("NACI_CISO")
-                    Else
-                        Me.WebServiceClientesDatos.Country_Region_Code = ""
-                    End If
-
-
-                    Me.WebServiceClientesDatos.County = ""
-                    Me.WebServiceClientesDatos.Customer_Posting_Group = ""
+                    While Me.DbLeeHotel.mDbLector.Read
 
 
 
-                    If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_MAIG")) = False Then
-                        Me.WebServiceClientesDatos.E_Mail = Me.DbLeeHotel.mDbLector.Item("ENTI_MAIG")
-                    Else
-                        Me.WebServiceClientesDatos.E_Mail = ""
-                    End If
-
-
-                    If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_FAXG")) = False Then
-                        Me.WebServiceClientesDatos.Fax_No = Me.DbLeeHotel.mDbLector.Item("ENTI_FAXG")
-                    Else
-                        Me.WebServiceClientesDatos.Fax_No = ""
-                    End If
-
-
-
-
-
-                    '? MISTERIO
-                    Me.WebServiceClientesDatos.Gen_Bus_Posting_Group = Me.mParaIvaNegocio
-
-
-
-
-                    If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_CODI")) = False Then
-
-
-                        Me.WebServiceClientesDatos.No = Me.DbLeeCentral.mDbLector.Item("TRANS_CEXT")
-                    Else
-
-                        Me.WebServiceClientesDatos.No = ""
-                    End If
-
-
-
-                    Me.WebServiceClientesDatos.Key = ""
-
-
-                    If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_NOME")) = False Then
-                        Me.WebServiceClientesDatos.Name = Me.DbLeeHotel.mDbLector.Item("ENTI_NOME")
-                    Else
-                        Me.WebServiceClientesDatos.Name = ""
-                    End If
-
-
-
-                    Me.WebServiceClientesDatos.Payment_Method_Code = ""
-                    Me.WebServiceClientesDatos.Payment_Terms_Code = ""
-
-
-                    If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_TELG")) = False Then
-                        Me.WebServiceClientesDatos.Phone_No = Me.DbLeeHotel.mDbLector.Item("ENTI_TELG")
-                    Else
-                        Me.WebServiceClientesDatos.Phone_No = ""
-                    End If
-
-
-
-                    If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_CPCL")) = False Then
-                        Me.WebServiceClientesDatos.Post_Code = Me.DbLeeHotel.mDbLector.Item("ENTI_CPCL")
-                    Else
-                        Me.WebServiceClientesDatos.Post_Code = ""
-                    End If
-
-
-
-
-                    '? MISTERIO
-                    Me.WebServiceClientesDatos.VAT_Bus_Posting_Group = Me.mParaIvaProducto
-
-                    If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_NUCO")) = False Then
-                        Me.WebServiceClientesDatos.VAT_Registration_No = Me.DbLeeHotel.mDbLector.Item("ENTI_NUCO")
-                    Else
-                        Me.WebServiceClientesDatos.VAT_Registration_No = ""
-                    End If
-
-
-
-
-                    ' LLAMADA AL WEB SERVICE
-
-                    If Me.mProcesar = True Then
-
-
-
-
-                        If IsNothing(Me.WebServiceClientesBase) = False Then
-                            If Me.WebServiceEnviar(9001, CInt(Me.DbLeeCentral.mDbLector.Item("TIPO")), CStr(Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY")), CInt(Me.DbLeeCentral.mDbLector.Item("TRANS_CODI")), ControlKey) = True Then
-
-                                ' Gestion de Error
-                                Me.WebServiveTrataenviosClientes(1, "OK", Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))
-
-
-                            Else
-
-                                ' Gestion de Error
-                                Me.WebServiveTrataenviosClientes(0, Me.mWebServiceError, Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))
-
-
-                            End If
+                        If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_MORA")) = False Then
+                            Me.WebServiceClientesDatos.Address = Me.DbLeeHotel.mDbLector.Item("ENTI_MORA")
+                        Else
+                            Me.WebServiceClientesDatos.Address = ""
                         End If
 
-                    End If
+
+                        If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_MOR1")) = False Then
+                            Me.WebServiceClientesDatos.Address += " " & Me.DbLeeHotel.mDbLector.Item("ENTI_MOR1")
+                        End If
+
+                        If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_LOCA")) = False Then
+                            Me.WebServiceClientesDatos.City = Me.DbLeeHotel.mDbLector.Item("ENTI_LOCA")
+                        Else
+                            Me.WebServiceClientesDatos.City = ""
+                        End If
+
+
+
+
+
+                        Me.WebServiceClientesDatos.Contact = ""
+
+
+
+
+                        If IsDBNull(Me.DbLeeHotel.mDbLector.Item("NACI_CISO")) = False Then
+                            Me.WebServiceClientesDatos.Country_Region_Code = Me.DbLeeHotel.mDbLector.Item("NACI_CISO")
+                        Else
+                            Me.WebServiceClientesDatos.Country_Region_Code = ""
+                        End If
+
+
+                        Me.WebServiceClientesDatos.County = ""
+                        Me.WebServiceClientesDatos.Customer_Posting_Group = ""
+
+
+
+                        If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_MAIG")) = False Then
+                            Me.WebServiceClientesDatos.E_Mail = Me.DbLeeHotel.mDbLector.Item("ENTI_MAIG")
+                        Else
+                            Me.WebServiceClientesDatos.E_Mail = ""
+                        End If
+
+
+                        If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_FAXG")) = False Then
+                            Me.WebServiceClientesDatos.Fax_No = Me.DbLeeHotel.mDbLector.Item("ENTI_FAXG")
+                        Else
+                            Me.WebServiceClientesDatos.Fax_No = ""
+                        End If
+
+
+
+
+
+                        '? MISTERIO
+                        Me.WebServiceClientesDatos.Gen_Bus_Posting_Group = Me.mParaIvaNegocio
+
+
+
+
+                        If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_CODI")) = False Then
+
+
+                            Me.WebServiceClientesDatos.No = Me.DbLeeCentral.mDbLector.Item("TRANS_CEXT")
+                        Else
+
+                            Me.WebServiceClientesDatos.No = ""
+                        End If
+
+
+
+                        Me.WebServiceClientesDatos.Key = ""
+
+
+                        If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_NOME")) = False Then
+                            Me.WebServiceClientesDatos.Name = Me.DbLeeHotel.mDbLector.Item("ENTI_NOME")
+                        Else
+                            Me.WebServiceClientesDatos.Name = ""
+                        End If
+
+
+
+                        Me.WebServiceClientesDatos.Payment_Method_Code = ""
+                        Me.WebServiceClientesDatos.Payment_Terms_Code = ""
+
+
+                        If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_TELG")) = False Then
+                            Me.WebServiceClientesDatos.Phone_No = Me.DbLeeHotel.mDbLector.Item("ENTI_TELG")
+                        Else
+                            Me.WebServiceClientesDatos.Phone_No = ""
+                        End If
+
+
+
+                        If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_CPCL")) = False Then
+                            Me.WebServiceClientesDatos.Post_Code = Me.DbLeeHotel.mDbLector.Item("ENTI_CPCL")
+                        Else
+                            Me.WebServiceClientesDatos.Post_Code = ""
+                        End If
+
+
+
+
+                        '? MISTERIO
+                        Me.WebServiceClientesDatos.VAT_Bus_Posting_Group = Me.mParaIvaProducto
+
+                        If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_NUCO")) = False Then
+                            Me.WebServiceClientesDatos.VAT_Registration_No = Me.DbLeeHotel.mDbLector.Item("ENTI_NUCO")
+                        Else
+                            Me.WebServiceClientesDatos.VAT_Registration_No = ""
+                        End If
+
+
+
+
+                        ' LLAMADA AL WEB SERVICE
+
+                        If Me.mProcesar = True Then
+
+
+
+
+                            If IsNothing(Me.WebServiceClientesBase) = False Then
+                                If Me.WebServiceEnviar(9001, CInt(Me.DbLeeCentral.mDbLector.Item("TIPO")), CStr(Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY")), CInt(Me.DbLeeCentral.mDbLector.Item("TRANS_CODI")), ControlKey) = True Then
+
+                                    ' Gestion de Error
+                                    Me.WebServiveTrataenviosClientes(1, "OK", Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))
+
+
+                                Else
+
+                                    ' Gestion de Error
+                                    Me.WebServiveTrataenviosClientes(0, Me.mWebServiceError, Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))
+
+
+                                End If
+                            End If
+
+                        End If
+
+                    End While
+
+
+
+
+                    Me.DbLeeHotel.mDbLector.Close()
 
                 End While
 
+                Me.DbLeeCentral.mDbLector.Close()
 
+                Me.DbLeeHotel.CerrarConexion()
+                Me.DbLeeHotel = Nothing
 
+            End If
 
-                Me.DbLeeHotel.mDbLector.Close()
-
-            End While
-
-            Me.DbLeeCentral.mDbLector.Close()
-
-            Me.DbLeeHotel.CerrarConexion()
-            Me.DbLeeHotel = Nothing
 
 
 
         Catch ex As Exception
+
 
             If IsNothing(Me.DbLeeHotel) = False Then
 
@@ -2406,14 +2431,21 @@ Public Class HTitoNewHotelEnviar
             Me.WebServiveTrataenviosClientes(0, Me.mWebServiceError & " + " & ex.Message, Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))
 
 
+
+
         Finally
+
+            ' debug
+            If Me.mDebugFileEstaOk Then
+                Me.mDebugFile.WriteLine(Now & " finally")
+            End If
 
             ' destruye el web wervice
             If IsNothing(Me.WebServiceClientesBase) = False Then
                 Me.WebServiceClientesBase = Nothing
             End If
             ' DEBUG 
-            CerrarFichero()
+            '   CerrarFichero()
 
         End Try
     End Sub

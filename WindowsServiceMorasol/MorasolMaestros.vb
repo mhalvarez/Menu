@@ -191,10 +191,14 @@ Public Class MorasolMaestros
 
 
                     If IsNothing(Me.EnviaTito) = True Then
+                        Me.WriteToFile("Simple Service Log: " + "Instancia dll " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss tt"))
+
                         EnviaTito = New HTitoNewHotelEnviar.HTitoNewHotelEnviar(CStr(ConfigurationManager.AppSettings("MyDataBaseCentralConnectionString")), mEnumTipoEnvio.MaestroClientesNewhotel)
+
                     End If
                     '   Me.WriteToFile("Simple Service Log: " + "Called Dll de Envio " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss tt"))
                     EnviaTito = Nothing
+
                 End If
 
 

@@ -401,7 +401,7 @@ Public Class FormIntegraNewConta
         Try
 
 
-            MsgBox("Cuadrar Los pagos recibidos con Consulta de Recibos de Newconta " & vbCrLf & "Cuadrar los Documentos Regularizados  con Reporte Diario de NewConta ", MsgBoxStyle.Information, "Atención")
+            '    MsgBox("Cuadrar Los pagos recibidos con Consulta de Recibos de Newconta " & vbCrLf & "Cuadrar los Documentos Regularizados  con Reporte Diario de NewConta ", MsgBoxStyle.Information, "Atención")
 
 
 

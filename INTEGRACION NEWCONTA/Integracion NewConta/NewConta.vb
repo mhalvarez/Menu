@@ -699,7 +699,7 @@ Public Class NewConta
     Private Sub InsertaOracle(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vCefejerc_Cod As String,
                                       ByVal vCfatocab_Refer As Integer, ByVal vLinea As Integer _
                                       , ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As String, ByVal vImonep As Double,
-                                        ByVal vAjuste As String, ByVal vCif As String, ByVal vNombre As String, ByVal vImprimir As String, ByVal vAuxiliar As String, ByVal vAuxiliar2 As String, vComprobante As String)
+                                        ByVal vAjuste As String, ByVal vCif As String, ByVal vNombre As String, ByVal vImprimir As String, ByVal vAuxiliar As String, ByVal vAuxiliar2 As String, vComprobante As String, vBancosCod2 As String)
 
         Try
 
@@ -714,7 +714,7 @@ Public Class NewConta
 
             SQL = "INSERT INTO TC_ASNT(ASNT_TIPO_REGISTRO,ASNT_EMPGRUPO_COD,ASNT_EMP_COD,ASNT_CFEJERC_COD,ASNT_CFATODIARI_COD,ASNT_CFATOCAB_REFER,"
             SQL += "ASNT_LINEA,ASNT_CFCTA_COD,ASNT_CFCPTOS_COD,ASNT_AMPCPTO,ASNT_I_MONEMP,ASNT_CONCIL_SN,ASNT_F_ATOCAB,ASNT_F_VALOR,ASNT_NOMBRE,"
-            SQL += "ASNT_DEBE,ASNT_HABER,ASNT_AJUSTAR,ASNT_CIF,ASNT_IMPRIMIR,ASNT_EMP_NUM,ASNT_AUXILIAR_STRING,ASNT_AUXILIAR_STRING2,ASNT_CFBCOCOMP_COMPROB) values ('"
+            SQL += "ASNT_DEBE,ASNT_HABER,ASNT_AJUSTAR,ASNT_CIF,ASNT_IMPRIMIR,ASNT_EMP_NUM,ASNT_AUXILIAR_STRING,ASNT_AUXILIAR_STRING2,ASNT_CFBCOCOMP_COMPROB,ASNT_BANCOS_NOT) values ('"
             SQL += vTipo & "','"
             SQL += vEmpGrupoCod & "','"
             SQL += vEmpCod & "','"
@@ -729,7 +729,7 @@ Public Class NewConta
             SQL += "'N','"
             SQL += Format(Me.mFecha, "dd/MM/yyyy") & "','"
             SQL += Format(Me.mFecha, "dd/MM/yyyy") & "','"
-            SQL += vNombre.Replace("'", "''") & "'," & Me.mDebe & "," & Me.mHbaber & ",'" & vAjuste & "','" & vCif & "','" & vImprimir & "'," & Me.mEmpNum & ",'" & vAuxiliar & "','" & vAuxiliar2 & "'," & vComprobante & ")"
+            SQL += vNombre.Replace("'", "''") & "'," & Me.mDebe & "," & Me.mHbaber & ",'" & vAjuste & "','" & vCif & "','" & vImprimir & "'," & Me.mEmpNum & ",'" & vAuxiliar & "','" & vAuxiliar2 & "'," & vComprobante & ",'" & vBancosCod2 & "')"
 
 
 
@@ -773,7 +773,7 @@ Public Class NewConta
     Private Sub InsertaOracle(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vCefejerc_Cod As String,
                                       ByVal vCfatocab_Refer As Integer, ByVal vLinea As Integer _
                                       , ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As String, ByVal vImonep As Double,
-                                        ByVal vAjuste As String, ByVal vCif As String, ByVal vNombre As String, ByVal vImprimir As String, ByVal vFechaValor As Date, ByVal vAuxiliar As String, vAuxiliar2 As String, vBanco As String, vTipoMov As String, vComprobante As String, vConcil As String)
+                                        ByVal vAjuste As String, ByVal vCif As String, ByVal vNombre As String, ByVal vImprimir As String, ByVal vFechaValor As Date, ByVal vAuxiliar As String, vAuxiliar2 As String, vBanco As String, vTipoMov As String, vComprobante As String, vConcil As String, vBancosNot As String)
 
         Try
 
@@ -788,7 +788,7 @@ Public Class NewConta
 
             SQL = "INSERT INTO TC_ASNT(ASNT_TIPO_REGISTRO,ASNT_EMPGRUPO_COD,ASNT_EMP_COD,ASNT_CFEJERC_COD,ASNT_CFATODIARI_COD,ASNT_CFATOCAB_REFER,"
             SQL += "ASNT_LINEA,ASNT_CFCTA_COD,ASNT_CFCPTOS_COD,ASNT_AMPCPTO,ASNT_I_MONEMP,ASNT_CONCIL_SN,ASNT_F_ATOCAB,ASNT_F_VALOR,ASNT_NOMBRE,"
-            SQL += "ASNT_DEBE,ASNT_HABER,ASNT_AJUSTAR,ASNT_CIF,ASNT_IMPRIMIR,ASNT_EMP_NUM,ASNT_AUXILIAR_STRING,ASNT_AUXILIAR_STRING2,ASNT_BANCOS_COD,ASNT_CFBCOTMOV_COD, ASNT_CFBCOCOMP_COMPROB) values ('"
+            SQL += "ASNT_DEBE,ASNT_HABER,ASNT_AJUSTAR,ASNT_CIF,ASNT_IMPRIMIR,ASNT_EMP_NUM,ASNT_AUXILIAR_STRING,ASNT_AUXILIAR_STRING2,ASNT_BANCOS_COD,ASNT_CFBCOTMOV_COD, ASNT_CFBCOCOMP_COMPROB,ASNT_BANCOS_NOT) values ('"
             SQL += vTipo & "','"
             SQL += vEmpGrupoCod & "','"
             SQL += vEmpCod & "','"
@@ -806,7 +806,7 @@ Public Class NewConta
             '  SQL += "'N','"
             SQL += Format(Me.mFecha, "dd/MM/yyyy") & "','"
             SQL += Format(vFechaValor, "dd/MM/yyyy") & "','"
-            SQL += vNombre.Replace("'", "''") & "'," & Me.mDebe & "," & Me.mHbaber & ",'" & vAjuste & "','" & vCif & "','" & vImprimir & "'," & Me.mEmpNum & ",'" & vAuxiliar & "','" & vAuxiliar2 & "','" & vBanco & "','" & vTipoMov & "'," & vComprobante & ")"
+            SQL += vNombre.Replace("'", "''") & "'," & Me.mDebe & "," & Me.mHbaber & ",'" & vAjuste & "','" & vCif & "','" & vImprimir & "'," & Me.mEmpNum & ",'" & vAuxiliar & "','" & vAuxiliar2 & "','" & vBanco & "','" & vTipoMov & "'," & vComprobante & ",'" & vBancosNot & "')"
 
 
 
@@ -2097,13 +2097,15 @@ Public Class NewConta
                             Me.GeneraComprobanteBanco2(111, Total, CType(Me.DbNewConta.mDbLector("TIMO_CECO"), String), CType(Me.DbNewConta.mDbLector("TACO_CODI"), String), CInt(Me.DbNewConta.mDbLector("MOCO_CODI")), 9999, "serie factura")
 
                         End If
-                        Me.InsertaOracle("AC", 111, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, "NO", "", CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", CDate(Me.DbNewConta.mDbLector("DAVA")), CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), "Comprobante Bancario Nº: " & Me.mTransferenciaComprobante, CType(Me.DbNewConta.mDbLector("TIMO_CECO"), String), Me.mTransferenciaCfbcotmov, CStr(Me.mTransferenciaComprobante), "S")
+                        Me.InsertaOracle("AC", 111, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, "NO", "", CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", CDate(Me.DbNewConta.mDbLector("DAVA")), CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), "Comprobante Bancario Nº: " & Me.mTransferenciaComprobante, CType(Me.DbNewConta.mDbLector("TIMO_CECO"), String), Me.mTransferenciaCfbcotmov, CStr(Me.mTransferenciaComprobante), "S", Me.mTransferenciaBancosCod)
                         Me.GeneraFileACconFechaValorComprobanteBancario("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, CDate(Me.DbNewConta.mDbLector("DAVA")), CStr(Me.DbNewConta.mDbLector("TIMO_CECO")), Me.mTransferenciaCfbcotmov, Me.mTransferenciaComprobante)
+                        '   Me.GeneraFileACconFechaValorComprobanteBancario("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, CDate(Me.DbNewConta.mDbLector("DAVA")), Me.mTransferenciaBancosCod, Me.mTransferenciaCfbcotmov, Me.mTransferenciaComprobante)
 
 
                     Else
-                        Me.InsertaOracle("AC", 111, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, "NO", "", CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", CDate(Me.DbNewConta.mDbLector("DAVA")), CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), "", "", "", "null", "N")
-                        Me.GeneraFileACconFechaValor("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, CDate(Me.DbNewConta.mDbLector("DAVA")))
+                        Me.InsertaOracle("AC", 111, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, "NO", "", CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", CDate(Me.DbNewConta.mDbLector("DAVA")), CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), "", "", "", "null", "N", Me.mTransferenciaBancosCod)
+                         Me.GeneraFileACconFechaValor("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, CDate(Me.DbNewConta.mDbLector("DAVA")))
+
 
                     End If
 
@@ -2164,7 +2166,7 @@ Public Class NewConta
                 Total = CType(Me.DbNewConta.mDbLector("TOTAL"), Double)
                 If Total <> 0 Then
                     Me.mTipoAsiento = "HABER"
-                    Me.InsertaOracle("AC", 111, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", CDate(Me.DbNewConta.mDbLector("DAVA")), CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), "", "", "", "null", "N")
+                    Me.InsertaOracle("AC", 111, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", CDate(Me.DbNewConta.mDbLector("DAVA")), CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), "", "", "", "null", "N", "")
                     Me.GeneraFileACconFechaValor("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, CDate(Me.DbNewConta.mDbLector("DAVA")))
                 End If
             End While
@@ -2227,7 +2229,7 @@ Public Class NewConta
                 Total = CType(Me.DbNewConta.mDbLector("TOTAL"), Double)
                 If Total <> 0 Then
                     Me.mTipoAsiento = "HABER"
-                    Me.InsertaOracle("AC", 222, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, "NO", "", CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", CDate(Me.DbNewConta.mDbLector("DAVA")), CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), "", "", "", "null", "N")
+                    Me.InsertaOracle("AC", 222, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, "NO", "", CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", CDate(Me.DbNewConta.mDbLector("DAVA")), CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), "", "", "", "null", "N", "")
                     Me.GeneraFileACconFechaValor("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, CDate(Me.DbNewConta.mDbLector("DAVA")))
                 End If
             End While
@@ -2276,7 +2278,7 @@ Public Class NewConta
                 Total = CType(Me.DbNewConta.mDbLector("TOTAL"), Double)
                 If Total <> 0 Then
                     Me.mTipoAsiento = "DEBE"
-                    Me.InsertaOracle("AC", 222, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, "*** " & CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", CDate(Me.DbNewConta.mDbLector("DAVA")), CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), "", "", "", "null", "N")
+                    Me.InsertaOracle("AC", 222, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, "*** " & CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", CDate(Me.DbNewConta.mDbLector("DAVA")), CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), "", "", "", "null", "N", "")
                     Me.GeneraFileACconFechaValor("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, " " & CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), Total, CDate(Me.DbNewConta.mDbLector("DAVA")))
                 End If
             End While
@@ -2410,13 +2412,17 @@ Public Class NewConta
                         Me.mComprobante = 0
                     End If
 
-                    Me.InsertaOracle("AC", 333, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("NOMBRE"), String), "SI", CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String).PadRight(50, CChar(" ")), "  Pagada con : [" & CType(Me.DbNewConta.mDbLector("MOLI2_DESC"), String) & "] + " & CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), CStr(Me.mComprobante))
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), Total)
 
                     If Me.mTipoComprobantesVersion = 1 Then
                         Me.GeneraComprobanteBancoRegularizacion(333, Total, CType(Me.DbNewConta.mDbLector("TACO_DEBI"), String), CInt(Me.DbNewConta.mDbLector("MOCO_CODI")), CInt(Me.DbNewConta.mDbLector("FACT_CODI")), CStr(Me.DbNewConta.mDbLector("SEFA_CODI")))
 
                     End If
+
+                    '20180327
+                    ' ANTES SE HACIA ANTES DE GENERAR EL COMPROBANTE 
+
+                    Me.InsertaOracle("AC", 333, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("NOMBRE"), String), "SI", CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String).PadRight(50, CChar(" ")), "  Pagada con : [" & CType(Me.DbNewConta.mDbLector("MOLI2_DESC"), String) & "] + " & CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), CStr(Me.mComprobante), "")
+                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), Total)
 
 
                 End If
@@ -2512,7 +2518,7 @@ Public Class NewConta
 
                 If Total <> 0 Then
                     Me.mTipoAsiento = "DEBE"
-                    Me.InsertaOracle("AC", 333, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("NOMBRE"), String), "SI", CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String).PadRight(50, CChar(" ")) & " [Es Forma de PAgo = " & EsFormaDePago.ToString & "]", "  Paga a : " & CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), "NULL")
+                    Me.InsertaOracle("AC", 333, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("NOMBRE"), String), "SI", CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String).PadRight(50, CChar(" ")) & " [Es Forma de PAgo = " & EsFormaDePago.ToString & "]", "  Paga a : " & CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), "NULL", "")
                     Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, " " & CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), Total)
                 End If
             End While
@@ -2649,7 +2655,7 @@ Public Class NewConta
                     Else
                         Me.mComprobante = 0
                     End If
-                    Me.InsertaOracle("AC", 777, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("NOMBRE"), String), "SI", CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String).PadRight(50, CChar(" ")), " Pagada con : [" & CType(Me.DbNewConta.mDbLector("MOLI2_DESC"), String) & "] + " & CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), CStr(Me.mComprobante))
+                    Me.InsertaOracle("AC", 777, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("NOMBRE"), String), "SI", CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String).PadRight(50, CChar(" ")), " Pagada con : [" & CType(Me.DbNewConta.mDbLector("MOLI2_DESC"), String) & "] + " & CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), CStr(Me.mComprobante), "")
                     Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), Total)
 
 
@@ -2751,7 +2757,7 @@ Public Class NewConta
 
                 If Total <> 0 Then
                     Me.mTipoAsiento = "DEBE"
-                    Me.InsertaOracle("AC", 777, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("NOMBRE"), String), "SI", CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String).PadRight(50, CChar(" ")) & " [Es Forma de PAgo = " & EsFormaDePago.ToString & "]", " Paga a : " & CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), "NULL")
+                    Me.InsertaOracle("AC", 777, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("NOMBRE"), String), "SI", CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String).PadRight(50, CChar(" ")) & " [Es Forma de PAgo = " & EsFormaDePago.ToString & "]", " Paga a : " & CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), "NULL", "")
                     Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, " " & CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), Total)
                 End If
             End While
@@ -2821,7 +2827,7 @@ Public Class NewConta
                 Total = CType(Me.DbNewConta.mDbLector("TOTAL"), Double)
                 If Total <> 0 Then
                     Me.mTipoAsiento = "DEBE"
-                    Me.InsertaOracle("AC", 444, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " +  " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, "NO", "", CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", CDate(Me.DbNewConta.mDbLector("DAVA")), CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), "", "", "", "null", "N")
+                    Me.InsertaOracle("AC", 444, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " +  " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, "NO", "", CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", CDate(Me.DbNewConta.mDbLector("DAVA")), CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), "", "", "", "null", "N", "")
                     Me.GeneraFileACconFechaValor("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, CDate(Me.DbNewConta.mDbLector("DAVA")))
                 End If
             End While
@@ -2879,7 +2885,7 @@ Public Class NewConta
                 Total = CType(Me.DbNewConta.mDbLector("TOTAL"), Double)
                 If Total <> 0 Then
                     Me.mTipoAsiento = "HABER"
-                    Me.InsertaOracle("AC", 444, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", CDate(Me.DbNewConta.mDbLector("DAVA")), CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), "", "", "", "null", "N")
+                    Me.InsertaOracle("AC", 444, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", CDate(Me.DbNewConta.mDbLector("DAVA")), CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), "", "", "", "null", "N", "")
                     Me.GeneraFileACconFechaValor("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, CDate(Me.DbNewConta.mDbLector("DAVA")))
                 End If
             End While
@@ -2948,7 +2954,7 @@ Public Class NewConta
                 Total = CType(Me.DbNewConta.mDbLector("TOTAL"), Double)
                 If Total <> 0 Then
                     Me.mTipoAsiento = "HABER"
-                    Me.InsertaOracle("AC", 555, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " +  " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, "NO", "", CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", CDate(Me.DbNewConta.mDbLector("DAVA")), CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), "", "", "", "null", "N")
+                    Me.InsertaOracle("AC", 555, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " +  " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, "NO", "", CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", CDate(Me.DbNewConta.mDbLector("DAVA")), CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), "", "", "", "null", "N", "")
                     Me.GeneraFileACconFechaValor("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, CDate(Me.DbNewConta.mDbLector("DAVA")))
                 End If
             End While
@@ -2999,7 +3005,7 @@ Public Class NewConta
                 Total = CType(Me.DbNewConta.mDbLector("TOTAL"), Double)
                 If Total <> 0 Then
                     Me.mTipoAsiento = "DEBE"
-                    Me.InsertaOracle("AC", 555, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, "*** " & CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", CDate(Me.DbNewConta.mDbLector("DAVA")), CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), "", "", "", "null", "N")
+                    Me.InsertaOracle("AC", 555, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, "*** " & CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", CDate(Me.DbNewConta.mDbLector("DAVA")), CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), "", "", "", "null", "N", "")
                     Me.GeneraFileACconFechaValor("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, " " & CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), Total, CDate(Me.DbNewConta.mDbLector("DAVA")))
                 End If
             End While

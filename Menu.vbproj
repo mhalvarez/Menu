@@ -704,6 +704,7 @@
     <Content Include="SCRIPTS ACTUALIZIONES\20180105.sql" />
     <Content Include="SCRIPTS ACTUALIZIONES\20180108.SQL" />
     <Content Include="SCRIPTS ACTUALIZIONES\20180130.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20180327.SQL" />
     <Content Include="SCRIPTS ACTUALIZIONES\Notas Domingo.TXT" />
     <Content Include="SCRIPTS ACTUALIZIONES\NOTAS Y OCURRENCIAS  LEER.txt" />
     <Content Include="SCRIPTS ACTUALIZIONES\Pendiente Implementacion de Bonos.txt" />
