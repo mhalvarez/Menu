@@ -1613,6 +1613,10 @@ Public Class FormIntegraNominaA3
 
             Dim sh As Microsoft.Office.Interop.Excel.Worksheet
             Dim i As Integer
+
+            ' ojo
+            sh = Nothing
+
             For Each sh In Me.ExcelApp.Sheets
                 '  Me.ListBoxLibrosNif.Items.Add(sh.Name)
                 i = i + 1
@@ -1624,6 +1628,8 @@ Public Class FormIntegraNominaA3
                 Next P
 
             Next sh
+
+
 
             If sh.Name.Length > 0 Then
                 Me.TextBoxHojaNif.Text = sh.Name

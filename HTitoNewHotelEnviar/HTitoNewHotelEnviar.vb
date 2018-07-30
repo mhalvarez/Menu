@@ -674,7 +674,7 @@ Public Class HTitoNewHotelEnviar
 
             If IsNothing(WebServiceProduccionLinea) = False Then
 
-                If Me.WebServiceEnviar(1, 0, "", 0, "") = True Then
+                If Me.WebServiceEnviar(1, 0, "", 0) = True Then
                     ' destruye el web wervice
                     Me.WebServiceProduccionBase = Nothing
                     If Me.mDebugFileEstaOk Then
@@ -895,7 +895,7 @@ Public Class HTitoNewHotelEnviar
 
             If IsNothing(Me.WebServiceAnticiposLinea) = False Then
 
-                If Me.WebServiceEnviar(2, 0, "", 0, "") = True Then
+                If Me.WebServiceEnviar(2, 0, "", 0) = True Then
                     ' destruye el web wervice
                     Me.WebServiceAnticiposBase = Nothing
                     If Me.mDebugFileEstaOk Then
@@ -1125,7 +1125,7 @@ Public Class HTitoNewHotelEnviar
             ' LLAMADA AL WEB SERVICE
 
             If IsNothing(Me.WebServiceAnticiposAplicadosLinea) = False Then
-                If Me.WebServiceEnviar(350, 0, "", 0, "") = True Then
+                If Me.WebServiceEnviar(350, 0, "", 0) = True Then
                     ' destruye el web wervice
                     Me.WebServiceAnticiposAplicadosBase = Nothing
                     If Me.mDebugFileEstaOk Then
@@ -1232,7 +1232,7 @@ Public Class HTitoNewHotelEnviar
 
                     ' LLAMADA AL WEB SERVICE
 
-                    If Me.WebServiceEnviar(ControlAsiento, 0, "", 0, "") = True Then
+                    If Me.WebServiceEnviar(ControlAsiento, 0, "", 0) = True Then
 
                         ' destruye el web wervice
                         '  Me.WebServiceFacturacionBase = Nothing
@@ -1480,7 +1480,7 @@ Public Class HTitoNewHotelEnviar
 
             If IsNothing(Me.WebServiceFacturacionLineas) = False Then
 
-                If Me.WebServiceEnviar(ControlAsiento, 0, "", 0, "") = True Then
+                If Me.WebServiceEnviar(ControlAsiento, 0, "", 0) = True Then
 
                     ' destruye el web wervice
                     '  Me.WebServiceFacturacionBase = Nothing
@@ -1729,7 +1729,7 @@ Public Class HTitoNewHotelEnviar
             ' LLAMADA AL WEB SERVICE
 
             If IsNothing(Me.WebServiceCobrosLinea) = False Then
-                If Me.WebServiceEnviar(35, 0, "", 0, "") = True Then
+                If Me.WebServiceEnviar(35, 0, "", 0) = True Then
                     ' destruye el web wervice
                     Me.WebServiceCobrosBase = Nothing
                     If Me.mDebugFileEstaOk Then
@@ -1838,7 +1838,7 @@ Public Class HTitoNewHotelEnviar
 
                     ' LLAMADA AL WEB SERVICE
 
-                    If Me.WebServiceEnviar(3, 0, "", 0, "") = True Then
+                    If Me.WebServiceEnviar(3, 0, "", 0) = True Then
 
                         ' destruye el web wervice
                         '  Me.WebServiceFacturacionBase = Nothing
@@ -2038,7 +2038,7 @@ Public Class HTitoNewHotelEnviar
 
             If IsNothing(Me.WebServiceFacturacionLineas) = False Then
 
-                If Me.WebServiceEnviar(3, 0, "", 0, "") = True Then
+                If Me.WebServiceEnviar(3, 0, "", 0) = True Then
 
                     ' destruye el web wervice
                     '  Me.WebServiceFacturacionBase = Nothing
@@ -2097,7 +2097,7 @@ Public Class HTitoNewHotelEnviar
 
         Dim Primerregistro As Boolean = True
 
-        Dim ControlKey As String = ""
+
 
         Try
 
@@ -2129,10 +2129,6 @@ Public Class HTitoNewHotelEnviar
             ' SOLO SIN PROCESAR
             SQL += " AND TRANS_STAT =  0 "
 
-            ' SOLO CON CODIGO EXTERNO RELLENO 
-            SQL += " AND TRANS_CEXT IS NOT NULL  "
-            ' No bloqueado por inconsistencia 
-            SQL += " AND TRANS_LOCK =  0 "
             SQL += " ORDER BY TRANS_CODI ASC"
 
 
@@ -2162,58 +2158,8 @@ Public Class HTitoNewHotelEnviar
                 While Me.DbLeeCentral.mDbLector.Read
 
 
-                    '  CONTROL 
-                    ' SE LE MODIFICO EL CODIGO NAVISION Y ES DISTINTO AL YA TRANSMITIDO 
-
-                    SQL = "SELECT DECODE(COUNT(*), 0, 0, 1)  AS CONTROL FROM TG_TRANS WHERE "
-                    SQL += " (TRANS_PKEY = '" & Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY") & "'"
-                    SQL += " AND TRANS_CEXT <> '" & Me.DbLeeCentral.mDbLector.Item("TRANS_CEXT") & "'"
-                    SQL += " AND TRANS_STAT = 1)"
-
-                    SQL += "  OR "
-
-                    ' SE PUSO UN CODIGO NAVISION YA ASIGNADO Y TRANSMITIDO DE OTRA ENTIDAD 
-                    SQL += " (TRANS_PKEY <> '" & Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY") & "'"
-                    SQL += " AND TRANS_CEXT = '" & Me.DbLeeCentral.mDbLector.Item("TRANS_CEXT") & "'"
-                    SQL += " AND TRANS_STAT = 1)"
-
-                    ' debug
-                    If Me.mDebugFileEstaOk Then
-                        Me.mDebugFile.WriteLine(Now & " " & SQL)
-                    End If
 
 
-                    Me.mAuxInteger = CInt(Me.DbGrabaCentral.EjecutaSqlScalar(SQL))
-
-
-                    If Me.mAuxInteger > 0 Then
-                        SQL = "UPDATE TG_TRANS SET TRANS_LOCK = 1 WHERE TRANS_CODI = " & Me.DbLeeCentral.mDbLector.Item("TRANS_CODI")
-
-                        ' debug
-                        If Me.mDebugFileEstaOk Then
-                            Me.mDebugFile.WriteLine(Now & " " & SQL)
-                        End If
-
-                        Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
-                        Me.mProcesar = False
-                    Else
-                        Me.mProcesar = True
-                    End If
-
-
-
-
-
-                    If IsDBNull(Me.DbLeeCentral.mDbLector.Item("TRANS_NAV_KEY")) = False Then
-                        ControlKey = Me.DbLeeCentral.mDbLector.Item("TRANS_NAV_KEY")
-                    Else
-                        ControlKey = ""
-                    End If
-
-                    ' debug
-                    If Me.mDebugFileEstaOk Then
-                        Me.mDebugFile.WriteLine(Now & " " & ControlKey)
-                    End If
 
 
                     ' URL
@@ -2232,8 +2178,8 @@ Public Class HTitoNewHotelEnviar
                     SQL += ", TNHT_ENTI.NACI_CODI, NACI_CISO  "
                     SQL += ", ENTI_NUCO  "
                     SQL += ", ENTI_TELG, ENTI_FAXG, ENTI_MAIG, ENTI_MCNU, ENTI_CPCL  "
+                    SQL += ", ENTI_NCO2_AF,ENTI_BAFP  "
                     SQL += " FROM TNHT_ENTI, TNHT_NACI "
-
                     SQL += " WHERE TNHT_ENTI.NACI_CODI = TNHT_NACI.NACI_CODI"
                     SQL += " And ENTI_CODI = '" & Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY") & "'"
                     '   SQL += " AND ENTI_CAUX = '" & Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY") & "'"
@@ -2335,9 +2281,25 @@ Public Class HTitoNewHotelEnviar
                         End If
 
 
+                        ' Metodos y Terminos de Pago 
 
-                        Me.WebServiceClientesDatos.Payment_Method_Code = ""
-                        Me.WebServiceClientesDatos.Payment_Terms_Code = ""
+                        ' Se usan los campos  de Codigo de Cuenta contable "moneda extranjera " (Tab Contabilidad)
+
+                        ' y "Forma de Pago" (Tab Banco)  de la de la ficha de la entidad 
+
+
+                        If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_NCO2_AF")) = False Then
+                            Me.WebServiceClientesDatos.Payment_Terms_Code = Me.DbLeeHotel.mDbLector.Item("ENTI_NCO2_AF")
+                        Else
+                            Me.WebServiceClientesDatos.Payment_Terms_Code = ""
+                        End If
+
+                        If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_BAFP")) = False Then
+                            Me.WebServiceClientesDatos.Payment_Method_Code = Me.DbLeeHotel.mDbLector.Item("ENTI_BAFP")
+                        Else
+                            Me.WebServiceClientesDatos.Payment_Method_Code = ""
+                        End If
+
 
 
                         If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_TELG")) = False Then
@@ -2371,28 +2333,23 @@ Public Class HTitoNewHotelEnviar
 
                         ' LLAMADA AL WEB SERVICE
 
-                        If Me.mProcesar = True Then
+
+                        If IsNothing(Me.WebServiceClientesBase) = False Then
+                            If Me.WebServiceEnviar(9001, CInt(Me.DbLeeCentral.mDbLector.Item("TIPO")), CStr(Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY")), CInt(Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))) = True Then
+
+                                ' Gestion de Error
+                                Me.WebServiveTrataenviosClientes(1, "OK", Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))
 
 
+                            Else
 
-
-                            If IsNothing(Me.WebServiceClientesBase) = False Then
-                                If Me.WebServiceEnviar(9001, CInt(Me.DbLeeCentral.mDbLector.Item("TIPO")), CStr(Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY")), CInt(Me.DbLeeCentral.mDbLector.Item("TRANS_CODI")), ControlKey) = True Then
-
-                                    ' Gestion de Error
-                                    Me.WebServiveTrataenviosClientes(1, "OK", Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))
-
-
-                                Else
-
-                                    ' Gestion de Error
-                                    Me.WebServiveTrataenviosClientes(0, Me.mWebServiceError, Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))
+                                ' Gestion de Error
+                                Me.WebServiveTrataenviosClientes(0, Me.mWebServiceError, Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))
 
 
                                 End If
                             End If
 
-                        End If
 
                     End While
 
@@ -2455,7 +2412,7 @@ Public Class HTitoNewHotelEnviar
 
 #End Region
 #Region "GESTION DE ERRORES"
-    Private Function WebServiceEnviar(vAsiento As Integer, vAccionMaestro As Integer, vKey As String, vTransCodi As Integer, vTransNavKey As String) As Boolean
+    Private Function WebServiceEnviar(vAsiento As Integer, vAccionMaestro As Integer, vKey As String, vTransCodi As Integer) As Boolean
         Try
             Me.mWebServiceError = ""
             Me.mUrl = ""
@@ -2514,10 +2471,19 @@ Public Class HTitoNewHotelEnviar
 
                     Me.WebServiceClientesDatosControl = Me.WebServiceClientesBase.Read(Me.WebServiceClientesDatos.No)
 
-
+                    ' debug
+                    If Me.mDebugFileEstaOk Then
+                        Me.mDebugFile.WriteLine(Now & " Preguntando si el cliente " & Me.WebServiceClientesDatos.No & " existe para crearlo")
+                    End If
 
 
                     If IsNothing(Me.WebServiceClientesDatosControl) = True Then
+
+                        ' debug
+                        If Me.mDebugFileEstaOk Then
+                            Me.mDebugFile.WriteLine(Now & "el cliente No existe  ")
+                        End If
+
                         ' SI NO EXISTE SE  CREA
                         Me.WebServiceClientesBase.Create(Me.WebServiceClientesDatos)
 
@@ -2569,7 +2535,7 @@ Public Class HTitoNewHotelEnviar
                             Me.WebServiceClientesBase.Update(Me.WebServiceClientesDatos)
                             Return True
                         Else
-                            Me.mWebServiceError = "El Cliente a Modificar no comparte la key de creación Navision = " & Me.WebServiceClientesDatos.Key & " versus Newhotel =  " & vTransNavKey & "  Cliente = " & Me.WebServiceClientesDatos.No
+                            Me.mWebServiceError = "El Cliente a Modificar no comparte la key de creación Navision = " & Me.WebServiceClientesDatos.Key & " versus Newhotel =  " & "  Cliente = " & Me.WebServiceClientesDatos.No
                             Return False
                         End If
 
@@ -2583,11 +2549,11 @@ Public Class HTitoNewHotelEnviar
 
 
 
-                        ElseIf vAccionMaestro = mEnumAccionMaestro.Eliminar Then
+                ElseIf vAccionMaestro = mEnumAccionMaestro.Eliminar Then
 
-                        ' Verificar que el cliente exista antes de Eliminarlo
+                    ' Verificar que el cliente exista antes de Eliminarlo
 
-                        Me.WebServiceClientesDatosControl = Me.WebServiceClientesBase.Read(Me.WebServiceClientesDatos.No)
+                    Me.WebServiceClientesDatosControl = Me.WebServiceClientesBase.Read(Me.WebServiceClientesDatos.No)
                     If IsNothing(Me.WebServiceClientesDatosControl) = True Then
                         Me.mWebServiceError = "No existe un cliente para ser ELIMINADO con este Código " & Me.WebServiceClientesDatos.No
                         Return False
@@ -2600,7 +2566,7 @@ Public Class HTitoNewHotelEnviar
                             Me.WebServiceClientesBase.Delete(vKey)
                             Return True
                         Else
-                            Me.mWebServiceError = "El Cliente a Eliminar  no comparte la key de creación Navision = " & Me.WebServiceClientesDatos.Key & " versus Newhotel =  " & vTransNavKey & "  Cliente = " & Me.WebServiceClientesDatos.No
+                            Me.mWebServiceError = "El Cliente a Eliminar  no comparte la key de creación Navision = " & Me.WebServiceClientesDatos.Key & " versus Newhotel =  " & "  Cliente = " & Me.WebServiceClientesDatos.No
                             Return False
 
                         End If

@@ -555,7 +555,7 @@ Public Class NewHotelData
         End Try
     End Function
     Public Function DevuelveTotalFactura(ByVal vNFactura As Integer, ByVal vSerie As String) As Double
-        Dim Tipo As Integer
+
 
         Try
 
