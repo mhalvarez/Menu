@@ -1801,7 +1801,7 @@ Public Class Hlopez2
         End Try
     End Sub
     Private Sub GeneraFileFVDiariodeCobros(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String,
-    ByVal vSerie As String, ByVal vNfactura As Integer, ByVal vImonep As Double, ByVal vSfactura As String, ByVal vCuenta As String, ByVal vCif As String, ByVal vPendiente As Double, vFPago As String)
+    ByVal vSerie As String, ByVal vNfactura As Integer, ByVal vImonep As Double, ByVal vSfactura As String, ByVal vCuenta As String, ByVal vCif As String, ByVal vPendiente As Double, vFPago As String, vEstaHistorico As String)
 
         Try
 
@@ -1837,7 +1837,7 @@ Public Class Hlopez2
             " ".PadRight(8, CChar(" ")) &
             Me.mGvagente_Cod.PadRight(8, CChar(" ")) &
             CType(vPendiente, String).PadRight(16, CChar(" ")) &
-            CType(vPendiente, String).PadRight(16, CChar(" ")) & "NS")
+            CType(vPendiente, String).PadRight(16, CChar(" ")) & "N" & vEstaHistorico)
 
             Me.mForm.ParentForm.Text = CStr(TotalRegistros)
 
@@ -5910,8 +5910,10 @@ Public Class Hlopez2
 
 
             ' GENERA FV , CB, MG,AC
+            '24052018
+            '   Me.GeneraFileFVDiariodeCobros("FV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, Me.mVisaFactura & "/" & Me.mVisaFacturaSerie, vCuenta, vCif, vTotal, Me.mVisaFPago)
+            Me.GeneraFileFVDiariodeCobros("FV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, Me.mVisaFactura & "/" & Me.mVisaFacturaSerie, vCuenta, vCif, 0, Me.mVisaFPago, "N")
 
-            Me.GeneraFileFVDiariodeCobros("FV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, Me.mVisaFactura & "/" & Me.mVisaFacturaSerie, vCuenta, vCif, vTotal, Me.mVisaFPago)
             Me.GeneraFileCB("CB", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, "", "", "", vTotal, vBancosCod, Me.mVisaCfbcotmov, Me.mVisaComprobante, "S")
             Me.GeneraFileMG("MG", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, "", "", "", 0, Me.mVisaCfbcotmov, vBancosCod, Me.mVisaComprobante, 1, 1)
 
@@ -5960,8 +5962,13 @@ Public Class Hlopez2
             '   Me.GeneraFileFVDiariodeCobros("FV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, Me.mVisaFactura & "/" & Me.mVisaFacturaSerie, vCuenta, vCif, vTotal, Me.mVisaFPago)
 
             '   Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, vSerie, vFactura, vTotal, "", vCuentaCliente, Me.mClientesContadoCif, 0, Me.mVisaCfbcotmov, vBancosCod, Me.mVisaComprobante, 1, "S")
-            Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, vSerie, vFactura, vTotal, "", vCuentaCliente, Me.mClientesContadoCif, vTotal, Me.mVisaCfbcotmov, vBancosCod, Me.mVisaComprobante, 1, "S")
-            Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, vSerie, vFactura, vTotal, "", vCuentaTarjeta, Me.mClientesContadoCif, vTotal, Me.mVisaCfbcotmov, vBancosCod, Me.mVisaComprobante, 2, "N")
+
+            '24052018
+            ' Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, vSerie, vFactura, vTotal, "", vCuentaCliente, Me.mClientesContadoCif, vTotal, Me.mVisaCfbcotmov, vBancosCod, Me.mVisaComprobante, 1, "S")
+            ' Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, vSerie, vFactura, vTotal, "", vCuentaTarjeta, Me.mClientesContadoCif, vTotal, Me.mVisaCfbcotmov, vBancosCod, Me.mVisaComprobante, 2, "N")
+            Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, vSerie, vFactura, vTotal, "", vCuentaCliente, Me.mClientesContadoCif, 0, Me.mVisaCfbcotmov, Me.mVisaFPagoBancosCod, Me.mVisaComprobante, 1, "S")
+            Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, vSerie, vFactura, vTotal, "", vCuentaTarjeta, Me.mClientesContadoCif, vTotal, Me.mVisaCfbcotmov, Me.mVisaFPagoBancosCod, Me.mVisaComprobante, 2, "N")
+
 
 
             Me.GeneraFileCB("CB", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, vSerie, vFactura, vTotal, "", "", "", vTotal, Me.mVisaFPagoBancosCod, Me.mVisaCfbcotmov, Me.mVisaComprobante, "S")
@@ -6012,11 +6019,17 @@ Public Class Hlopez2
 
 
             ' GENERA FV , CB, MG,AC
+            '24052018
+            '  Me.GeneraFileFVDiariodeCobros("FV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, Me.mVisaFactura & "/" & Me.mVisaFacturaSerie, vCuentaCliente, vCif, vTotal, Me.mVisaFPago)
+            Me.GeneraFileFVDiariodeCobros("FV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, Me.mVisaFactura & "/" & Me.mVisaFacturaSerie, vCuentaCliente, vCif, 0, Me.mVisaFPago, "N")
 
-            Me.GeneraFileFVDiariodeCobros("FV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, Me.mVisaFactura & "/" & Me.mVisaFacturaSerie, vCuentaCliente, vCif, vTotal, Me.mVisaFPago)
 
-            Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, "", vCuentaCliente, Me.mClientesContadoCif, vTotal, Me.mVisaCfbcotmov, vBancosCod, Me.mVisaComprobante, 1, "S")
-            Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, "", vCuentaTarjeta, Me.mClientesContadoCif, vTotal, Me.mVisaCfbcotmov, vBancosCod, Me.mVisaComprobante, 2, "N")
+            '24052018
+            ' Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, "", vCuentaCliente, Me.mClientesContadoCif, vTotal, Me.mVisaCfbcotmov, vBancosCod, Me.mVisaComprobante, 1, "S")
+            ' Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, "", vCuentaTarjeta, Me.mClientesContadoCif, vTotal, Me.mVisaCfbcotmov, vBancosCod, Me.mVisaComprobante, 2, "N")
+
+            Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, "", vCuentaCliente, Me.mClientesContadoCif, 0, Me.mVisaCfbcotmov, Me.mVisaFPagoBancosCod, Me.mVisaComprobante, 1, "S")
+            Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, "", vCuentaTarjeta, Me.mClientesContadoCif, vTotal, Me.mVisaCfbcotmov, Me.mVisaFPagoBancosCod, Me.mVisaComprobante, 2, "N")
 
 
             Me.GeneraFileCB("CB", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, "", "", "", vTotal, Me.mVisaFPagoBancosCod, Me.mVisaCfbcotmov, Me.mVisaComprobante, "S")

@@ -24,7 +24,7 @@ Imports System.Xml.Serialization
 Namespace WebReferenceTiToAnticiposFacturados
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0"),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
      System.Web.Services.WebServiceBindingAttribute(Name:="AplicacionAnticiposFactura_Binding", [Namespace]:="urn:microsoft-dynamics-schemas/page/aplicacionanticiposfactura")>  _
@@ -409,7 +409,7 @@ Namespace WebReferenceTiToAnticiposFacturados
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -463,6 +463,10 @@ Namespace WebReferenceTiToAnticiposFacturados
         Private shortcutDimCode3Field As String
         
         Private external_Document_NoField As String
+        
+        Private applies_to_Doc_TypeField As Applies_to_Doc_Type
+        
+        Private applies_to_Doc_TypeFieldSpecified As Boolean
         
         Private applies_to_Doc_NoField As String
         
@@ -717,6 +721,27 @@ Namespace WebReferenceTiToAnticiposFacturados
         End Property
         
         '''<remarks/>
+        Public Property Applies_to_Doc_Type() As Applies_to_Doc_Type
+            Get
+                Return Me.applies_to_Doc_TypeField
+            End Get
+            Set
+                Me.applies_to_Doc_TypeField = value
+            End Set
+        End Property
+        
+        '''<remarks/>
+        <System.Xml.Serialization.XmlIgnoreAttribute()>  _
+        Public Property Applies_to_Doc_TypeSpecified() As Boolean
+            Get
+                Return Me.applies_to_Doc_TypeFieldSpecified
+            End Get
+            Set
+                Me.applies_to_Doc_TypeFieldSpecified = value
+            End Set
+        End Property
+        
+        '''<remarks/>
         Public Property Applies_to_Doc_No() As String
             Get
                 Return Me.applies_to_Doc_NoField
@@ -728,7 +753,7 @@ Namespace WebReferenceTiToAnticiposFacturados
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0"),  _
      System.SerializableAttribute(),  _
      System.Xml.Serialization.XmlTypeAttribute([Namespace]:="urn:microsoft-dynamics-schemas/page/aplicacionanticiposfactura")>  _
     Public Enum Document_Subtype
@@ -744,7 +769,7 @@ Namespace WebReferenceTiToAnticiposFacturados
     End Enum
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0"),  _
      System.SerializableAttribute(),  _
      System.Xml.Serialization.XmlTypeAttribute([Namespace]:="urn:microsoft-dynamics-schemas/page/aplicacionanticiposfactura")>  _
     Public Enum Account_Type
@@ -769,7 +794,38 @@ Namespace WebReferenceTiToAnticiposFacturados
     End Enum
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0"),  _
+     System.SerializableAttribute(),  _
+     System.Xml.Serialization.XmlTypeAttribute([Namespace]:="urn:microsoft-dynamics-schemas/page/aplicacionanticiposfactura")>  _
+    Public Enum Applies_to_Doc_Type
+        
+        '''<remarks/>
+        _blank_
+        
+        '''<remarks/>
+        Payment
+        
+        '''<remarks/>
+        Invoice
+        
+        '''<remarks/>
+        Credit_Memo
+        
+        '''<remarks/>
+        Finance_Charge_Memo
+        
+        '''<remarks/>
+        Reminder
+        
+        '''<remarks/>
+        Refund
+        
+        '''<remarks/>
+        Bill
+    End Enum
+    
+    '''<remarks/>
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0"),  _
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
@@ -802,7 +858,7 @@ Namespace WebReferenceTiToAnticiposFacturados
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0"),  _
      System.SerializableAttribute(),  _
      System.Xml.Serialization.XmlTypeAttribute([Namespace]:="urn:microsoft-dynamics-schemas/page/aplicacionanticiposfactura")>  _
     Public Enum AplicacionAnticiposFactura_Fields
@@ -856,15 +912,18 @@ Namespace WebReferenceTiToAnticiposFacturados
         External_Document_No
         
         '''<remarks/>
+        Applies_to_Doc_Type
+        
+        '''<remarks/>
         Applies_to_Doc_No
     End Enum
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")>  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")>  _
     Public Delegate Sub ReadCompletedEventHandler(ByVal sender As Object, ByVal e As ReadCompletedEventArgs)
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0"),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code")>  _
     Partial Public Class ReadCompletedEventArgs
@@ -887,11 +946,11 @@ Namespace WebReferenceTiToAnticiposFacturados
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")>  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")>  _
     Public Delegate Sub ReadByRecIdCompletedEventHandler(ByVal sender As Object, ByVal e As ReadByRecIdCompletedEventArgs)
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0"),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code")>  _
     Partial Public Class ReadByRecIdCompletedEventArgs
@@ -914,11 +973,11 @@ Namespace WebReferenceTiToAnticiposFacturados
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")>  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")>  _
     Public Delegate Sub ReadMultipleCompletedEventHandler(ByVal sender As Object, ByVal e As ReadMultipleCompletedEventArgs)
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0"),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code")>  _
     Partial Public Class ReadMultipleCompletedEventArgs
@@ -941,11 +1000,11 @@ Namespace WebReferenceTiToAnticiposFacturados
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")>  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")>  _
     Public Delegate Sub IsUpdatedCompletedEventHandler(ByVal sender As Object, ByVal e As IsUpdatedCompletedEventArgs)
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0"),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code")>  _
     Partial Public Class IsUpdatedCompletedEventArgs
@@ -968,11 +1027,11 @@ Namespace WebReferenceTiToAnticiposFacturados
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")>  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")>  _
     Public Delegate Sub GetRecIdFromKeyCompletedEventHandler(ByVal sender As Object, ByVal e As GetRecIdFromKeyCompletedEventArgs)
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0"),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code")>  _
     Partial Public Class GetRecIdFromKeyCompletedEventArgs
@@ -995,11 +1054,11 @@ Namespace WebReferenceTiToAnticiposFacturados
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")>  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")>  _
     Public Delegate Sub CreateCompletedEventHandler(ByVal sender As Object, ByVal e As CreateCompletedEventArgs)
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0"),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code")>  _
     Partial Public Class CreateCompletedEventArgs
@@ -1022,11 +1081,11 @@ Namespace WebReferenceTiToAnticiposFacturados
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")>  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")>  _
     Public Delegate Sub CreateMultipleCompletedEventHandler(ByVal sender As Object, ByVal e As CreateMultipleCompletedEventArgs)
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0"),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code")>  _
     Partial Public Class CreateMultipleCompletedEventArgs
@@ -1049,11 +1108,11 @@ Namespace WebReferenceTiToAnticiposFacturados
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")>  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")>  _
     Public Delegate Sub UpdateCompletedEventHandler(ByVal sender As Object, ByVal e As UpdateCompletedEventArgs)
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0"),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code")>  _
     Partial Public Class UpdateCompletedEventArgs
@@ -1076,11 +1135,11 @@ Namespace WebReferenceTiToAnticiposFacturados
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")>  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")>  _
     Public Delegate Sub UpdateMultipleCompletedEventHandler(ByVal sender As Object, ByVal e As UpdateMultipleCompletedEventArgs)
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0"),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code")>  _
     Partial Public Class UpdateMultipleCompletedEventArgs
@@ -1103,11 +1162,11 @@ Namespace WebReferenceTiToAnticiposFacturados
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")>  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")>  _
     Public Delegate Sub DeleteCompletedEventHandler(ByVal sender As Object, ByVal e As DeleteCompletedEventArgs)
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0"),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code")>  _
     Partial Public Class DeleteCompletedEventArgs

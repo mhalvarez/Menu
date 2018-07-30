@@ -19,6 +19,18 @@
           <xsd:enumeration value="IC_Partner" />
         </xsd:restriction>
       </xsd:simpleType>
+      <xsd:simpleType name="Applies_to_Doc_Type">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="_blank_" />
+          <xsd:enumeration value="Payment" />
+          <xsd:enumeration value="Invoice" />
+          <xsd:enumeration value="Credit_Memo" />
+          <xsd:enumeration value="Finance_Charge_Memo" />
+          <xsd:enumeration value="Reminder" />
+          <xsd:enumeration value="Refund" />
+          <xsd:enumeration value="Bill" />
+        </xsd:restriction>
+      </xsd:simpleType>
       <xsd:complexType name="PagosCobrosCajaBanco">
         <xsd:sequence>
           <xsd:element minOccurs="0" maxOccurs="1" name="Key" type="xsd:string" />
@@ -38,6 +50,7 @@
           <xsd:element minOccurs="0" maxOccurs="1" name="Shortcut_Dimension_2_Code" type="xsd:string" />
           <xsd:element minOccurs="0" maxOccurs="1" name="ShortcutDimCode_x005B_3_x005D_" type="xsd:string" />
           <xsd:element minOccurs="0" maxOccurs="1" name="External_Document_No" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Applies_to_Doc_Type" type="tns:Applies_to_Doc_Type" />
           <xsd:element minOccurs="0" maxOccurs="1" name="Applies_to_Doc_No" type="xsd:string" />
         </xsd:sequence>
       </xsd:complexType>
@@ -64,6 +77,7 @@
           <xsd:enumeration value="Shortcut_Dimension_2_Code" />
           <xsd:enumeration value="ShortcutDimCode_x005B_3_x005D_" />
           <xsd:enumeration value="External_Document_No" />
+          <xsd:enumeration value="Applies_to_Doc_Type" />
           <xsd:enumeration value="Applies_to_Doc_No" />
         </xsd:restriction>
       </xsd:simpleType>

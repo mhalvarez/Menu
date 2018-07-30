@@ -1753,7 +1753,7 @@ Public Class NewConta
         End Try
     End Sub
     Private Sub GeneraFileFVDiariodeCobros(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String,
-    ByVal vSerie As String, ByVal vNfactura As Integer, ByVal vImonep As Double, ByVal vSfactura As String, ByVal vCuenta As String, ByVal vCif As String, ByVal vPendiente As Double, vFPago As String)
+    ByVal vSerie As String, ByVal vNfactura As Integer, ByVal vImonep As Double, ByVal vSfactura As String, ByVal vCuenta As String, ByVal vCif As String, ByVal vPendiente As Double, vFPago As String, vEstaHistorico As String)
 
         Try
 
@@ -1789,7 +1789,7 @@ Public Class NewConta
             " ".PadRight(8, CChar(" ")) &
             Me.mGvagente_Cod.PadRight(8, CChar(" ")) &
             CType(vPendiente, String).PadRight(16, CChar(" ")) &
-            CType(vPendiente, String).PadRight(16, CChar(" ")) & "NS")
+            CType(vPendiente, String).PadRight(16, CChar(" ")) & "N" & vEstaHistorico)
 
 
 
@@ -3258,7 +3258,7 @@ Public Class NewConta
             End If
 
 
-            Me.GeneraFileFVDiariodeCobros("FV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, Me.mTransferenciaFactura & "/" & Me.mTransferenciaFacturaSerie, Cuenta, Cif, 0, Me.mTransferenciaFPagoCod)
+            Me.GeneraFileFVDiariodeCobros("FV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, Me.mTransferenciaFactura & "/" & Me.mTransferenciaFacturaSerie, Cuenta, Cif, 0, Me.mTransferenciaFPagoCod, "N")
             Me.GeneraFileCB("CB", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, "", "", "", vTotal, vBancosCod, Me.mTransferenciaCfbcotmov, Me.mTransferenciaComprobante, "N")
             Me.GeneraFileMG("MG", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, "", "", "", 0, Me.mTransferenciaCfbcotmov, vBancosCod, CStr(Me.mTransferenciaComprobante))
 
@@ -3364,11 +3364,11 @@ Public Class NewConta
 
 
 
-            Me.GeneraFileFVDiariodeCobros("FV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, Me.mTransferenciaFactura & "/" & Me.mTransferenciaFacturaSerie, CuentaCliente, CifCliente, 0, Me.mTransferenciaFPagoCod)
+            Me.GeneraFileFVDiariodeCobros("FV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, Me.mTransferenciaFactura & "/" & Me.mTransferenciaFacturaSerie, CuentaCliente, CifCliente, 0, Me.mTransferenciaFPagoCod, "N")
 
             '  Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, "", CuentaCliente, CifCliente, 0, Me.mTransferenciaCfbcotmov, vBancosCod, CStr(Me.mTransferenciaComprobante), 1, "S")
-            Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, "", CuentaCliente, CifCliente, vTotal, Me.mTransferenciaCfbcotmov, vBancosCod, CStr(Me.mTransferenciaComprobante), 1, "S")
-            Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, "", CuentaAnticipos, CifAnticipos, vTotal, Me.mTransferenciaCfbcotmov, vBancosCod, CStr(Me.mTransferenciaComprobante), 2, "N")
+            Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, "", CuentaCliente, CifCliente, 0, Me.mTransferenciaCfbcotmov, Me.mTransferenciaBancosCod, CStr(Me.mTransferenciaComprobante), 1, "S")
+            Me.GeneraFileVV("VV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, "", CuentaAnticipos, CifAnticipos, vTotal, Me.mTransferenciaCfbcotmov, Me.mTransferenciaBancosCod, CStr(Me.mTransferenciaComprobante), 2, "N")
 
 
             Me.GeneraFileCB("CB", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mTransferenciaFacturaSerie, Me.mTransferenciaFactura, vTotal, "", "", "", vTotal, Me.mTransferenciaBancosCod, Me.mTransferenciaCfbcotmov, Me.mTransferenciaComprobante, "N")

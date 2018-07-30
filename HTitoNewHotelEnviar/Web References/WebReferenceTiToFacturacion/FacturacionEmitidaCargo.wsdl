@@ -24,6 +24,15 @@
           <xsd:enumeration value="IC_Partner" />
         </xsd:restriction>
       </xsd:simpleType>
+      <xsd:simpleType name="Source_Type">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="_blank_" />
+          <xsd:enumeration value="Customer" />
+          <xsd:enumeration value="Vendor" />
+          <xsd:enumeration value="Bank_Account" />
+          <xsd:enumeration value="Fixed_Asset" />
+        </xsd:restriction>
+      </xsd:simpleType>
       <xsd:complexType name="FacturacionEmitidaCargo">
         <xsd:sequence>
           <xsd:element minOccurs="0" maxOccurs="1" name="Key" type="xsd:string" />
@@ -47,6 +56,8 @@
           <xsd:element minOccurs="0" maxOccurs="1" name="Gen_Prod_Posting_Group" type="xsd:string" />
           <xsd:element minOccurs="0" maxOccurs="1" name="VAT_Prod_Posting_Group" type="xsd:string" />
           <xsd:element minOccurs="0" maxOccurs="1" name="VAT_Bus_Posting_Group" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Source_Type" type="tns:Source_Type" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Source_No" type="xsd:string" />
         </xsd:sequence>
       </xsd:complexType>
       <xsd:complexType name="FacturacionEmitidaCargo_List">
@@ -76,6 +87,8 @@
           <xsd:enumeration value="Gen_Prod_Posting_Group" />
           <xsd:enumeration value="VAT_Prod_Posting_Group" />
           <xsd:enumeration value="VAT_Bus_Posting_Group" />
+          <xsd:enumeration value="Source_Type" />
+          <xsd:enumeration value="Source_No" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="FacturacionEmitidaCargo_Filter">

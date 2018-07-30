@@ -1114,6 +1114,8 @@ Public Class HTitoNewHotelEnviar
                     Me.WebServiceAnticiposAplicadosLinea(Ind).External_Document_No = ""
                 End If
 
+                'PDTE  
+                'Me.WebServiceAnticiposAplicadosLinea(Ind).Applies_to_Doc_Type =
 
 
             End While
