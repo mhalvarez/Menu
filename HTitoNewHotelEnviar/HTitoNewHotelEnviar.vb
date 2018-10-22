@@ -40,6 +40,8 @@ Public Class HTitoNewHotelEnviar
     Private mParaSecDepositiosNewHotel As String
     Private mParaSecAnticiposNewHotel As String
 
+    Private mCtaPagosACuenta As String
+
 
     Private mParaJournalTemplate As String
     Private mParaJournalBatch As String
@@ -246,7 +248,13 @@ Public Class HTitoNewHotelEnviar
 
         End Try
     End Sub
+    ''' <summary>
+    ''' Constructor para el servicio windows que envia los clientes
+    ''' </summary>
+    ''' <param name="vStrConexion"></param>
+    ''' <param name="vTipoDeEnvio"></param>
     Sub New(ByVal vStrConexion As String, vTipoDeEnvio As Integer)
+
         Try
             If IsDBNull(vStrConexion) Then
 
@@ -258,9 +266,11 @@ Public Class HTitoNewHotelEnviar
 
 
             ' DEBUG 
-            If CrearFichero("C:\TEMPORAL\", "DEBUG.TXT") = False Then
-                Exit Sub
-            End If
+            'If CrearFichero("C:\TEMPORAL\", "DEBUG.TXT") = False Then
+            'Exit Sub
+            'End If
+
+            Me.mDebugFileEstaOk = False
 
             Me.AbreConexionesParaMAestros()
 
@@ -268,13 +278,6 @@ Public Class HTitoNewHotelEnviar
             ' Ler Parametros
 
             '   Me.LeerParametros()
-
-
-
-
-
-
-            '  Me.mDebugFileEstaOk = False
 
 
 
@@ -415,9 +418,10 @@ Public Class HTitoNewHotelEnviar
             SQL += ",PARA_MORA_EQUIV_DEP  "
             SQL += ",PARA_MORA_EQUIV_HOT  "
 
-            SQL += ",PARA_MORA_SOURCE_TYPE  "
+
             SQL += ",PARA_MORA_GRUPONEGOCIO  "
             SQL += ",PARA_MORA_GRUPOPRODUCTO  "
+            SQL += ",PARA_CTA4  "
 
 
 
@@ -454,6 +458,7 @@ Public Class HTitoNewHotelEnviar
                 Me.mParaDimensionHotel = Me.DbLeeCentral.mDbLector.Item("PARA_MORA_DIMENHOTEL")
                 Me.mParaSecDepositiosNewHotel = Me.DbLeeCentral.mDbLector.Item("PARA_SECC_DEPNH")
                 Me.mParaSecAnticiposNewHotel = Me.DbLeeCentral.mDbLector.Item("PARA_SECC_ANTNH")
+                Me.mCtaPagosACuenta = CType(Me.DbLeeCentral.mDbLector.Item("PARA_CTA4"), String)
 
 
 
@@ -505,11 +510,7 @@ Public Class HTitoNewHotelEnviar
                     Me.mParaEquivHot = 0
                 End If
 
-                If IsDBNull(Me.DbLeeCentral.mDbLector.Item("PARA_MORA_SOURCE_TYPE")) = False Then
-                    Me.mParaSourceType = Me.DbLeeCentral.mDbLector.Item("PARA_MORA_SOURCE_TYPE")
-                Else
-                    Me.mParaSourceType = ""
-                End If
+
 
                 If IsDBNull(Me.DbLeeCentral.mDbLector.Item("PARA_MORA_GRUPONEGOCIO")) = False Then
                     Me.mParaIvaNegocio = Me.DbLeeCentral.mDbLector.Item("PARA_MORA_GRUPONEGOCIO")
@@ -773,6 +774,7 @@ Public Class HTitoNewHotelEnviar
                 ' Fecha de Documento
                 Me.WebServiceAnticiposLinea(Ind).Posting_Date = CDate(Format(Me.mFecha, "dd/MM/yyyy"))
                 Me.WebServiceAnticiposLinea(Ind).Posting_DateSpecified = True
+
 
 
                 ' Tipo de Documento (Anticipo/Deposito)
@@ -1114,8 +1116,22 @@ Public Class HTitoNewHotelEnviar
                     Me.WebServiceAnticiposAplicadosLinea(Ind).External_Document_No = ""
                 End If
 
-                'PDTE  
-                'Me.WebServiceAnticiposAplicadosLinea(Ind).Applies_to_Doc_Type =
+                'PDTE  probar
+                ' Liquidar por tipo de documentos ( si se factura un anticipo applyes doc type es blanco)
+
+                'If CStr(Me.DbLeeCentral.mDbLector.Item("CUENTA")) <> Me.mCtaPagosACuenta Then
+                'Me.WebServiceAnticiposAplicadosLinea(Ind).Applies_to_Doc_Type = WebReferenceTiToFacturacion.Document_Type._blank_
+                'Me.WebServiceAnticiposAplicadosLinea(Ind).Applies_to_Doc_TypeSpecified = True
+                'Else
+                'Me.WebServiceAnticiposAplicadosLinea(Ind).Applies_to_Doc_Type = WebReferenceTiToFacturacion.Document_Type._blank_
+                ' Me.WebServiceAnticiposAplicadosLinea(Ind).Applies_to_Doc_TypeSpecified = True
+                ' End If
+
+                ' ojo bloquear al terminar justo arriba
+                Me.WebServiceAnticiposAplicadosLinea(Ind).Applies_to_Doc_Type = WebReferenceTiToFacturacion.Document_Type._blank_
+
+
+
 
 
             End While
@@ -1179,7 +1195,7 @@ Public Class HTitoNewHotelEnviar
             SQL += ",ASNT_MORA_FAC_IVANEGOCIO, ASNT_MORA_FAC_IVAPRODUCTO, ASNT_MORA_FAC_NEGOCIO,ASNT_MORA_FAC_PRODUCTO"
 
             ' 20180118
-            SQL += ",ASNT_CFATOCAB_REFER AS ASIENTO "
+            SQL += ",ASNT_CFATOCAB_REFER AS ASIENTO,ASNT_MORA_COD_PROCEDENCIA "
             '
             SQL += " FROM TH_ASNT "
             SQL += " WHERE ASNT_F_VALOR = '" & Format(Me.mFecha, "dd/MM/yyyy") & "'"
@@ -1460,12 +1476,16 @@ Public Class HTitoNewHotelEnviar
 
 
 
-                ' source type (Tipo de procedencia) aun no esta en el web service
+                ' source type (Tipo de procedencia) 
+                Me.WebServiceFacturacionLineas(Ind).Source_Type = WebReferenceTiToFacturacion.Source_Type.Customer
 
-                If Me.mParaSourceType.Length > 0 Then
-                    '     Me.WebServiceFacturacionLineas(Ind)xxx = Me.mParaSourceType
+                ' source type (Codigo  de procedencia)  
+
+                If CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_COD_PROCEDENCIA")) = Me.mParaTMovCuenta Then
+                    Me.WebServiceFacturacionLineas(Ind).Source_No = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_COD_PROCEDENCIA"))
+                Else
+                    Me.WebServiceFacturacionLineas(Ind).Source_No = ""
                 End If
-
 
 
 
@@ -1541,7 +1561,7 @@ Public Class HTitoNewHotelEnviar
 
         Try
 
-            SQL = "SELECT  ASNT_F_ATOCAB As FECHA, NVL(ASNT_CFCTA_COD,' ') AS CUENTA,NVL(ASNT_AMPCPTO,' ') AS CONCEPTO,"
+            SQL = "Select  ASNT_F_ATOCAB As FECHA, NVL(ASNT_CFCTA_COD,' ') AS CUENTA,NVL(ASNT_AMPCPTO,' ') AS CONCEPTO,"
             SQL += "NVL(ASNT_DEBE,'0')  AS DEBE,NVL(ASNT_HABER,'0')  AS HABER"
             SQL += ", ASNT_MORA_DIMENNATURALEZA, ASNT_MORA_DIMENDPTO, ASNT_MORA_DIMENACCESO "
             SQL += ",ASNT_FACTURA_NUMERO AS NUMERO "
@@ -1707,12 +1727,6 @@ Public Class HTitoNewHotelEnviar
 
                 ' LIUIDAR POR DOCUMENTO
 
-                ' Numero de Documento
-                ' If IsDBNull(Me.DbLeeCentral.mDbLector.Item("NUMERO")) = False Then
-                ' Me.WebServiceCobrosLinea(Ind).Applies_to_Doc_No = CStr(Me.DbLeeCentral.mDbLector.Item("NUMERO")) & "/" & CStr(Me.DbLeeCentral.mDbLector.Item("SERIE"))
-                ' Else
-                ' Me.WebServiceCobrosLinea(Ind).Applies_to_Doc_No = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_NDOCUMENTO"))
-                ' End If
 
                 ' Numero de Documento
                 If IsDBNull(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_LIQUIDAR")) = False Then
@@ -1720,6 +1734,32 @@ Public Class HTitoNewHotelEnviar
                 Else
                     Me.WebServiceCobrosLinea(Ind).Applies_to_Doc_No = ""
                 End If
+
+                'PDTE  probar
+                ' Liquidar por tipo de documentos 
+
+                If IsDBNull(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_TIPODOC")) = False Then
+                    If CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_TIPODOC")) = Me.mParaTDocFactura Then
+                        ' factura
+                        Me.WebServiceCobrosLinea(Ind).Applies_to_Doc_Type = WebReferenceTiToFacturacion.Document_Type.Invoice
+                        Me.WebServiceCobrosLinea(Ind).Applies_to_Doc_TypeSpecified = True
+                        ' abono = Factura Negativa y Notas de Abono
+                    ElseIf CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_TIPODOC")) = Me.mParaTDocAbono Then
+                        Me.WebServiceCobrosLinea(Ind).Applies_to_Doc_Type = WebReferenceTiToFacturacion.Document_Type.Credit_Memo
+                        Me.WebServiceCobrosLinea(Ind).Applies_to_Doc_TypeSpecified = True
+
+                    Else
+                        Me.WebServiceCobrosLinea(Ind).Applies_to_Doc_Type = WebReferenceTiToFacturacion.Document_Type._blank_
+                        Me.WebServiceCobrosLinea(Ind).Applies_to_Doc_TypeSpecified = True
+
+                    End If
+                Else
+                    Me.WebServiceCobrosLinea(Ind).Applies_to_Doc_Type = WebReferenceTiToFacturacion.Document_Type._blank_
+                    Me.WebServiceCobrosLinea(Ind).Applies_to_Doc_TypeSpecified = True
+
+
+                End If
+
 
 
             End While
@@ -2137,9 +2177,9 @@ Public Class HTitoNewHotelEnviar
             Me.DbLeeCentral.TraerLector(SQL)
 
             ' debug
-            If Me.mDebugFileEstaOk Then
-                Me.mDebugFile.WriteLine(Now & " " & SQL)
-            End If
+
+            WriteToFile(Now & " " & SQL)
+
 
 
 
@@ -2179,6 +2219,7 @@ Public Class HTitoNewHotelEnviar
                     SQL += ", ENTI_NUCO  "
                     SQL += ", ENTI_TELG, ENTI_FAXG, ENTI_MAIG, ENTI_MCNU, ENTI_CPCL  "
                     SQL += ", ENTI_NCO2_AF,ENTI_BAFP  "
+                    SQL += ", ENTI_DEAN_AF,ENTI_PAMA_AF,ENTI_COCO  "
                     SQL += " FROM TNHT_ENTI, TNHT_NACI "
                     SQL += " WHERE TNHT_ENTI.NACI_CODI = TNHT_NACI.NACI_CODI"
                     SQL += " And ENTI_CODI = '" & Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY") & "'"
@@ -2196,6 +2237,13 @@ Public Class HTitoNewHotelEnviar
                     Me.DbLeeHotel.TraerLector(SQL)
 
                     While Me.DbLeeHotel.mDbLector.Read
+
+
+
+                        ' debug
+                        If Me.mDebugFileEstaOk Then
+                            Me.mDebugFile.WriteLine(Now & " " & SQL)
+                        End If
 
 
 
@@ -2232,8 +2280,10 @@ Public Class HTitoNewHotelEnviar
                         End If
 
 
-                        Me.WebServiceClientesDatos.County = ""
-                        Me.WebServiceClientesDatos.Customer_Posting_Group = ""
+                        Me.WebServiceClientesDatos.County = Me.DbLeeHotel.mDbLector.Item("NACI_CODI")
+
+
+
 
 
 
@@ -2254,16 +2304,34 @@ Public Class HTitoNewHotelEnviar
 
 
 
-                        '? MISTERIO
-                        Me.WebServiceClientesDatos.Gen_Bus_Posting_Group = Me.mParaIvaNegocio
+                        If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_DEAN_AF")) = False Then
+                            Me.WebServiceClientesDatos.Gen_Bus_Posting_Group = Me.DbLeeHotel.mDbLector.Item("ENTI_DEAN_AF")
+                        Else
+                            Me.WebServiceClientesDatos.Gen_Bus_Posting_Group = ""
+                        End If
+
+
+
+                        If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_PAMA_AF")) = False Then
+                            Me.WebServiceClientesDatos.VAT_Bus_Posting_Group = Me.DbLeeHotel.mDbLector.Item("ENTI_PAMA_AF")
+                        Else
+                            Me.WebServiceClientesDatos.VAT_Bus_Posting_Group = ""
+                        End If
+
+
+
+                        If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_COCO")) = False Then
+                            Me.WebServiceClientesDatos.Customer_Posting_Group = Me.DbLeeHotel.mDbLector.Item("ENTI_COCO")
+                        Else
+                            Me.WebServiceClientesDatos.Customer_Posting_Group = ""
+                        End If
 
 
 
 
                         If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_CODI")) = False Then
 
-
-                            Me.WebServiceClientesDatos.No = Me.DbLeeCentral.mDbLector.Item("TRANS_CEXT")
+                            Me.WebServiceClientesDatos.No = Me.DbLeeHotel.mDbLector.Item("ENTI_CODI")
                         Else
 
                             Me.WebServiceClientesDatos.No = ""
@@ -2271,7 +2339,7 @@ Public Class HTitoNewHotelEnviar
 
 
 
-                        Me.WebServiceClientesDatos.Key = ""
+                        '  Me.WebServiceClientesDatos.Key = ""
 
 
                         If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_NOME")) = False Then
@@ -2319,8 +2387,7 @@ Public Class HTitoNewHotelEnviar
 
 
 
-                        '? MISTERIO
-                        Me.WebServiceClientesDatos.VAT_Bus_Posting_Group = Me.mParaIvaProducto
+
 
                         If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_NUCO")) = False Then
                             Me.WebServiceClientesDatos.VAT_Registration_No = Me.DbLeeHotel.mDbLector.Item("ENTI_NUCO")

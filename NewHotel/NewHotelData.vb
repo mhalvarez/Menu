@@ -161,6 +161,71 @@ Public Class NewHotelData
             Me.DbLeeHotel.mDbLector.Close()
         End Try
     End Function
+    Public Function DevuelveCodigoEntidadyCCexdeFacturaTito(ByVal vNFactura As Integer, ByVal vSerie As String) As String
+        Dim Tipo As Integer
+
+        Try
+
+            ' CONTROL CURSORES 
+            SQL = "SELECT NVL(COUNT(*),0) AS TOTAL  FROM V$OPEN_CURSOR"
+            Cursores = CInt(Me.DbLeeHotel.EjecutaSqlScalar(SQL))
+            If Cursores > 300 Then
+                ' Me.CerrarConexiones()
+                ' Me.AbreConexiones()
+            End If
+
+            SQL = " SELECT SEFA_CODI,FACT_CODI,ENTI_CODI,CCEX_CODI,TACO_CODI  FROM TNHT_FACT WHERE SEFA_CODI = '" & vSerie & "'"
+            SQL += " AND FACT_CODI = " & vNFactura
+
+
+            Me.DbLeeHotel.TraerLector(SQL)
+
+            Me.DbLeeHotel.mDbLector.Read()
+            If Me.DbLeeHotel.mDbLector.HasRows Then
+                If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_CODI")) = False Then
+                    Tipo = 1
+                    ' DEBAJO PARA FACTURAS PARCIALES ( CON PARTE DE LA FACTURA COBRADA Y PARTE TRANSFERIDA A LA CONTABILIDAD)
+                ElseIf IsDBNull(Me.DbLeeHotel.mDbLector.Item("TACO_CODI")) = False Then
+                    Tipo = 4
+                ElseIf IsDBNull(Me.DbLeeHotel.mDbLector.Item("CCEX_CODI")) = False Then
+                    Tipo = 2
+                ElseIf IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_CODI")) = True And IsDBNull(Me.DbLeeHotel.mDbLector.Item("CCEX_CODI")) = True Then
+                    Tipo = 3
+                Else
+                    Tipo = 9
+                    MsgBox("Tipo de Factura Desconocido , al buscar Cuenta Contable", MsgBoxStyle.Information, "Atención")
+                End If
+            End If
+
+            If Tipo = TipoFactura.Entidad Then
+                SQL = "SELECT ENTI_CODI CUENTA FROM TNHT_ENTI WHERE ENTI_CODI = '" & CType(Me.DbLeeHotel.mDbLector("ENTI_CODI"), String) & "'"
+                Return Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+            ElseIf Tipo = TipoFactura.Parcial Then
+                SQL = "SELECT ENTI_CODI CUENTA FROM TNHT_ENTI WHERE ENTI_CODI = '" & CType(Me.DbLeeHotel.mDbLector("TACO_CODI"), String) & "'"
+                Return Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+
+            ElseIf Tipo = TipoFactura.NoAlojado Then
+                SQL = "SELECT CCEX_CODI CUENTA FROM TNHT_CCEX WHERE CCEX_CODI = '" & CType(Me.DbLeeHotel.mDbLector("CCEX_CODI"), String) & "'"
+                Return Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+            ElseIf Tipo = TipoFactura.Contado Then
+                SQL = "SELECT NVL(PARA_CLIENTES_CONTADO,0) CUENTA "
+                SQL += " FROM TH_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod
+                SQL += "' AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
+                Return Me.DbLeeIntegracion.EjecutaSqlScalar(SQL)
+            Else
+                Return "0"
+
+            End If
+
+
+
+        Catch ex As Exception
+            MsgBox(ex.Message & " en DevuelveCuentaContabledeFactura", MsgBoxStyle.Information, "Atención")
+            Return "0"
+        Finally
+            Me.DbLeeHotel.mDbLector.Close()
+        End Try
+    End Function
     Public Function DevuelveCuentaContabledeFacturaIgicSatocan(ByVal vNFactura As Integer, ByVal vSerie As String, ByVal vTipoCuenta As Integer) As String
 
         ' El parametro vTipoCuenta es pasa saber si se envia la cuenta Contable del campo ENCI_NCON_AF  o ENTI_PAMA dependiendo de la empresa

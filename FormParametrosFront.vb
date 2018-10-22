@@ -270,8 +270,6 @@ Public Class FormParametrosFront
     Friend WithEvents Label123 As Label
     Friend WithEvents Label122 As Label
     Friend WithEvents CheckBoxTipoComprobantes As CheckBox
-    Friend WithEvents TextBoxMoraSourceType As TextBox
-    Friend WithEvents Label125 As Label
     Friend WithEvents ButtonTiposdeEfectoSpyro As Button
     Friend WithEvents Label126 As Label
     Friend WithEvents TextBoxTefect_Cod As TextBox
@@ -681,8 +679,6 @@ Public Class FormParametrosFront
         Me.Label110 = New System.Windows.Forms.Label()
         Me.TextBoxVitalForeEfectivo = New System.Windows.Forms.TextBox()
         Me.TabPageMorasol = New System.Windows.Forms.TabPage()
-        Me.TextBoxMoraSourceType = New System.Windows.Forms.TextBox()
-        Me.Label125 = New System.Windows.Forms.Label()
         Me.GroupBox7 = New System.Windows.Forms.GroupBox()
         Me.TextBoxMoraEquivDimenHot = New System.Windows.Forms.TextBox()
         Me.TextBoxMoraEquivDimenDep = New System.Windows.Forms.TextBox()
@@ -3629,8 +3625,6 @@ Public Class FormParametrosFront
         '
         'TabPageMorasol
         '
-        Me.TabPageMorasol.Controls.Add(Me.TextBoxMoraSourceType)
-        Me.TabPageMorasol.Controls.Add(Me.Label125)
         Me.TabPageMorasol.Controls.Add(Me.GroupBox7)
         Me.TabPageMorasol.Controls.Add(Me.TextBoxMoraSufijoDepositos)
         Me.TabPageMorasol.Controls.Add(Me.Label120)
@@ -3659,23 +3653,6 @@ Public Class FormParametrosFront
         Me.TabPageMorasol.TabIndex = 12
         Me.TabPageMorasol.Text = "Hermanos Tito(Grupo Morasol)"
         Me.TabPageMorasol.UseVisualStyleBackColor = True
-        '
-        'TextBoxMoraSourceType
-        '
-        Me.TextBoxMoraSourceType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxMoraSourceType.Location = New System.Drawing.Point(547, 204)
-        Me.TextBoxMoraSourceType.Name = "TextBoxMoraSourceType"
-        Me.TextBoxMoraSourceType.Size = New System.Drawing.Size(72, 20)
-        Me.TextBoxMoraSourceType.TabIndex = 58
-        '
-        'Label125
-        '
-        Me.Label125.AutoSize = True
-        Me.Label125.Location = New System.Drawing.Point(349, 206)
-        Me.Label125.Name = "Label125"
-        Me.Label125.Size = New System.Drawing.Size(112, 26)
-        Me.Label125.TabIndex = 57
-        Me.Label125.Text = "Source Type" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(Tipo de Procedencia)"
         '
         'GroupBox7
         '
@@ -4397,7 +4374,7 @@ Public Class FormParametrosFront
 
             SQL += ",NVL(PARA_LOPEZ_TIPO_COMPROBANTES,'0') PARA_LOPEZ_TIPO_COMPROBANTES"
 
-            SQL += ",PARA_MORA_SOURCE_TYPE  "
+
             SQL += ",PARA_TEFECT_COD  "
 
 
@@ -4718,11 +4695,7 @@ Public Class FormParametrosFront
 
 
 
-                If IsDBNull(Me.DbLee.mDbLector.Item("PARA_MORA_SOURCE_TYPE")) = True Then
-                    Me.TextBoxMoraSourceType.Text = ""
-                Else
-                    Me.TextBoxMoraSourceType.Text = Me.DbLee.mDbLector.Item("PARA_MORA_SOURCE_TYPE")
-                End If
+
 
 
 
@@ -5297,11 +5270,6 @@ Public Class FormParametrosFront
             End If
 
 
-            If Me.TextBoxMoraSourceType.TextLength > 0 Then
-                SQL += ",PARA_MORA_SOURCE_TYPE = " & "'" & Me.TextBoxMoraSourceType.Text & "'"
-            Else
-                SQL += ",PARA_MORA_SOURCE_TYPE = NULL"
-            End If
 
 
             If Me.TextBoxTefect_Cod.TextLength > 0 Then

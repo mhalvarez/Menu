@@ -154,7 +154,7 @@
     </Reference>
     <Reference Include="HTitoNewHotel, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>HTitoNewHotel\bin\x86\Release\HTitoNewHotel.dll</HintPath>
+      <HintPath>HTitoNewHotel\bin\x86\Debug\HTitoNewHotel.dll</HintPath>
     </Reference>
     <Reference Include="HTitoNewHotelEnviar, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -705,6 +705,7 @@
     <Content Include="SCRIPTS ACTUALIZIONES\20180108.SQL" />
     <Content Include="SCRIPTS ACTUALIZIONES\20180130.SQL" />
     <Content Include="SCRIPTS ACTUALIZIONES\20180327.SQL" />
+    <Content Include="SCRIPTS ACTUALIZIONES\20180802.SQL" />
     <Content Include="SCRIPTS ACTUALIZIONES\Notas Domingo.TXT" />
     <Content Include="SCRIPTS ACTUALIZIONES\NOTAS Y OCURRENCIAS  LEER.txt" />
     <Content Include="SCRIPTS ACTUALIZIONES\Pendiente Implementacion de Bonos.txt" />
