@@ -26,6 +26,8 @@ Partial Class FormParametrosAlmacen
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPageGenerales = New System.Windows.Forms.TabPage()
+        Me.CheckBoxTipoFormalizaAlbaranes = New System.Windows.Forms.CheckBox()
+        Me.Label28 = New System.Windows.Forms.Label()
         Me.TextBoxHotelId = New System.Windows.Forms.TextBox()
         Me.Label22 = New System.Windows.Forms.Label()
         Me.TextBoxHaberAbonos = New System.Windows.Forms.TextBox()
@@ -83,6 +85,7 @@ Partial Class FormParametrosAlmacen
         Me.Label78 = New System.Windows.Forms.Label()
         Me.TextBoxEmpNum = New System.Windows.Forms.TextBox()
         Me.Label77 = New System.Windows.Forms.Label()
+        Me.TextBoxCtaAlbaranesPdtesFormalizar = New System.Windows.Forms.TextBox()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPageGenerales.SuspendLayout()
@@ -118,6 +121,9 @@ Partial Class FormParametrosAlmacen
         '
         'TabPageGenerales
         '
+        Me.TabPageGenerales.Controls.Add(Me.TextBoxCtaAlbaranesPdtesFormalizar)
+        Me.TabPageGenerales.Controls.Add(Me.CheckBoxTipoFormalizaAlbaranes)
+        Me.TabPageGenerales.Controls.Add(Me.Label28)
         Me.TabPageGenerales.Controls.Add(Me.TextBoxHotelId)
         Me.TabPageGenerales.Controls.Add(Me.Label22)
         Me.TabPageGenerales.Controls.Add(Me.TextBoxHaberAbonos)
@@ -139,11 +145,31 @@ Partial Class FormParametrosAlmacen
         Me.TabPageGenerales.Text = "Generales"
         Me.TabPageGenerales.UseVisualStyleBackColor = True
         '
+        'CheckBoxTipoFormalizaAlbaranes
+        '
+        Me.CheckBoxTipoFormalizaAlbaranes.AutoSize = True
+        Me.CheckBoxTipoFormalizaAlbaranes.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.CheckBoxTipoFormalizaAlbaranes.Location = New System.Drawing.Point(186, 71)
+        Me.CheckBoxTipoFormalizaAlbaranes.Name = "CheckBoxTipoFormalizaAlbaranes"
+        Me.CheckBoxTipoFormalizaAlbaranes.Size = New System.Drawing.Size(323, 17)
+        Me.CheckBoxTipoFormalizaAlbaranes.TabIndex = 24
+        Me.CheckBoxTipoFormalizaAlbaranes.Text = "Usar Cuenta Genérica para Albaranes Pendientes de Formalizar"
+        Me.CheckBoxTipoFormalizaAlbaranes.UseVisualStyleBackColor = True
+        '
+        'Label28
+        '
+        Me.Label28.AutoSize = True
+        Me.Label28.Location = New System.Drawing.Point(14, 47)
+        Me.Label28.Name = "Label28"
+        Me.Label28.Size = New System.Drawing.Size(154, 13)
+        Me.Label28.TabIndex = 22
+        Me.Label28.Text = "Cta. Pdte. Formalizar Albaranes"
+        '
         'TextBoxHotelId
         '
         Me.TextBoxHotelId.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBoxHotelId.Enabled = False
-        Me.TextBoxHotelId.Location = New System.Drawing.Point(151, 206)
+        Me.TextBoxHotelId.Location = New System.Drawing.Point(150, 356)
         Me.TextBoxHotelId.MaxLength = 4
         Me.TextBoxHotelId.Name = "TextBoxHotelId"
         Me.TextBoxHotelId.Size = New System.Drawing.Size(67, 20)
@@ -152,7 +178,7 @@ Partial Class FormParametrosAlmacen
         'Label22
         '
         Me.Label22.AutoSize = True
-        Me.Label22.Location = New System.Drawing.Point(12, 213)
+        Me.Label22.Location = New System.Drawing.Point(11, 363)
         Me.Label22.Name = "Label22"
         Me.Label22.Size = New System.Drawing.Size(89, 13)
         Me.Label22.TabIndex = 20
@@ -161,7 +187,7 @@ Partial Class FormParametrosAlmacen
         'TextBoxHaberAbonos
         '
         Me.TextBoxHaberAbonos.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxHaberAbonos.Location = New System.Drawing.Point(390, 160)
+        Me.TextBoxHaberAbonos.Location = New System.Drawing.Point(389, 310)
         Me.TextBoxHaberAbonos.MaxLength = 4
         Me.TextBoxHaberAbonos.Name = "TextBoxHaberAbonos"
         Me.TextBoxHaberAbonos.Size = New System.Drawing.Size(67, 20)
@@ -170,7 +196,7 @@ Partial Class FormParametrosAlmacen
         'TextBoxDebeAbonos
         '
         Me.TextBoxDebeAbonos.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxDebeAbonos.Location = New System.Drawing.Point(390, 134)
+        Me.TextBoxDebeAbonos.Location = New System.Drawing.Point(389, 284)
         Me.TextBoxDebeAbonos.MaxLength = 4
         Me.TextBoxDebeAbonos.Name = "TextBoxDebeAbonos"
         Me.TextBoxDebeAbonos.Size = New System.Drawing.Size(67, 20)
@@ -179,7 +205,7 @@ Partial Class FormParametrosAlmacen
         'TextBoxHaberFac
         '
         Me.TextBoxHaberFac.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxHaberFac.Location = New System.Drawing.Point(151, 160)
+        Me.TextBoxHaberFac.Location = New System.Drawing.Point(150, 310)
         Me.TextBoxHaberFac.MaxLength = 4
         Me.TextBoxHaberFac.Name = "TextBoxHaberFac"
         Me.TextBoxHaberFac.Size = New System.Drawing.Size(67, 20)
@@ -188,7 +214,7 @@ Partial Class FormParametrosAlmacen
         'TextBoxDebeFac
         '
         Me.TextBoxDebeFac.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxDebeFac.Location = New System.Drawing.Point(151, 134)
+        Me.TextBoxDebeFac.Location = New System.Drawing.Point(150, 284)
         Me.TextBoxDebeFac.MaxLength = 4
         Me.TextBoxDebeFac.Name = "TextBoxDebeFac"
         Me.TextBoxDebeFac.Size = New System.Drawing.Size(67, 20)
@@ -197,7 +223,7 @@ Partial Class FormParametrosAlmacen
         'Label20
         '
         Me.Label20.AutoSize = True
-        Me.Label20.Location = New System.Drawing.Point(251, 160)
+        Me.Label20.Location = New System.Drawing.Point(250, 310)
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(122, 13)
         Me.Label20.TabIndex = 6
@@ -206,7 +232,7 @@ Partial Class FormParametrosAlmacen
         'Label21
         '
         Me.Label21.AutoSize = True
-        Me.Label21.Location = New System.Drawing.Point(251, 134)
+        Me.Label21.Location = New System.Drawing.Point(250, 284)
         Me.Label21.Name = "Label21"
         Me.Label21.Size = New System.Drawing.Size(119, 13)
         Me.Label21.TabIndex = 5
@@ -215,7 +241,7 @@ Partial Class FormParametrosAlmacen
         'Label19
         '
         Me.Label19.AutoSize = True
-        Me.Label19.Location = New System.Drawing.Point(12, 160)
+        Me.Label19.Location = New System.Drawing.Point(11, 310)
         Me.Label19.Name = "Label19"
         Me.Label19.Size = New System.Drawing.Size(127, 13)
         Me.Label19.TabIndex = 4
@@ -224,7 +250,7 @@ Partial Class FormParametrosAlmacen
         'Label18
         '
         Me.Label18.AutoSize = True
-        Me.Label18.Location = New System.Drawing.Point(12, 134)
+        Me.Label18.Location = New System.Drawing.Point(11, 284)
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(124, 13)
         Me.Label18.TabIndex = 3
@@ -233,9 +259,10 @@ Partial Class FormParametrosAlmacen
         'CheckBoxSoloFacturas
         '
         Me.CheckBoxSoloFacturas.AutoSize = True
-        Me.CheckBoxSoloFacturas.Location = New System.Drawing.Point(9, 83)
+        Me.CheckBoxSoloFacturas.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.CheckBoxSoloFacturas.Location = New System.Drawing.Point(17, 177)
         Me.CheckBoxSoloFacturas.Name = "CheckBoxSoloFacturas"
-        Me.CheckBoxSoloFacturas.Size = New System.Drawing.Size(91, 17)
+        Me.CheckBoxSoloFacturas.Size = New System.Drawing.Size(88, 17)
         Me.CheckBoxSoloFacturas.TabIndex = 2
         Me.CheckBoxSoloFacturas.Text = "Solo Facturas"
         Me.CheckBoxSoloFacturas.UseVisualStyleBackColor = True
@@ -252,9 +279,10 @@ Partial Class FormParametrosAlmacen
         'CheckBoxUsaNewPaga
         '
         Me.CheckBoxUsaNewPaga.AutoSize = True
-        Me.CheckBoxUsaNewPaga.Location = New System.Drawing.Point(9, 60)
+        Me.CheckBoxUsaNewPaga.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.CheckBoxUsaNewPaga.Location = New System.Drawing.Point(17, 145)
         Me.CheckBoxUsaNewPaga.Name = "CheckBoxUsaNewPaga"
-        Me.CheckBoxUsaNewPaga.Size = New System.Drawing.Size(95, 17)
+        Me.CheckBoxUsaNewPaga.Size = New System.Drawing.Size(92, 17)
         Me.CheckBoxUsaNewPaga.TabIndex = 0
         Me.CheckBoxUsaNewPaga.Text = "Usa NewPaga"
         Me.CheckBoxUsaNewPaga.UseVisualStyleBackColor = True
@@ -690,6 +718,15 @@ Partial Class FormParametrosAlmacen
         Me.Label77.TabIndex = 36
         Me.Label77.Text = "Hotel Nùmero"
         '
+        'TextBoxCtaAlbaranesPdtesFormalizar
+        '
+        Me.TextBoxCtaAlbaranesPdtesFormalizar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxCtaAlbaranesPdtesFormalizar.Location = New System.Drawing.Point(186, 45)
+        Me.TextBoxCtaAlbaranesPdtesFormalizar.MaxLength = 15
+        Me.TextBoxCtaAlbaranesPdtesFormalizar.Name = "TextBoxCtaAlbaranesPdtesFormalizar"
+        Me.TextBoxCtaAlbaranesPdtesFormalizar.Size = New System.Drawing.Size(164, 20)
+        Me.TextBoxCtaAlbaranesPdtesFormalizar.TabIndex = 25
+        '
         'FormParametrosAlmacen
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -781,4 +818,7 @@ Partial Class FormParametrosAlmacen
     Friend WithEvents Label27 As Label
     Friend WithEvents CheckBoxSerieFacturaDigitosAnio As CheckBox
     Friend WithEvents Label25 As Label
+    Friend WithEvents CheckBoxTipoFormalizaAlbaranes As CheckBox
+    Friend WithEvents Label28 As Label
+    Friend WithEvents TextBoxCtaAlbaranesPdtesFormalizar As TextBox
 End Class

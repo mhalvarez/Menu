@@ -185,8 +185,8 @@ Public Class NewHotelData
                 If IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_CODI")) = False Then
                     Tipo = 1
                     ' DEBAJO PARA FACTURAS PARCIALES ( CON PARTE DE LA FACTURA COBRADA Y PARTE TRANSFERIDA A LA CONTABILIDAD)
-                ElseIf IsDBNull(Me.DbLeeHotel.mDbLector.Item("TACO_CODI")) = False Then
-                    Tipo = 4
+                    'ElseIf IsDBNull(Me.DbLeeHotel.mDbLector.Item("TACO_CODI")) = False Then
+                    'Tipo = 4
                 ElseIf IsDBNull(Me.DbLeeHotel.mDbLector.Item("CCEX_CODI")) = False Then
                     Tipo = 2
                 ElseIf IsDBNull(Me.DbLeeHotel.mDbLector.Item("ENTI_CODI")) = True And IsDBNull(Me.DbLeeHotel.mDbLector.Item("CCEX_CODI")) = True Then
@@ -200,9 +200,9 @@ Public Class NewHotelData
             If Tipo = TipoFactura.Entidad Then
                 SQL = "SELECT ENTI_CODI CUENTA FROM TNHT_ENTI WHERE ENTI_CODI = '" & CType(Me.DbLeeHotel.mDbLector("ENTI_CODI"), String) & "'"
                 Return Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
-            ElseIf Tipo = TipoFactura.Parcial Then
-                SQL = "SELECT ENTI_CODI CUENTA FROM TNHT_ENTI WHERE ENTI_CODI = '" & CType(Me.DbLeeHotel.mDbLector("TACO_CODI"), String) & "'"
-                Return Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+                'ElseIf Tipo = TipoFactura.Parcial Then
+                'SQL = "SELECT ENTI_CODI CUENTA FROM TNHT_ENTI WHERE ENTI_CODI = '" & CType(Me.DbLeeHotel.mDbLector("TACO_CODI"), String) & "'"
+                'Return Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
 
             ElseIf Tipo = TipoFactura.NoAlojado Then
                 SQL = "SELECT CCEX_CODI CUENTA FROM TNHT_CCEX WHERE CCEX_CODI = '" & CType(Me.DbLeeHotel.mDbLector("CCEX_CODI"), String) & "'"

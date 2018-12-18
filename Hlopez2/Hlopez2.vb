@@ -1792,7 +1792,7 @@ Public Class Hlopez2
             " ".PadRight(8, CChar(" ")) &
             Me.mGvagente_Cod.PadRight(8, CChar(" ")) &
             CType(vPendiente, String).PadRight(16, CChar(" ")) &
-            CType(vPendiente, String).PadRight(16, CChar(" ")) & "NN")
+            CType(vPendiente, String).PadRight(16, CChar(" ")) & "NS")
 
             Me.mForm.ParentForm.Text = CStr(TotalRegistros)
 
@@ -2525,7 +2525,9 @@ Public Class Hlopez2
                         Linea = Linea + 1
                         Me.mTipoAsiento = "DEBE"
                         Me.InsertaOracle("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String) & "  " & CType(Me.DbLeeHotel.mDbLector("RECI_COBR"), String), Total, "NO", "", "Comprobante Bancario Nº: " & Me.mVisaComprobante, "SI", "ANTICIPO RECIBIDO", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Me.mVisaCfbcotmov, CType(Me.DbLeeHotel.mDbLector("CACR_CTB3"), String), Me.mVisaComprobante)
-                        Me.GeneraFileACMultiDiarioComprobantesBancarios("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String) & "  " & CType(Me.DbLeeHotel.mDbLector("RECI_COBR"), String), Total, Me.Multidiario, CStr(Me.DbLeeHotel.mDbLector("CACR_CTB3")), Me.mVisaCfbcotmov, Me.mVisaComprobante, Me.mCfivaLibro_Cod, mVisaFacturaSerie, mVisaFactura)
+                        '20181022
+                        '   Me.GeneraFileACMultiDiarioComprobantesBancarios("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String) & "  " & CType(Me.DbLeeHotel.mDbLector("RECI_COBR"), String), Total, Me.Multidiario, CStr(Me.DbLeeHotel.mDbLector("CACR_CTB3")), Me.mVisaCfbcotmov, Me.mVisaComprobante, Me.mCfivaLibro_Cod, mVisaFacturaSerie, mVisaFactura)
+                        Me.GeneraFileACMultiDiarioComprobantesBancarios("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String) & "  " & CType(Me.DbLeeHotel.mDbLector("RECI_COBR"), String), Total, Me.Multidiario, Me.mVisaFPagoBancosCod, Me.mVisaCfbcotmov, Me.mVisaComprobante, Me.mCfivaLibro_Cod, mVisaFacturaSerie, mVisaFactura)
                     Else
                         'OLD
                         Linea = Linea + 1
@@ -3323,7 +3325,7 @@ Public Class Hlopez2
 
                 Me.mTipoAsiento = "DEBE"
                 '     Me.InsertaOracle("FV", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("DESCRIPCION"), String), TotalFactura, "NO", Dni, Titular, "SI")
-                Me.GeneraFileFV("FV", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), TotalFactura, CType(Me.DbLeeHotel.mDbLector("DESCRIPCION"), String).PadRight(15, CChar(" ")), Cuenta, Dni, TotalFactura)
+                Me.GeneraFileFV("FV", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), TotalFactura, CType(Me.DbLeeHotel.mDbLector("DESCRIPCION"), String).PadRight(15, CChar(" ")), Cuenta, Dni, 0)
 
 
                 Me.GeneraFileAC2("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebeFac, CType(Me.DbLeeHotel.mDbLector("DESCRIPCION"), String), TotalFactura, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer))
@@ -3425,7 +3427,7 @@ Public Class Hlopez2
 
                 Me.mTipoAsiento = "DEBE"
                 '     Me.InsertaOracle("FV", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("DESCRIPCION"), String), TotalFactura, "NO", Dni, Titular, "SI")
-                Me.GeneraFileFV("FV", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), TotalFactura, CType(Me.DbLeeHotel.mDbLector("DESCRIPCION"), String).PadRight(15, CChar(" ")), Cuenta, Dni, TotalFactura)
+                Me.GeneraFileFV("FV", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), TotalFactura, CType(Me.DbLeeHotel.mDbLector("DESCRIPCION"), String).PadRight(15, CChar(" ")), Cuenta, Dni, 0)
 
 
                 Me.GeneraFileAC2("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebeFac, CType(Me.DbLeeHotel.mDbLector("DESCRIPCION"), String), TotalFactura, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer))
@@ -3767,7 +3769,7 @@ Public Class Hlopez2
 
 
             Me.GeneraFileAC2("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebeFac, CType(Me.DbLeeHotel.mDbLector("FACTURA"), String), Total, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer))
-            Me.GeneraFileFV("FV", 51, Me.mEmpGrupoCod, Me.mEmpCod, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), Total, CType(Me.DbLeeHotel.mDbLector("FACTURA"), String).PadRight(15, CChar(" ")), Cuenta, CType(Me.DbLeeHotel.mDbLector("CIF"), String), Total)
+            Me.GeneraFileFV("FV", 51, Me.mEmpGrupoCod, Me.mEmpCod, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), Total, CType(Me.DbLeeHotel.mDbLector("FACTURA"), String).PadRight(15, CChar(" ")), Cuenta, CType(Me.DbLeeHotel.mDbLector("CIF"), String), 0)
 
 
 
@@ -3805,7 +3807,7 @@ Public Class Hlopez2
             Me.InsertaOracle("AC", 51, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaberFac, CType(Me.DbLeeHotel.mDbLector("FACTURA"), String) & " Anulada ", Total, "NO", CType(Me.DbLeeHotel.mDbLector("CIF"), String), CType(Me.DbLeeHotel.mDbLector("NOMBRE"), String), "SI", "NOTA DE CREDITO ANULADA", False, "")
             Me.GeneraFileAC2("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaberFac, CType(Me.DbLeeHotel.mDbLector("FACTURA"), String) & " Anulada ", Total, mParaSerieAnulacion & CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer))
             ' total con signo invertido  SOLO en el fichero de facturas
-            Me.GeneraFileFV("FV", 51, Me.mEmpGrupoCod, Me.mEmpCod, Me.mParaSerieAnulacion & CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), Total * -1, CType(Me.DbLeeHotel.mDbLector("FACTURA"), String).PadRight(15, CChar(" ")), Cuenta, CType(Me.DbLeeHotel.mDbLector("CIF"), String), Total * -1)
+            Me.GeneraFileFV("FV", 51, Me.mEmpGrupoCod, Me.mEmpCod, Me.mParaSerieAnulacion & CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), Total * -1, CType(Me.DbLeeHotel.mDbLector("FACTURA"), String).PadRight(15, CChar(" ")), Cuenta, CType(Me.DbLeeHotel.mDbLector("CIF"), String), 0)
 
 
         End While
@@ -4434,7 +4436,9 @@ Public Class Hlopez2
                 End If
 
                 Me.InsertaOracle("AC", 35, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebe, Descripcion, Total, "NO", "", "Comprobante Bancario Nº: " & Me.mVisaComprobante, "SI", "COBRO", Me.Multidiario, "", Me.mVisaCfbcotmov, CStr(Me.DbLeeHotel.mDbLector("CACR_CTB3")), Me.mVisaComprobante)
-                Me.GeneraFileACMultiDiarioComprobantesBancarios("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebe, Descripcion, Total, Me.Multidiario, CStr(Me.DbLeeHotel.mDbLector("CACR_CTB3")), Me.mVisaCfbcotmov, Me.mVisaComprobante, "", "", "")
+                '20181022
+                '  Me.GeneraFileACMultiDiarioComprobantesBancarios("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebe, Descripcion, Total, Me.Multidiario, CStr(Me.DbLeeHotel.mDbLector("CACR_CTB3")), Me.mVisaCfbcotmov, Me.mVisaComprobante, "", "", "")
+                Me.GeneraFileACMultiDiarioComprobantesBancarios("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebe, Descripcion, Total, Me.Multidiario, Me.mVisaFPagoBancosCod, Me.mVisaCfbcotmov, Me.mVisaComprobante, "", "", "")
 
 
             Else
@@ -5257,7 +5261,9 @@ Public Class Hlopez2
 
                     Me.mTipoAsiento = "DEBE"
                     Me.InsertaOracle("AC", 21, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", "Comprobante Bancario Nº: " & Me.mVisaComprobante, "SI", "COBRO", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String))
-                    Me.GeneraFileACMultiDiarioComprobantesBancarios("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, Me.Multidiario, CStr(Me.DbLeeHotel.mDbLector("CACR_CTB3")), Me.mVisaCfbcotmov, Me.mVisaComprobante, Me.mCfivaLibro_Cod, mVisaFacturaSerie, mVisaFactura)
+                    '20181022
+                    '   Me.GeneraFileACMultiDiarioComprobantesBancarios("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, Me.Multidiario, CStr(Me.DbLeeHotel.mDbLector("CACR_CTB3")), Me.mVisaCfbcotmov, Me.mVisaComprobante, Me.mCfivaLibro_Cod, mVisaFacturaSerie, mVisaFactura)
+                    Me.GeneraFileACMultiDiarioComprobantesBancarios("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, Me.Multidiario, Me.mVisaFPagoBancosCod, Me.mVisaCfbcotmov, Me.mVisaComprobante, Me.mCfivaLibro_Cod, mVisaFacturaSerie, mVisaFactura)
 
 
                 Else
@@ -5912,7 +5918,7 @@ Public Class Hlopez2
             ' GENERA FV , CB, MG,AC
             '24052018
             '   Me.GeneraFileFVDiariodeCobros("FV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, Me.mVisaFactura & "/" & Me.mVisaFacturaSerie, vCuenta, vCif, vTotal, Me.mVisaFPago)
-            Me.GeneraFileFVDiariodeCobros("FV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, Me.mVisaFactura & "/" & Me.mVisaFacturaSerie, vCuenta, vCif, 0, Me.mVisaFPago, "N")
+            Me.GeneraFileFVDiariodeCobros("FV", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, Me.mVisaFactura & "/" & Me.mVisaFacturaSerie, vCuenta, vCif, 0, Me.mVisaFPago, "S")
 
             Me.GeneraFileCB("CB", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, "", "", "", vTotal, vBancosCod, Me.mVisaCfbcotmov, Me.mVisaComprobante, "S")
             Me.GeneraFileMG("MG", vNumAsiento, Me.mEmpGrupoCod, Me.mEmpCod, Me.mVisaFacturaSerie, Me.mVisaFactura, vTotal, "", "", "", 0, Me.mVisaCfbcotmov, vBancosCod, Me.mVisaComprobante, 1, 1)

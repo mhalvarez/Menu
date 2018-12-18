@@ -88,6 +88,7 @@ Public Class FormIntegraFront
         MaestroClientesNewhotel
         MaestroArticulosNewStock
         MaestroAlmacenesNewStock
+        NewStock
 
     End Enum
 
@@ -1316,7 +1317,7 @@ Public Class FormIntegraFront
                 SQL += " AND HOTEL_INT_NEWH = 1 "
                 SQL += " ORDER BY HOTEL_DESCRIPCION ASC"
             Else
-                SQL = "SELECT HOTEL_EMPGRUPO_COD,HOTEL_EMP_COD,HOTEL_DESCRIPCION,HOTEL_ODBC,HOTEL_SPYRO,HOTEL_ODBC_NEWGOLF,HOTEL_ODBC_NEWPOS,HOTEL_EMP_NUM,DECODE(NVL(PARA_TRATA_CAJA,0),0,'FALSE',1,'TRUE')  FROM TH_HOTEL,TH_PARA "
+                SQL = "SELECT HOTEL_EMPGRUPO_COD,HOTEL_EMP_COD,HOTEL_DESCRIPCION,HOTEL_ODBC,HOTEL_SPYRO,HOTEL_ODBC_NEWGOLF,HOTEL_ODBC_NEWPOS,HOTEL_EMP_NUM,DECODE(NVL(PARA_TRATA_CAJA,0),0,'FALSE',1,'TRUE') AS PARA_TRATA_CAJA  FROM TH_HOTEL,TH_PARA "
                 SQL += " WHERE HOTEL_EMPGRUPO_COD = PARA_EMPGRUPO_COD"
                 SQL += " AND   HOTEL_EMP_COD = PARA_EMP_COD"
                 SQL += " AND   HOTEL_EMP_NUM = PARA_EMP_NUM"
@@ -1809,7 +1810,6 @@ Public Class FormIntegraFront
                             Me.Cursor = Cursors.WaitCursor
                             Dim EnviaTito As New HTitoNewHotelEnviar.HTitoNewHotelEnviar(Format(Me.DateTimePicker1.Value, "dd-MM-yyyy"), MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DATABASE", "STRING"), Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 0), Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 1), Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 7), "Navision2016.txt", Me.TextBoxRutaFicheros.Text, mEnumTipoEnvio.FrontOffice)
                             Me.Cursor = Cursors.Default
-
                         End If
                     End If
                 End If
@@ -3139,7 +3139,12 @@ Public Class FormIntegraFront
                 Else
                     Me.CheckBoxTpvNoFacturado.Checked = False
                 End If
+                Me.BuscaFechaFrontdeCierre()
 
+                If IsDate(Me.mFechaFront) Then
+                    Me.DateTimePicker1.Value = Format(Me.mFechaFront, "dd/MM/yyyy")
+                    Me.DateTimePicker2.Value = Format(Me.mFechaFront, "dd/MM/yyyy")
+                End If
             End If
 
         Catch ex As Exception
@@ -3418,6 +3423,8 @@ Public Class FormIntegraFront
             Else
                 SQL = "SELECT NVL(SUM(MOVI_VDEB),0) FROM VN_RECAU "
                 SQL += " WHERE MOVI_DATR = '" & Me.DateTimePicker1.Value & "'"
+                ' NO TRANSFERIDOS A CONTABILIDAD
+                SQL += " AND TIRE_CODI <> '2'"
                 CobrosNewHotel = Me.DbLeeNewHotel.EjecutaSqlScalar(SQL)
 
             End If
@@ -3441,7 +3448,9 @@ Public Class FormIntegraFront
             ElseIf Me.mEmpGrupoCod = "TAHO" Then
                 TotalContaBilidad = Decimal.Round(CobrosContabilidad, 2) + Decimal.Round(DescuentosFinancieros, 2) + Decimal.Round(AnticiposRecibidosContabilidad, 2) - Decimal.Round(AnticiposFacturadosContabilidad, 2)
             Else
-                TotalContaBilidad = Decimal.Round(CobrosContabilidad, 2) + Decimal.Round(AnticiposRecibidosContabilidad, 2) - Decimal.Round(AnticiposFacturadosContabilidad, 2) - Decimal.Round(NotasCreditoNewgolf, 2) + Decimal.Round(NotasCreditoNewgolfAnuladas, 2) - Decimal.Round(FacturasAnuladasNewgolf, 2) + Decimal.Round(PagosCuentaBonosAsociacion, 2)
+                '   TotalContaBilidad = Decimal.Round(CobrosContabilidad, 2) + Decimal.Round(AnticiposRecibidosContabilidad, 2) - Decimal.Round(AnticiposFacturadosContabilidad, 2) - Decimal.Round(NotasCreditoNewgolf, 2) + Decimal.Round(NotasCreditoNewgolfAnuladas, 2) - Decimal.Round(FacturasAnuladasNewgolf, 2) + Decimal.Round(PagosCuentaBonosAsociacion, 2)
+                TotalContaBilidad = Decimal.Round(CobrosContabilidad, 2) + Decimal.Round(AnticiposRecibidosContabilidad, 2)
+
             End If
 
             TotalFinal = Decimal.Round(CobrosNewHotel, 2) - TotalContaBilidad
@@ -3801,6 +3810,8 @@ Public Class FormIntegraFront
     End Sub
     Private Sub BuscaFechaFrontdeCierre()
         Try
+
+            Me.Cursor = Cursors.WaitCursor
             If IsNothing(Me.DbLeeNewHotel) = True Then
                 Me.DbLeeNewHotel = New C_DATOS.C_DatosOledb(Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 3))
             Else
@@ -3817,6 +3828,7 @@ Public Class FormIntegraFront
             Me.mFechaFront = DateAdd(DateInterval.Day, -1, Me.mFechaFront)
             Me.DbLeeNewHotel.CerrarConexion()
             Me.Cursor = Cursors.Default
+            Me.DbLeeNewHotel = Nothing
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try

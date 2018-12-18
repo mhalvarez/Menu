@@ -7,10 +7,11 @@ Public Class FormInventarios
     Private StrConexionSpyro As String
     Private EmpGrupoCod As String
     Private EmpCod As String
+    Private EmpNum As Integer
 
 #Region " Código generado por el Diseñador de Windows Forms "
 
-    Public Sub New(ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vStrConexion As String, ByVal vStrConexionSpyro As String)
+    Public Sub New(ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vStrConexion As String, ByVal vStrConexionSpyro As String, vEmpNum As Integer)
         MyBase.New()
 
         'El Diseñador de Windows Forms requiere esta llamada.
@@ -280,9 +281,9 @@ Public Class FormInventarios
     End Sub
     Private Sub ButtonAceptar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonAceptar.Click
         Try
-            Dim INTEGRA As New IntegraAlmacen.IntegraAlmacen(Me.EmpGrupoCod, _
-                  Me.EmpCod, MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DATABASE", "STRING"), _
-                   Me.StrConexion, Format(Me.DateTimePicker1.Value, "dd-MM-yyyy"), "", False, Me.TextBoxDebug, Me.ListBoxDebug, Me.StrConexionSpyro, True, Me.CheckBoxSoloIniciales.Checked)
+            Dim INTEGRA As New IntegraAlmacen.IntegraAlmacen(Me.EmpGrupoCod,
+                  Me.EmpCod, MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DATABASE", "STRING"),
+                   Me.StrConexion, Format(Me.DateTimePicker1.Value, "dd-MM-yyyy"), "", False, Me.TextBoxDebug, Me.ListBoxDebug, Me.StrConexionSpyro, True, Me.CheckBoxSoloIniciales.Checked, Me.EmpNum)
             Me.Cursor = Cursors.WaitCursor
             INTEGRA.ProcesarInventario()
             Me.Cursor = Cursors.Default

@@ -120,13 +120,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>AxaptaAlmacen\bin\x86\Release\AxaptaAlmacen.dll</HintPath>
     </Reference>
+    <Reference Include="ContanetNewConta">
+      <HintPath>ContanetNewConta\ContanetNewConta\bin\x86\Release\ContanetNewConta.dll</HintPath>
+    </Reference>
     <Reference Include="ContanetNewHotel, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>ContanetNewHotel\bin\x86\Release\ContanetNewHotel.dll</HintPath>
     </Reference>
     <Reference Include="ContanetNewStock, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>ContanetNewStock\bin\x86\Release\ContanetNewStock.dll</HintPath>
+      <HintPath>ContanetNewStock\bin\x86\Debug\ContanetNewStock.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
@@ -158,13 +161,13 @@
     </Reference>
     <Reference Include="HTitoNewHotelEnviar, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>HTitoNewHotelEnviar\bin\x86\Release\HTitoNewHotelEnviar.dll</HintPath>
+      <HintPath>HTitoNewHotelEnviar\bin\x86\Debug\HTitoNewHotelEnviar.dll</HintPath>
     </Reference>
     <Reference Include="Integra NewStock HLopez, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Integra NewStock HLopez\bin\x86\Release\Integra NewStock HLopez.dll</HintPath>
     </Reference>
-    <Reference Include="IntegraAlmacen, Version=1.0.6604.28242, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="IntegraAlmacen, Version=1.0.6876.31442, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>INTEGRACION ALMACEN\IntegraAlmacen\bin\x86\Release\IntegraAlmacen.dll</HintPath>
     </Reference>
@@ -186,7 +189,7 @@
     </Reference>
     <Reference Include="IntegraNewStockTito, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>IntegraNewStockTito\bin\x86\Release\IntegraNewStockTito.dll</HintPath>
+      <HintPath>IntegraNewStockTito\bin\x86\Debug\IntegraNewStockTito.dll</HintPath>
     </Reference>
     <Reference Include="itextsharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca">
       <SpecificVersion>False</SpecificVersion>

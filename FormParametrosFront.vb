@@ -5352,6 +5352,8 @@ Public Class FormParametrosFront
                 SQL += "PARA_ORIGENCUENTAS = 0"
             ElseIf Me.CheckBoxNewContaOrigenCuentaNewCentral.Checked Then
                 SQL += "PARA_ORIGENCUENTAS = 1"
+            Else
+                SQL += "PARA_ORIGENCUENTAS = 0"
             End If
 
 

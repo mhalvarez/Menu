@@ -12,6 +12,7 @@ Public Class IntegraAlmacen
     Private mMesInventarios As String
     Private mEmpGrupoCod As String
     Private mEmpCod As String
+    Private mEmpNum As Integer
 
     Private mIndicadorDebe As String
     Private mIndicadorHaber As String
@@ -92,14 +93,15 @@ Public Class IntegraAlmacen
     Dim FechaInventarioInicial As Date
 
 #Region "CONSTRUCTOR"
-    Public Sub New(ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vStrConexionCentral As String, _
-  ByVal vStrConexionHotel As String, ByVal vFecha As Date, ByVal vFile As String, ByVal vDebug As Boolean, _
-  ByVal vConrolDebug As System.Windows.Forms.TextBox, ByVal vListBox As System.Windows.Forms.ListBox, ByVal vStrConexionSpyro As String, ByVal vInventario As Boolean, ByVal vSoloInventariosIniciales As Boolean)
+    Public Sub New(ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vStrConexionCentral As String,
+  ByVal vStrConexionHotel As String, ByVal vFecha As Date, ByVal vFile As String, ByVal vDebug As Boolean,
+  ByVal vConrolDebug As System.Windows.Forms.TextBox, ByVal vListBox As System.Windows.Forms.ListBox, ByVal vStrConexionSpyro As String, ByVal vInventario As Boolean, ByVal vSoloInventariosIniciales As Boolean, vEmpNum As Integer)
         MyBase.New()
 
         Me.mDebug = vDebug
         Me.mEmpGrupoCod = vEmpGrupoCod
         Me.mEmpCod = vEmpCod
+        Me.mEmpNum = vEmpNum
         Me.mStrConexionHotel = vStrConexionHotel
         Me.mStrConexionCentral = vStrConexionCentral
         Me.mStrConexionSpyro = vStrConexionSpyro
@@ -496,7 +498,7 @@ Public Class IntegraAlmacen
             End If
 
             SQL = "INSERT INTO TS_ASNT(ASNT_TIPO_REGISTRO,ASNT_EMPGRUPO_COD,ASNT_EMP_COD,ASNT_CFEJERC_COD,ASNT_CFATODIARI_COD,ASNT_CFATOCAB_REFER,"
-            SQL += "ASNT_LINEA,ASNT_CFCTA_COD,ASNT_CFCPTOS_COD,ASNT_AMPCPTO,ASNT_I_MONEMP,ASNT_CONCIL_SN,ASNT_F_ATOCAB,ASNT_F_VALOR,ASNT_NOMBRE,ASNT_DEBE,ASNT_HABER,ASNT_AJUSTAR,ASNT_DOCU,ASNT_DORE) values ('"
+            SQL += "ASNT_LINEA,ASNT_CFCTA_COD,ASNT_CFCPTOS_COD,ASNT_AMPCPTO,ASNT_I_MONEMP,ASNT_CONCIL_SN,ASNT_F_ATOCAB,ASNT_F_VALOR,ASNT_NOMBRE,ASNT_DEBE,ASNT_HABER,ASNT_AJUSTAR,ASNT_DOCU,ASNT_DORE,ASNT_EMP_NUM) values ('"
             SQL += vTipo & "','"
             SQL += vEmpGrupoCod & "','"
             SQL += vEmpCod & "','"
@@ -511,7 +513,7 @@ Public Class IntegraAlmacen
             SQL += "'N','"
             SQL += Format(Now, "dd/MM/yyyy") & "','"
             SQL += Format(Me.mFecha, "dd/MM/yyyy") & "',"
-            SQL += "'?'," & Me.mDebe & "," & Me.mHbaber & ",'" & vAjuste & "','" & vDocu & "','" & vDore & "')"
+            SQL += "'?'," & Me.mDebe & "," & Me.mHbaber & ",'" & vAjuste & "','" & vDocu & "','" & vDore & "'," & Me.mEmpNum & ")"
 
 
             Me.DbGrabaCentral.EjecutaSqlCommit(SQL)

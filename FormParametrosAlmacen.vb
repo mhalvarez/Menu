@@ -41,6 +41,13 @@
             Me.DbWrite = New C_DATOS.C_DatosOledb(MyIni.IniGet(Application.StartupPath & "\menu.ini", "DATABASE", "STRING"))
             Me.DbWrite.EjecutaSqlCommit("ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY'")
 
+            If Me.CheckBoxTipoFormalizaAlbaranes.Checked Then
+                Me.TextBoxCtaAlbaranesPdtesFormalizar.Enabled = True
+                Me.TextBoxCtaAlbaranesPdtesFormalizar.Update()
+            Else
+                Me.TextBoxCtaAlbaranesPdtesFormalizar.Enabled = False
+                Me.TextBoxCtaAlbaranesPdtesFormalizar.Update()
+            End If
             Me.CargaCombos()
 
         Catch ex As Exception
@@ -181,6 +188,12 @@
             SQL += "      ,NVL(PARA_SERIE_ANIO_2B,0) AS PARA_SERIE_ANIO_2B"
 
 
+            SQL += "      ,NVL(PARA_SERIE_ANIO_2B,0) AS PARA_SERIE_ANIO_2B"
+
+            SQL += "      ,NVL(PARA_CTA1,'<Ninguno>')  AS PARA_CTA1"
+            SQL += "      ,NVL(PARA_TIPO_FORMALIZA,'G') AS PARA_TIPO_FORMALIZA "
+
+
 
 
 
@@ -255,6 +268,13 @@
                 End If
 
 
+                If CStr(Me.DbLee.mDbLector.Item("PARA_TIPO_FORMALIZA")) = "G" Then
+                    Me.CheckBoxTipoFormalizaAlbaranes.Checked = True
+                Else
+                    Me.CheckBoxTipoFormalizaAlbaranes.Checked = False
+                End If
+
+                Me.TextBoxCtaAlbaranesPdtesFormalizar.Text = Me.DbLee.mDbLector.Item("PARA_CTA1")
 
 
 
@@ -349,6 +369,15 @@
             End If
 
 
+            If CheckBoxTipoFormalizaAlbaranes.Checked Then
+                SQL += ",PARA_CTA1 = '" & Me.TextBoxCtaAlbaranesPdtesFormalizar.Text & "'"
+                SQL += ",PARA_TIPO_FORMALIZA = '" & "G" & "'"
+            Else
+                SQL += ",PARA_CTA1 = '" & Me.TextBoxCtaAlbaranesPdtesFormalizar.Text & "'"
+                SQL += ",PARA_TIPO_FORMALIZA = '" & "P" & "'"
+            End If
+
+
             SQL += " WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"
             SQL += " AND PARA_EMP_NUM = " & Me.mParaEmpNum
@@ -435,11 +464,21 @@
         End Try
     End Sub
 
-    Private Sub CheckBoxSerieFacturaGenerica_CheckedChanged(sender As Object, e As EventArgs)
-
+    Private Sub CheckBoxTipoFormalizaAlbaranes_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBoxTipoFormalizaAlbaranes.CheckedChanged
+        Try
+            If Me.CheckBoxTipoFormalizaAlbaranes.Checked Then
+                Me.TextBoxCtaAlbaranesPdtesFormalizar.Enabled = True
+                Me.TextBoxCtaAlbaranesPdtesFormalizar.Update()
+                Exit Sub
+            Else
+                Me.TextBoxCtaAlbaranesPdtesFormalizar.Enabled = False
+                Me.TextBoxCtaAlbaranesPdtesFormalizar.Update()
+                Exit Sub
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
     End Sub
 
-    Private Sub Label4_Click(sender As Object, e As EventArgs) Handles Label4.Click
 
-    End Sub
 End Class

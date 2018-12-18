@@ -7324,6 +7324,49 @@ Public Class ContaNetNewHotel
         Me.NEWHOTEL.CerrarConexiones()
     End Sub
 #End Region
+#Region "ASIENTO-4 DESEMBOLSOS "
+    Private Sub TotalDesembolsos()
+        Try
+            Dim Total As Double
+            Dim Factura As String
+            Dim Cuenta As String
+
+
+            SQL = "SELECT SUM(TNHT_MOVI.MOVI_VDEB) TOTAL"
+            SQL += " FROM " & Me.mStrHayHistorico & " TNHT_MOVI"
+            SQL += " WHERE "
+            SQL += "  TNHT_FACT.FACT_DAEM = " & " '" & Me.mFecha & "'"
+            SQL += " AND TIRE_CODI = '4'"
+            SQL += " AND TNHT_MOVI.MOVI_CORR = 0"
+
+
+
+            Me.DbLeeHotel.TraerLector(SQL)
+            Linea = 0
+            While Me.DbLeeHotel.mDbLector.Read
+
+                Cuenta = Me.mCtaDesembolsos
+
+
+
+                Linea = Linea + 1
+
+                Me.mTipoAsiento = "DEBE"
+                Me.InsertaOracle("AC", 22, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " " & Factura, Total, "NO", "", "", "SI", "COBRO", Me.Multidiario, "")
+                Me.GeneraFileACMultiDiario("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " " & Factura, Total, Me.Multidiario)
+                'Me.GeneraFileAC2("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebeFac, CType(Me.DbLeeHotel.mDbLector("FACT_CODI"), String), Total, CType(Me.DbLeeHotel.mDbLector("SEFA_CODI"), String), CType(Me.DbLeeHotel.mDbLector("FACT_CODI"), Integer))
+
+
+            End While
+            Me.DbLeeHotel.mDbLector.Close()
+        Catch ex As Exception
+
+            MsgBox(ex.Message, MsgBoxStyle.Information, "Pagos a Cuenta VISAS")
+        End Try
+
+    End Sub
+
+#End Region
 
 #Region "ASIENTO-60 OPERECIONES DE CAJA"
     Private Sub OperacionesDeCaja()
@@ -7716,15 +7759,15 @@ Public Class ContaNetNewHotel
             '----------------------------------------------------------------
             If Me.DbLeeHotel.EstadoConexion = ConnectionState.Open Then
                 'Me.PendienteFacturarTotal()
-                '  Me.PendienteFacturarTotalRound()
-                Me.VentasDepartamentoDunasDobleManoCorrienteAgrupado()
+                Me.PendienteFacturarTotalRound()
+                '  Me.VentasDepartamentoDunasDobleManoCorrienteAgrupado()
                 Me.mTextDebug.Text = "Calculando Pdte. Facturar"
                 Me.mTextDebug.Update()
 
-                'Me.VentasDepartamento()
+                Me.VentasDepartamento()
 
 
-                Me.VentasDepartamentoDunasDobleManoCorriente()
+                'Me.VentasDepartamentoDunasDobleManoCorriente()
 
                 Me.mTextDebug.Text = "Calculando Ventas por Departamento"
                 Me.mTextDebug.Update()
@@ -7943,6 +7986,29 @@ Public Class ContaNetNewHotel
 
 
             ' ---------------------------------------------------------------
+            ' Asiento Desembolsos
+            '----------------------------------------------------------------
+            If Me.DbLeeHotel.EstadoConexion = ConnectionState.Open Then
+                If Me.mPerfilCobtable = "CAJA" Or Me.mPerfilCobtable = "AMBOS" Then
+
+                    Me.mTextDebug.Text = "Calculando Total Líquido Facturas de Salida (contado)"
+                    Me.mTextDebug.Update()
+                    MsgBox("Ojo Trabajando aqui falta Desarollo de Desembolsos , y Cancelacion de Anticipos como en Tito con gestión de Recibos")
+                    Me.TotalDesembolsos()
+
+
+
+
+                    Me.mProgress.Value = 35
+                    Me.mProgress.Update()
+                End If
+
+            End If
+
+
+            System.Windows.Forms.Application.DoEvents()
+            Me.mForm.Update()
+            ' ---------------------------------------------------------------
             ' Asiento Notas de Credito de Credito Entidades 51
             '----------------------------------------------------------------
 
@@ -8070,13 +8136,7 @@ Public Class ContaNetNewHotel
             Dim TotalHaber As Decimal
             Dim TotalDiferencia As Decimal
 
-            'SQL = "SELECT ROUND(SUM(ASNT_DEBE),2) FROM TH_ASNT WHERE ASNT_F_VALOR = '" & Me.mFecha & "'"
-            'SQL += " AND ASNT_IMPRIMIR = 'SI'"
-            'TotalDebe = CType(Me.DbLeeHotel.EjecutaSqlScalar(SQL), Decimal)
 
-            'SQL = "SELECT ROUND(SUM(ASNT_HABER),2) FROM TH_ASNT WHERE ASNT_F_VALOR = '" & Me.mFecha & "'"
-            'SQL += " AND ASNT_IMPRIMIR = 'SI'"
-            'TotalHaber = CType(Me.DbLeeHotel.EjecutaSqlScalar(SQL), Decimal)
 
             SQL = "SELECT ROUND(SUM(round(NVL(ASNT_DEBE,'0'),2)),2) FROM TH_ASNT WHERE ASNT_F_VALOR = '" & Me.mFecha & "'"
             SQL += " AND ASNT_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"

@@ -1,7 +1,6 @@
-Option Strict On
+ÔªøOption Strict On
 Imports System.IO
-Imports System.Globalization
-Public Class NewConta
+Public Class ContanetNewConta
     'La Clase se Construye pasandole 
     '          Cadena Conexion Central
     '          Grupo de Empresas 
@@ -29,7 +28,7 @@ Public Class NewConta
     Private mStrConexionSpyro As String
     Private mStrConexionConta As String
 
-    
+
 
     Private mFecha As Date
     Private mEmpGrupoCod As String
@@ -137,7 +136,7 @@ Public Class NewConta
 
 
     ' OTROS 
-    Private iASCII(63) As Integer       'Para conversiÛn a MS-DOS
+    Private iASCII(63) As Integer       'Para conversi√≥n a MS-DOS
     Private AuxCif As String
     Private AuxCuenta As String
 
@@ -177,13 +176,13 @@ Public Class NewConta
 
 
 #Region "CONSTRUCTOR"
-    Public Sub New(ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vStrConexionCentral As String, _
-    ByVal vStrConexionNewConta As String, ByVal vFecha As Date, ByVal vFileName As String, ByVal vDebug As Boolean, _
-    ByVal vConrolDebug As System.Windows.Forms.TextBox, ByVal vListBox As System.Windows.Forms.ListBox, _
-    ByVal vStrConexionSpyro As String, ByVal vProgress As System.Windows.Forms.ProgressBar, _
-    ByVal vEstableciomientoNewConta As String, ByVal vEmpNum As Integer, ByVal vStrConexionHotel As String, _
-    ByVal vOtrosCreditos As Boolean, ByVal vOtrosDebitos As Boolean, ByVal vCodigoReclamaciones As String, _
-    ByVal vCodigoNotasCredito As String, ByVal vForm As System.Windows.Forms.Form, ByVal vHoteCodiNewCentral As Integer, ByVal vDbSahara As String)
+    Public Sub New(ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vStrConexionCentral As String,
+    ByVal vStrConexionNewConta As String, ByVal vFecha As Date, ByVal vFileName As String, ByVal vDebug As Boolean,
+    ByVal vConrolDebug As System.Windows.Forms.TextBox, ByVal vListBox As System.Windows.Forms.ListBox,
+    ByVal vStrConexionSpyro As String, ByVal vProgress As System.Windows.Forms.ProgressBar,
+    ByVal vEstableciomientoNewConta As String, ByVal vEmpNum As Integer, ByVal vStrConexionHotel As String,
+    ByVal vOtrosCreditos As Boolean, ByVal vOtrosDebitos As Boolean, ByVal vCodigoReclamaciones As String,
+    ByVal vCodigoNotasCredito As String, ByVal vForm As System.Windows.Forms.Form, ByVal vHoteCodiNewCentral As Integer)
 
 
         MyBase.New()
@@ -215,7 +214,7 @@ Public Class NewConta
 
         Me.mHoteCodiNewCentral = vHoteCodiNewCentral
 
-        Me.mDbSahara = vDbSahara
+
 
 
         Me.mTextDebug = vConrolDebug
@@ -243,9 +242,7 @@ Public Class NewConta
             Me.DbLeeNewHotel = New C_DATOS.C_DatosOledb(Me.mStrConexionHotel)
             Me.DbLeeNewHotel.AbrirConexion()
             Me.DbLeeNewHotel.EjecutaSqlCommit("ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY'")
-            ' CHAPUZA LOPEZ 
-            ' Me.DbLeeNewHotel2 = New C_DATOS.C_DatosOledb("Provider=MSDAORA.1;User ID=RMC2;PASSWORD=RMC2;Data Source=DBSAHARA")
-            Me.DbLeeNewHotel2 = New C_DATOS.C_DatosOledb(Me.mDbSahara)
+            Me.DbLeeNewHotel2 = New C_DATOS.C_DatosOledb(Me.mStrConexionHotel)
             Me.DbLeeNewHotel2.AbrirConexion()
             Me.DbLeeNewHotel2.EjecutaSqlCommit("ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY'")
 
@@ -257,7 +254,7 @@ Public Class NewConta
 
             Me.DbSpyro.AbrirConexion()
         Else
-            '      MsgBox("No hay proceso de validaciÛn de cuentas en Spyro", MsgBoxStyle.Exclamation, "AtenciÛn")
+            '      MsgBox("No hay proceso de validaci√≥n de cuentas en Spyro", MsgBoxStyle.Exclamation, "Atenci√≥n")
         End If
 
 
@@ -266,7 +263,7 @@ Public Class NewConta
 
             Me.DbSpyro.AbrirConexion()
         Else
-            '      MsgBox("No hay proceso de validaciÛn de cuentas en Spyro", MsgBoxStyle.Exclamation, "AtenciÛn")
+            '      MsgBox("No hay proceso de validaci√≥n de cuentas en Spyro", MsgBoxStyle.Exclamation, "Atenci√≥n")
         End If
 
         Me.BorraRegistros()
@@ -278,7 +275,7 @@ Public Class NewConta
         'Texto = "Ojo tratamiento de devoluciones de pagos a cuenta asiento 21 en FASE DE PRUEBAS" & vbCrLf & vbCrLf
         'Texto += "Ojo tratamiento de Notas de credito asiento 51 en FASE DE PRUEBAS(falta asisnto de cancelacion de Notas de credito)" & vbCrLf & vbCrLf
         'Texto += "Ojo falta devoluciones de pagos a cuenta de CUENTAS DE NO ALOJADO"
-        'MsgBox(Texto, MsgBoxStyle.Critical, "AtenciÛn")
+        'MsgBox(Texto, MsgBoxStyle.Critical, "Atenci√≥n")
 
         ' auditoria 
         'Me.FacturasSinCuentaContable()
@@ -360,7 +357,7 @@ Public Class NewConta
             FileEstaOk = True
         Catch ex As Exception
             FileEstaOk = False
-            MsgBox("No dispone de acceso al Fichero " & vFile, MsgBoxStyle.Information, "AtenciÛn")
+            MsgBox("No dispone de acceso al Fichero " & vFile, MsgBoxStyle.Information, "Atenci√≥n")
         End Try
     End Sub
     Private Function MyCharToOem1(ByVal vStr1 As String, ByVal vLongitud As Integer) As String
@@ -387,53 +384,53 @@ Public Class NewConta
         Dim p As Integer
         '
         p = 0
-        For i = 128 To 156          'de « a £   29
+        For i = 128 To 156          'de √á a ¬£   29
             p = p + 1
             iASCII(p) = i
         Next
-        For i = 160 To 168          'de · a ø   9
+        For i = 160 To 168          'de √° a ¬ø   9
             p = p + 1
             iASCII(p) = i
         Next
-        For i = 170 To 175          'de ¨ a ª   6
+        For i = 170 To 175          'de ¬¨ a ¬ª   6
             p = p + 1
             iASCII(p) = i
         Next
-        '44 cÛdigos asignados hasta aquÌ
-        iASCII(45) = 225            'ﬂ
-        iASCII(46) = 230            'µ
-        iASCII(47) = 241            '±
-        iASCII(48) = 246            '˜
-        iASCII(49) = 253            '≤
-        iASCII(50) = 65             '¡ (A)
-        iASCII(51) = 73             'Õ (I)
-        iASCII(52) = 79             '” (O)
-        iASCII(53) = 85             '⁄ (U)
-        iASCII(54) = 73             'œ (I)
-        iASCII(55) = 65             '¿ (A)
-        iASCII(56) = 69             '» (E)
-        iASCII(57) = 73             'Ã (I)
-        iASCII(58) = 79             '“ (O)
-        iASCII(59) = 85             'Ÿ (U)
-        iASCII(60) = 69             'À (E)
-        For i = 61 To 63            ''`¥ (')
+        '44 c√≥digos asignados hasta aqu√≠
+        iASCII(45) = 225            '√ü
+        iASCII(46) = 230            '¬µ
+        iASCII(47) = 241            '¬±
+        iASCII(48) = 246            '√∑
+        iASCII(49) = 253            '¬≤
+        iASCII(50) = 65             '√Å (A)
+        iASCII(51) = 73             '√ç (I)
+        iASCII(52) = 79             '√ì (O)
+        iASCII(53) = 85             '√ö (U)
+        iASCII(54) = 73             '√è (I)
+        iASCII(55) = 65             '√Ä (A)
+        iASCII(56) = 69             '√à (E)
+        iASCII(57) = 73             '√å (I)
+        iASCII(58) = 79             '√í (O)
+        iASCII(59) = 85             '√ô (U)
+        iASCII(60) = 69             '√ã (E)
+        For i = 61 To 63            ''`¬¥ (')
             iASCII(i) = 39
         Next
     End Sub
     Private Function MyCharToOem(ByVal sWIN As String) As String
         'Filtrar la cadena para convertirla en compatible MS-DOS
-        Dim sANSI As String = "«¸È‚‰‡ÂÁÍÎËÔÓÏƒ≈…Ê∆ÙˆÚ˚˘ˇ÷‹¯£·ÌÛ˙Ò—™∫ø¨Ωº°´ªﬂµ±˜≤¡Õ”⁄œ¿»Ã“ŸÀ'`¥"
+        Dim sANSI As String = "√á√º√©√¢√§√†√•√ß√™√´√®√Ø√Æ√¨√Ñ√Ö√â√¶√Ü√¥√∂√≤√ª√π√ø√ñ√ú√∏¬£√°√≠√≥√∫√±√ë¬™¬∫¬ø¬¨¬Ω¬º¬°¬´¬ª√ü¬µ¬±√∑¬≤√Å√ç√ì√ö√è√Ä√à√å√í√ô√ã'`¬¥"
         '
         Dim i As Integer
         Dim p As Integer
         Dim sC As Integer
         Dim sMSD As String
 
-        'AquÌ se puede poner esta comparaciÛn para saber
-        'si el array est· inicializado.
-        'De esta forma no ser· necesario llamar al procedimiento
-        'de inicializaciÛn antes de usar esta funciÛn.
-        '(deber·s quitar los comentarios)
+        'Aqu√≠ se puede poner esta comparaci√≥n para saber
+        'si el array est√° inicializado.
+        'De esta forma no ser√° necesario llamar al procedimiento
+        'de inicializaci√≥n antes de usar esta funci√≥n.
+        '(deber√°s quitar los comentarios)
         If iASCII(1) = 0 Then       'El primer valor debe ser 128
             IniciarFiltroMSDOS()
         End If
@@ -487,7 +484,7 @@ Public Class NewConta
     Private Sub CargaParametros()
         Try
 
-            Me.mTextDebug.Text = "Cargando Par·metros"
+            Me.mTextDebug.Text = "Cargando Par√°metros"
             Me.mTextDebug.Update()
 
             SQL = "SELECT NVL(PARA_CTA1,'0') PARA_CTA1, "
@@ -580,14 +577,14 @@ Public Class NewConta
             End If
             Me.DbLeeCentral.mDbLector.Close()
         Catch EX As Exception
-            MsgBox(EX.Message, MsgBoxStyle.Exclamation, "Carga de Par·metros en Constructor de la Clase")
+            MsgBox(EX.Message, MsgBoxStyle.Exclamation, "Carga de Par√°metros en Constructor de la Clase")
         End Try
     End Sub
     Private Sub CargaParametrosNewConta()
         Try
 
 
-            Me.mTextDebug.Text = "Cargando Par·metros NewConta"
+            Me.mTextDebug.Text = "Cargando Par√°metros NewConta"
             Me.mTextDebug.Update()
 
             SQL = "SELECT  NVL(PARA_ORIGENCUENTAS,0) AS PARA_ORIGENCUENTAS,NVL(PARA_CFATODIARI_COD,'?') AS  DIARIO "
@@ -607,7 +604,7 @@ Public Class NewConta
             End If
             Me.DbLeeCentral.mDbLector.Close()
         Catch EX As Exception
-            MsgBox(EX.Message, MsgBoxStyle.Exclamation, "Carga de Par·metros en Constructor de la Clase")
+            MsgBox(EX.Message, MsgBoxStyle.Exclamation, "Carga de Par√°metros en Constructor de la Clase")
         End Try
     End Sub
     Private Sub BorraRegistros()
@@ -617,7 +614,7 @@ Public Class NewConta
             SQL += " AND ASNT_EMP_COD = '" & Me.mEmpCod & "'"
             SQL += " AND ASNT_EMP_NUM = " & Me.mEmpNum
             If CType(Me.DbLeeCentral.EjecutaSqlScalar(SQL), Integer) > 0 Then
-                MsgBox("Ya existen Movimientos de IntegraciÛn para esta Fecha", MsgBoxStyle.Information, "AtenciÛn")
+                MsgBox("Ya existen Movimientos de Integraci√≥n para esta Fecha", MsgBoxStyle.Information, "Atenci√≥n")
             End If
             Me.mForm.Update()
 
@@ -633,9 +630,9 @@ Public Class NewConta
         End Try
     End Sub
 
-    Private Sub InsertaOracle(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vCefejerc_Cod As String, _
+    Private Sub InsertaOracle(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vCefejerc_Cod As String,
                                       ByVal vCfatocab_Refer As Integer, ByVal vLinea As Integer _
-                                      , ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As String, ByVal vImonep As Double, _
+                                      , ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As String, ByVal vImonep As Double,
                                         ByVal vAjuste As String, ByVal vCif As String, ByVal vNombre As String, ByVal vImprimir As String, ByVal vAuxiliar As String)
 
         Try
@@ -677,7 +674,7 @@ Public Class NewConta
 
 
             If vCfcta_Cod.Length < 2 And vCfcta_Cod <> "NO TRATAR" Then
-                Me.mTexto = "NEWHOTEL: " & "Cuenta Contable no v·lida para descripciÛn de Movimiento =  " & Mid(vAmpcpto, 1, 40)
+                Me.mTexto = "NEWHOTEL: " & "Cuenta Contable no v√°lida para descripci√≥n de Movimiento =  " & Mid(vAmpcpto, 1, 40)
                 Me.mListBoxDebug.Items.Add(Me.mTexto)
                 SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
                 SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & vAsiento & "," & Linea & ",'" & Me.mTexto & "')"
@@ -687,7 +684,7 @@ Public Class NewConta
 
             If vTipo = "FV" Then
                 If vCif.Length = 0 Then
-                    Me.mTexto = "NEWHOTEL: " & "CIF no v·lido para descripciÛn de Movimiento =  " & Mid(vAmpcpto, 1, 40)
+                    Me.mTexto = "NEWHOTEL: " & "CIF no v√°lido para descripci√≥n de Movimiento =  " & Mid(vAmpcpto, 1, 40)
                     Me.mListBoxDebug.Items.Add(Me.mTexto)
                     'SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
                     'SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & vAsiento & "," & Linea & ",'" & Me.mTexto & "')"
@@ -751,7 +748,7 @@ Public Class NewConta
 
 
             If vCfcta_Cod.Length < 2 And vCfcta_Cod <> "NO TRATAR" Then
-                Me.mTexto = "NEWHOTEL: " & "Cuenta Contable no v·lida para descripciÛn de Movimiento =  " & Mid(vAmpcpto, 1, 40)
+                Me.mTexto = "NEWHOTEL: " & "Cuenta Contable no v√°lida para descripci√≥n de Movimiento =  " & Mid(vAmpcpto, 1, 40)
                 Me.mListBoxDebug.Items.Add(Me.mTexto)
                 SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
                 SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & vAsiento & "," & Linea & ",'" & Me.mTexto & "')"
@@ -761,7 +758,7 @@ Public Class NewConta
 
             If vTipo = "FV" Then
                 If vCif.Length = 0 Then
-                    Me.mTexto = "NEWHOTEL: " & "CIF no v·lido para descripciÛn de Movimiento =  " & Mid(vAmpcpto, 1, 40)
+                    Me.mTexto = "NEWHOTEL: " & "CIF no v√°lido para descripci√≥n de Movimiento =  " & Mid(vAmpcpto, 1, 40)
                     Me.mListBoxDebug.Items.Add(Me.mTexto)
                     'SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
                     'SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & vAsiento & "," & Linea & ",'" & Me.mTexto & "')"
@@ -827,7 +824,7 @@ Public Class NewConta
             Me.mTextDebug.Update()
 
             If vCfcta_Cod.Length < 2 And vCfcta_Cod <> "NO TRATAR" Then
-                Me.mTexto = "NEWHOTEL: " & "Cuenta Contable no v·lida para descripciÛn de Movimiento =  " & Mid(vAmpcpto, 1, 40)
+                Me.mTexto = "NEWHOTEL: " & "Cuenta Contable no v√°lida para descripci√≥n de Movimiento =  " & Mid(vAmpcpto, 1, 40)
                 Me.mListBoxDebug.Items.Add(Me.mTexto)
                 SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
                 SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & vAsiento & "," & Linea & ",'" & Me.mTexto & "')"
@@ -837,7 +834,7 @@ Public Class NewConta
 
             If vTipo = "FV" Then
                 If vCif.Length = 0 Then
-                    Me.mTexto = "NEWHOTEL: " & "CIF no v·lido para descripciÛn de Movimiento =  " & Mid(vAmpcpto, 1, 40)
+                    Me.mTexto = "NEWHOTEL: " & "CIF no v√°lido para descripci√≥n de Movimiento =  " & Mid(vAmpcpto, 1, 40)
                     Me.mListBoxDebug.Items.Add(Me.mTexto)
                     'SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
                     'SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & vAsiento & "," & Linea & ",'" & Me.mTexto & "')"
@@ -908,9 +905,9 @@ Public Class NewConta
 
 
                 If Me.DbSpyro.EjecutaSqlScalar(SQL) = "X" Then
-                    Me.mListBoxDebug.Items.Add("SPYRO   : " & vCuenta & " No tiene definida RazÛn Social  en Plan de Cuentas de Spyro")
+                    Me.mListBoxDebug.Items.Add("SPYRO   : " & vCuenta & " No tiene definida Raz√≥n Social  en Plan de Cuentas de Spyro")
                     Me.mListBoxDebug.Update()
-                    Me.mTexto = "SPYRO   : " & vCuenta & " No tiene definida RazÛn Social  en Plan de Cuentas de Spyro"
+                    Me.mTexto = "SPYRO   : " & vCuenta & " No tiene definida Raz√≥n Social  en Plan de Cuentas de Spyro"
                     SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
                     SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & vAsiento & "," & Linea & ",'" & Me.mTexto & "')"
                     Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
@@ -1083,9 +1080,9 @@ Public Class NewConta
 
 
             If IsNothing(Me.DbSpyro.EjecutaSqlScalar(SQL)) = True Then
-                Me.mListBoxDebug.Items.Add("SPYRO   : " & vCuenta & "  No se localiza CÛdigo de BANCO Spyro :" & vBanco)
+                Me.mListBoxDebug.Items.Add("SPYRO   : " & vCuenta & "  No se localiza C√≥digo de BANCO Spyro :" & vBanco)
                 Me.mListBoxDebug.Update()
-                Me.mTexto = "SPYRO   : " & vCuenta & "  No se localiza CÛdigo de BANCO Spyro :" & vBanco
+                Me.mTexto = "SPYRO   : " & vCuenta & "  No se localiza C√≥digo de BANCO Spyro :" & vBanco
                 SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
                 SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & vAsiento & "," & Linea & ",'" & Me.mTexto & " " & vAmpcpto & " " & vNombre & "')"
                 Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
@@ -1157,9 +1154,9 @@ Public Class NewConta
 
 
                 If Me.DbSpyro.EjecutaSqlScalar(SQL) = "X" Then
-                    Me.mListBoxDebug.Items.Add("SPYRO   : " & vCuenta & "  No tiene definida RazÛn Social  en Plan de Cuentas de Spyro")
+                    Me.mListBoxDebug.Items.Add("SPYRO   : " & vCuenta & "  No tiene definida Raz√≥n Social  en Plan de Cuentas de Spyro")
                     Me.mListBoxDebug.Update()
-                    Me.mTexto = "SPYRO   : " & vCuenta & " No tiene definida RazÛn Social  en Plan de Cuentas de Spyro"
+                    Me.mTexto = "SPYRO   : " & vCuenta & " No tiene definida Raz√≥n Social  en Plan de Cuentas de Spyro"
                     SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
                     SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & vAsiento & "," & Linea & ",'" & Me.mTexto & "')"
                     Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
@@ -1292,9 +1289,9 @@ Public Class NewConta
 
 
                 If Me.DbSpyro.EjecutaSqlScalar(SQL) = "X" Then
-                    Me.mListBoxDebug.Items.Add("SPYRO   : " & vCuenta & "  No tiene definida RazÛn Social  en Plan de Cuentas de Spyro")
+                    Me.mListBoxDebug.Items.Add("SPYRO   : " & vCuenta & "  No tiene definida Raz√≥n Social  en Plan de Cuentas de Spyro")
                     Me.mListBoxDebug.Update()
-                    Me.mTexto = "SPYRO   : " & vCuenta & " No tiene definida RazÛn Social  en Plan de Cuentas de Spyro"
+                    Me.mTexto = "SPYRO   : " & vCuenta & " No tiene definida Raz√≥n Social  en Plan de Cuentas de Spyro"
                     SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
                     SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & "0" & "," & Linea & ",'" & Me.mTexto & "')"
                     Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
@@ -1371,7 +1368,7 @@ Public Class NewConta
             MsgBox(ex.Message, MsgBoxStyle.Information, " Localiza Cuenta Contable SPYRO")
         End Try
     End Sub
-    Private Sub GeneraFileAC(ByVal vTipo As String, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vCefejerc_Cod As String, _
+    Private Sub GeneraFileAC(ByVal vTipo As String, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vCefejerc_Cod As String,
      ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As String, ByVal vImonep As Double)
         Try
             Dim FechaAsiento As String
@@ -1386,27 +1383,27 @@ Public Class NewConta
             '-------------------------------------------------------------------------------------------------
             '  Apuntes Contables(CFATOLIN)
             '-------------------------------------------------------------------------------------------------
-            Me.Filegraba.WriteLine(MyCharToOem(vTipo.PadRight(2, CChar(" ")) & _
-            vEmpGrupoCod.PadRight(4, CChar(" ")) & _
-            vEmpCod.PadRight(4, CChar(" ")) & _
-            Mid(FechaAsiento, 5, 4) & _
-            Me.mCfatodiari_Cod.PadRight(4, CChar(" ")) & _
-            " ".PadLeft(8, CChar(" ")) & _
-            " ".PadLeft(4, CChar(" ")) & _
-            vCfcta_Cod.PadRight(15, CChar(" ")) & _
-            vCfcptos_Cod.PadRight(4, CChar(" ")) & _
-            Mid(vAmpcpto, 1, 40).PadRight(40, CChar(" ")) & _
-            CType(vImonep, String).PadLeft(16, CChar(" ")) & _
-            "N" & FechaAsiento & _
-            Format(Me.mFecha, "ddMMyyyy") & _
-            " ".PadRight(40, CChar(" ")) & _
+            Me.Filegraba.WriteLine(MyCharToOem(vTipo.PadRight(2, CChar(" ")) &
+            vEmpGrupoCod.PadRight(4, CChar(" ")) &
+            vEmpCod.PadRight(4, CChar(" ")) &
+            Mid(FechaAsiento, 5, 4) &
+            Me.mCfatodiari_Cod.PadRight(4, CChar(" ")) &
+            " ".PadLeft(8, CChar(" ")) &
+            " ".PadLeft(4, CChar(" ")) &
+            vCfcta_Cod.PadRight(15, CChar(" ")) &
+            vCfcptos_Cod.PadRight(4, CChar(" ")) &
+            Mid(vAmpcpto, 1, 40).PadRight(40, CChar(" ")) &
+            CType(vImonep, String).PadLeft(16, CChar(" ")) &
+            "N" & FechaAsiento &
+            Format(Me.mFecha, "ddMMyyyy") &
+            " ".PadRight(40, CChar(" ")) &
             Me.mCfatotip_Cod.PadRight(4, CChar(" "))))
 
         Catch EX As Exception
             MsgBox(EX.Message, MsgBoxStyle.Information, "Genera FileAc")
         End Try
     End Sub
-    Private Sub GeneraFileACconFechaValor(ByVal vTipo As String, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vCefejerc_Cod As String, _
+    Private Sub GeneraFileACconFechaValor(ByVal vTipo As String, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vCefejerc_Cod As String,
      ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As String, ByVal vImonep As Double, ByVal vFechaValor As Date)
         Try
             Dim FechaAsiento As String
@@ -1421,27 +1418,27 @@ Public Class NewConta
             '-------------------------------------------------------------------------------------------------
             '  Apuntes Contables(CFATOLIN)
             '-------------------------------------------------------------------------------------------------
-            Me.Filegraba.WriteLine(MyCharToOem(vTipo.PadRight(2, CChar(" ")) & _
-            vEmpGrupoCod.PadRight(4, CChar(" ")) & _
-            vEmpCod.PadRight(4, CChar(" ")) & _
-            Mid(FechaAsiento, 5, 4) & _
-            Me.mCfatodiari_Cod.PadRight(4, CChar(" ")) & _
-            " ".PadLeft(8, CChar(" ")) & _
-            " ".PadLeft(4, CChar(" ")) & _
-            vCfcta_Cod.PadRight(15, CChar(" ")) & _
-            vCfcptos_Cod.PadRight(4, CChar(" ")) & _
-            Mid(vAmpcpto, 1, 40).PadRight(40, CChar(" ")) & _
-            CType(vImonep, String).PadLeft(16, CChar(" ")) & _
-            "N" & FechaAsiento & _
-            Format(vFechaValor, "ddMMyyyy") & _
-            " ".PadRight(40, CChar(" ")) & _
+            Me.Filegraba.WriteLine(MyCharToOem(vTipo.PadRight(2, CChar(" ")) &
+            vEmpGrupoCod.PadRight(4, CChar(" ")) &
+            vEmpCod.PadRight(4, CChar(" ")) &
+            Mid(FechaAsiento, 5, 4) &
+            Me.mCfatodiari_Cod.PadRight(4, CChar(" ")) &
+            " ".PadLeft(8, CChar(" ")) &
+            " ".PadLeft(4, CChar(" ")) &
+            vCfcta_Cod.PadRight(15, CChar(" ")) &
+            vCfcptos_Cod.PadRight(4, CChar(" ")) &
+            Mid(vAmpcpto, 1, 40).PadRight(40, CChar(" ")) &
+            CType(vImonep, String).PadLeft(16, CChar(" ")) &
+            "N" & FechaAsiento &
+            Format(vFechaValor, "ddMMyyyy") &
+            " ".PadRight(40, CChar(" ")) &
             Me.mCfatotip_Cod.PadRight(4, CChar(" "))))
 
         Catch EX As Exception
             MsgBox(EX.Message, MsgBoxStyle.Information, "Genera FileAc")
         End Try
     End Sub
-    Private Sub GeneraFileAC2(ByVal vTipo As String, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vCefejerc_Cod As String, _
+    Private Sub GeneraFileAC2(ByVal vTipo As String, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vCefejerc_Cod As String,
   ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As String, ByVal vImonep As Double, ByVal vFactuTipo_cod As String, ByVal vNfactura As Integer)
         Try
             Dim FechaAsiento As String
@@ -1456,30 +1453,30 @@ Public Class NewConta
             '-------------------------------------------------------------------------------------------------
             '  Apuntes Contables(CFATOLIN)
             '-------------------------------------------------------------------------------------------------
-            Me.Filegraba.WriteLine(MyCharToOem(vTipo.PadRight(2, CChar(" ")) & _
-            vEmpGrupoCod.PadRight(4, CChar(" ")) & _
-            vEmpCod.PadRight(4, CChar(" ")) & _
-            Mid(FechaAsiento, 5, 4) & _
-            Me.mCfatodiari_Cod.PadRight(4, CChar(" ")) & _
-            " ".PadLeft(8, CChar(" ")) & _
-            " ".PadLeft(4, CChar(" ")) & _
-            vCfcta_Cod.PadRight(15, CChar(" ")) & _
-            vCfcptos_Cod.PadRight(4, CChar(" ")) & _
-            Mid(vAmpcpto, 1, 40).PadRight(40, CChar(" ")) & _
-            CType(vImonep, String).PadLeft(16, CChar(" ")) & _
-            "N" & FechaAsiento & _
-            Format(Me.mFecha, "ddMMyyyy") & _
-            " ".PadRight(40, CChar(" ")) & _
-            Me.mCfatotip_Cod.PadRight(4, CChar(" ")) & _
-            mCfivaLibro_Cod.PadRight(2, CChar(" ")) & _
-            vFactuTipo_cod.PadRight(6, CChar(" ")) & _
+            Me.Filegraba.WriteLine(MyCharToOem(vTipo.PadRight(2, CChar(" ")) &
+            vEmpGrupoCod.PadRight(4, CChar(" ")) &
+            vEmpCod.PadRight(4, CChar(" ")) &
+            Mid(FechaAsiento, 5, 4) &
+            Me.mCfatodiari_Cod.PadRight(4, CChar(" ")) &
+            " ".PadLeft(8, CChar(" ")) &
+            " ".PadLeft(4, CChar(" ")) &
+            vCfcta_Cod.PadRight(15, CChar(" ")) &
+            vCfcptos_Cod.PadRight(4, CChar(" ")) &
+            Mid(vAmpcpto, 1, 40).PadRight(40, CChar(" ")) &
+            CType(vImonep, String).PadLeft(16, CChar(" ")) &
+            "N" & FechaAsiento &
+            Format(Me.mFecha, "ddMMyyyy") &
+            " ".PadRight(40, CChar(" ")) &
+            Me.mCfatotip_Cod.PadRight(4, CChar(" ")) &
+            mCfivaLibro_Cod.PadRight(2, CChar(" ")) &
+            vFactuTipo_cod.PadRight(6, CChar(" ")) &
             CType(vNfactura, String).PadRight(8, CChar(" "))))
 
         Catch EX As Exception
             MsgBox(EX.Message, MsgBoxStyle.Information, "Genera FileAc")
         End Try
     End Sub
-    Private Sub GeneraFileAC3(ByVal vTipo As String, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vCefejerc_Cod As String, _
+    Private Sub GeneraFileAC3(ByVal vTipo As String, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vCefejerc_Cod As String,
  ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As String, ByVal vImonep As Double)
         Try
 
@@ -1494,21 +1491,21 @@ Public Class NewConta
             '-------------------------------------------------------------------------------------------------
             '  Apuntes Contables(CFATOLIN)
             '-------------------------------------------------------------------------------------------------
-            Me.Filegraba.WriteLine(MyCharToOem(vTipo.PadRight(2, CChar(" ")) & _
-            vEmpGrupoCod.PadRight(4, CChar(" ")) & _
-            vEmpCod.PadRight(4, CChar(" ")) & _
-            Mid(FechaAsiento, 5, 4) & _
-            Me.mCfatodiari_Cod.PadRight(4, CChar(" ")) & _
-            " ".PadLeft(8, CChar(" ")) & _
-            " ".PadLeft(4, CChar(" ")) & _
-            vCfcta_Cod.PadRight(15, CChar(" ")) & _
-            vCfcptos_Cod.PadRight(4, CChar(" ")) & _
-            Mid(vAmpcpto, 1, 40).PadRight(40, CChar(" ")) & _
-            CType(vImonep, String).PadLeft(16, CChar(" ")) & _
-            "N" & FechaAsiento & _
-            Format(Me.mFecha, "ddMMyyyy") & _
-            " ".PadRight(40, CChar(" ")) & _
-            Me.mCfatotip_Cod.PadRight(4, CChar(" ")) & _
+            Me.Filegraba.WriteLine(MyCharToOem(vTipo.PadRight(2, CChar(" ")) &
+            vEmpGrupoCod.PadRight(4, CChar(" ")) &
+            vEmpCod.PadRight(4, CChar(" ")) &
+            Mid(FechaAsiento, 5, 4) &
+            Me.mCfatodiari_Cod.PadRight(4, CChar(" ")) &
+            " ".PadLeft(8, CChar(" ")) &
+            " ".PadLeft(4, CChar(" ")) &
+            vCfcta_Cod.PadRight(15, CChar(" ")) &
+            vCfcptos_Cod.PadRight(4, CChar(" ")) &
+            Mid(vAmpcpto, 1, 40).PadRight(40, CChar(" ")) &
+            CType(vImonep, String).PadLeft(16, CChar(" ")) &
+            "N" & FechaAsiento &
+            Format(Me.mFecha, "ddMMyyyy") &
+            " ".PadRight(40, CChar(" ")) &
+            Me.mCfatotip_Cod.PadRight(4, CChar(" ")) &
             "*"))
 
 
@@ -1516,32 +1513,32 @@ Public Class NewConta
             MsgBox(EX.Message, MsgBoxStyle.Information, "Genera FileAc")
         End Try
     End Sub
-    Private Sub GeneraFileAA(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vCefejerc_Cod As String, _
-                                 ByVal vCfatocab_Refer As Integer, _
-                                  ByVal vCfcta_Cod As String, ByVal vCfcctip_Cod As String, ByVal vCfcCosto_Cod As String, _
+    Private Sub GeneraFileAA(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vCefejerc_Cod As String,
+                                 ByVal vCfatocab_Refer As Integer,
+                                  ByVal vCfcta_Cod As String, ByVal vCfcctip_Cod As String, ByVal vCfcCosto_Cod As String,
                                   ByVal vImonep As Double)
         Try
 
             '-------------------------------------------------------------------------------------------------
             '  Apuntes Contables(CFATOLINCC)
             '-------------------------------------------------------------------------------------------------
-            Me.Filegraba.WriteLine(vTipo.PadRight(2, CChar(" ")) & _
-            vEmpGrupoCod.PadRight(4, CChar(" ")) & _
-            vEmpCod.PadRight(4, CChar(" ")) & _
-            Mid(Format(Me.mFecha, "ddMMyyyy"), 5, 4) & _
-            Me.mCfatodiari_Cod.PadRight(4, CChar(" ")) & _
-            " ".PadLeft(8, CChar(" ")) & _
-            " ".PadLeft(4, CChar(" ")) & _
-            vCfcta_Cod.PadRight(15, CChar(" ")) & _
-            vCfcctip_Cod.PadRight(4, CChar(" ")) & _
-            vCfcCosto_Cod.PadRight(15, CChar(" ")) & _
+            Me.Filegraba.WriteLine(vTipo.PadRight(2, CChar(" ")) &
+            vEmpGrupoCod.PadRight(4, CChar(" ")) &
+            vEmpCod.PadRight(4, CChar(" ")) &
+            Mid(Format(Me.mFecha, "ddMMyyyy"), 5, 4) &
+            Me.mCfatodiari_Cod.PadRight(4, CChar(" ")) &
+            " ".PadLeft(8, CChar(" ")) &
+            " ".PadLeft(4, CChar(" ")) &
+            vCfcta_Cod.PadRight(15, CChar(" ")) &
+            vCfcctip_Cod.PadRight(4, CChar(" ")) &
+            vCfcCosto_Cod.PadRight(15, CChar(" ")) &
             CType(vImonep, String).PadLeft(16, CChar(" ")) & Format(Me.mFecha, "ddMMyyyy"))
 
         Catch EX As Exception
             MsgBox(EX.Message, MsgBoxStyle.Information, "Genera FileAA")
         End Try
     End Sub
-    Private Sub GeneraFileFV(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, _
+    Private Sub GeneraFileFV(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String,
     ByVal vSerie As String, ByVal vNfactura As Integer, ByVal vImonep As Double, ByVal vSfactura As String, ByVal vCuenta As String, ByVal vCif As String, ByVal vPendiente As Double)
 
         Try
@@ -1549,33 +1546,33 @@ Public Class NewConta
             '  Facturas(FACTURAS)
             '-------------------------------------------------------------------------------------------------
             ' MsgBox(vSfactura)
-            Me.Filegraba.WriteLine(vTipo.PadRight(2, CChar(" ")) & _
-            vEmpGrupoCod.PadRight(4, CChar(" ")) & _
-            vEmpCod.PadRight(4, CChar(" ")) & _
-            Me.mCfivaLibro_Cod.PadRight(2, CChar(" ")) & _
-            vSerie.PadRight(6, CChar(" ")) & _
-            CType(vNfactura, String).PadLeft(8, CChar(" ")) & _
-            " ".PadRight(8, CChar(" ")) & _
-            Format(Me.mFecha, "ddMMyyyy") & _
-            Me.mCfivaClase_Cod.PadRight(2, CChar(" ")) & _
-            CType(vImonep, String).PadLeft(16, CChar(" ")) & _
-            Me.mMonedas_Cod.PadRight(4, CChar(" ")) & _
-            CType(vImonep, String).PadLeft(16, CChar(" ")) & _
-            Mid(vSfactura, 1, 15).PadRight(15, CChar("-")) & _
-            vEmpGrupoCod.PadRight(4, CChar(" ")) & _
-            vEmpCod.PadRight(4, CChar(" ")) & _
-            Format(Me.mFecha, "yyyy") & _
-            Me.mCfatodiari_Cod.PadRight(4, CChar(" ")) & _
-            " ".PadLeft(8, CChar(" ")) & _
-            " ".PadLeft(4, CChar(" ")) & _
-            vCuenta.PadRight(15, CChar(" ")) & _
-            vCif.PadRight(20, CChar(" ")) & _
-            " ".PadRight(6, CChar(" ")) & _
-            " ".PadRight(1, CChar(" ")) & _
-            " ".PadRight(8, CChar(" ")) & _
-            " ".PadRight(8, CChar(" ")) & _
-            Me.mGvagente_Cod.PadRight(8, CChar(" ")) & _
-            CType(vPendiente, String).PadRight(16, CChar(" ")) & _
+            Me.Filegraba.WriteLine(vTipo.PadRight(2, CChar(" ")) &
+            vEmpGrupoCod.PadRight(4, CChar(" ")) &
+            vEmpCod.PadRight(4, CChar(" ")) &
+            Me.mCfivaLibro_Cod.PadRight(2, CChar(" ")) &
+            vSerie.PadRight(6, CChar(" ")) &
+            CType(vNfactura, String).PadLeft(8, CChar(" ")) &
+            " ".PadRight(8, CChar(" ")) &
+            Format(Me.mFecha, "ddMMyyyy") &
+            Me.mCfivaClase_Cod.PadRight(2, CChar(" ")) &
+            CType(vImonep, String).PadLeft(16, CChar(" ")) &
+            Me.mMonedas_Cod.PadRight(4, CChar(" ")) &
+            CType(vImonep, String).PadLeft(16, CChar(" ")) &
+            Mid(vSfactura, 1, 15).PadRight(15, CChar("-")) &
+            vEmpGrupoCod.PadRight(4, CChar(" ")) &
+            vEmpCod.PadRight(4, CChar(" ")) &
+            Format(Me.mFecha, "yyyy") &
+            Me.mCfatodiari_Cod.PadRight(4, CChar(" ")) &
+            " ".PadLeft(8, CChar(" ")) &
+            " ".PadLeft(4, CChar(" ")) &
+            vCuenta.PadRight(15, CChar(" ")) &
+            vCif.PadRight(20, CChar(" ")) &
+            " ".PadRight(6, CChar(" ")) &
+            " ".PadRight(1, CChar(" ")) &
+            " ".PadRight(8, CChar(" ")) &
+            " ".PadRight(8, CChar(" ")) &
+            Me.mGvagente_Cod.PadRight(8, CChar(" ")) &
+            CType(vPendiente, String).PadRight(16, CChar(" ")) &
             CType(vPendiente, String).PadRight(16, CChar(" ")) & "NN")
 
 
@@ -1583,7 +1580,7 @@ Public Class NewConta
             MsgBox(EX.Message, MsgBoxStyle.Information, "Genera FileFV")
         End Try
     End Sub
-    Private Sub GeneraFileFV2(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, _
+    Private Sub GeneraFileFV2(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String,
    ByVal vSerie As String, ByVal vNfactura As Integer, ByVal vImonep As Double, ByVal vSfactura As String, ByVal vCuenta As String, ByVal vCif As String)
 
         Try
@@ -1591,33 +1588,33 @@ Public Class NewConta
             '  Facturas(FACTURAS)
             '-------------------------------------------------------------------------------------------------
             ' MsgBox(vSfactura)
-            Me.Filegraba.WriteLine(vTipo.PadRight(2, CChar(" ")) & _
-            vEmpGrupoCod.PadRight(4, CChar(" ")) & _
-            vEmpCod.PadRight(4, CChar(" ")) & _
-            Me.mCfivaLibro_Cod.PadRight(2, CChar(" ")) & _
-            vSerie.PadRight(6, CChar(" ")) & _
-            CType(vNfactura, String).PadLeft(8, CChar(" ")) & _
-            " ".PadRight(8, CChar(" ")) & _
-            Format(Me.mFecha, "ddMMyyyy") & _
-            Me.mCfivaClase_Cod.PadRight(2, CChar(" ")) & _
-            CType(vImonep, String).PadLeft(16, CChar(" ")) & _
-            Me.mMonedas_Cod.PadRight(4, CChar(" ")) & _
-            CType(vImonep, String).PadLeft(16, CChar(" ")) & _
-            Mid(vSfactura, 1, 15).PadRight(15, CChar("-")) & _
-            vEmpGrupoCod.PadRight(4, CChar(" ")) & _
-            vEmpCod.PadRight(4, CChar(" ")) & _
-            Format(Me.mFecha, "yyyy") & _
-            Me.mCfatodiari_Cod.PadRight(4, CChar(" ")) & _
-            " ".PadLeft(8, CChar(" ")) & _
-            " ".PadLeft(4, CChar(" ")) & _
-            vCuenta.PadRight(15, CChar(" ")) & _
-            vCif.PadRight(20, CChar(" ")) & _
-            " ".PadRight(6, CChar(" ")) & _
-            " ".PadRight(1, CChar(" ")) & _
-            " ".PadRight(8, CChar(" ")) & _
-            " ".PadRight(8, CChar(" ")) & _
-            Me.mGvagente_Cod.PadRight(8, CChar(" ")) & _
-            "0".PadRight(16, CChar(" ")) & _
+            Me.Filegraba.WriteLine(vTipo.PadRight(2, CChar(" ")) &
+            vEmpGrupoCod.PadRight(4, CChar(" ")) &
+            vEmpCod.PadRight(4, CChar(" ")) &
+            Me.mCfivaLibro_Cod.PadRight(2, CChar(" ")) &
+            vSerie.PadRight(6, CChar(" ")) &
+            CType(vNfactura, String).PadLeft(8, CChar(" ")) &
+            " ".PadRight(8, CChar(" ")) &
+            Format(Me.mFecha, "ddMMyyyy") &
+            Me.mCfivaClase_Cod.PadRight(2, CChar(" ")) &
+            CType(vImonep, String).PadLeft(16, CChar(" ")) &
+            Me.mMonedas_Cod.PadRight(4, CChar(" ")) &
+            CType(vImonep, String).PadLeft(16, CChar(" ")) &
+            Mid(vSfactura, 1, 15).PadRight(15, CChar("-")) &
+            vEmpGrupoCod.PadRight(4, CChar(" ")) &
+            vEmpCod.PadRight(4, CChar(" ")) &
+            Format(Me.mFecha, "yyyy") &
+            Me.mCfatodiari_Cod.PadRight(4, CChar(" ")) &
+            " ".PadLeft(8, CChar(" ")) &
+            " ".PadLeft(4, CChar(" ")) &
+            vCuenta.PadRight(15, CChar(" ")) &
+            vCif.PadRight(20, CChar(" ")) &
+            " ".PadRight(6, CChar(" ")) &
+            " ".PadRight(1, CChar(" ")) &
+            " ".PadRight(8, CChar(" ")) &
+            " ".PadRight(8, CChar(" ")) &
+            Me.mGvagente_Cod.PadRight(8, CChar(" ")) &
+            "0".PadRight(16, CChar(" ")) &
             "0".PadRight(16, CChar(" ")) & "NN")
 
 
@@ -1625,22 +1622,22 @@ Public Class NewConta
             MsgBox(EX.Message, MsgBoxStyle.Information, "Genera FileFV")
         End Try
     End Sub
-    Private Sub GeneraFileVF(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, _
+    Private Sub GeneraFileVF(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String,
    ByVal vSerie As String, ByVal vNfactura As Integer, ByVal vImonep As Double, ByVal vSfactura As String, ByVal vCuenta As String, ByVal vCif As String)
 
         Try
             '-------------------------------------------------------------------------------------------------
             '  Facturas(FACTURAS)
             '-------------------------------------------------------------------------------------------------
-            Me.Filegraba.WriteLine(vTipo.PadRight(2, CChar(" ")) & _
-            vEmpGrupoCod.PadRight(4, CChar(" ")) & _
-            vEmpCod.PadRight(4, CChar(" ")) & _
-            Me.mCfivaLibro_Cod.PadRight(2, CChar(" ")) & _
-            vSerie.PadRight(6, CChar(" ")) & _
-            CType(vNfactura, String).PadLeft(8, CChar(" ")) & _
-            vEmpGrupoCod.PadRight(4, CChar(" ")) & _
-            vEmpCod.PadRight(4, CChar(" ")) & _
-            Format(Me.mFecha, "yyyy") & _
+            Me.Filegraba.WriteLine(vTipo.PadRight(2, CChar(" ")) &
+            vEmpGrupoCod.PadRight(4, CChar(" ")) &
+            vEmpCod.PadRight(4, CChar(" ")) &
+            Me.mCfivaLibro_Cod.PadRight(2, CChar(" ")) &
+            vSerie.PadRight(6, CChar(" ")) &
+            CType(vNfactura, String).PadLeft(8, CChar(" ")) &
+            vEmpGrupoCod.PadRight(4, CChar(" ")) &
+            vEmpCod.PadRight(4, CChar(" ")) &
+            Format(Me.mFecha, "yyyy") &
             Me.mCfatodiari_Cod.PadRight(4, CChar(" ")))
 
         Catch EX As Exception
@@ -1944,7 +1941,7 @@ Public Class NewConta
                     System.IO.File.Delete(FileToDelete)
                 End If
             End If
-            
+
 
 
         Catch ex As Exception
@@ -1991,7 +1988,7 @@ Public Class NewConta
                     Me.DbSpyro.CerrarConexion()
                 End If
             End If
-           
+
         Catch ex As Exception
 
         End Try
@@ -2003,11 +2000,11 @@ Public Class NewConta
             SQL += " AND FACT_STAT IN('2','3') AND ENTI_CODI IS NULL AND CCEX_CODI IS NULL"
             Me.DbNewConta.TraerLector(SQL)
             While Me.DbNewConta.mDbLector.Read
-                Me.mTexto = "Factura de CrÈdito sin cuenta Contable Localizable" & vbCrLf
+                Me.mTexto = "Factura de Cr√©dito sin cuenta Contable Localizable" & vbCrLf
                 Me.mTexto += CType(Me.DbNewConta.mDbLector.Item("FACT_CODI"), String) & "/" & CType(Me.DbNewConta.mDbLector.Item("SEFA_CODI"), String) & vbCrLf
                 Me.mTexto += CType(Me.DbNewConta.mDbLector.Item("FACT_TITU"), String) & vbCrLf
                 Me.mTexto += "Estado Actual  =" & CType(Me.DbNewConta.mDbLector.Item("ESTADO"), String) & vbCrLf
-                MsgBox(Me.mTexto, MsgBoxStyle.Exclamation, "AtenciÛn")
+                MsgBox(Me.mTexto, MsgBoxStyle.Exclamation, "Atenci√≥n")
             End While
             Me.DbNewConta.mDbLector.Close()
         Catch EX As Exception
@@ -2108,7 +2105,7 @@ Public Class NewConta
                             Me.GeneraComprobanteBanco2(111, Total, CType(Me.DbNewConta.mDbLector("TIMO_CECO"), String), CType(Me.DbNewConta.mDbLector("TACO_CODI"), String), CInt(Me.DbNewConta.mDbLector("MOCO_CODI")), 9999, "serie factura")
 
                         End If
-                        Me.InsertaOracle("AC", 111, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, "NO", "", CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", CDate(Me.DbNewConta.mDbLector("DAVA")), CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), "Comprobante Bancario N∫: " & Me.mTransferenciaComprobante, CType(Me.DbNewConta.mDbLector("TIMO_CECO"), String), Me.mTransferenciaCfbcotmov, CStr(Me.mTransferenciaComprobante), "S", Me.mTransferenciaBancosCod)
+                        Me.InsertaOracle("AC", 111, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, "NO", "", CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", CDate(Me.DbNewConta.mDbLector("DAVA")), CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), "Comprobante Bancario N¬∫: " & Me.mTransferenciaComprobante, CType(Me.DbNewConta.mDbLector("TIMO_CECO"), String), Me.mTransferenciaCfbcotmov, CStr(Me.mTransferenciaComprobante), "S", Me.mTransferenciaBancosCod)
                         '20181022
                         ' Me.GeneraFileACconFechaValorComprobanteBancario("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, CDate(Me.DbNewConta.mDbLector("DAVA")), CStr(Me.DbNewConta.mDbLector("TIMO_CECO")), Me.mTransferenciaCfbcotmov, Me.mTransferenciaComprobante)
                         Me.GeneraFileACconFechaValorComprobanteBancario("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, CDate(Me.DbNewConta.mDbLector("DAVA")), CStr(Me.DbNewConta.mDbLector("TIMO_CECO")), Me.mTransferenciaCfbcotmov2, Me.mTransferenciaComprobante)
@@ -2117,7 +2114,7 @@ Public Class NewConta
 
                     Else
                         Me.InsertaOracle("AC", 111, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, "NO", "", CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", CDate(Me.DbNewConta.mDbLector("DAVA")), CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), "", "", "", "null", "N", Me.mTransferenciaBancosCod)
-                         Me.GeneraFileACconFechaValor("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, CDate(Me.DbNewConta.mDbLector("DAVA")))
+                        Me.GeneraFileACconFechaValor("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " + " & CType(Me.DbNewConta.mDbLector("MOCO_DESC"), String), Total, CDate(Me.DbNewConta.mDbLector("DAVA")))
 
 
                     End If
@@ -2618,7 +2615,7 @@ Public Class NewConta
             Me.DbNewConta.TraerLector(SQL)
 
             If Me.DbNewConta.mDbLector.HasRows Then
-                MsgBox("Existen Documentos que han sido Afectados por la AnulaciÛn de Pagos ", MsgBoxStyle.Information, "AtenciÛn")
+                MsgBox("Existen Documentos que han sido Afectados por la Anulaci√≥n de Pagos ", MsgBoxStyle.Information, "Atenci√≥n")
             End If
 
             While Me.DbNewConta.mDbLector.Read
@@ -3037,7 +3034,7 @@ Public Class NewConta
     Public Sub Procesar()
         Try
 
-            ' MsgBox("Ojo revisar  COMISION de visas , en depositos antincipados de agencias si los hubiera ", MsgBoxStyle.Exclamation, "AtenciÛn")
+            ' MsgBox("Ojo revisar  COMISION de visas , en depositos antincipados de agencias si los hubiera ", MsgBoxStyle.Exclamation, "Atenci√≥n")
             If Me.FileEstaOk = False Then Exit Sub
 
 
@@ -3076,7 +3073,7 @@ Public Class NewConta
 
 
 
-                Me.mTextDebug.Text = "Calculando Pagos de M·s"
+                Me.mTextDebug.Text = "Calculando Pagos de M√°s"
                 Me.mTextDebug.Update()
 
                 Me.NCPagosDeMas()
@@ -3136,7 +3133,7 @@ Public Class NewConta
 
             Me.CerrarFichero()
             Me.CierraConexiones()
-            Me.mTextDebug.Text = "Fin de IntegraciÛn"
+            Me.mTextDebug.Text = "Fin de Integraci√≥n"
             Me.mTextDebug.Update()
 
         Catch EX As Exception
@@ -3183,7 +3180,7 @@ Public Class NewConta
 
             If TotalHaber > TotalDebe Then
                 TotalDiferencia = TotalHaber - TotalDebe
-                MsgBox("Se va ha producir un Ajuste Decimal  de " & TotalDiferencia & "  " & vbCrLf & vbCrLf & "No Integre con valores superiores a 0.05", MsgBoxStyle.Information, "AtenciÛn")
+                MsgBox("Se va ha producir un Ajuste Decimal  de " & TotalDiferencia & "  " & vbCrLf & vbCrLf & "No Integre con valores superiores a 0.05", MsgBoxStyle.Information, "Atenci√≥n")
                 Me.mTipoAsiento = "DEBE"
                 Me.InsertaOracle("AC", 999, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.mCtaRedondeo, Me.mIndicadorDebe, "AJUSTE REDONDEO", TotalDiferencia, "SI", "", "", "SI", "Ajuste Decimales")
                 Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Me.mCtaRedondeo, Me.mIndicadorDebe, "AJUSTE REDONDEO", TotalDiferencia)
@@ -3191,7 +3188,7 @@ Public Class NewConta
 
             If TotalHaber < TotalDebe Then
                 TotalDiferencia = TotalDebe - TotalHaber
-                MsgBox("Se va ha producir un Ajuste Decimal  de " & TotalDiferencia & "  " & vbCrLf & vbCrLf & "No Integre con valores superiores a 0.05", MsgBoxStyle.Information, "AtenciÛn")
+                MsgBox("Se va ha producir un Ajuste Decimal  de " & TotalDiferencia & "  " & vbCrLf & vbCrLf & "No Integre con valores superiores a 0.05", MsgBoxStyle.Information, "Atenci√≥n")
                 Me.mTipoAsiento = "HABER"
                 Me.InsertaOracle("AC", 999, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.mCtaRedondeo, Me.mIndicadorHaber, "AJUSTE REDONDEO", TotalDiferencia, "SI", "", "", "SI", "Ajuste Decimales")
                 Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Me.mCtaRedondeo, Me.mIndicadorHaber, "AJUSTE REDONDEO", TotalDiferencia)
@@ -3544,11 +3541,11 @@ Public Class NewConta
 
                 If CType(Me.DbNewContaAux.mDbLector("ENTI_DEAN_AF"), String) <> ControlCuenta Then
 
-                    Texto = "M·s de Un ttoo de NewCentral usa la misma Cuenta : " & vTacoCodi & " para la GestiÛn de Cobros" & vbCrLf
-                    Texto += " Sin embargo alguno de ellos NO tiene o Difiere en la Cuenta de DepÛsitos Anticipados"
+                    Texto = "M√°s de Un ttoo de NewCentral usa la misma Cuenta : " & vTacoCodi & " para la Gesti√≥n de Cobros" & vbCrLf
+                    Texto += " Sin embargo alguno de ellos NO tiene o Difiere en la Cuenta de Dep√≥sitos Anticipados"
                     Texto += vbCrLf & vbCrLf
-                    Texto += " Revise TambiÈn que la Cuenta dentro de Un Mismo TTOO sea la misma para TODOS los Hoteles "
-                    '  MsgBox(Texto & vbCrLf & "Entidades = " & Entidades, MsgBoxStyle.Information, "AtenciÛn")
+                    Texto += " Revise Tambi√©n que la Cuenta dentro de Un Mismo TTOO sea la misma para TODOS los Hoteles "
+                    '  MsgBox(Texto & vbCrLf & "Entidades = " & Entidades, MsgBoxStyle.Information, "Atenci√≥n")
                     Cuenta = "0"
                     Avisa = True
                 End If
@@ -3627,11 +3624,11 @@ Public Class NewConta
 
                 If CType(Me.DbLeeNewHotel.mDbLector("ENTI_DEAN_AF"), String) <> ControlCuenta Then
 
-                    Texto = "M·s de Un ttoo de NewCentral usa la misma Cuenta : " & vTacoCodi & " para la GestiÛn de Cobros" & vbCrLf
-                    Texto += " Sin embargo alguno de ellos NO tiene o Difiere en la Cuenta de DepÛsitos Anticipados"
+                    Texto = "M√°s de Un ttoo de NewCentral usa la misma Cuenta : " & vTacoCodi & " para la Gesti√≥n de Cobros" & vbCrLf
+                    Texto += " Sin embargo alguno de ellos NO tiene o Difiere en la Cuenta de Dep√≥sitos Anticipados"
                     Texto += vbCrLf & vbCrLf
-                    Texto += " Revise TambiÈn que la Cuenta dentro de Un Mismo TTOO sea la misma para TODOS los Hoteles "
-                    '   MsgBox(Texto & vbCrLf & "Entidades = " & Entidades, MsgBoxStyle.Information, "AtenciÛn")
+                    Texto += " Revise Tambi√©n que la Cuenta dentro de Un Mismo TTOO sea la misma para TODOS los Hoteles "
+                    '   MsgBox(Texto & vbCrLf & "Entidades = " & Entidades, MsgBoxStyle.Information, "Atenci√≥n")
                     Cuenta = "0"
                     Avisa = True
                 End If
@@ -3708,11 +3705,11 @@ Public Class NewConta
 
                 If CType(Me.DbLeeNewHotel2.mDbLector("ENTI_DEAN_AF"), String) <> ControlCuenta Then
 
-                    Texto = "M·s de Un ttoo de NewCentral usa la misma Cuenta : " & vTacoCodi & " para la GestiÛn de Cobros" & vbCrLf
-                    Texto += " Sin embargo alguno de ellos NO tiene o Difiere en la Cuenta de DepÛsitos Anticipados"
+                    Texto = "M√°s de Un ttoo de NewCentral usa la misma Cuenta : " & vTacoCodi & " para la Gesti√≥n de Cobros" & vbCrLf
+                    Texto += " Sin embargo alguno de ellos NO tiene o Difiere en la Cuenta de Dep√≥sitos Anticipados"
                     Texto += vbCrLf & vbCrLf
-                    Texto += " Revise TambiÈn que la Cuenta dentro de Un Mismo TTOO sea la misma para TODOS los Hoteles "
-                    '   MsgBox(Texto & vbCrLf & "Entidades = " & Entidades, MsgBoxStyle.Information, "AtenciÛn")
+                    Texto += " Revise Tambi√©n que la Cuenta dentro de Un Mismo TTOO sea la misma para TODOS los Hoteles "
+                    '   MsgBox(Texto & vbCrLf & "Entidades = " & Entidades, MsgBoxStyle.Information, "Atenci√≥n")
                     Cuenta = "0"
                     Avisa = True
                 End If
@@ -3788,11 +3785,11 @@ Public Class NewConta
                 Entidades += " " & CType(Me.DbNewContaAux.mDbLector("ENTI_CODI"), String) & " (" & CType(Me.DbNewContaAux.mDbLector("ENTI_NCON_AF"), String) & ")"
 
                 If CType(Me.DbNewContaAux.mDbLector("ENTI_NCON_AF"), String) <> ControlCuenta Then
-                    Texto = "M·s de Un ttoo de NewCentral usa la misma Cuenta : " & vTacoCodi & " para la GestiÛn de Cobros" & vbCrLf
+                    Texto = "M√°s de Un ttoo de NewCentral usa la misma Cuenta : " & vTacoCodi & " para la Gesti√≥n de Cobros" & vbCrLf
                     Texto += " Sin embargo alguno de ellos NO tiene o Difiere en la Cuenta de Cliente "
                     Texto += vbCrLf & vbCrLf
-                    Texto += " Revise TambiÈn que la Cuenta dentro de Un Mismo TTOO sea la misma para TODOS los Hoteles "
-                    '       MsgBox(Texto & vbCrLf & "Entidades = " & Entidades, MsgBoxStyle.Information, "AtenciÛn")
+                    Texto += " Revise Tambi√©n que la Cuenta dentro de Un Mismo TTOO sea la misma para TODOS los Hoteles "
+                    '       MsgBox(Texto & vbCrLf & "Entidades = " & Entidades, MsgBoxStyle.Information, "Atenci√≥n")
                     Cuenta = "0"
                     Avisa = True
                 End If
@@ -3874,11 +3871,11 @@ Public Class NewConta
 
                 If CType(Me.DbLeeNewHotel.mDbLector("ENTI_NCON_AF"), String) <> ControlCuenta Then
 
-                    Texto = "M·s de Un ttoo de NewCentral usa la misma Cuenta : " & vTacoCodi & " para la GestiÛn de Cobros" & vbCrLf
+                    Texto = "M√°s de Un ttoo de NewCentral usa la misma Cuenta : " & vTacoCodi & " para la Gesti√≥n de Cobros" & vbCrLf
                     Texto += " Sin embargo alguno de ellos NO tiene o Difiere en la Cuenta de Cliente "
                     Texto += vbCrLf & vbCrLf
-                    Texto += " Revise TambiÈn que la Cuenta dentro de Un Mismo TTOO sea la misma para TODOS los Hoteles "
-                    '     MsgBox(Texto & vbCrLf & "Entidades = " & Entidades, MsgBoxStyle.Information, "AtenciÛn")
+                    Texto += " Revise Tambi√©n que la Cuenta dentro de Un Mismo TTOO sea la misma para TODOS los Hoteles "
+                    '     MsgBox(Texto & vbCrLf & "Entidades = " & Entidades, MsgBoxStyle.Information, "Atenci√≥n")
                     Cuenta = "0"
                     Avisa = True
                 End If
@@ -3949,11 +3946,11 @@ Public Class NewConta
 
                 If CType(Me.DbLeeNewHotel2.mDbLector("ENTI_NCON_AF"), String) <> ControlCuenta Then
 
-                    Texto = "M·s de Un ttoo de NewCentral usa la misma Cuenta : " & vTacoCodi & " para la GestiÛn de Cobros" & vbCrLf
+                    Texto = "M√°s de Un ttoo de NewCentral usa la misma Cuenta : " & vTacoCodi & " para la Gesti√≥n de Cobros" & vbCrLf
                     Texto += " Sin embargo alguno de ellos NO tiene o Difiere en la Cuenta de Cliente "
                     Texto += vbCrLf & vbCrLf
-                    Texto += " Revise TambiÈn que la Cuenta dentro de Un Mismo TTOO sea la misma para TODOS los Hoteles "
-                    '     MsgBox(Texto & vbCrLf & "Entidades = " & Entidades, MsgBoxStyle.Information, "AtenciÛn")
+                    Texto += " Revise Tambi√©n que la Cuenta dentro de Un Mismo TTOO sea la misma para TODOS los Hoteles "
+                    '     MsgBox(Texto & vbCrLf & "Entidades = " & Entidades, MsgBoxStyle.Information, "Atenci√≥n")
                     Cuenta = "0"
                     Avisa = True
                 End If
@@ -4025,11 +4022,11 @@ Public Class NewConta
                 Entidades += " " & CType(Me.DbNewContaAux.mDbLector("ENTI_CODI"), String) & "(" & CType(Me.DbNewContaAux.mDbLector("ENTI_NCON_AF"), String) & ")"
 
                 If CType(Me.DbNewContaAux.mDbLector("ENTI_NCON_AF"), String) <> ControlCuenta Then
-                    Texto = "M·s de Un ttoo de NewCentral usa la misma Cuenta : " & vTacoCodi & " para la GestiÛn de Cobros" & vbCrLf
+                    Texto = "M√°s de Un ttoo de NewCentral usa la misma Cuenta : " & vTacoCodi & " para la Gesti√≥n de Cobros" & vbCrLf
                     Texto += " Sin embargo alguno de ellos NO tiene o Difiere en la Cuenta de Cliente "
                     Texto += vbCrLf & vbCrLf
-                    Texto += " Revise TambiÈn que la Cuenta dentro de Un Mismo TTOO sea la misma para TODOS los Hoteles "
-                    '       MsgBox(Texto & vbCrLf & "Entidades = " & Entidades, MsgBoxStyle.Information, "AtenciÛn")
+                    Texto += " Revise Tambi√©n que la Cuenta dentro de Un Mismo TTOO sea la misma para TODOS los Hoteles "
+                    '       MsgBox(Texto & vbCrLf & "Entidades = " & Entidades, MsgBoxStyle.Information, "Atenci√≥n")
                     Cif = "0"
                     Avisa = True
                 End If
@@ -4111,11 +4108,11 @@ Public Class NewConta
 
                 If CType(Me.DbLeeNewHotel.mDbLector("ENTI_NCON_AF"), String) <> ControlCuenta Then
 
-                    Texto = "M·s de Un ttoo de NewCentral usa la misma Cuenta : " & vTacoCodi & " para la GestiÛn de Cobros" & vbCrLf
+                    Texto = "M√°s de Un ttoo de NewCentral usa la misma Cuenta : " & vTacoCodi & " para la Gesti√≥n de Cobros" & vbCrLf
                     Texto += " Sin embargo alguno de ellos NO tiene o Difiere en la Cuenta de Cliente "
                     Texto += vbCrLf & vbCrLf
-                    Texto += " Revise TambiÈn que la Cuenta dentro de Un Mismo TTOO sea la misma para TODOS los Hoteles "
-                    '     MsgBox(Texto & vbCrLf & "Entidades = " & Entidades, MsgBoxStyle.Information, "AtenciÛn")
+                    Texto += " Revise Tambi√©n que la Cuenta dentro de Un Mismo TTOO sea la misma para TODOS los Hoteles "
+                    '     MsgBox(Texto & vbCrLf & "Entidades = " & Entidades, MsgBoxStyle.Information, "Atenci√≥n")
                     Cif = "0"
                     Avisa = True
                 End If
@@ -4187,11 +4184,11 @@ Public Class NewConta
 
                 If CType(Me.DbLeeNewHotel2.mDbLector("ENTI_NCON_AF"), String) <> ControlCuenta Then
 
-                    Texto = "M·s de Un ttoo de NewCentral usa la misma Cuenta : " & vTacoCodi & " para la GestiÛn de Cobros" & vbCrLf
+                    Texto = "M√°s de Un ttoo de NewCentral usa la misma Cuenta : " & vTacoCodi & " para la Gesti√≥n de Cobros" & vbCrLf
                     Texto += " Sin embargo alguno de ellos NO tiene o Difiere en la Cuenta de Cliente "
                     Texto += vbCrLf & vbCrLf
-                    Texto += " Revise TambiÈn que la Cuenta dentro de Un Mismo TTOO sea la misma para TODOS los Hoteles "
-                    '     MsgBox(Texto & vbCrLf & "Entidades = " & Entidades, MsgBoxStyle.Information, "AtenciÛn")
+                    Texto += " Revise Tambi√©n que la Cuenta dentro de Un Mismo TTOO sea la misma para TODOS los Hoteles "
+                    '     MsgBox(Texto & vbCrLf & "Entidades = " & Entidades, MsgBoxStyle.Information, "Atenci√≥n")
                     Cif = "0"
                     Avisa = True
                 End If

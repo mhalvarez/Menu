@@ -55,6 +55,15 @@ Public Class FormIntegraAlmacen
 
     Private CampoFecha As String
 
+    Private Enum mEnumTipoEnvio
+        FrontOffice
+        MaestroClientesNewhotel
+        MaestroArticulosNewStock
+        MaestroAlmacenesNewStock
+        NewStock
+
+    End Enum
+
 #Region " Código generado por el Diseñador de Windows Forms "
 
     Public Sub New()
@@ -938,10 +947,11 @@ Public Class FormIntegraAlmacen
                 If DLL = 1 Then
 
                     Me.CampoFecha = " ASNT_F_ATOCAB "
+                    Me.CampoFecha = " ASNT_F_VALOR "
                     INTEGRA = New IntegraAlmacen.IntegraAlmacen(CStr(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 0)),
                     CStr(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 1)),
                     MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DATABASE", "STRING"),
-                    CStr(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 3)), Me.DateTimePicker1.Value, "A" & Format(Me.DateTimePicker1.Value, "dd-MM-yyyy") & ".TXT", False, Me.TextBoxDebug, Me.ListBoxDebug, Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 4), False, False)
+                    CStr(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 3)), Me.DateTimePicker1.Value, "A" & Format(Me.DateTimePicker1.Value, "dd-MM-yyyy") & ".TXT", False, Me.TextBoxDebug, Me.ListBoxDebug, Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 4), False, False, Me.mEmpNum)
                     Me.Cursor = Cursors.AppStarting
                     INTEGRA.Procesar()
 
@@ -1070,14 +1080,9 @@ Public Class FormIntegraAlmacen
                     Me.Timer1.Enabled = False
                     Me.PictureBox2.Visible = False
 
+                    Application.DoEvents()
+                    INTEGRA.Procesar()
 
-                    If Me.mParaSoloFacturas = 0 Then
-                        Application.DoEvents()
-                        INTEGRA.Procesar()
-                    Else
-                        Application.DoEvents()
-                        INTEGRA.PROCESARSOLOFACTURAS()
-                    End If
 
 
                     Me.mDuracion = DateDiff(DateInterval.Second, Me.mInicio, Now) / (24 * 3600)
@@ -1094,7 +1099,50 @@ Public Class FormIntegraAlmacen
                         MsgBox(Texto, MsgBoxStyle.Exclamation, "Atención Lea")
                     End If
 
+                    If InputBox("Enviar", "Enviar", "0") = "1" Then
+                        Me.Cursor = Cursors.WaitCursor
+                        Dim EnviaTito As New HTitoNewHotelEnviar.HTitoNewHotelEnviar(Format(Me.DateTimePicker1.Value, "dd-MM-yyyy"), MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DATABASE", "STRING"), Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 0), Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 1), Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 5), "Navision2016.txt", Me.TextBoxRutaFicheros.Text, mEnumTipoEnvio.NewStock)
+                        Me.Cursor = Cursors.Default
+                    End If
 
+
+
+                    '' Santa Monica
+                ElseIf DLL = 5 Then
+                    Me.CampoFecha = " ASNT_F_VALOR "
+                    INTEGRA = New ContanetNewStock.IntegraAlmacen(CStr(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 0)),
+                    CStr(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 1)),
+                    MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DATABASE", "STRING"),
+                    CStr(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 3)), Me.DateTimePicker1.Value, "A" & Format(Me.DateTimePicker1.Value, "dd-MM-yyyy") & ".TXT", False, Me.TextBoxDebug, Me.ListBoxDebug, Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 4), False, False, Me.mEmpNum)
+                    Me.Cursor = Cursors.AppStarting
+
+
+
+
+                    Me.mInicio = Now
+
+
+                    Me.TextBoxDuracion.Text = Format(Now, "dd/MM/yyyy HH:mm:ss")
+                    Me.Timer1.Enabled = False
+                    Me.PictureBox2.Visible = False
+
+                    Application.DoEvents()
+                    INTEGRA.Procesar()
+
+
+                    Me.mDuracion = DateDiff(DateInterval.Second, Me.mInicio, Now) / (24 * 3600)
+                    Me.TextBoxDuracion.Text = (Format(Date.FromOADate(Me.mDuracion), "mm 'minutos ' ss ' segundos'"))
+
+                    If Me.ListBoxDebug.Items.Count > 0 Then
+                        Me.PictureBox2.Visible = True
+                        Me.Timer1.Enabled = True
+                        Dim Texto As String
+                        Texto = " (1)  Existen INCIDENCIAS en el Proceso de Validación de Cuentas " & vbCrLf & vbCrLf
+                        Texto += " (2) NO Integre el Fichero en esta Situación " & vbCrLf & vbCrLf
+                        Texto += " (3) CORRIJA las Incidencias y VUELVA a GENERAR el Fichero hasta que quede Libre de INCIDENCIAS  " & vbCrLf & vbCrLf
+                        Texto += " (4) Las Incidencias puede Verlas/Imprimirlas en la Parte Inferior de la Pantalla Anterior"
+                        MsgBox(Texto, MsgBoxStyle.Exclamation, "Atención Lea")
+                    End If
 
                 Else
                     MsgBox("No hay DLL escogida en Fichero Ini revise ALMACEN= en Fichero INI ", MsgBoxStyle.Information, "Atención")
@@ -1200,6 +1248,7 @@ Public Class FormIntegraAlmacen
             DLL = CType(MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DLL", "ALMACEN"), Integer)
             If DLL = 1 Then
                 Me.CampoFecha = " ASNT_F_ATOCAB "
+                Me.CampoFecha = " ASNT_F_VALOR "
             ElseIf DLL = 2 Then
                 Me.CampoFecha = " ASNT_F_VALOR "
             ElseIf DLL = 3 Then
@@ -1459,7 +1508,7 @@ Public Class FormIntegraAlmacen
 
     Private Sub ButtonInventarios_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonInventarios.Click
         Try
-            Dim Form As New FormInventarios(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 0), Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 1), Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 3), Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 4))
+            Dim Form As New FormInventarios(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 0), Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 1), Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 3), Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 4), Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 5))
             Form.ShowDialog()
         Catch ex As Exception
             MsgBox(ex.Message)

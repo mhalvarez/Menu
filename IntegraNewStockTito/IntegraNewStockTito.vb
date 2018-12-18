@@ -454,22 +454,18 @@ Public Class IntegraNewStockTito
             Me.mTextDebug.Update()
 
             If Me.mContabilizaAlbaranes = True Then
-                If Me.mTipoFormalizaAlbaran = "G" Then
-                    '   Me.TotalPendienteFormalizar()
-                    'OK
-                    Me.TotalPendienteFormalizarProveedorCuentaUnicaAgrupado()
-                Else
-                    Me.TotalPendienteFormalizarProveedorCuentaUnicaDetalladoHTito()
-                End If
+
+                Me.TotalPendienteFormalizarProveedorDetalladoHTito()
 
                 Me.mTextDebug.Text = "Calculando Gastos por Departamento Albaranes"
                 Me.mTextDebug.Update()
 
                 'OK
-                ' BLOQUEDA ABAJO ORIGINAL LOPEZ
-                'Me.GastosPorCentrodeCostoAlbaranesAlmacen()
 
-                Me.GastosPorCentrodeCostoAlbaranes()
+                If Me.DbLeeHotel.StrError = "" Then
+                    Me.GastosPorCentrodeCostoAlbaranes()
+                End If
+
 
                 Me.mProgresBar.Value = 10
                 Me.mProgresBar.Update()
@@ -486,12 +482,17 @@ Public Class IntegraNewStockTito
             Me.mTextDebug.Text = "Calculando Salidas por Traspaso"
             Me.mTextDebug.Update()
             'OK
-            Me.TraspasosSalidas()
+            If Me.DbLeeHotel.StrError = "" Then
+                Me.TraspasosSalidas()
+            End If
+
 
             Me.mTextDebug.Text = "Calculando Entradas por Traspaso"
             Me.mTextDebug.Update()
             ' OK
-            Me.TraspasosEntradas()
+            If Me.DbLeeHotel.StrError = "" Then
+                Me.TraspasosEntradas()
+            End If
 
             Me.mProgresBar.Value = 20
             Me.mProgresBar.Update()
@@ -504,12 +505,15 @@ Public Class IntegraNewStockTito
             Me.mTextDebug.Text = "Calculando Salidas a Gasto"
             Me.mTextDebug.Update()
             'OK
-            Me.SalidasGastoSalidas()
-
+            If Me.DbLeeHotel.StrError = "" Then
+                Me.SalidasGastoSalidas()
+            End If
             Me.mTextDebug.Text = "Calculando Entradas por Salida a Gasto"
             Me.mTextDebug.Update()
             'OK
-            Me.SalidasGastoEntradas()
+            If Me.DbLeeHotel.StrError = "" Then
+                Me.SalidasGastoEntradas()
+            End If
 
 
             Me.mProgresBar.Value = 30
@@ -522,20 +526,10 @@ Public Class IntegraNewStockTito
             Me.mTextDebug.Text = "Facturas Directas Proveedor"
             Me.mTextDebug.Update()
             ' OK
-            Me.TotalFacturasProveedor()
+            If Me.DbLeeHotel.StrError = "" Then
+                Me.TotalFacturasProveedor()
+            End If
 
-
-
-            Me.mTextDebug.Text = "Calculando Gastos por Departamento Facturas"
-            Me.mTextDebug.Update()
-            'OK
-            'Me.GastosPorCentrodeCostoFacturas()
-
-
-            Me.mTextDebug.Text = "Calculando Impuesto por Facturas Directas"
-            Me.mTextDebug.Update()
-            'OK
-            'Me.TotalFacturasProveedorImpuesto()
 
             Me.mProgresBar.Value = 40
             Me.mProgresBar.Update()
@@ -550,18 +544,15 @@ Public Class IntegraNewStockTito
 
             'OK
             If Me.mContabilizaAlbaranes = True Then
-                If Me.mTipoFormalizaAlbaran = "P" Then
+                If Me.DbLeeHotel.StrError = "" Then
                     Me.TotalPendienteFormalizarProveedorDevolucionAlbaranHTito()
-                Else
-                    Me.TotalPendienteFormalizarDevolucionAlbaran()
-
+                    Me.mTextDebug.Text = "Calculando Gastos por Devolución  Departamento Albaranes"
+                    Me.mTextDebug.Update()
+                    'OK
+                    Me.GastosPorCentrodeCostoAlbaranesDevolucionAlbaranAlmacen()
                 End If
-
-                Me.mTextDebug.Text = "Calculando Gastos por Devolución  Departamento Albaranes"
-                Me.mTextDebug.Update()
-                'OK
-                Me.GastosPorCentrodeCostoAlbaranesDevolucionAlbaranAlmacen()
             End If
+
 
             Me.mProgresBar.Value = 50
             Me.mProgresBar.Update()
@@ -573,19 +564,10 @@ Public Class IntegraNewStockTito
             Me.mTextDebug.Text = "Devoluvión Facturas Directas Proveedor"
             Me.mTextDebug.Update()
             'OK
-            Me.TotalFacturasProveedorDevolucion()
+            If Me.DbLeeHotel.StrError = "" Then
+                Me.TotalFacturasProveedorDevolucion()
+            End If
 
-
-            Me.mTextDebug.Text = "Devoluvión  Calculando Gastos por Departamento Facturas"
-            Me.mTextDebug.Update()
-            'OK
-            'Me.GastosPorCentrodeCostoFacturasDevolucion()
-
-
-            Me.mTextDebug.Text = "Devoluvión Calculando Impuesto por Facturas Directas"
-            Me.mTextDebug.Update()
-            'OK
-            'Me.TotalFacturasProveedorImpuestoDevolucion()
 
             Me.mProgresBar.Value = 60
             Me.mProgresBar.Update()
@@ -596,20 +578,15 @@ Public Class IntegraNewStockTito
             Me.mTextDebug.Text = "Facturas Formaliza Albaranes Proveedor"
             Me.mTextDebug.Update()
 
+            If Me.DbLeeHotel.StrError = "" Then
+                Me.TotalFacturasProveedorFormalizadas()
+            End If
 
-            Me.TotalFacturasProveedorFormalizadas()
-
-
-            Me.mTextDebug.Text = "Calculando Impuesto por Facturas Formalizadas"
-            Me.mTextDebug.Update()
-            ' IMPUESTOS YA SE CALCULAN EN LA RUTINA DE ARRIBA
-            'Me.TotalFacturasProveedorImpuestoFormalizadas()
-
+            If Me.DbLeeHotel.StrError = "" Then
+                Me.TotalFacturasProveedorImpuestoFormalizadas()
+            End If
 
 
-            Me.mTextDebug.Text = "Calculando Albaranes Formalizados"
-            Me.mTextDebug.Update()
-            'Me.TotalAlbaranesProveedorFormalizados()
 
             Me.mProgresBar.Value = 70
             Me.mProgresBar.Update()
@@ -619,7 +596,10 @@ Public Class IntegraNewStockTito
             '----------------------------------------------------------------
             Me.mTextDebug.Text = "Roturas"
             Me.mTextDebug.Update()
-            Me.Roturas()
+            If Me.DbLeeHotel.StrError = "" Then
+                Me.Roturas()
+            End If
+
 
 
             Me.mProgresBar.Value = 80
@@ -628,24 +608,26 @@ Public Class IntegraNewStockTito
             ' ---------------------------------------------------------------
             ' Asiento de Facturas Directas NEWPAGA 40
             '----------------------------------------------------------------
-            If Me.mConectaNewPaga = True Then
-                Me.mTextDebug.Text = "Facturas Directas Proveedor"
-                Me.mTextDebug.Update()
-                Me.TotalFacturasProveedorNewPaga()
+            If Me.DbLeeHotel.StrError = "" Then
+                If Me.mConectaNewPaga = True Then
+                    Me.mTextDebug.Text = "Facturas Directas Proveedor"
+                    Me.mTextDebug.Update()
+                    Me.TotalFacturasProveedorNewPaga()
 
 
-                Me.mTextDebug.Text = "Calculando Gastos por Departamento Facturas"
-                Me.mTextDebug.Update()
-                '' FALTA DESARROLLO
-                Me.GastosPorCentrodeCostoFacturasNewPaga()
+                    Me.mTextDebug.Text = "Calculando Gastos por Departamento Facturas"
+                    Me.mTextDebug.Update()
+                    '' FALTA DESARROLLO
+                    Me.GastosPorCentrodeCostoFacturasNewPaga()
 
 
-                Me.mTextDebug.Text = "Calculando Impuesto por Facturas Directas"
-                Me.mTextDebug.Update()
-                '' FALTA DESARROLLO
-                Me.TotalFacturasProveedorImpuestoNewPaga()
+                    Me.mTextDebug.Text = "Calculando Impuesto por Facturas Directas"
+                    Me.mTextDebug.Update()
+                    '' FALTA DESARROLLO
+                    Me.TotalFacturasProveedorImpuestoNewPaga()
+                End If
+
             End If
-
 
 
             Me.mProgresBar.Value = 100
@@ -653,13 +635,6 @@ Public Class IntegraNewStockTito
             Me.mControlForm.Update()
 
 
-
-            'Dim spyro As New SPYRO.C_SPYRO(Me.mStrConexionCentral, Me.mListBoxDebug, Me.mControlForm)
-            'spyro.ValidaCuentasAlmacen(Me.mEmpGrupoCod, Me.mEmpCod, Me.mEmpNum, CDate(Format(Me.mFecha, "dd/MM/yyyy")))
-
-            'Me.SpyroCompruebaCuentas()
-
-            'Me.SpyroCompruebaFacturas()
 
             Me.CerrarFichero()
             Me.CierraConexiones()
@@ -674,6 +649,17 @@ Public Class IntegraNewStockTito
             Me.CierraConexiones()
         End Try
 
+    End Sub
+    Private Sub SALIR()
+        Try
+
+            Me.CerrarFichero()
+            Me.CierraConexiones()
+            Me.mTextDebug.Text = "Fin de Integración"
+            Me.mTextDebug.Update()
+        Catch ex As Exception
+
+        End Try
     End Sub
     Public Sub ProcesarSoloFacturas()
         Try
@@ -2182,22 +2168,19 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
         End Try
     End Sub
     Private Function BuscaCuentaProveedorCuentasPorPagar(ByVal vProveedor As Integer) As String
+        Try
+            SQL = "SELECT NVL(FORN_CEX1,'0') "
+            SQL += "FROM TNST_FORN "
+            SQL += " WHERE FORN_CODI = " & vProveedor
 
-        'SQL = "SELECT TNST_CNTA.CNTA_CNTA "
-        'SQL += "FROM TNST_CUFO, TNST_CNTA "
-        'SQL += "WHERE TNST_CUFO.CUFO_CNPB = TNST_CNTA.CNTA_CODI"
-        'SQL += " AND TNST_CUFO.FORN_CODI = " & vProveedor
-
-        SQL = "SELECT NVL(FORN_VATP,'0') FROM TNST_FORN "
-        SQL += " WHERE  TNST_FORN.FORN_CODI = " & vProveedor
-
-        Me.AuxStr = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
-
-        If IsNothing(Me.AuxStr) = False Then
-            Return Me.AuxStr
-        Else
+            If IsNothing(Me.DbLeeHotelAux.EjecutaSqlScalar2(SQL)) = False Then
+                Return Me.DbLeeHotelAux.EjecutaSqlScalar2(SQL)
+            Else
+                Return "0"
+            End If
+        Catch ex As Exception
             Return "0"
-        End If
+        End Try
     End Function
 
     Private Function BuscaCuentaProveedorCuentasPorPagarSpyro(ByVal vNif As String) As String
@@ -2249,22 +2232,26 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
         End If
     End Function
     Private Function BuscaCuentaProveedorAlbaranes(ByVal vProveedor As Integer) As String
+        Try
+            SQL = "SELECT NVL(FORN_CEX2,'0') "
+            SQL += "FROM TNST_FORN "
+            SQL += " WHERE FORN_CODI = " & vProveedor
 
-        SQL = "SELECT NVL(TNST_CNTA.CNTA_CNTA,'?') "
-        SQL += "FROM TNST_CUFO, TNST_CNTA "
-        SQL += "WHERE TNST_CUFO.CUFO_CNGB = TNST_CNTA.CNTA_CODI"
-        SQL += " AND TNST_CUFO.FORN_CODI = " & vProveedor
-
-
-        If IsNothing(Me.DbLeeHotelAux.EjecutaSqlScalar2(SQL)) = False Then
-            Return Me.DbLeeHotelAux.EjecutaSqlScalar2(SQL)
-        Else
-            Return "0"
+            If IsNothing(Me.DbLeeHotelAux.EjecutaSqlScalar2(SQL)) = False Then
+                Return Me.DbLeeHotelAux.EjecutaSqlScalar2(SQL)
+            Else
+                Return "0"
         End If
+        Catch ex As Exception
+            Return "0"
+        End Try
+
+
     End Function
     Private Function BuscaCuentaCostoLiquido(ByVal vAlmacen As Integer, ByVal vGrupo As Integer) As String
         'TIPO DE CUENTA  = COSTO LIQUIDOS 
         ' ASIGNAR A COSTOS LIQUIDOS EN NEWSTOK
+        MsgBox("TRABAJANDO AQUI , ESTAS FUNCIONES DEBEN DE DEJAR TODAS DE LEER DE TNST_CNTA")
         SQL = "SELECT NVL(TNST_CNTA.CNTA_CNTA,'?') "
         SQL += "FROM TNST_CUCL, TNST_CNTA "
         SQL += "WHERE TNST_CUCL.CUCL_CNTB = TNST_CNTA.CNTA_CODI"
@@ -2329,56 +2316,25 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
     End Function
 
     Private Function BuscaCuentaImpuestoVenta(ByVal vIva As Integer) As String
-        SQL = "SELECT NVL(IVAS_CEX1,'0') "
-        SQL += "FROM TNST_IVAS "
-        SQL += "WHERE IVAS_CODI = " & vIva
 
-        If IsNothing(Me.DbLeeHotelAux.EjecutaSqlScalar2(SQL)) = False Then
-            Return Me.DbLeeHotelAux.EjecutaSqlScalar2(SQL)
-        Else
+        Try
+            SQL = "SELECT NVL(IVAS_CEX1,'0') "
+            SQL += "FROM TNST_IVAS "
+            SQL += "WHERE IVAS_TAXA = " & vIva
+
+            If IsNothing(Me.DbLeeHotelAux.EjecutaSqlScalar2(SQL)) = False Then
+                Return Me.DbLeeHotelAux.EjecutaSqlScalar2(SQL)
+            Else
+                Return "0"
+            End If
+        Catch ex As Exception
             Return "0"
-        End If
-    End Function
-    Private Function BuscaCuentaImpuestoVenta2(ByVal vIva As Integer) As String
+        End Try
 
-
-        SQL = "SELECT NVL(IVAS_CEX1,'0') "
-        SQL += "FROM TNST_IVAS "
-        SQL += "WHERE IVAS_CODI = " & vIva
-
-        If IsNothing(Me.DbLeeHotelAux.EjecutaSqlScalar2(SQL)) = False Then
-            Return Me.DbLeeHotelAux.EjecutaSqlScalar2(SQL)
-        Else
-            Return "0"
-        End If
-    End Function
-    Private Function BuscaCuentaImpuestoDevolucion(ByVal vIva As Integer) As String
-        SQL = "SELECT NVL(IVAS_CEX1,'0') "
-        SQL += "FROM TNST_IVAS "
-        SQL += "WHERE IVAS_CODI = " & vIva
-
-
-
-
-        If IsNothing(Me.DbLeeHotelAux.EjecutaSqlScalar2(SQL)) = False Then
-            Return Me.DbLeeHotelAux.EjecutaSqlScalar2(SQL)
-        Else
-            Return "0"
-        End If
-    End Function
-    Private Function BuscaCuentaImpuestoDevolucion2(ByVal vIva As Double) As String
-
-        SQL = "SELECT NVL(IVAS_CEX1,'0') "
-        SQL += "FROM TNST_IVAS "
-        SQL += "WHERE IVAS_CODI = " & vIva
-
-        If IsNothing(Me.DbLeeHotelAux.EjecutaSqlScalar2(SQL)) = False Then
-            Return Me.DbLeeHotelAux.EjecutaSqlScalar2(SQL)
-        Else
-            Return "0"
-        End If
 
     End Function
+
+
     Private Function BuscaCuentaExistencia(ByVal vAlmacen As Integer, ByVal vGrupo As Integer) As String
 
         SQL = "SELECT NVL(TNST_CNTA.CNTA_CNTA,'?') "
@@ -2656,29 +2612,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
 
     End Sub
 #Region "ASIENTO-1 ALBARANES"
-    Private Sub TotalPendienteFormalizar()
-        Dim Total As Double
 
-        SQL = "SELECT SUM (TNST_MOVG.MOVG_VATO) "
-        SQL += "FROM TNST_MOVG, TNST_TIMO "
-        SQL += "WHERE TNST_MOVG.TIMO_CODI = TNST_TIMO.TIMO_CODI "
-        SQL += "AND TIMO_TIPO = " & Me.mTimo_Albaran
-        SQL += " AND TNST_MOVG.MOVG_DAVA =  " & "'" & Me.mFecha & "'"
-        SQL += " AND TNST_MOVG.MOVG_ANUL = 0"
-
-
-
-        If IsNumeric(Me.DbLeeHotel.EjecutaSqlScalar(SQL)) = True Then
-            Total = CType(Me.DbLeeHotel.EjecutaSqlScalar(SQL), Double)
-
-        Else
-            Total = 0
-        End If
-        Linea = 1
-        Me.mTipoAsiento = "HABER"
-        Me.InsertaOracle("AC", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.mCtaFormalizaAlbaranes, Me.mIndicadorHaber, "ALBARANES PENDIENTE DE FORMALIZAR", Total, "SI", "", "")
-        'Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Me.mCtaFormalizaAlbaranes, Me.mIndicadorHaber, "ALBARANES PENDIENTE DE FORMALIZAR", Total)
-    End Sub
     Private Sub TotalPendienteFormalizarProveedorCuentaUnicaAgrupado()
         Dim Total As Double
 
@@ -2742,7 +2676,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
         Me.DbLeeHotel.mDbLector.Close()
 
     End Sub
-    Private Sub TotalPendienteFormalizarProveedorCuentaUnicaDetalladoHTito()
+    Private Sub TotalPendienteFormalizarProveedorDetalladoHTito()
         Dim Total As Double
 
         SQL = "SELECT MOVG_DADO,MOVG_CODI,MOVG_ORIG,SUM(TNST_MOVG.MOVG_VATO)AS TOTAL,FORN_DESC AS PROVEEDOR ,NVL(MOVG_IDDO,'  ')AS DOCU,TNST_FORN.FORN_CODI AS CODI "
@@ -2765,8 +2699,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
             Linea = Linea + 1
             Total = CType(Me.DbLeeHotel.mDbLector("TOTAL"), Double)
             Me.mTipoAsiento = "HABER"
-            Me.InsertaOracle("AC", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.mCtaFormalizaAlbaranes, Me.mIndicadorHaber, CType(Me.DbLeeHotel.mDbLector("PROVEEDOR"), String), Total, "NO", CType(Me.DbLeeHotel.mDbLector("DOCU"), String), "", CType(Me.DbLeeHotel.mDbLector("MOVG_DEST"), Integer), "", "", 0, "", 0, "", "")
-            ' 'Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotel.mDbLector("MOVG_DEST"))), CType(Now.Year, String), Me.mCtaFormalizaAlbaranes, Me.mIndicadorHaber, "ALBARAN   " & CType(Me.DbLeeHotel.mDbLector("DOCU"), String) & " " & CType(Me.DbLeeHotel.mDbLector("MOVG_DADO"), String), Total)
+            Me.InsertaOracle("AC", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaProveedorAlbaranes(CInt(Me.DbLeeHotel.mDbLector("CODI"))), Me.mIndicadorHaber, CType(Me.DbLeeHotel.mDbLector("PROVEEDOR"), String), Total, "NO", CType(Me.DbLeeHotel.mDbLector("DOCU"), String), "", CType(Me.DbLeeHotel.mDbLector("MOVG_DEST"), Integer), "", "", 0, "", 0, "", "")
 
         End While
         Me.DbLeeHotel.mDbLector.Close()
@@ -2776,6 +2709,10 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
         Dim Total As Double
         Dim vCentroCosto As String
         Try
+
+            Dim ProdCoex As String
+            Dim UnmeCoex As String
+            Dim AlmaCoex As String
 
 
             SQL = "SELECT TNST_MOVG.MOVG_DAVA,"
@@ -2806,71 +2743,40 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
                 SQL = "SELECT  NVL(SUBSTR(ALMA_CCST,1,2),'AA') FROM TNST_ALMA WHERE ALMA_CODI = " & CType(Me.DbLeeHotel.mDbLector("ALMACODI"), Integer)
                 vCentroCosto = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
 
+                If IsDBNull(Me.DbLeeHotel.mDbLector("PROD_COEX")) = False Then
+                    ProdCoex = CStr(Me.DbLeeHotel.mDbLector("PROD_COEX"))
+                Else
+                    ProdCoex = ""
+                End If
+
+                If IsDBNull(Me.DbLeeHotel.mDbLector("UNIDAD_CEXT")) = False Then
+                    UnmeCoex = CStr(Me.DbLeeHotel.mDbLector("UNIDAD_CEXT"))
+                Else
+                    UnmeCoex = ""
+                End If
+
+                If IsDBNull(Me.DbLeeHotel.mDbLector("ALMA_CEXT")) = False Then
+                    AlmaCoex = CStr(Me.DbLeeHotel.mDbLector("ALMA_CEXT"))
+                Else
+                    AlmaCoex = ""
+                End If
+
                 Linea = Linea + 1
                 Total = CType(Me.DbLeeHotel.mDbLector("TOTAL"), Double)
                 Me.mTipoAsiento = "DEBE"
 
-                MsgBox(CStr(Me.DbLeeHotel.mDbLector("ALMA_CODI")))
-                Me.InsertaOracle("AC", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaGastosProducto(Me.DbLeeHotel.mDbLector("PRODUCTO")), Me.mIndicadorDebe, CType("GASTOS", String) & " " & CType(Me.DbLeeHotel.mDbLector("PROD_DESC"), String) & " " & CType(Me.DbLeeHotel.mDbLector("ALMACEN"), String), Total, "NO", CStr(Me.DbLeeHotel.mDbLector("DOCU")), "", CInt(Me.DbLeeHotel.mDbLector("ALMA_CODI")), CStr(Me.DbLeeHotel.mDbLector("PROVEEDOR")), CStr(Me.DbLeeHotel.mDbLector("ALMA_CEXT")), CDec(Me.DbLeeHotel.mDbLector("CANTIDAD")), CStr(Me.DbLeeHotel.mDbLector("UNIDAD_CEXT")), CDec(Me.DbLeeHotel.mDbLector("PCOSTO")), CStr(Me.DbLeeHotel.mDbLector("DOCNEWSTOCK")), CStr(Me.DbLeeHotel.mDbLector("PROD_COEX")))
+
+                Me.InsertaOracle("AC", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaGastosProducto(Me.DbLeeHotel.mDbLector("PRODUCTO")), Me.mIndicadorDebe, CType("GASTOS", String) & " " & CType(Me.DbLeeHotel.mDbLector("PROD_DESC"), String) & " " & CType(Me.DbLeeHotel.mDbLector("ALMACEN"), String), Total, "NO", CStr(Me.DbLeeHotel.mDbLector("DOCU")), "", CInt(Me.DbLeeHotel.mDbLector("ALMA_CODI")), CStr(Me.DbLeeHotel.mDbLector("PROVEEDOR")), AlmaCoex, CDec(Me.DbLeeHotel.mDbLector("CANTIDAD")), UnmeCoex, CDec(Me.DbLeeHotel.mDbLector("PCOSTO")), CStr(Me.DbLeeHotel.mDbLector("DOCNEWSTOCK")), ProdCoex)
 
 
             End While
             Me.DbLeeHotel.mDbLector.Close()
         Catch ex As Exception
+            Me.DbLeeHotel.mDbLector.Close()
             MsgBox("GastosPorCentrodeCostoAlbaranes" & vbCrLf & ex.Message, MsgBoxStyle.Information, "Atención")
         End Try
     End Sub
-    Private Sub GastosPorCentrodeCostoAlbaranesAlmacen()
-        Dim Total As Double
-        Dim vCentroCosto As String
-        Try
 
-
-            SQL = "SELECT TNST_MOVG.MOVG_DAVA,"
-            SQL += "TNST_MOVD.ALMA_CODI, SUM(TNST_MOVD.MOVD_TOTA)AS TOTAL,ALMA_DESC AS ALMACEN,"
-            SQL += " TNST_MOVD.ALMA_CODI AS ALMACODI"
-            SQL += " FROM TNST_MOVG, TNST_MOVD, TNST_ALMA, TNST_PROD, TNST_TIMO"
-            SQL += " WHERE (TNST_MOVG.MOVG_CODI = TNST_MOVD.MOVG_CODI)"
-            SQL += " AND (TNST_MOVG.MOVG_ANCI = TNST_MOVD.MOVG_ANCI)"
-            SQL += " AND (TNST_MOVD.ALMA_CODI = TNST_ALMA.ALMA_CODI)"
-            SQL += " AND (TNST_MOVD.PROD_CODI = TNST_PROD.PROD_CODI)"
-            SQL += " AND (TNST_MOVG.TIMO_CODI = TNST_TIMO.TIMO_CODI)"
-            SQL += " AND TNST_TIMO.TIMO_TIPO = " & Me.mTimo_Albaran
-            SQL += " AND TNST_MOVG.MOVG_DAVA =  " & "'" & Me.mFecha & "'"
-            SQL += " AND TNST_MOVG.MOVG_ANUL = 0"
-            SQL += " GROUP BY TNST_MOVG.TIMO_CODI,TNST_MOVG.MOVG_DAVA,"
-            SQL += "TNST_MOVD.ALMA_CODI,"
-            SQL += "TNST_ALMA.ALMA_DESC"
-
-            Me.DbLeeHotel.TraerLector(SQL)
-
-            While Me.DbLeeHotel.mDbLector.Read
-
-                SQL = "SELECT  NVL(SUBSTR(ALMA_CCST,1,2),'AA') FROM TNST_ALMA WHERE ALMA_CODI = " & CType(Me.DbLeeHotel.mDbLector("ALMACODI"), Integer)
-
-                vCentroCosto = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
-
-                Linea = Linea + 1
-                Total = CType(Me.DbLeeHotel.mDbLector("TOTAL"), Double)
-                Me.mTipoAsiento = "DEBE"
-
-                ' SI LAS CUENTAS ESTAN EN TNST_CTA
-                'Me.InsertaOracle("AC", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaConsumoInterno(CType(Me.DbLeeHotel.mDbLector("ALMACODI"), Integer), CType(Me.DbLeeHotel.mDbLector("GRUPCODI"), Integer)), Me.mIndicadorDebe, CType("GASTOS", String) & " " & CType(Me.DbLeeHotel.mDbLector("GRUPO"), String) & " " & CType(Me.DbLeeHotel.mDbLector("ALMACEN"), String), Total, "NO", "0", "")
-                'Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Me.BuscaCuentaConsumoInterno(CType(Me.DbLeeHotel.mDbLector("ALMACODI"), Integer), CType(Me.DbLeeHotel.mDbLector("GRUPCODI"), Integer)), Me.mIndicadorDebe, CType("GASTOS", String) & " " & CType(Me.DbLeeHotel.mDbLector("GRUPO"), String) & " " & CType(Me.DbLeeHotel.mDbLector("ALMACEN"), String), Total)
-                'Me.GeneraFileAA("AA", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Me.BuscaCuentaConsumoInterno(CType(Me.DbLeeHotel.mDbLector("ALMACODI"), Integer), CType(Me.DbLeeHotel.mDbLector("GRUPCODI"), Integer)), "0", vCentroCosto, Total)
-
-                ' SI LAS CUENTAS SE COMPONEN 
-                Me.InsertaOracle("AC", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.ComponeCuentaGastoGrupo4Departamento(CType(Me.DbLeeHotel.mDbLector("ALMACODI"), Integer)), Me.mIndicadorDebe, CType("GASTOS", String) & " " & CType(Me.DbLeeHotel.mDbLector("ALMACEN"), String), Total, "NO", "0", "", CInt(Me.DbLeeHotel.mDbLector("ALMACODI")), "", "", 0, "", 0, "", "")
-                'Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotel.mDbLector("ALMACODI"))), CType(Now.Year, String), Me.ComponeCuentaGastoGrupo4Departamento(CType(Me.DbLeeHotel.mDbLector("ALMACODI"), Integer)), Me.mIndicadorDebe, CType("GASTOS", String) & " " & CType(Me.DbLeeHotel.mDbLector("ALMACEN"), String), Total)
-                ''Me.GeneraFileAA("AA", 1, Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotel.mDbLector("ALMACODI"))), CType(Now.Year, String), 1, Me.ComponeCuentaGastoGrupo4Departamento(CType(Me.DbLeeHotel.mDbLector("ALMACODI"), Integer)), "0", vCentroCosto, Total)
-
-
-            End While
-            Me.DbLeeHotel.mDbLector.Close()
-        Catch ex As Exception
-            MsgBox("GastosPorCentrodeCostoAlbaranesAlmacen" & vbCrLf & ex.Message, MsgBoxStyle.Information, "Atención")
-        End Try
-    End Sub
 #End Region
 #Region "ASIENTO-2 TRASPASOS INTERNOS"
     Private Sub TraspasosSalidas()
@@ -2992,6 +2898,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
             End While
             Me.DbLeeHotel.mDbLector.Close()
         Catch ex As Exception
+            Me.DbLeeHotel.mDbLector.Close()
             MsgBox(ex.Message, MsgBoxStyle.Information, "Traspasos Entradas")
         End Try
 
@@ -3004,63 +2911,59 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
 
         Dim Texto As String
 
-        'SQL = "SELECT MOVG_ORIG,SUM(TNST_MOVG.MOVG_VATO)AS TOTAL,FORN_DESC AS PROVEEDOR ,TNST_FORN.FORN_CODI AS CODI,"
-        'SQL += "NVL(TNST_MOVG.MOVG_IDDO,' ')AS DOCU,SUM(MOVI_NETO) AS BASE,NVL(FORN_CNTR,'0') AS CIF "
-        'SQL += "FROM TNST_MOVG, TNST_TIMO,TNST_FORN,TNST_MOVI  "
-        'SQL += "WHERE TNST_MOVG.TIMO_CODI = TNST_TIMO.TIMO_CODI "
-        'SQL += "AND TNST_MOVG.MOVG_ORIG = TNST_FORN.FORN_CODI "
-        'SQL += "AND TIMO_TIPO = " & Me.mTimo_Factura_Directa
-        'SQL += " AND TNST_MOVG.MOVG_DAVA =  " & "'" & Me.mFecha & "'"
-        'SQL += " AND TNST_MOVG.MOVG_CODI = TNST_MOVI.MOVG_CODI "
-        'SQL += " AND TNST_MOVG.MOVG_ANCI = TNST_MOVI.MOVG_ANCI "
-        'SQL += " GROUP BY MOVG_ORIG,TNST_FORN.FORN_CODI,FORN_DESC,TNST_MOVG.MOVG_IDDO,FORN_CNTR"
 
-        SQL = "SELECT MOVG_DADO,TNST_MOVG.MOVG_CODI AS NMOVI,TNST_MOVG.MOVG_ANCI,MOVG_ORIG,SUM(TNST_MOVG.MOVG_VATO)AS TOTAL,FORN_DESC AS PROVEEDOR ,TNST_FORN.FORN_CODI AS CODI,"
-        SQL += "NVL(TNST_MOVG.MOVG_IDDO,' ')AS DOCU,'0' AS BASE,NVL(FORN_CNTR,'0') AS CIF ,TNST_MOVG.MOVG_DEST AS MOVG_DEST "
-        SQL += "FROM TNST_MOVG, TNST_TIMO,TNST_FORN ,TNST_ALMA "
-        SQL += "WHERE TNST_MOVG.TIMO_CODI = TNST_TIMO.TIMO_CODI "
-        SQL += "AND (TNST_MOVG.MOVG_ORIG = TNST_FORN.FORN_CODI OR TNST_MOVG.MOVG_DEST = TNST_FORN.FORN_CODI) "
-        SQL += "AND TIMO_TIPO = " & Me.mTimo_Factura_Directa
-        SQL += " AND TNST_MOVG.MOVG_DAVA =  " & "'" & Me.mFecha & "'"
-        SQL += " AND TNST_MOVG.MOVG_ANUL = 0"
+        Try
 
-        SQL += " AND TNST_MOVG.MOVG_DEST = TNST_ALMA.ALMA_CODI "
-        SQL += " GROUP BY MOVG_DADO,TNST_MOVG.MOVG_CODI,TNST_MOVG.MOVG_ANCI,MOVG_ORIG,TNST_FORN.FORN_CODI,"
-        SQL += "FORN_DESC,TNST_MOVG.MOVG_IDDO,FORN_CNTR,TNST_MOVG.MOVG_DEST"
-        SQL += " ,ALMA_CCST "
+            SQL = "SELECT MOVG_DADO,TNST_MOVG.MOVG_CODI AS NMOVI,TNST_MOVG.MOVG_ANCI,MOVG_ORIG,SUM(TNST_MOVG.MOVG_VATO)AS TOTAL,FORN_DESC AS PROVEEDOR ,TNST_FORN.FORN_CODI AS CODI,"
+            SQL += "NVL(TNST_MOVG.MOVG_IDDO,' ')AS DOCU,'0' AS BASE,NVL(FORN_CNTR,'0') AS CIF ,TNST_MOVG.MOVG_DEST AS MOVG_DEST "
+            SQL += "FROM TNST_MOVG, TNST_TIMO,TNST_FORN ,TNST_ALMA "
+            SQL += "WHERE TNST_MOVG.TIMO_CODI = TNST_TIMO.TIMO_CODI "
+            SQL += "AND (TNST_MOVG.MOVG_ORIG = TNST_FORN.FORN_CODI OR TNST_MOVG.MOVG_DEST = TNST_FORN.FORN_CODI) "
+            SQL += "AND TIMO_TIPO = " & Me.mTimo_Factura_Directa
+            SQL += " AND TNST_MOVG.MOVG_DAVA =  " & "'" & Me.mFecha & "'"
+            SQL += " AND TNST_MOVG.MOVG_ANUL = 0"
 
-        SQL += " ORDER BY  FORN_DESC,SUBSTR(ALMA_CCST,3,2),  TNST_MOVG.MOVG_IDDO "
+            SQL += " AND TNST_MOVG.MOVG_DEST = TNST_ALMA.ALMA_CODI "
+            SQL += " GROUP BY MOVG_DADO,TNST_MOVG.MOVG_CODI,TNST_MOVG.MOVG_ANCI,MOVG_ORIG,TNST_FORN.FORN_CODI,"
+            SQL += "FORN_DESC,TNST_MOVG.MOVG_IDDO,FORN_CNTR,TNST_MOVG.MOVG_DEST"
+            SQL += " ,ALMA_CCST "
+
+            SQL += " ORDER BY  FORN_DESC,SUBSTR(ALMA_CCST,3,2),  TNST_MOVG.MOVG_IDDO "
 
 
 
-        '6X'
+            '6X'
 
-        Me.DbLeeHotel.TraerLector(SQL)
+            Me.DbLeeHotel.TraerLector(SQL)
 
-        While Me.DbLeeHotel.mDbLector.Read
-            Linea = Linea + 1
-            Total = CType(Me.DbLeeHotel.mDbLector("TOTAL"), Double)
-            TotalBase = Me.CalculaBaseImponible(CType(Me.DbLeeHotel.mDbLector("NMOVI"), Integer), CType(Me.DbLeeHotel.mDbLector("MOVG_ANCI"), Integer))
-
-
-            Texto = "Fra Dir:" & CType(Me.DbLeeHotel.mDbLector("DOCU"), String) & " " & Format(Me.mFecha, "MMMM/yyyy") & " " & CType(Me.DbLeeHotel.mDbLector("PROVEEDOR"), String)
-            ' mery
-            Texto = "Fra Dir:" & CType(Me.DbLeeHotel.mDbLector("DOCU"), String) & " " & CType(Me.DbLeeHotel.mDbLector("PROVEEDOR"), String)
+            While Me.DbLeeHotel.mDbLector.Read
+                Linea = Linea + 1
+                Total = CType(Me.DbLeeHotel.mDbLector("TOTAL"), Double)
+                TotalBase = Me.CalculaBaseImponible(CType(Me.DbLeeHotel.mDbLector("NMOVI"), Integer), CType(Me.DbLeeHotel.mDbLector("MOVG_ANCI"), Integer))
 
 
-            Me.mTipoAsiento = "HABER"
-            Me.InsertaOracle("AC", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaProveedorCuentasPorPagar(CType(Me.DbLeeHotel.mDbLector("CODI"), Integer)), Me.mIndicadorHaberFac, Texto, Total, "NO", CType(Me.DbLeeHotel.mDbLector("DOCU"), String), "", "NEWSTOCK", CType(Me.DbLeeHotel.mDbLector("CIF"), String), CType(Me.DbLeeHotel.mDbLector("MOVG_DADO"), Date), CInt(Me.DbLeeHotel.mDbLector("MOVG_DEST")))
-            'Me.GeneraFileAC2("AC", Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotel.mDbLector("MOVG_DEST"))), CType(Now.Year, String), Me.BuscaCuentaProveedorCuentasPorPagar(CType(Me.DbLeeHotel.mDbLector("CODI"), Integer)), Me.mIndicadorHaberFac, Texto, Total, Me.mParaSeriefacturas & Me.mFecha.Year, CType(Me.DbLeeHotel.mDbLector("NMOVI"), String))
-            'Me.GeneraFileFV("FV", 3, Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotel.mDbLector("MOVG_DEST"))), Me.mParaSeriefacturas & Me.mFecha.Year, CType(Me.DbLeeHotel.mDbLector("NMOVI"), String), Total, CType(Me.DbLeeHotel.mDbLector("DOCU"), String).PadRight(15, CChar(" ")), Me.BuscaCuentaProveedorCuentasPorPagar(CType(Me.DbLeeHotel.mDbLector("CODI"), Integer)), CType(Me.DbLeeHotel.mDbLector("CIF"), String), CType(Me.DbLeeHotel.mDbLector("MOVG_DADO"), Date))
+                Texto = "Fra Dir:" & CType(Me.DbLeeHotel.mDbLector("DOCU"), String) & " " & Format(Me.mFecha, "MMMM/yyyy") & " " & CType(Me.DbLeeHotel.mDbLector("PROVEEDOR"), String)
+                ' mery
+                Texto = "Fra Dir:" & CType(Me.DbLeeHotel.mDbLector("DOCU"), String) & " " & CType(Me.DbLeeHotel.mDbLector("PROVEEDOR"), String)
 
 
-            ' sale a hacer los aspuntes de GASTOS , en vez de todos juntos 
-            Me.GastosPorCentrodeCostoFacturas(CType(Me.DbLeeHotel.mDbLector("NMOVI"), Integer), CType(Me.DbLeeHotel.mDbLector("MOVG_ANCI"), Integer), Texto)
-            ' sale a hacer los aspuntes de IGIC , en vez de todos juntos 
-            Me.TotalFacturasProveedorImpuesto(CType(Me.DbLeeHotel.mDbLector("NMOVI"), Integer), CType(Me.DbLeeHotel.mDbLector("MOVG_ANCI"), Integer), Texto)
+                Me.mTipoAsiento = "HABER"
+                Me.InsertaOracle("AC", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaProveedorCuentasPorPagar(CType(Me.DbLeeHotel.mDbLector("CODI"), Integer)), Me.mIndicadorHaberFac, Texto, Total, "NO", CType(Me.DbLeeHotel.mDbLector("DOCU"), String), "", "NEWSTOCK", CType(Me.DbLeeHotel.mDbLector("CIF"), String), CType(Me.DbLeeHotel.mDbLector("MOVG_DADO"), Date), CInt(Me.DbLeeHotel.mDbLector("MOVG_DEST")))
 
-        End While
-        Me.DbLeeHotel.mDbLector.Close()
+
+                ' sale a hacer los aspuntes de GASTOS , en vez de todos juntos 
+                Me.GastosPorCentrodeCostoFacturas(CType(Me.DbLeeHotel.mDbLector("NMOVI"), Integer), CType(Me.DbLeeHotel.mDbLector("MOVG_ANCI"), Integer), Texto)
+                ' sale a hacer los aspuntes de IGIC , en vez de todos juntos 
+                Me.TotalFacturasProveedorImpuesto(CType(Me.DbLeeHotel.mDbLector("NMOVI"), Integer), CType(Me.DbLeeHotel.mDbLector("MOVG_ANCI"), Integer), Texto)
+
+            End While
+            Me.DbLeeHotel.mDbLector.Close()
+
+        Catch ex As Exception
+            Me.DbLeeHotel.mDbLector.Close()
+            MsgBox(ex.Message, MsgBoxStyle.Information, "Facturas Directas")
+        End Try
+
 
     End Sub
     Private Sub GastosPorCentrodeCostoFacturas(ByVal vCodi As Integer, ByVal vAnci As Integer, ByVal vTexto As String)
@@ -3185,7 +3088,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
                 TotalBase = CType(Me.DbLeeHotelAux6.mDbLector("BASE"), Double)
                 Me.mTipoAsiento = "DEBE"
                 If TotalBase <> 0 Then
-                    Me.InsertaOracle("AC", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaImpuestoVenta2(CInt(Me.DbLeeHotelAux6.mDbLector("TIPO"))), Me.mIndicadorDebe, CType("IMPUESTO FACTURA ", String) & ValorImpuesto & "%", Total, "NO", CType(Me.DbLeeHotelAux6.mDbLector("DOCU"), String), "", CInt(Me.DbLeeHotelAux6.mDbLector("MOVG_DEST")), "", "", 0, "", 0, "", "")
+                    Me.InsertaOracle("AC", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaImpuestoVenta(CInt(Me.DbLeeHotelAux6.mDbLector("TIPO"))), Me.mIndicadorDebe, CType("IMPUESTO FACTURA ", String) & ValorImpuesto & "%", Total, "NO", CType(Me.DbLeeHotelAux6.mDbLector("DOCU"), String), "", CInt(Me.DbLeeHotelAux6.mDbLector("MOVG_DEST")), "", "", 0, "", 0, "", "")
                     'Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotelAux6.mDbLector("MOVG_DEST"))), CType(Now.Year, String), Me.BuscaCuentaImpuestoVenta2(ValorImpuesto), Me.mIndicadorDebe, vTexto, Total)
                     'Me.GeneraFileIV("IV", 3, Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotelAux6.mDbLector("MOVG_DEST"))), Me.mParaSeriefacturas & Me.mFecha.Year, CType(Me.DbLeeHotelAux6.mDbLector("NMOVI"), String), TotalBase, ValorImpuesto, Total, TipoImpuesto, CodigoImpuesto)
                 End If
@@ -3673,30 +3576,35 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
     Private Sub TotalPendienteFormalizarProveedorDevolucionAlbaranHTito()
         Dim Total As Double
 
-        SQL = "SELECT MOVG_CODI,MOVG_ORIG,SUM(TNST_MOVG.MOVG_VATO)AS TOTAL,FORN_DESC AS PROVEEDOR ,NVL(MOVG_IDDO,'  ')AS DOCU,NVL(MOVG_DORE,' ')AS DORE ,TNST_FORN.FORN_CODI AS CODI,TNST_MOVG.MOVG_ORIG AS MOVG_ORIG "
-        SQL += "FROM TNST_MOVG, TNST_TIMO,TNST_FORN "
-        SQL += "WHERE TNST_MOVG.TIMO_CODI = TNST_TIMO.TIMO_CODI "
-        SQL += "AND (TNST_MOVG.MOVG_DEST = TNST_FORN.FORN_CODI OR TNST_MOVG.MOVG_ORIG = TNST_FORN.FORN_CODI)"
-        SQL += "AND TIMO_TIPO = " & Me.mTimo_Albaran_Dev
-        SQL += " AND TNST_MOVG.MOVG_DAVA =  " & "'" & Me.mFecha & "'"
-        SQL += " AND TNST_MOVG.MOVG_ANUL = 0"
-        SQL += " GROUP BY MOVG_CODI,MOVG_ORIG,MOVG_IDDO,MOVG_DORE,TNST_FORN.FORN_CODI,FORN_DESC,TNST_MOVG.MOVG_ORIG"
+        Try
 
-        Me.DbLeeHotel.TraerLector(SQL)
+            SQL = "SELECT MOVG_CODI,MOVG_ORIG,SUM(TNST_MOVG.MOVG_VATO)AS TOTAL,FORN_DESC AS PROVEEDOR ,NVL(MOVG_IDDO,'  ')AS DOCU,NVL(MOVG_DORE,' ')AS DORE ,TNST_FORN.FORN_CODI AS CODI,TNST_MOVG.MOVG_ORIG AS MOVG_ORIG "
+            SQL += "FROM TNST_MOVG, TNST_TIMO,TNST_FORN "
+            SQL += "WHERE TNST_MOVG.TIMO_CODI = TNST_TIMO.TIMO_CODI "
+            SQL += "AND (TNST_MOVG.MOVG_DEST = TNST_FORN.FORN_CODI OR TNST_MOVG.MOVG_ORIG = TNST_FORN.FORN_CODI)"
+            SQL += "AND TIMO_TIPO = " & Me.mTimo_Albaran_Dev
+            SQL += " AND TNST_MOVG.MOVG_DAVA =  " & "'" & Me.mFecha & "'"
+            SQL += " AND TNST_MOVG.MOVG_ANUL = 0"
+            SQL += " GROUP BY MOVG_CODI,MOVG_ORIG,MOVG_IDDO,MOVG_DORE,TNST_FORN.FORN_CODI,FORN_DESC,TNST_MOVG.MOVG_ORIG"
 
-        While Me.DbLeeHotel.mDbLector.Read
-            Linea = Linea + 1
-            Total = CType(Me.DbLeeHotel.mDbLector("TOTAL"), Double)
-            If Total <> 0 Then
-                Me.mTipoAsiento = "DEBE"
-                Me.InsertaOracle("AC", 4, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.mCtaFormalizaAlbaranes, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("PROVEEDOR"), String), Total, "NO", CType(Me.DbLeeHotel.mDbLector("DOCU"), String), CType(Me.DbLeeHotel.mDbLector("DORE"), String), CInt(Me.DbLeeHotel.mDbLector("MOVG_ORIG")), "", "", 0, "", 0, "", "")
-                'Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotel.mDbLector("MOVG_ORIG"))), CType(Now.Year, String), Me.BuscaCuentaProveedorAlbaranes(CType(Me.DbLeeHotel.mDbLector("CODI"), Integer)), Me.mIndicadorDebe, "ALBARAN Num:  " & CType(Me.DbLeeHotel.mDbLector("DOCU"), String), Total)
+            Me.DbLeeHotel.TraerLector(SQL)
 
-            End If
+            While Me.DbLeeHotel.mDbLector.Read
+                Linea = Linea + 1
+                Total = CType(Me.DbLeeHotel.mDbLector("TOTAL"), Double)
+                If Total <> 0 Then
+                    Me.mTipoAsiento = "DEBE"
+                    Me.InsertaOracle("AC", 4, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaProveedorAlbaranes(CInt(Me.DbLeeHotel.mDbLector("CODI"))), Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("PROVEEDOR"), String), Total, "NO", CType(Me.DbLeeHotel.mDbLector("DOCU"), String), CType(Me.DbLeeHotel.mDbLector("DORE"), String), CInt(Me.DbLeeHotel.mDbLector("MOVG_ORIG")), "", "", 0, "", 0, "", "")
 
-        End While
+                End If
+
+            End While
+            Me.DbLeeHotel.mDbLector.Close()
+
+        Catch ex As Exception
+            MsgBox(ex.Message,, "Pdte Formalizar")
+        End Try
         Me.DbLeeHotel.mDbLector.Close()
-
     End Sub
     Private Sub GastosPorCentrodeCostoAlbaranesDevolucionAlbaran()
         Dim Total As Double
@@ -3952,7 +3860,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
 
             Me.mTipoAsiento = "DEBE"
             If TotalBase <> 0 Then
-                Me.InsertaOracle("AC", 5, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaImpuestoDevolucion2(ValorImpuesto), Me.mIndicadorDebe, CType("IMPUESTO FACTURA ", String) & ValorImpuesto & "%", Total * -1, "NO", CType(Me.DbLeeHotelAux6.mDbLector("DOCU"), String), "", CInt(Me.DbLeeHotelAux6.mDbLector("MOVG_ORIG")), "", "", 0, "", 0, "", "")
+                Me.InsertaOracle("AC", 5, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaImpuestoVenta(ValorImpuesto), Me.mIndicadorDebe, CType("IMPUESTO FACTURA ", String) & ValorImpuesto & "%", Total * -1, "NO", CType(Me.DbLeeHotelAux6.mDbLector("DOCU"), String), "", CInt(Me.DbLeeHotelAux6.mDbLector("MOVG_ORIG")), "", "", 0, "", 0, "", "")
                 'Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotelAux6.mDbLector("MOVG_ORIG"))), CType(Now.Year, String), Me.BuscaCuentaImpuestoDevolucion2(ValorImpuesto), Me.mIndicadorDebe, vTexto, Total * -1)
                 'Me.GeneraFileIV("IV", 5, Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotelAux6.mDbLector("MOVG_ORIG"))), Me.mParaSeriefacturas & Me.mFecha.Year, CType(Me.DbLeeHotelAux6.mDbLector("NMOVI"), String), TotalBase * -1, ValorImpuesto, Total * -1, TipoImpuesto, CodigoImpuesto)
             End If
@@ -4013,19 +3921,10 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
 
             Me.mTipoAsiento = "HABER"
             Me.InsertaOracle("AC", 6, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaProveedorCuentasPorPagar(CType(r("CODI"), Integer)), Me.mIndicadorHaberFac, Texto, Total, "NO", CType(r("DOCU"), String), "", "NEWSTOCK", CType(r("CIF"), String), CType(r("MOVG_DADO"), Date), CInt(r("MOVG_DEST")))
-            'Me.GeneraFileAC2("AC", Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(r("MOVG_DEST"))), CType(Now.Year, String), Me.BuscaCuentaProveedorCuentasPorPagar(CType(r("CODI"), Integer)), Me.mIndicadorHaberFac, Texto, Total, Me.mParaSeriefacturas & Me.mFecha.Year, CType(r("NMOVI"), String))
-            'Me.GeneraFileFV("FV", 6, Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(r("MOVG_DEST"))), Me.mParaSeriefacturas & Me.mFecha.Year, CType(r("NMOVI"), String), Total, CType(r("DOCU"), String).PadRight(15, CChar(" ")), Me.BuscaCuentaProveedorCuentasPorPagar(CType(r("CODI"), Integer)), CType(r("CIF"), String), CType(r("MOVG_DADO"), Date))
-            'NO CONDENSADO'
-
-            If Me.mCondensarAsiento = False Then
-                ' si' AGRUPA POR PROVEEDOR / ALBARAN
-                'Me.TotalAlbaranesProveedorFormalizados(CType(r("NMOVI"), Integer), CType(r("MOVG_ANCI"), Integer), Texto)
-                ' SI AGRUPA POR PROVEEDOR / FAMILIA
-                Me.GastosPorCentrodeCostoAlbaranesFamilia(CStr(CType(r("NMOVI"), Integer) & "/" & CType(r("MOVG_ANCI"), Integer)), Texto)
-                Me.TotalFacturasProveedorImpuestoFormalizadas(CType(r("NMOVI"), Integer), CType(r("MOVG_ANCI"), Integer), Texto)
 
 
-            End If
+            ' si' AGRUPA POR PROVEEDOR / ALBARAN
+            Me.TotalAlbaranesProveedorFormalizados(CType(r("NMOVI"), Integer), CType(r("MOVG_ANCI"), Integer), Texto)
 
 
         Next
@@ -4033,34 +3932,8 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
         Me.DbLeeHotel.mDbDataset.Clear()
 
 
-        ' original con LECTOR   2013
-
-        ' Me.DbLeeHotel.TraerLector(SQL)
-        'While Me.DbLeeHotel.mDbLector.Read
-
-        'Linea = Linea + 1
-        'Total = CType(Me.DbLeeHotel.mDbLector("TOTAL"), Double)
-        'TotalBase = CType(Me.DbLeeHotel.mDbLector("BASE"), Double)
-
-        'Texto = "Fra:" & CType(Me.DbLeeHotel.mDbLector("DOCU"), String) & " " & Format(Me.mFecha, "MMMM/yyyy") & " " & CType(Me.DbLeeHotel.mDbLector("PROVEEDOR"), String)
-
-        'Me.mTipoAsiento = "HABER"
-        'Me.InsertaOracle("AC", 6, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaProveedorCuentasPorPagar(CType(Me.DbLeeHotel.mDbLector("CODI"), Integer)), Me.mIndicadorHaberFac, Texto, Total, "NO", CType(Me.DbLeeHotel.mDbLector("DOCU"), String), "", "NEWSTOCK", CType(Me.DbLeeHotel.mDbLector("CIF"), String), CType(Me.DbLeeHotel.mDbLector("MOVG_DADO"), Date), CInt(Me.DbLeeHotel.mDbLector("MOVG_DEST")))
-        'Me.GeneraFileAC2("AC", Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotel.mDbLector("MOVG_DEST"))), CType(Now.Year, String), Me.BuscaCuentaProveedorCuentasPorPagar(CType(Me.DbLeeHotel.mDbLector("CODI"), Integer)), Me.mIndicadorHaberFac, Texto, Total, Me.mParaSeriefacturas & Me.mFecha.Year, CType(Me.DbLeeHotel.mDbLector("NMOVI"), String))
-        'Me.GeneraFileFV("FV", 6, Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotel.mDbLector("MOVG_DEST"))), Me.mParaSeriefacturas & Me.mFecha.Year, CType(Me.DbLeeHotel.mDbLector("NMOVI"), String), Total, CType(Me.DbLeeHotel.mDbLector("DOCU"), String).PadRight(15, CChar(" ")), Me.BuscaCuentaProveedorCuentasPorPagar(CType(Me.DbLeeHotel.mDbLector("CODI"), Integer)), CType(Me.DbLeeHotel.mDbLector("CIF"), String), CType(Me.DbLeeHotel.mDbLector("MOVG_DADO"), Date))
-        '1X'
-        'If Me.mDebug = False Then
-        'Me.TotalAlbaranesProveedorFormalizados(CType(Me.DbLeeHotel.mDbLector("NMOVI"), Integer), CType(Me.DbLeeHotel.mDbLector("MOVG_ANCI"), Integer))
-        'End If
 
 
-        'End While
-        'Me.DbLeeHotel.mDbLector.Close()
-
-        If Me.mCondensarAsiento = True Then
-            ' CONDENSADO
-            Me.GastosPorCentrodeCostoAlbaranesFacturaGuia()
-        End If
 
     End Sub
 
@@ -4200,9 +4073,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
                 TotalBase = CType(r("BASE"), Double)
                 Me.mTipoAsiento = "DEBE"
                 If TotalBase <> 0 Then
-                    Me.InsertaOracle("AC", 6, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaImpuestoVenta2(ValorImpuesto), Me.mIndicadorDebe, CType("IMPUESTO FACTURA ", String) & ValorImpuesto & "%", Total, "NO", CType(r("DOCU"), String), "", CInt(r("MOVG_DEST")), "", "", 0, "", 0, "", "")
-                    'Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(r("MOVG_DEST"))), CType(Now.Year, String), Me.BuscaCuentaImpuestoVenta2(ValorImpuesto), Me.mIndicadorDebe, CType("IMPUESTO FACTURA ", String) & ValorImpuesto & "%" & " " & CType(r("DOCU"), String), Total)
-                    'Me.GeneraFileIV("IV", 6, Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(r("MOVG_DEST"))), Me.mParaSeriefacturas & Me.mFecha.Year, CType(r("NMOVI"), String), TotalBase, ValorImpuesto, Total, TipoImpuesto, CodigoImpuesto)
+                    Me.InsertaOracle("AC", 6, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaImpuestoVenta(ValorImpuesto), Me.mIndicadorDebe, CType("IMPUESTO FACTURA ", String) & ValorImpuesto & "%", Total, "NO", CType(r("DOCU"), String), "", CInt(r("MOVG_DEST")), "", "", 0, "", 0, "", "")
                 End If
 
             Next
@@ -4329,9 +4200,9 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
                 Me.mTipoAsiento = "DEBE"
                 If TotalBase <> 0 Then
                     If Me.mCondensarAsiento = True Then
-                        Me.InsertaOracle("AC", 6, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaImpuestoVenta2(ValorImpuesto), Me.mIndicadorDebe, CType(" -- IMPUESTO FACTURA ", String) & ValorImpuesto & "%", Total, "NO", CType(r("DOCU"), String), "", CInt(r("MOVG_DEST")), "", "", 0, "", 0, "", "")
+                        Me.InsertaOracle("AC", 6, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaImpuestoVenta(ValorImpuesto), Me.mIndicadorDebe, CType(" -- IMPUESTO FACTURA ", String) & ValorImpuesto & "%", Total, "NO", CType(r("DOCU"), String), "", CInt(r("MOVG_DEST")), "", "", 0, "", 0, "", "")
                     Else
-                        Me.InsertaOracle("AC", 6, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaImpuestoVenta2(ValorImpuesto), Me.mIndicadorDebe, CType(" -- IMPUESTO FACTURA ", String) & " " & CType(r("DOCU"), String) & " " & ValorImpuesto & "%", Total, "NO", CType(r("DOCU"), String), "", CInt(r("MOVG_DEST")), "", "", 0, "", 0, "", "")
+                        Me.InsertaOracle("AC", 6, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaImpuestoVenta(ValorImpuesto), Me.mIndicadorDebe, CType(" -- IMPUESTO FACTURA ", String) & " " & CType(r("DOCU"), String) & " " & ValorImpuesto & "%", Total, "NO", CType(r("DOCU"), String), "", CInt(r("MOVG_DEST")), "", "", 0, "", 0, "", "")
 
                     End If
 
@@ -4386,7 +4257,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
     Private Sub TotalAlbaranesProveedorFormalizados(ByVal vCodi As Integer, ByVal vAnci As Integer, ByVal vTexto As String)
         Dim Total As Double
 
-        SQL = "SELECT TNST_MOVG.MOVG_CODI,TNST_MOVG.MOVG_ANCI,QWE_VNST_GUIA.TIMO_TIPO AS TIPO,SUM (QWE_VNST_GUIA.MOVG_VATO)AS TOTAL, QWE_VNST_GUIA.MOVG_IDDO AS ALBARAN, TNST_MOVG.MOVG_ORIG,TNST_FORN.FORN_CODI AS CODI,"
+        SQL = "SELECT TNST_MOVG.MOVG_CODI,TNST_MOVG.MOVG_ANCI,QWE_VNST_GUIA.TIPO ,SUM (QWE_VNST_GUIA.MOVG_VATO)AS TOTAL, QWE_VNST_GUIA.MOVG_IDDO AS ALBARAN, TNST_MOVG.MOVG_ORIG,TNST_FORN.FORN_CODI AS CODI,"
         SQL += " TNST_FORN.FORN_DESC AS PROVEEDOR , QWE_VNST_GUIA.MOVG_CODI AS C1 , QWE_VNST_GUIA.MOVG_ANCI AS C2,TNST_MOVG.MOVG_ORIG as MOVG_ORIG,TNST_MOVG.MOVG_DEST as MOVG_DEST "
         SQL += " FROM TNST_MOVG, QWE_VNST_GUIA, TNST_TIMO, TNST_FORN "
         SQL += " WHERE (TNST_MOVG.MOVG_CODI = QWE_VNST_GUIA.DORE_CODI) "
@@ -4397,12 +4268,12 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
         SQL += " AND (TNST_MOVG.TIMO_CODI = TNST_TIMO.TIMO_CODI) "
         SQL += " AND (TNST_MOVG.MOVG_ORIG = TNST_FORN.FORN_CODI OR TNST_MOVG.MOVG_DEST = TNST_FORN.FORN_CODI) "
 
-        SQL += " AND (QWE_VNST_GUIA.TIMO_TIPO = " & Me.mTimo_Albaran
-        SQL += " OR QWE_VNST_GUIA.TIMO_TIPO= " & Me.mTimo_Albaran_Dev
+        SQL += " AND (QWE_VNST_GUIA.TIPO = " & Me.mTimo_Albaran
+        SQL += " OR QWE_VNST_GUIA.TIPO= " & Me.mTimo_Albaran_Dev
         SQL += ") AND TNST_MOVG.MOVG_ANUL = 0 "
 
 
-        SQL += "GROUP BY  TNST_MOVG.MOVG_CODI,TNST_MOVG.MOVG_ANCI,QWE_VNST_GUIA.TIMO_TIPO,QWE_VNST_GUIA.MOVG_IDDO, TNST_MOVG.MOVG_ORIG, TNST_FORN.FORN_CODI,TNST_FORN.FORN_DESC, QWE_VNST_GUIA.MOVG_CODI, QWE_VNST_GUIA.MOVG_ANCI,TNST_MOVG.MOVG_ORIG,TNST_MOVG.MOVG_DEST"
+        SQL += "GROUP BY  TNST_MOVG.MOVG_CODI,TNST_MOVG.MOVG_ANCI,QWE_VNST_GUIA.TIPO,QWE_VNST_GUIA.MOVG_IDDO, TNST_MOVG.MOVG_ORIG, TNST_FORN.FORN_CODI,TNST_FORN.FORN_DESC, QWE_VNST_GUIA.MOVG_CODI, QWE_VNST_GUIA.MOVG_ANCI,TNST_MOVG.MOVG_ORIG,TNST_MOVG.MOVG_DEST"
 
         '2X'
 
@@ -4414,35 +4285,16 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
             Total = CType(Me.DbLeeHotelAux2.mDbLector("TOTAL"), Double)
 
             If CType(Me.DbLeeHotelAux2.mDbLector("TIPO"), Integer) = Me.mTimo_Albaran Then
-
-                If Me.mParaSoloFacturas = 1 Then
-                    Me.GastosPorCentrodeCostoAlbaranesAlmacenDocumento(CInt(Me.DbLeeHotelAux2.mDbLector("C1")), CInt(Me.DbLeeHotelAux2.mDbLector("C2")), vTexto)
-                End If
-                If Me.mParaSoloFacturas = 0 Then
-                    Linea = Linea + 1
-                    Me.mTipoAsiento = "DEBE"
-                    ' CUENTA GENERICA
-                    Me.InsertaOracle("AC", 6, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.mCtaFormalizaAlbaranes, Me.mIndicadorDebe, CType(" --FORMALIZADO ", String) & " " & CType(Me.DbLeeHotelAux2.mDbLector("PROVEEDOR"), String).Replace("'", "''"), Total, "NO", CType(Me.DbLeeHotelAux2.mDbLector("ALBARAN"), String), "", CInt(Me.DbLeeHotelAux2.mDbLector("MOVG_DEST")), "", "", 0, "", 0, "", "")
-                    'Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotelAux2.mDbLector("MOVG_DEST"))), CType(Now.Year, String), Me.mCtaFormalizaAlbaranes, Me.mIndicadorDebe, CType("FORMALIZADO ", String) & " " & CType(Me.DbLeeHotelAux2.mDbLector("ALBARAN"), String), Total)
-                End If
-
+                Linea = Linea + 1
+                Me.mTipoAsiento = "DEBE"
+                Me.InsertaOracle("AC", 6, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaProveedorAlbaranes(CInt(Me.DbLeeHotelAux2.mDbLector("CODI"))), Me.mIndicadorDebe, CType(" --FORMALIZADO ", String) & " " & CType(Me.DbLeeHotelAux2.mDbLector("PROVEEDOR"), String).Replace("'", "''"), Total, "NO", CType(Me.DbLeeHotelAux2.mDbLector("ALBARAN"), String), "", CInt(Me.DbLeeHotelAux2.mDbLector("MOVG_DEST")), "", "", 0, "", 0, "", "")
             End If
             If CType(Me.DbLeeHotelAux2.mDbLector("TIPO"), Integer) = Me.mTimo_Albaran_Dev Then
-                If Me.mParaSoloFacturas = 1 Then
-                    Me.GastosPorCentrodeCostoAlbaranesAlmacenDocumento(CInt(Me.DbLeeHotelAux2.mDbLector("C1")), CInt(Me.DbLeeHotelAux2.mDbLector("C2")), vTexto)
-                End If
-                If Me.mParaSoloFacturas = 0 Then
-                    Linea = Linea + 1
-                    Me.mTipoAsiento = "HABER"
-                    ' CUENTA GENERICA
-                    Me.InsertaOracle("AC", 6, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.mCtaFormalizaAlbaranes, Me.mIndicadorHaber, CType(" --FORMALIZADO ", String) & " " & CType(Me.DbLeeHotelAux2.mDbLector("PROVEEDOR"), String).Replace("'", "''"), Total, "NO", CType(Me.DbLeeHotelAux2.mDbLector("ALBARAN"), String), "", CInt(Me.DbLeeHotelAux2.mDbLector("MOVG_DEST")), "", "", 0, "", 0, "", "")
-                    'Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotelAux2.mDbLector("MOVG_DEST"))), CType(Now.Year, String), Me.mCtaFormalizaAlbaranes, Me.mIndicadorHaber, CType("FORMALIZADO ", String) & " " & CType(Me.DbLeeHotelAux2.mDbLector("ALBARAN"), String), Total)
-                End If
+                Linea = Linea + 1
+                Me.mTipoAsiento = "HABER"
+                Me.InsertaOracle("AC", 6, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaProveedorAlbaranes(CInt(Me.DbLeeHotelAux2.mDbLector("CODI"))), Me.mIndicadorHaber, CType(" --FORMALIZADO ", String) & " " & CType(Me.DbLeeHotelAux2.mDbLector("PROVEEDOR"), String).Replace("'", "''"), Total, "NO", CType(Me.DbLeeHotelAux2.mDbLector("ALBARAN"), String), "", CInt(Me.DbLeeHotelAux2.mDbLector("MOVG_DEST")), "", "", 0, "", 0, "", "")
             End If
 
-            If Me.mParaSoloFacturas = 0 Then
-                Me.TotalAlbaranesProveedorFormalizadosDepartamentoGrupo(CType(Me.DbLeeHotelAux2.mDbLector("C1"), Integer), CType(Me.DbLeeHotelAux2.mDbLector("C2"), Integer))
-            End If
 
 
         End While
