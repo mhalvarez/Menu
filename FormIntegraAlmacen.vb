@@ -54,6 +54,7 @@ Public Class FormIntegraAlmacen
     Friend WithEvents CheckBoxLostContact As System.Windows.Forms.CheckBox
 
     Private CampoFecha As String
+    Private mTituloForm As String
 
     Private Enum mEnumTipoEnvio
         FrontOffice
@@ -793,6 +794,7 @@ Public Class FormIntegraAlmacen
 
     Private Sub FormIntegraAlmacen_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
+            Me.mTituloForm = Me.Text
 
             Me.DateTimePicker1.Value = (DateAdd(DateInterval.Day, -1, CType(Format(Now, "dd/MM/yyyy"), Date)))
             Me.DbLee = New C_DATOS.C_DatosOledb(MyIni.IniGet(Application.StartupPath & "\menu.ini", "DATABASE", "STRING"))
@@ -946,6 +948,9 @@ Public Class FormIntegraAlmacen
                 '' dll generica ( tipo spyro)
                 If DLL = 1 Then
 
+                    Me.Text = Me.mTituloForm & " [DLL Num : " & DLL & " Genérica]"
+                    Me.Update()
+
                     Me.CampoFecha = " ASNT_F_ATOCAB "
                     Me.CampoFecha = " ASNT_F_VALOR "
                     INTEGRA = New IntegraAlmacen.IntegraAlmacen(CStr(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 0)),
@@ -957,6 +962,9 @@ Public Class FormIntegraAlmacen
 
                     '' Hoteles Lopez
                 ElseIf DLL = 2 Then
+                    Me.Text = Me.mTituloForm & " [DLL Num : " & DLL & " Spyro Hlop]"
+                    Me.Update()
+
                     Me.CampoFecha = " ASNT_F_VALOR "
                     If Me.RadioButtonGastosPorAlbaran.Checked Then
                         Me.mTipoGasto = "0"
@@ -1011,6 +1019,9 @@ Public Class FormIntegraAlmacen
 
 
                 ElseIf DLL = 3 Then
+                    Me.Text = Me.mTituloForm & " [DLL Num : " & DLL & " Axapta]"
+                    Me.Update()
+
                     Me.CampoFecha = " ASNT_F_VALOR "
                     '' axapta
                     Dim AXDLL As AxaptaAlmacen.AxaptaAlmacen
@@ -1053,6 +1064,9 @@ Public Class FormIntegraAlmacen
 
                     '' Hoteles TITO
                 ElseIf DLL = 4 Then
+                    Me.Text = Me.mTituloForm & " [DLL Num : " & DLL & " Navision 2016 (* Gtit)]"
+                    Me.Update()
+
                     Me.CampoFecha = " ASNT_F_VALOR "
                     If Me.RadioButtonGastosPorAlbaran.Checked Then
                         Me.mTipoGasto = "0"
@@ -1109,6 +1123,10 @@ Public Class FormIntegraAlmacen
 
                     '' Santa Monica
                 ElseIf DLL = 5 Then
+
+                    Me.Text = Me.mTituloForm & " [DLL Num : " & DLL & " Spyro SMO]"
+                    Me.Update()
+
                     Me.CampoFecha = " ASNT_F_VALOR "
                     INTEGRA = New ContanetNewStock.IntegraAlmacen(CStr(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 0)),
                     CStr(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 1)),

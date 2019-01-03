@@ -279,6 +279,9 @@ Public Class FormParametrosFront
     Friend WithEvents Label127 As Label
     Friend WithEvents Button As Button
     Friend WithEvents Button3 As Button
+    Friend WithEvents CheckBoxSpyroGeneraSV As CheckBox
+    Friend WithEvents Label125 As Label
+    Friend WithEvents TextBoxSpyroNaciCodi As TextBox
     Dim SQL As String
 
 #Region " Código generado por el Diseñador de Windows Forms "
@@ -462,6 +465,7 @@ Public Class FormParametrosFront
         Me.TabPageSpyro = New System.Windows.Forms.TabPage()
         Me.ListBoxRegistrosSpyro = New System.Windows.Forms.ListBox()
         Me.GroupBox8 = New System.Windows.Forms.GroupBox()
+        Me.CheckBoxSpyroGeneraSV = New System.Windows.Forms.CheckBox()
         Me.CheckBoxValidaCuentasSpyro = New System.Windows.Forms.CheckBox()
         Me.Label88 = New System.Windows.Forms.Label()
         Me.TextBoxCftatodiariCod = New System.Windows.Forms.TextBox()
@@ -723,6 +727,8 @@ Public Class FormParametrosFront
         Me.TextBoxEmpCod = New System.Windows.Forms.TextBox()
         Me.Label78 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.Label125 = New System.Windows.Forms.Label()
+        Me.TextBoxSpyroNaciCodi = New System.Windows.Forms.TextBox()
         Me.GroupBox1.SuspendLayout()
         Me.TabControlOpciones.SuspendLayout()
         Me.TabPageGeneral.SuspendLayout()
@@ -768,7 +774,7 @@ Public Class FormParametrosFront
         Me.GroupBox1.Controls.Add(Me.TabControlOpciones)
         Me.GroupBox1.Location = New System.Drawing.Point(0, 40)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(738, 521)
+        Me.GroupBox1.Size = New System.Drawing.Size(810, 521)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         '
@@ -790,7 +796,7 @@ Public Class FormParametrosFront
         Me.TabControlOpciones.Location = New System.Drawing.Point(8, 16)
         Me.TabControlOpciones.Name = "TabControlOpciones"
         Me.TabControlOpciones.SelectedIndex = 0
-        Me.TabControlOpciones.Size = New System.Drawing.Size(722, 497)
+        Me.TabControlOpciones.Size = New System.Drawing.Size(794, 497)
         Me.TabControlOpciones.TabIndex = 0
         '
         'TabPageGeneral
@@ -1473,7 +1479,7 @@ Public Class FormParametrosFront
         Me.TabPageSpyro.Controls.Add(Me.GroupBox6)
         Me.TabPageSpyro.Location = New System.Drawing.Point(4, 22)
         Me.TabPageSpyro.Name = "TabPageSpyro"
-        Me.TabPageSpyro.Size = New System.Drawing.Size(714, 471)
+        Me.TabPageSpyro.Size = New System.Drawing.Size(786, 471)
         Me.TabPageSpyro.TabIndex = 1
         Me.TabPageSpyro.Text = "Spyro(Diarios ...)"
         Me.TabPageSpyro.UseVisualStyleBackColor = True
@@ -1486,29 +1492,42 @@ Public Class FormParametrosFront
         Me.ListBoxRegistrosSpyro.Font = New System.Drawing.Font("Courier New", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ListBoxRegistrosSpyro.FormattingEnabled = True
         Me.ListBoxRegistrosSpyro.ItemHeight = 14
-        Me.ListBoxRegistrosSpyro.Location = New System.Drawing.Point(526, 18)
+        Me.ListBoxRegistrosSpyro.Location = New System.Drawing.Point(526, 90)
         Me.ListBoxRegistrosSpyro.Name = "ListBoxRegistrosSpyro"
-        Me.ListBoxRegistrosSpyro.Size = New System.Drawing.Size(168, 282)
+        Me.ListBoxRegistrosSpyro.Size = New System.Drawing.Size(240, 282)
         Me.ListBoxRegistrosSpyro.TabIndex = 42
         '
         'GroupBox8
         '
+        Me.GroupBox8.Controls.Add(Me.Label125)
+        Me.GroupBox8.Controls.Add(Me.TextBoxSpyroNaciCodi)
+        Me.GroupBox8.Controls.Add(Me.CheckBoxSpyroGeneraSV)
         Me.GroupBox8.Controls.Add(Me.CheckBoxValidaCuentasSpyro)
         Me.GroupBox8.Controls.Add(Me.Label88)
         Me.GroupBox8.Controls.Add(Me.TextBoxCftatodiariCod)
         Me.GroupBox8.Controls.Add(Me.TextBoxCftatodiariCod2)
         Me.GroupBox8.Controls.Add(Me.Label87)
-        Me.GroupBox8.Location = New System.Drawing.Point(15, 18)
+        Me.GroupBox8.Location = New System.Drawing.Point(15, 3)
         Me.GroupBox8.Name = "GroupBox8"
-        Me.GroupBox8.Size = New System.Drawing.Size(505, 57)
+        Me.GroupBox8.Size = New System.Drawing.Size(751, 72)
         Me.GroupBox8.TabIndex = 41
         Me.GroupBox8.TabStop = False
         Me.GroupBox8.Text = "General"
         '
+        'CheckBoxSpyroGeneraSV
+        '
+        Me.CheckBoxSpyroGeneraSV.AutoSize = True
+        Me.CheckBoxSpyroGeneraSV.Location = New System.Drawing.Point(552, 21)
+        Me.CheckBoxSpyroGeneraSV.Name = "CheckBoxSpyroGeneraSV"
+        Me.CheckBoxSpyroGeneraSV.Size = New System.Drawing.Size(141, 17)
+        Me.CheckBoxSpyroGeneraSV.TabIndex = 5
+        Me.CheckBoxSpyroGeneraSV.Text = "Generar Registros sv SII"
+        Me.CheckBoxSpyroGeneraSV.UseVisualStyleBackColor = True
+        '
         'CheckBoxValidaCuentasSpyro
         '
         Me.CheckBoxValidaCuentasSpyro.AutoSize = True
-        Me.CheckBoxValidaCuentasSpyro.Location = New System.Drawing.Point(355, 19)
+        Me.CheckBoxValidaCuentasSpyro.Location = New System.Drawing.Point(414, 20)
         Me.CheckBoxValidaCuentasSpyro.Name = "CheckBoxValidaCuentasSpyro"
         Me.CheckBoxValidaCuentasSpyro.Size = New System.Drawing.Size(127, 17)
         Me.CheckBoxValidaCuentasSpyro.TabIndex = 4
@@ -1518,7 +1537,7 @@ Public Class FormParametrosFront
         'Label88
         '
         Me.Label88.AutoSize = True
-        Me.Label88.Location = New System.Drawing.Point(137, 21)
+        Me.Label88.Location = New System.Drawing.Point(175, 22)
         Me.Label88.Name = "Label88"
         Me.Label88.Size = New System.Drawing.Size(134, 13)
         Me.Label88.TabIndex = 1
@@ -1529,15 +1548,15 @@ Public Class FormParametrosFront
         Me.TextBoxCftatodiariCod.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBoxCftatodiariCod.Location = New System.Drawing.Point(97, 19)
         Me.TextBoxCftatodiariCod.Name = "TextBoxCftatodiariCod"
-        Me.TextBoxCftatodiariCod.Size = New System.Drawing.Size(34, 20)
+        Me.TextBoxCftatodiariCod.Size = New System.Drawing.Size(72, 20)
         Me.TextBoxCftatodiariCod.TabIndex = 2
         '
         'TextBoxCftatodiariCod2
         '
         Me.TextBoxCftatodiariCod2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxCftatodiariCod2.Location = New System.Drawing.Point(281, 19)
+        Me.TextBoxCftatodiariCod2.Location = New System.Drawing.Point(315, 19)
         Me.TextBoxCftatodiariCod2.Name = "TextBoxCftatodiariCod2"
-        Me.TextBoxCftatodiariCod2.Size = New System.Drawing.Size(45, 20)
+        Me.TextBoxCftatodiariCod2.Size = New System.Drawing.Size(81, 20)
         Me.TextBoxCftatodiariCod2.TabIndex = 3
         '
         'Label87
@@ -3906,7 +3925,7 @@ Public Class FormParametrosFront
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox2.Controls.Add(Me.ButtonAceptar)
         Me.GroupBox2.Controls.Add(Me.ButtonCancelar)
-        Me.GroupBox2.Location = New System.Drawing.Point(746, 40)
+        Me.GroupBox2.Location = New System.Drawing.Point(818, 40)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(104, 521)
         Me.GroupBox2.TabIndex = 1
@@ -4027,10 +4046,27 @@ Public Class FormParametrosFront
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'Label125
+        '
+        Me.Label125.AutoSize = True
+        Me.Label125.Location = New System.Drawing.Point(638, 51)
+        Me.Label125.Name = "Label125"
+        Me.Label125.Size = New System.Drawing.Size(107, 13)
+        Me.Label125.TabIndex = 6
+        Me.Label125.Text = "Nacionalidad 3 Bytes"
+        '
+        'TextBoxSpyroNaciCodi
+        '
+        Me.TextBoxSpyroNaciCodi.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxSpyroNaciCodi.Location = New System.Drawing.Point(552, 44)
+        Me.TextBoxSpyroNaciCodi.Name = "TextBoxSpyroNaciCodi"
+        Me.TextBoxSpyroNaciCodi.Size = New System.Drawing.Size(81, 20)
+        Me.TextBoxSpyroNaciCodi.TabIndex = 7
+        '
         'FormParametrosFront
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(858, 579)
+        Me.ClientSize = New System.Drawing.Size(930, 579)
         Me.Controls.Add(Me.ButtonNuevo)
         Me.Controls.Add(Me.TextBoxEmpCod)
         Me.Controls.Add(Me.Label78)
@@ -4378,6 +4414,11 @@ Public Class FormParametrosFront
             SQL += ",PARA_TEFECT_COD  "
 
 
+            SQL += ",NVL(PARA_SPYRO_SII,0) AS PARA_SPYRO_SII "
+
+            SQL += ",NVL(PARA_SPYRO_NACICODI,'NACI_CODI') AS PARA_SPYRO_NACICODI "
+
+
             SQL += "  FROM TH_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"
             SQL += " AND PARA_EMP_NUM = " & Me.mParaEmpNum
@@ -4704,6 +4745,20 @@ Public Class FormParametrosFront
                 Else
                     Me.TextBoxTefect_Cod.Text = Me.DbLee.mDbLector.Item("PARA_TEFECT_COD")
                 End If
+
+
+
+                If Me.DbLee.mDbLector.Item("PARA_SPYRO_SII") = "1" Then
+                    Me.CheckBoxSpyroGeneraSV.Checked = True
+                    Me.TextBoxSpyroNaciCodi.Enabled = True
+                Else
+                    Me.CheckBoxSpyroGeneraSV.Checked = False
+                    Me.TextBoxSpyroNaciCodi.Enabled = False
+                End If
+
+                Me.TextBoxSpyroNaciCodi.Text = CStr(Me.DbLee.mDbLector.Item("PARA_SPYRO_NACICODI"))
+
+
 
                 'trata de conectar con newgolf' 
                 Try
@@ -5277,6 +5332,21 @@ Public Class FormParametrosFront
             Else
                 SQL += ",PARA_TEFECT_COD = NULL"
             End If
+
+
+
+            If Me.CheckBoxSpyroGeneraSV.Checked Then
+                SQL += ",PARA_SPYRO_SII = 1 "
+            Else
+                SQL += ",PARA_SPYRO_SII = 0"
+            End If
+
+            If Me.TextBoxSpyroNaciCodi.TextLength > 0 Then
+                SQL += ",PARA_SPYRO_NACICODI ='" & Me.TextBoxSpyroNaciCodi.Text & "'"
+            Else
+                SQL += ",PARA_SPYRO_NACICODI = NULL"
+            End If
+
 
             SQL += " WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"

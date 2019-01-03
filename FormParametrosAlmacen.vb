@@ -193,11 +193,7 @@
             SQL += "      ,NVL(PARA_CTA1,'<Ninguno>')  AS PARA_CTA1"
             SQL += "      ,NVL(PARA_TIPO_FORMALIZA,'G') AS PARA_TIPO_FORMALIZA "
 
-
-
-
-
-
+            SQL += "      ,NVL(PARA_SPYRO_TIPO_ANALITICA,'<Ninguno>') AS PARA_SPYRO_TIPO_ANALITICA"
 
 
 
@@ -275,6 +271,8 @@
                 End If
 
                 Me.TextBoxCtaAlbaranesPdtesFormalizar.Text = Me.DbLee.mDbLector.Item("PARA_CTA1")
+
+                Me.TextBoxSpyroTipoAnalitica.Text = Me.DbLee.mDbLector.Item("PARA_SPYRO_TIPO_ANALITICA")
 
 
 
@@ -376,6 +374,10 @@
                 SQL += ",PARA_CTA1 = '" & Me.TextBoxCtaAlbaranesPdtesFormalizar.Text & "'"
                 SQL += ",PARA_TIPO_FORMALIZA = '" & "P" & "'"
             End If
+
+
+            SQL += ",PARA_SPYRO_TIPO_ANALITICA='" & Me.TextBoxSpyroTipoAnalitica.Text.Replace("<Ninguno>", "") & "'"
+
 
 
             SQL += " WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"

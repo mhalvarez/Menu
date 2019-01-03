@@ -226,11 +226,16 @@ Public Class FormIntegraNewConta
         Try
             '    Me.MostrardatosTemporal()
 
+            DLL = CType(MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DLL", "NEWCONTA"), Integer)
+            If IsNumeric(DLL) = False Then
+                '  MsgBox("Falta Numero de Dll a usar en Fichero .INI ", MsgBoxStyle.Exclamation, "Atención")
+                '  Me.Close()
+            End If
 
             Me.Cursor = Cursors.AppStarting
 
 
-            If Me.mEmpGrupoCod = "DUNA" Then
+            If Me.mEmpGrupoCod = "DUNA" Or DLL = 2 Then
                 Dim INTEGRA As Integracion_NewConta_Dunas.NewContaDunas
 
                 Me.DataGrid2.CaptionText = Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 2) & " Código de  Hotel en Central = " & Me.mHoteCodiNewCentral & " Nùmero de Establecimiento en NewConta = " & Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 8)
@@ -249,7 +254,7 @@ Public Class FormIntegraNewConta
                 INTEGRA.Procesar()
 
                 ' SANTA MONICA
-            ElseIf Me.mEmpGrupoCod = "CTI" Then
+            ElseIf Me.mEmpGrupoCod = "GP" Or DLL = 3 Then
                 Dim INTEGRA As ContanetNewConta.ContanetNewConta
 
                 Me.DataGrid2.CaptionText = Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 2) & " Código de  Hotel en Central = " & Me.mHoteCodiNewCentral & " Nùmero de Establecimiento en NewConta = " & Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 8)
@@ -264,29 +269,47 @@ Public Class FormIntegraNewConta
                 Me.ProgressBar1, Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 8),
                 Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 9),
                 Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 3), Me.CheckBoxOtrosCreditos.Checked,
-                Me.CheckBoxOtrosDebitos.Checked, CODIGO_RECLAMACIONES, CODIGO_NOTACREDITO, Me, Me.mHoteCodiNewCentral)
+                Me.CheckBoxOtrosDebitos.Checked, CODIGO_RECLAMACIONES, CODIGO_NOTACREDITO, Me, Me.mHoteCodiNewCentral, CODIGO_FACTURAS, Me.CheckBoxMultiCobros.Checked)
                 INTEGRA.Procesar()
 
 
-                Else
+            ElseIf Me.mEmpGrupoCod = "GRHL" Or DLL = 1 Then
+                ' LOPEZ 
                 Dim INTEGRA As Integracion_NewConta.NewConta
 
                 Me.DataGrid2.CaptionText = Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 2) & " Código de  Hotel en Central = " & Me.mHoteCodiNewCentral & " Nùmero de Establecimiento en NewConta = " & Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 8)
                 Me.DataGrid2.Update()
 
-                INTEGRA = New Integracion_NewConta.NewConta(Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 0), _
-                Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 1), _
-                MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DATABASE", "STRING"), _
-                Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 7), Format(Me.DateTimePicker1.Value, "dd-MM-yyyy"), "NC-" & _
-                Format(Me.DateTimePicker1.Value, "dd-MM-yyyy") & ".TXT", Me.CheckBoxDebug.Checked, _
-                Me.TextBoxDebug, Me.ListBoxDebug, Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 4), _
-                Me.ProgressBar1, Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 8), _
-                Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 9), _
-                Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 3), Me.CheckBoxOtrosCreditos.Checked, _
+                INTEGRA = New Integracion_NewConta.NewConta(Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 0),
+                Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 1),
+                MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DATABASE", "STRING"),
+                Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 7), Format(Me.DateTimePicker1.Value, "dd-MM-yyyy"), "NC-" &
+                Format(Me.DateTimePicker1.Value, "dd-MM-yyyy") & ".TXT", Me.CheckBoxDebug.Checked,
+                Me.TextBoxDebug, Me.ListBoxDebug, Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 4),
+                Me.ProgressBar1, Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 8),
+                Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 9),
+                Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 3), Me.CheckBoxOtrosCreditos.Checked,
                 Me.CheckBoxOtrosDebitos.Checked, CODIGO_RECLAMACIONES, CODIGO_NOTACREDITO, Me, Me.mHoteCodiNewCentral, STRING_SAHARA)
                 INTEGRA.Procesar()
 
+            Else
 
+                Dim INTEGRA As Integracion_NewConta.NewConta
+
+                Me.DataGrid2.CaptionText = Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 2) & " Código de  Hotel en Central = " & Me.mHoteCodiNewCentral & " Nùmero de Establecimiento en NewConta = " & Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 8)
+                Me.DataGrid2.Update()
+
+                INTEGRA = New Integracion_NewConta.NewConta(Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 0),
+                Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 1),
+                MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DATABASE", "STRING"),
+                Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 7), Format(Me.DateTimePicker1.Value, "dd-MM-yyyy"), "NC-" &
+                Format(Me.DateTimePicker1.Value, "dd-MM-yyyy") & ".TXT", Me.CheckBoxDebug.Checked,
+                Me.TextBoxDebug, Me.ListBoxDebug, Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 4),
+                Me.ProgressBar1, Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 8),
+                Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 9),
+                Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 3), Me.CheckBoxOtrosCreditos.Checked,
+                Me.CheckBoxOtrosDebitos.Checked, CODIGO_RECLAMACIONES, CODIGO_NOTACREDITO, Me, Me.mHoteCodiNewCentral, STRING_SAHARA)
+                INTEGRA.Procesar()
 
             End If
            

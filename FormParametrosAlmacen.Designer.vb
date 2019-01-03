@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class FormParametrosAlmacen
     Inherits System.Windows.Forms.Form
 
     'Form reemplaza a Dispose para limpiar la lista de componentes.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,12 +20,13 @@ Partial Class FormParametrosAlmacen
     'NOTA: el Diseñador de Windows Forms necesita el siguiente procedimiento
     'Se puede modificar usando el Diseñador de Windows Forms.  
     'No lo modifique con el editor de código.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormParametrosAlmacen))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPageGenerales = New System.Windows.Forms.TabPage()
+        Me.TextBoxCtaAlbaranesPdtesFormalizar = New System.Windows.Forms.TextBox()
         Me.CheckBoxTipoFormalizaAlbaranes = New System.Windows.Forms.CheckBox()
         Me.Label28 = New System.Windows.Forms.Label()
         Me.TextBoxHotelId = New System.Windows.Forms.TextBox()
@@ -74,6 +75,7 @@ Partial Class FormParametrosAlmacen
         Me.TextBoxCtaActividad6 = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.TabPageSantaMonica = New System.Windows.Forms.TabPage()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.ButtonAceptar = New System.Windows.Forms.Button()
         Me.ButtonCancelar = New System.Windows.Forms.Button()
@@ -85,12 +87,14 @@ Partial Class FormParametrosAlmacen
         Me.Label78 = New System.Windows.Forms.Label()
         Me.TextBoxEmpNum = New System.Windows.Forms.TextBox()
         Me.Label77 = New System.Windows.Forms.Label()
-        Me.TextBoxCtaAlbaranesPdtesFormalizar = New System.Windows.Forms.TextBox()
+        Me.Label29 = New System.Windows.Forms.Label()
+        Me.TextBoxSpyroTipoAnalitica = New System.Windows.Forms.TextBox()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPageGenerales.SuspendLayout()
         Me.TabPageHotelesLopez.SuspendLayout()
         Me.GroupBoxSeriesdefactura.SuspendLayout()
+        Me.TabPageSantaMonica.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -113,6 +117,7 @@ Partial Class FormParametrosAlmacen
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TabControl1.Controls.Add(Me.TabPageGenerales)
         Me.TabControl1.Controls.Add(Me.TabPageHotelesLopez)
+        Me.TabControl1.Controls.Add(Me.TabPageSantaMonica)
         Me.TabControl1.Location = New System.Drawing.Point(15, 19)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
@@ -144,6 +149,15 @@ Partial Class FormParametrosAlmacen
         Me.TabPageGenerales.TabIndex = 0
         Me.TabPageGenerales.Text = "Generales"
         Me.TabPageGenerales.UseVisualStyleBackColor = True
+        '
+        'TextBoxCtaAlbaranesPdtesFormalizar
+        '
+        Me.TextBoxCtaAlbaranesPdtesFormalizar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxCtaAlbaranesPdtesFormalizar.Location = New System.Drawing.Point(186, 45)
+        Me.TextBoxCtaAlbaranesPdtesFormalizar.MaxLength = 15
+        Me.TextBoxCtaAlbaranesPdtesFormalizar.Name = "TextBoxCtaAlbaranesPdtesFormalizar"
+        Me.TextBoxCtaAlbaranesPdtesFormalizar.Size = New System.Drawing.Size(164, 20)
+        Me.TextBoxCtaAlbaranesPdtesFormalizar.TabIndex = 25
         '
         'CheckBoxTipoFormalizaAlbaranes
         '
@@ -619,6 +633,17 @@ Partial Class FormParametrosAlmacen
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Composición de Cuentas de Gasto (Grupo 6)"
         '
+        'TabPageSantaMonica
+        '
+        Me.TabPageSantaMonica.Controls.Add(Me.TextBoxSpyroTipoAnalitica)
+        Me.TabPageSantaMonica.Controls.Add(Me.Label29)
+        Me.TabPageSantaMonica.Location = New System.Drawing.Point(4, 22)
+        Me.TabPageSantaMonica.Name = "TabPageSantaMonica"
+        Me.TabPageSantaMonica.Size = New System.Drawing.Size(725, 411)
+        Me.TabPageSantaMonica.TabIndex = 2
+        Me.TabPageSantaMonica.Text = "Santa Mónica"
+        Me.TabPageSantaMonica.UseVisualStyleBackColor = True
+        '
         'GroupBox2
         '
         Me.GroupBox2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -651,6 +676,8 @@ Partial Class FormParametrosAlmacen
         '
         'ComboBoxEmpCod
         '
+        Me.ComboBoxEmpCod.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ComboBoxEmpCod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBoxEmpCod.DropDownWidth = 250
         Me.ComboBoxEmpCod.Location = New System.Drawing.Point(272, 9)
@@ -684,6 +711,7 @@ Partial Class FormParametrosAlmacen
         '
         'TextBoxEmpCod
         '
+        Me.TextBoxEmpCod.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBoxEmpCod.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBoxEmpCod.Enabled = False
         Me.TextBoxEmpCod.Location = New System.Drawing.Point(562, 11)
@@ -693,6 +721,7 @@ Partial Class FormParametrosAlmacen
         '
         'Label78
         '
+        Me.Label78.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label78.AutoSize = True
         Me.Label78.Location = New System.Drawing.Point(500, 9)
         Me.Label78.Name = "Label78"
@@ -702,6 +731,7 @@ Partial Class FormParametrosAlmacen
         '
         'TextBoxEmpNum
         '
+        Me.TextBoxEmpNum.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBoxEmpNum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBoxEmpNum.Enabled = False
         Me.TextBoxEmpNum.Location = New System.Drawing.Point(688, 11)
@@ -711,6 +741,7 @@ Partial Class FormParametrosAlmacen
         '
         'Label77
         '
+        Me.Label77.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label77.AutoSize = True
         Me.Label77.Location = New System.Drawing.Point(610, 9)
         Me.Label77.Name = "Label77"
@@ -718,14 +749,22 @@ Partial Class FormParametrosAlmacen
         Me.Label77.TabIndex = 36
         Me.Label77.Text = "Hotel Nùmero"
         '
-        'TextBoxCtaAlbaranesPdtesFormalizar
+        'Label29
         '
-        Me.TextBoxCtaAlbaranesPdtesFormalizar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxCtaAlbaranesPdtesFormalizar.Location = New System.Drawing.Point(186, 45)
-        Me.TextBoxCtaAlbaranesPdtesFormalizar.MaxLength = 15
-        Me.TextBoxCtaAlbaranesPdtesFormalizar.Name = "TextBoxCtaAlbaranesPdtesFormalizar"
-        Me.TextBoxCtaAlbaranesPdtesFormalizar.Size = New System.Drawing.Size(164, 20)
-        Me.TextBoxCtaAlbaranesPdtesFormalizar.TabIndex = 25
+        Me.Label29.AutoSize = True
+        Me.Label29.Location = New System.Drawing.Point(12, 16)
+        Me.Label29.Name = "Label29"
+        Me.Label29.Size = New System.Drawing.Size(88, 13)
+        Me.Label29.TabIndex = 0
+        Me.Label29.Text = "Tipo de Analítica"
+        '
+        'TextBoxSpyroTipoAnalitica
+        '
+        Me.TextBoxSpyroTipoAnalitica.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxSpyroTipoAnalitica.Location = New System.Drawing.Point(106, 14)
+        Me.TextBoxSpyroTipoAnalitica.Name = "TextBoxSpyroTipoAnalitica"
+        Me.TextBoxSpyroTipoAnalitica.Size = New System.Drawing.Size(88, 20)
+        Me.TextBoxSpyroTipoAnalitica.TabIndex = 13
         '
         'FormParametrosAlmacen
         '
@@ -753,6 +792,8 @@ Partial Class FormParametrosAlmacen
         Me.TabPageHotelesLopez.PerformLayout()
         Me.GroupBoxSeriesdefactura.ResumeLayout(False)
         Me.GroupBoxSeriesdefactura.PerformLayout()
+        Me.TabPageSantaMonica.ResumeLayout(False)
+        Me.TabPageSantaMonica.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -821,4 +862,7 @@ Partial Class FormParametrosAlmacen
     Friend WithEvents CheckBoxTipoFormalizaAlbaranes As CheckBox
     Friend WithEvents Label28 As Label
     Friend WithEvents TextBoxCtaAlbaranesPdtesFormalizar As TextBox
+    Friend WithEvents TabPageSantaMonica As TabPage
+    Friend WithEvents TextBoxSpyroTipoAnalitica As TextBox
+    Friend WithEvents Label29 As Label
 End Class
