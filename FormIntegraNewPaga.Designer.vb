@@ -23,17 +23,19 @@ Partial Class FormIntegraNewPaga
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormIntegraNewPaga))
-        Me.ButtonConvertir = New System.Windows.Forms.Button
-        Me.ButtonImprimir = New System.Windows.Forms.Button
-        Me.ListBoxDebug = New System.Windows.Forms.ListBox
-        Me.TextBoxDebug = New System.Windows.Forms.TextBox
-        Me.ProgressBar1 = New System.Windows.Forms.ProgressBar
-        Me.CheckBoxDebug = New System.Windows.Forms.CheckBox
-        Me.TextBoxRutaFicheros = New System.Windows.Forms.TextBox
-        Me.DataGrid2 = New System.Windows.Forms.DataGrid
-        Me.DataGridHoteles = New System.Windows.Forms.DataGrid
-        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker
-        Me.ButtonAceptar = New System.Windows.Forms.Button
+        Me.ButtonConvertir = New System.Windows.Forms.Button()
+        Me.ButtonImprimir = New System.Windows.Forms.Button()
+        Me.ListBoxDebug = New System.Windows.Forms.ListBox()
+        Me.TextBoxDebug = New System.Windows.Forms.TextBox()
+        Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
+        Me.CheckBoxDebug = New System.Windows.Forms.CheckBox()
+        Me.DataGrid2 = New System.Windows.Forms.DataGrid()
+        Me.DataGridHoteles = New System.Windows.Forms.DataGrid()
+        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
+        Me.ButtonAceptar = New System.Windows.Forms.Button()
+        Me.TextBoxRutaFicheros = New System.Windows.Forms.TextBox()
+        Me.ButtonUpdateFilePAth = New System.Windows.Forms.Button()
+        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         CType(Me.DataGrid2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DataGridHoteles, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -95,22 +97,11 @@ Partial Class FormIntegraNewPaga
         Me.CheckBoxDebug.Text = "Debug"
         Me.CheckBoxDebug.UseVisualStyleBackColor = True
         '
-        'TextBoxRutaFicheros
-        '
-        Me.TextBoxRutaFicheros.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBoxRutaFicheros.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxRutaFicheros.Location = New System.Drawing.Point(431, 13)
-        Me.TextBoxRutaFicheros.Name = "TextBoxRutaFicheros"
-        Me.TextBoxRutaFicheros.ReadOnly = True
-        Me.TextBoxRutaFicheros.Size = New System.Drawing.Size(276, 20)
-        Me.TextBoxRutaFicheros.TabIndex = 26
-        '
         'DataGrid2
         '
-        Me.DataGrid2.AlternatingBackColor = System.Drawing.SystemColors.ScrollBar
         Me.DataGrid2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGrid2.DataMember = ""
         Me.DataGrid2.Font = New System.Drawing.Font("Verdana", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.DataGrid2.HeaderForeColor = System.Drawing.SystemColors.ControlText
@@ -123,7 +114,7 @@ Partial Class FormIntegraNewPaga
         'DataGridHoteles
         '
         Me.DataGridHoteles.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridHoteles.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.DataGridHoteles.DataMember = ""
         Me.DataGridHoteles.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -154,10 +145,30 @@ Partial Class FormIntegraNewPaga
         Me.ButtonAceptar.TabIndex = 33
         Me.ButtonAceptar.Text = "&Aceptar"
         '
+        'TextBoxRutaFicheros
+        '
+        Me.TextBoxRutaFicheros.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBoxRutaFicheros.Location = New System.Drawing.Point(415, 113)
+        Me.TextBoxRutaFicheros.Name = "TextBoxRutaFicheros"
+        Me.TextBoxRutaFicheros.Size = New System.Drawing.Size(272, 20)
+        Me.TextBoxRutaFicheros.TabIndex = 34
+        '
+        'ButtonUpdateFilePAth
+        '
+        Me.ButtonUpdateFilePAth.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ButtonUpdateFilePAth.Location = New System.Drawing.Point(693, 111)
+        Me.ButtonUpdateFilePAth.Name = "ButtonUpdateFilePAth"
+        Me.ButtonUpdateFilePAth.Size = New System.Drawing.Size(34, 23)
+        Me.ButtonUpdateFilePAth.TabIndex = 49
+        Me.ButtonUpdateFilePAth.Text = ":::"
+        Me.ButtonUpdateFilePAth.UseVisualStyleBackColor = True
+        '
         'FormIntegraNewPaga
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit
         Me.ClientSize = New System.Drawing.Size(792, 570)
+        Me.Controls.Add(Me.ButtonUpdateFilePAth)
+        Me.Controls.Add(Me.TextBoxRutaFicheros)
         Me.Controls.Add(Me.ButtonAceptar)
         Me.Controls.Add(Me.ButtonConvertir)
         Me.Controls.Add(Me.ButtonImprimir)
@@ -165,7 +176,6 @@ Partial Class FormIntegraNewPaga
         Me.Controls.Add(Me.TextBoxDebug)
         Me.Controls.Add(Me.ProgressBar1)
         Me.Controls.Add(Me.CheckBoxDebug)
-        Me.Controls.Add(Me.TextBoxRutaFicheros)
         Me.Controls.Add(Me.DataGrid2)
         Me.Controls.Add(Me.DataGridHoteles)
         Me.Controls.Add(Me.DateTimePicker1)
@@ -185,9 +195,11 @@ Partial Class FormIntegraNewPaga
     Friend WithEvents TextBoxDebug As System.Windows.Forms.TextBox
     Friend WithEvents ProgressBar1 As System.Windows.Forms.ProgressBar
     Friend WithEvents CheckBoxDebug As System.Windows.Forms.CheckBox
-    Friend WithEvents TextBoxRutaFicheros As System.Windows.Forms.TextBox
     Friend WithEvents DataGrid2 As System.Windows.Forms.DataGrid
     Friend WithEvents DataGridHoteles As System.Windows.Forms.DataGrid
     Friend WithEvents DateTimePicker1 As System.Windows.Forms.DateTimePicker
     Friend WithEvents ButtonAceptar As System.Windows.Forms.Button
+    Friend WithEvents TextBoxRutaFicheros As TextBox
+    Friend WithEvents ButtonUpdateFilePAth As Button
+    Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
 End Class

@@ -3453,8 +3453,15 @@ Public Class FormIntegraFront
 
             End If
 
-            TotalFinal = Decimal.Round(CobrosNewHotel, 2) - TotalContaBilidad
 
+
+
+            If DLL = 11 Then
+                ' SANTA MONICA
+                TotalFinal = Decimal.Round(CobrosNewHotel, 2) - TotalContaBilidad
+            Else
+                TotalFinal = Decimal.Round(CobrosNewHotel, 2) - TotalContaBilidad
+            End If
             Texto = "Cobros NewHotel = " & CobrosNewHotel & " "
             Texto += "Cobros Contabilidad  = " & CobrosContabilidad & " Anticipos Facturados = " & AnticiposFacturadosContabilidad & " Anticipos Recibidos = " & AnticiposRecibidosContabilidad & " Dto Comerciales = " & DescuentosFinancieros
             Texto += " Auditoría de Cobro = " & TotalFinal

@@ -943,6 +943,11 @@ Public Class FormMenu
                 Me.ToolBarButtonNewPos.Enabled = False
             End If
 
+            If MyIni.IniGet(Application.StartupPath & "\Menu.ini", "BUTTONS", "NEWPAGA") = "1" Then
+                Me.ToolBarButtonNewpaga.Enabled = True
+            Else
+                Me.ToolBarButtonNewpaga.Enabled = False
+            End If
 
         Catch ex As Exception
 

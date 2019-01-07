@@ -182,7 +182,7 @@
     </Reference>
     <Reference Include="Integracion NewPaga, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>INTEGRACION NEWPAGA\Integracion NewPaga\bin\x86\Release\Integracion NewPaga.dll</HintPath>
+      <HintPath>INTEGRACION NEWPAGA\Integracion NewPaga\bin\x86\Debug\Integracion NewPaga.dll</HintPath>
     </Reference>
     <Reference Include="Integracion, Version=1.0.6604.28243, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>

@@ -230,6 +230,7 @@ Public Class FormIntegraNewConta
             If IsNumeric(DLL) = False Then
                 '  MsgBox("Falta Numero de Dll a usar en Fichero .INI ", MsgBoxStyle.Exclamation, "Atención")
                 '  Me.Close()
+                DLL = 0
             End If
 
             Me.Cursor = Cursors.AppStarting

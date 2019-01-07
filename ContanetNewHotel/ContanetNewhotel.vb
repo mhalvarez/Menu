@@ -2177,6 +2177,7 @@ Public Class ContaNetNewHotel
             If vTipo = "AC" And (vDebeHaber = Me.mIndicadorDebeFac Or vDebeHaber = Me.mIndicadorHaberFac) Then
                 SQL = "SELECT 'X' FROM CFCTA WHERE EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
                 SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += " AND (COD LIKE '43%' OR COD LIKE '40%'  OR COD LIKE '41%')"
                 SQL += "  AND COD = '" & vCuenta & "'"
                 SQL += " AND RSOCIAL_COD IS NULL"
 
@@ -2199,6 +2200,7 @@ Public Class ContaNetNewHotel
             If vTipo = "AC" And (vDebeHaber = Me.mIndicadorDebeFac Or vDebeHaber = Me.mIndicadorHaberFac) Then
                 SQL = "SELECT 'X' FROM CFCTA WHERE EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
                 SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += " AND (COD LIKE '43%' OR COD LIKE '40%'  OR COD LIKE '41%')"
                 SQL += "  AND COD = '" & vCuenta & "'"
                 SQL += " AND CFIVALIBRO_COD IS NULL"
 
@@ -2220,8 +2222,9 @@ Public Class ContaNetNewHotel
             If vTipo = "AC" And (vDebeHaber = Me.mIndicadorDebeFac Or vDebeHaber = Me.mIndicadorHaberFac) Then
                 SQL = "SELECT 'X' FROM CFCTA WHERE EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
                 SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += " AND (COD LIKE '43%' OR COD LIKE '40%'  OR COD LIKE '41%')"
                 SQL += "  AND COD = '" & vCuenta & "'"
-                SQL += " AND CFIVACLASE_COD IS NULL"
+                SQL += " AND CFIVACLASE_COD IS NULL   "
 
 
 
@@ -2239,24 +2242,24 @@ Public Class ContaNetNewHotel
 
             End If
 
-            If vTipo = "AC" And (vDebeHaber = Me.mIndicadorDebeFac Or vDebeHaber = Me.mIndicadorHaberFac) Then
-                SQL = "SELECT 'X' FROM CFCTACONDI WHERE EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
-                SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
-                SQL += "  AND CFCTA_COD = '" & vCuenta & "'"
-
-                If IsNothing(Me.DbSpyro.EjecutaSqlScalar(SQL)) = True Then
-                    Me.mListBoxDebug.Items.Add("SPYRO   : " & vCuenta & "  No tiene definido Forma de pago en Plan de Cuentas de Spyro")
-                    Me.mListBoxDebug.Update()
-                    Me.mTexto = "SPYRO   : " & vCuenta & "  No tiene definido Forma de pago en Plan de Cuentas de Spyro"
-                    SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
-                    SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & vAsiento & "," & Linea & ",'" & Me.mTexto & "')"
-                    Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
-                    Me.GestionIncidencia(Me.mEmpGrupoCod, Me.mEmpCod, Me.mEmpNum, Me.mTexto)
-
-                    Exit Sub
-                End If
-
-            End If
+            ' If vTipo = "AC" And (vDebeHaber = Me.mIndicadorDebeFac Or vDebeHaber = Me.mIndicadorHaberFac) Then
+            ' SQL = "SELECT 'X' FROM CFCTACONDI WHERE EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+            ' SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+            ' SQL += "  AND CFCTA_COD = '" & vCuenta & "'"
+            '
+            '           If IsNothing(Me.DbSpyro.EjecutaSqlScalar(SQL)) = True Then
+            '           Me.mListBoxDebug.Items.Add("SPYRO   : " & vCuenta & "  No tiene definido Forma de pago en Plan de Cuentas de Spyro")
+            '           Me.mListBoxDebug.Update()
+            '           Me.mTexto = "SPYRO   : " & vCuenta & "  No tiene definido Forma de pago en Plan de Cuentas de Spyro"
+            '          SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
+            ''          SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & vAsiento & "," & Linea & ",'" & Me.mTexto & "')"
+            '          Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+            '          Me.GestionIncidencia(Me.mEmpGrupoCod, Me.mEmpCod, Me.mEmpNum, Me.mTexto)
+            ''
+            'Exit Sub
+            ' End If
+            '
+            '            End If
 
 
             If vTipo = "AC" And (vDebeHaber = Me.mIndicadorDebeFac Or vDebeHaber = Me.mIndicadorHaberFac) Then
@@ -2542,13 +2545,12 @@ Public Class ContaNetNewHotel
             "F4" & " " & "01" &
             " ".PadRight(2, CChar(" ")) &
             " ".PadRight(16, CChar(" ")) &
-            " ".PadRight(500, CChar(" ")) &
+            "VENTAS DE SERVICIOS ".PadRight(500, CChar(" ")) &
             " " & "F" & " " &
             " ".PadRight(8, CChar(" ")) &
             " ".PadRight(8, CChar(" ")) &
             " ".PadRight(8, CChar(" ")) &
             " ".PadRight(60, CChar(" ")) &
-            " ".PadRight(8, CChar(" ")) &
             " " &
             " ".PadRight(20, CChar(" ")) &
             " " &
@@ -2585,12 +2587,11 @@ Public Class ContaNetNewHotel
              " ".PadRight(40, CChar(" ")) &
             " ".PadRight(40, CChar(" ")) &
             " ".PadRight(40, CChar(" ")) &
-            " ".PadRight(40, CChar(" ")) &
             " ".PadRight(4, CChar(" ")) &
             " ".PadRight(20, CChar(" ")) &
             " ".PadRight(16, CChar(" ")) &
             " ".PadRight(20, CChar(" ")) &
-            " ".PadRight(6, CChar(" ")) &
+            "SOC".PadRight(6, CChar(" ")) &
              " ")
 
 
@@ -4437,6 +4438,7 @@ Public Class ContaNetNewHotel
 
             SQL += "RESE_CODI,RESE_ANCI,ALOJ_CODI,FACT_NACI,FACT_NUCO "
 
+            SQL += ",NVL(FACT_NACI,'?') AS FACT_NACI "
 
             SQL += "FROM TNHT_FACT "
             SQL += "WHERE "
@@ -4582,7 +4584,7 @@ Public Class ContaNetNewHotel
                 '20181227
                 If Me.mParaGeneraRegistrosSII Then
                     Me.GeneraFileSV("SV", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), Dni)
-                    '       Me.GeneraFileRS("SV", Dni, GetNaciCodi)
+                    Me.GeneraFileRS("RS", Dni, GetNaciCodi(Me.mPara_SPYRO_NACICODI, CStr(Me.DbLeeHotel.mDbLector("FACT_NACI"))))
                 End If
 
 
@@ -5012,15 +5014,15 @@ Public Class ContaNetNewHotel
 
 
 
-
-
             Me.GeneraFileAC2("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebeFac, CType(Me.DbLeeHotel.mDbLector("FACTURA"), String), Total, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer))
             Me.GeneraFileFV("FV", 51, Me.mEmpGrupoCod, Me.mEmpCod, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), Total, CType(Me.DbLeeHotel.mDbLector("FACTURA"), String).PadRight(15, CChar(" ")), Cuenta, CType(Me.DbLeeHotel.mDbLector("CIF"), String), Total)
 
             '20181227
             If Me.mParaGeneraRegistrosSII Then
                 Me.GeneraFileSV("SV", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), CType(Me.DbLeeHotel.mDbLector("CIF"), String))
+                Me.GeneraFileRS("RS", CType(Me.DbLeeHotel.mDbLector("CIF"), String), GetNaciCodi(Me.mPara_SPYRO_NACICODI, "PDTE"))
             End If
+
 
 
         End While
@@ -5090,6 +5092,7 @@ Public Class ContaNetNewHotel
             '20181227
             If Me.mParaGeneraRegistrosSII Then
                 Me.GeneraFileSV("SV", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), CType(Me.DbLeeHotel.mDbLector("CIF"), String))
+                Me.GeneraFileRS("RS", CType(Me.DbLeeHotel.mDbLector("CIF"), String), GetNaciCodi(Me.mPara_SPYRO_NACICODI, "PDTE"))
             End If
 
         End While
@@ -5776,8 +5779,9 @@ Public Class ContaNetNewHotel
     Private Sub FacturasContadoTotalVisas()
         Dim Total As Double
         Dim Descripcion As String
+        Dim TextoControl As String
         SQL = "SELECT MOVI_VDEB TOTAL,CACR_DESC TARJETA,nvl(CACR_CTBA,'0') CUENTA,"
-        SQL += " TNHT_FACT.SEFA_CODI,TNHT_FACT.FACT_CODI,NVL(TNHT_FACT.FACT_TITU,' ') AS TITULAR,NVL(FAAN_CODI,'0') AS FAAN_CODI  "
+        SQL += " TNHT_FACT.SEFA_CODI,TNHT_FACT.FACT_CODI,NVL(TNHT_FACT.FACT_TITU,' ') AS TITULAR,NVL(FAAN_CODI,'0') AS FAAN_CODI,TNHT_MOVI.CCEX_CODI AS CCEX_CODI "
         SQL += " FROM " & Me.mStrHayHistorico & " TNHT_MOVI,TNHT_CACR,TNHT_FACT,TNHT_FAMO WHERE"
 
         SQL = SQL & " TNHT_FAMO.FACT_CODI = TNHT_FACT.FACT_CODI"
@@ -5804,9 +5808,22 @@ Public Class ContaNetNewHotel
                 Total = CType(Me.DbLeeHotel.mDbLector("TOTAL"), Double) * -1
             End If
 
-            Descripcion = CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " " & CType(Me.DbLeeHotel.mDbLector("FACT_CODI"), String) & "/" & CType(Me.DbLeeHotel.mDbLector("SEFA_CODI"), String) & " " & CType(Me.DbLeeHotel.mDbLector("TITULAR"), String)
+            If IsDBNull(Me.DbLeeHotel.mDbLector("CCEX_CODI")) = False Then
+                If CStr(Me.DbLeeHotel.mDbLector("CCEX_CODI")) = "TPV" Then
+                    TextoControl = "COBRO-TPV"
+                Else
+                    TextoControl = "COBRO"
+                End If
+
+            Else
+                TextoControl = "COBRO"
+            End If
+
+
+
+                Descripcion = CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " " & CType(Me.DbLeeHotel.mDbLector("FACT_CODI"), String) & "/" & CType(Me.DbLeeHotel.mDbLector("SEFA_CODI"), String) & " " & CType(Me.DbLeeHotel.mDbLector("TITULAR"), String)
             Me.mTipoAsiento = "DEBE"
-            Me.InsertaOracle("AC", 35, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebe, Descripcion, Total, "NO", "", "", "SI", "COBRO", Me.Multidiario, "")
+            Me.InsertaOracle("AC", 35, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebe, Descripcion, Total, "NO", "", "", "SI", TextoControl, Me.Multidiario, "")
             Me.GeneraFileACMultiDiario("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebe, Descripcion, Total, Me.Multidiario)
             'Me.GeneraFileAC2("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebeFac, CType(Me.DbLeeHotel.mDbLector("FACT_CODI"), String), Total, CType(Me.DbLeeHotel.mDbLector("SEFA_CODI"), String), CType(Me.DbLeeHotel.mDbLector("FACT_CODI"), Integer))
 
@@ -5814,71 +5831,18 @@ Public Class ContaNetNewHotel
         End While
         Me.DbLeeHotel.mDbLector.Close()
 
-        Exit Sub
-        ' *************** VISAS anulado de dias anteriores 
-        SQL = ""
-        SQL = "SELECT MOVI_VDEB TOTAL,CACR_DESC TARJETA,nvl(CACR_CTBA,'0') CUENTA,"
-        SQL += " TNHT_FACT.SEFA_CODI,TNHT_FACT.FACT_CODI,NVL(TNHT_FACT.FACT_TITU,' ') AS TITULAR,NVL(FAAN_CODI,'0') AS FAAN_CODI  FROM " & Me.mStrHayHistorico & " TNHT_MOVI,TNHT_CACR,TNHT_FACT,TNHT_FAMO WHERE"
 
-        SQL = SQL & " TNHT_FAMO.FACT_CODI = TNHT_FACT.FACT_CODI"
-        SQL = SQL & " AND TNHT_FAMO.SEFA_CODI = TNHT_FACT.SEFA_CODI"
-        SQL = SQL & " AND TNHT_FAMO.MOVI_DARE = TNHT_MOVI.MOVI_DARE"
-        SQL = SQL & " AND TNHT_FAMO.MOVI_CODI = TNHT_MOVI.MOVI_CODI"
-
-        SQL = SQL & " AND TNHT_MOVI.TIRE_CODI = '1'"
-
-        SQL = SQL & " AND TNHT_MOVI.CACR_CODI = TNHT_CACR.CACR_CODI"
-
-        ' 20080620 ( BLOQUEO ABAJO PARA QUE COJA DE DEBITOS DE FACTURAS DE CREDITO 
-        'SQL = SQL & " AND TNHT_FACT.FACT_STAT = '1'  "
-
-        SQL = SQL & " AND TNHT_MOVI.MOVI_DAVA < FACT_DAEM"
-
-        ' si activo de bajo que deberia no coge los cobros de la liquidacion de contado ( revisar este tema )
-        'SQL = SQL & " AND TNHT_MOVI.MOVI_AUTO = '1' "
-        SQL = SQL & " AND TNHT_MOVI.MOVI_ANUL = '1' "
-
-        ' NUEVO XXXXXXXXXXXXXXX
-
-        SQL = SQL & "  AND (TNHT_MOVI.MOVI_AUTO = '1' OR TNHT_MOVI.MOVI_AUTO = '0' AND TNHT_MOVI.CCEX_CODI = 'TPV')"
-
-
-        SQL = SQL & " AND TNHT_FACT.FACT_DAEM = " & "'" & Me.mFecha & "'"
-
-        ' NUEVO PARA QUE NO TRATE LAS DEVOLUCIONES SI YA SE TRATAN EN UN ASIENTO PROPIO 20090219
-        SQL += " AND TNHT_MOVI.MOVI_VDEB > 0  "
-
-        SQL = SQL & " ORDER BY TNHT_FACT.SEFA_CODI,TNHT_FACT.FACT_CODI"
-
-        Me.DbLeeHotel.TraerLector(SQL)
-
-        While Me.DbLeeHotel.mDbLector.Read
-            Linea = Linea + 1
-            If CType(Me.DbLeeHotel.mDbLector("FAAN_CODI"), Integer) = 0 Then
-                Total = CType(Me.DbLeeHotel.mDbLector("TOTAL"), Double)
-            Else
-                Total = CType(Me.DbLeeHotel.mDbLector("TOTAL"), Double) * -1
-            End If
-
-            Descripcion = CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " " & CType(Me.DbLeeHotel.mDbLector("FACT_CODI"), String) & "/" & CType(Me.DbLeeHotel.mDbLector("SEFA_CODI"), String) & " " & CType(Me.DbLeeHotel.mDbLector("TITULAR"), String)
-            Me.mTipoAsiento = "DEBE"
-            Me.InsertaOracle("AC", 35, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebe, Descripcion & " Deducido", Total, "NO", "", "", "SI", "COBRO", Me.Multidiario, "")
-            Me.GeneraFileACMultiDiario("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebe, Descripcion & " Deducido", Total, Me.Multidiario)
-            'Me.GeneraFileAC2("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebeFac, CType(Me.DbLeeHotel.mDbLector("FACT_CODI"), String), Total, CType(Me.DbLeeHotel.mDbLector("SEFA_CODI"), String), CType(Me.DbLeeHotel.mDbLector("FACT_CODI"), Integer))
-
-
-        End While
-        Me.DbLeeHotel.mDbLector.Close()
     End Sub
     Private Sub FacturasContadoTotaLOtrasFormas()
         Dim Total As Double
         Dim SQL As String
 
         Dim Descripcion As String
+        Dim TextoControl As String
 
 
         SQL = ""
-        SQL = "SELECT TNHT_MOVI.MOVI_VDEB TOTAL,TNHT_FORE.FORE_DESC TIPO,NVL(TNHT_FORE.FORE_CTB1,'0') CUENTA,TNHT_FACT.SEFA_CODI,TNHT_FACT.FACT_CODI,NVL(TNHT_FACT.FACT_TITU,' ') AS TITULAR,NVL(FAAN_CODI,'0') AS FAAN_CODI  FROM " & Me.mStrHayHistorico & " TNHT_MOVI,TNHT_FORE,TNHT_FACT,TNHT_FAMO WHERE"
+        SQL = "SELECT TNHT_MOVI.MOVI_VDEB TOTAL,TNHT_FORE.FORE_DESC TIPO,NVL(TNHT_FORE.FORE_CTB1,'0') CUENTA,TNHT_FACT.SEFA_CODI,TNHT_FACT.FACT_CODI,NVL(TNHT_FACT.FACT_TITU,' ') AS TITULAR,NVL(FAAN_CODI,'0') AS FAAN_CODI ,TNHT_MOVI.CCEX_CODI AS CCEX_CODI FROM " & Me.mStrHayHistorico & " TNHT_MOVI,TNHT_FORE,TNHT_FACT,TNHT_FAMO WHERE"
 
         SQL = SQL & " TNHT_MOVI.FORE_CODI = TNHT_FORE.FORE_CODI "
 
@@ -5929,11 +5893,23 @@ Public Class ContaNetNewHotel
                 Total = CType(Me.DbLeeHotel.mDbLector("TOTAL"), Double) * -1
             End If
 
+
+            If IsDBNull(Me.DbLeeHotel.mDbLector("CCEX_CODI")) = False Then
+                If CStr(Me.DbLeeHotel.mDbLector("CCEX_CODI")) = "TPV" Then
+                    TextoControl = "COBRO-TPV"
+                Else
+                    TextoControl = "COBRO"
+                End If
+
+            Else
+                TextoControl = "COBRO"
+            End If
+
             Descripcion = CType(Me.DbLeeHotel.mDbLector("TIPO"), String) & " " & CType(Me.DbLeeHotel.mDbLector("FACT_CODI"), String) & "/" & CType(Me.DbLeeHotel.mDbLector("SEFA_CODI"), String) & " " & CType(Me.DbLeeHotel.mDbLector("TITULAR"), String)
 
 
             Me.mTipoAsiento = "DEBE"
-            Me.InsertaOracle("AC", 35, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebe, Descripcion, Total, "NO", "", "", "SI", "COBRO", Me.Multidiario, "")
+            Me.InsertaOracle("AC", 35, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebe, Descripcion, Total, "NO", "", "", "SI", TextoControl, Me.Multidiario, "")
             Me.GeneraFileACMultiDiario("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebe, Descripcion, Total, Me.Multidiario)
             'Me.GeneraFileAC2("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebeFac, CType(Me.DbLeeHotel.mDbLector("FACT_CODI"), String), Total, CType(Me.DbLeeHotel.mDbLector("SEFA_CODI"), String), CType(Me.DbLeeHotel.mDbLector("FACT_CODI"), Integer))
 
@@ -5941,73 +5917,6 @@ Public Class ContaNetNewHotel
         End While
         Me.DbLeeHotel.mDbLector.Close()
 
-        Exit Sub
-
-        ' *************** contado anulado de dias anteriores 
-        SQL = ""
-        SQL = "SELECT TNHT_MOVI.MOVI_VDEB TOTAL,TNHT_FORE.FORE_DESC TIPO,NVL(TNHT_FORE.FORE_CTB1,'0') CUENTA,TNHT_FACT.SEFA_CODI,TNHT_FACT.FACT_CODI,NVL(TNHT_FACT.FACT_TITU,' ') AS TITULAR,NVL(FAAN_CODI,'0') AS FAAN_CODI  FROM " & Me.mStrHayHistorico & " TNHT_MOVI,TNHT_FORE,TNHT_FACT,TNHT_FAMO WHERE"
-        SQL = SQL & " TNHT_MOVI.FORE_CODI = TNHT_FORE.FORE_CODI "
-
-        SQL = SQL & " AND TNHT_FAMO.FACT_CODI = TNHT_FACT.FACT_CODI"
-        SQL = SQL & " AND TNHT_FAMO.SEFA_CODI = TNHT_FACT.SEFA_CODI"
-        SQL = SQL & " AND TNHT_FAMO.MOVI_DARE = TNHT_MOVI.MOVI_DARE"
-        SQL = SQL & " AND TNHT_FAMO.MOVI_CODI = TNHT_MOVI.MOVI_CODI"
-
-
-
-        SQL = SQL & " AND TNHT_MOVI.TIRE_CODI = '1'"
-
-
-        SQL = SQL & " AND TNHT_MOVI.CACR_CODI IS NULL"
-
-        ' 20080620 ( BLOQUEO ABAJO PARA QUE COJA DE DEBITOS DE FACTURAS DE CREDITO 
-        'SQL = SQL & " AND TNHT_FACT.FACT_STAT = '1'  "
-
-
-        SQL = SQL & " AND TNHT_MOVI.MOVI_DAVA < FACT_DAEM"
-
-
-        ' si activo de bajo que deberia no coge los cobros de la liquidacion de contado ( revisar este tema )
-        'SQL = SQL & " AND TNHT_MOVI.MOVI_AUTO = '1' "
-
-
-        ' NUEVO XXXXXXXXXXXXXXX
-
-        SQL = SQL & "  AND (TNHT_MOVI.MOVI_AUTO = '1' OR TNHT_MOVI.MOVI_AUTO = '0' AND TNHT_MOVI.CCEX_CODI = 'TPV')"
-
-
-        '
-        SQL = SQL & " AND TNHT_MOVI.MOVI_ANUL = '1' "
-
-        SQL = SQL & " AND TNHT_FACT.FACT_DAEM = " & "'" & Me.mFecha & "'"
-
-        ' NUEVO PARA QUE NO TRATE LAS DEVOLUCIONES SI YA SE TRATAN EN UN ASIENTO PROPIO 20090219
-        SQL += " AND TNHT_MOVI.MOVI_VDEB > 0  "
-
-
-        '      SQL = SQL & " GROUP BY TNHT_MOVI.TIRE_CODI,TNHT_MOVI.FORE_CODI,TNHT_FORE.FORE_DESC,TNHT_FORE.FORE_CTB1,FAAN_CODI"
-
-        Me.DbLeeHotel.TraerLector(SQL)
-
-        While Me.DbLeeHotel.mDbLector.Read
-            Linea = Linea + 1
-            If CType(Me.DbLeeHotel.mDbLector("FAAN_CODI"), Integer) = 0 Then
-                Total = CType(Me.DbLeeHotel.mDbLector("TOTAL"), Double)
-            Else
-                Total = CType(Me.DbLeeHotel.mDbLector("TOTAL"), Double) * -1
-            End If
-
-            Descripcion = CType(Me.DbLeeHotel.mDbLector("TIPO"), String) & " " & CType(Me.DbLeeHotel.mDbLector("FACT_CODI"), String) & "/" & CType(Me.DbLeeHotel.mDbLector("SEFA_CODI"), String) & " " & CType(Me.DbLeeHotel.mDbLector("TITULAR"), String)
-
-
-            Me.mTipoAsiento = "DEBE"
-            Me.InsertaOracle("AC", 35, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebe, Descripcion & " Deducido", Total, "NO", "", "", "SI", "COBRO", Me.Multidiario, "")
-            Me.GeneraFileACMultiDiario("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebe, Descripcion & " Deducido", Total, Me.Multidiario)
-            'Me.GeneraFileAC2("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorDebeFac, CType(Me.DbLeeHotel.mDbLector("FACT_CODI"), String), Total, CType(Me.DbLeeHotel.mDbLector("SEFA_CODI"), String), CType(Me.DbLeeHotel.mDbLector("FACT_CODI"), Integer))
-
-
-        End While
-        Me.DbLeeHotel.mDbLector.Close()
 
 
     End Sub

@@ -12,6 +12,7 @@ Public Class FormIntegraNewPaga
     Private mStatusBar As StatusBar
     Private mEmpGrupoCod As String
     Private mEmpCod As String
+    Private mEmpNum As Integer
 
     Private DLL As Integer
 
@@ -43,7 +44,7 @@ Public Class FormIntegraNewPaga
             '----------------------------------------------------------------------------------------------------
 
 
-            SQL = "SELECT HOTEL_EMPGRUPO_COD,HOTEL_EMP_COD,HOTEL_DESCRIPCION,HOTEL_ODBC,HOTEL_SPYRO,HOTEL_ODBC_NEWGOLF,HOTEL_ODBC_NEWPOS ,HOTEL_ODBC_NEWPAGA FROM TH_HOTEL "
+            SQL = "SELECT HOTEL_EMPGRUPO_COD,HOTEL_EMP_COD,HOTEL_DESCRIPCION,HOTEL_ODBC,HOTEL_SPYRO,HOTEL_ODBC_NEWGOLF,HOTEL_ODBC_NEWPOS ,HOTEL_ODBC_NEWPAGA , HOTEL_EMP_NUM,HOTEL_ODBC_ALMACEN FROM TH_HOTEL "
             SQL += " WHERE HOTEL_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
             Me.DataGridHoteles.DataSource = Me.DbCentral.TraerDataset(SQL, "HOTELES")
             Me.DataGridHoteles.DataMember = "HOTELES"
@@ -57,18 +58,22 @@ Public Class FormIntegraNewPaga
 
                 Me.mEmpGrupoCod = Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 0)
                 Me.mEmpCod = Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 1)
+                Me.mEmpNum = Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 9)
 
-                SQL = "SELECT NVL(PARA_FILE_SPYRO_PATH,'?') FROM TH_PARA "
+
+                SQL = "SELECT NVL(PARA_FILE_SPYRO_PATH,'?') FROM TS_PARA "
                 SQL += " WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
                 SQL += " AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
+
                 Me.TextBoxRutaFicheros.Text = Me.DbCentral.EjecutaSqlScalar(SQL)
 
                 SQL = "SELECT NVL(HOTEL_ODBC_NEWPAGA,'?') FROM TH_HOTEL "
                 SQL += " WHERE HOTEL_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
                 SQL += " AND HOTEL_EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += " AND HOTEL_EMP_NUM = " & Me.mEmpNum
                 Me.mStrConexionNewPaga = Me.DbCentral.EjecutaSqlScalar(SQL)
 
-              
 
 
             Else
@@ -115,7 +120,10 @@ Public Class FormIntegraNewPaga
             TextCol4.MappingName = "HOTEL_ODBC"
             TextCol4.HeaderText = "ODBC HOTEL"
             TextCol4.Width = 0
+
             ts1.GridColumnStyles.Add(TextCol4)
+
+
 
             Dim TextCol5 As New DataGridTextBoxColumn
             TextCol5.MappingName = "HOTEL_SPYRO"
@@ -127,23 +135,33 @@ Public Class FormIntegraNewPaga
             Dim TextCol6 As New DataGridTextBoxColumn
             TextCol6.MappingName = "HOTEL_ODBC_NEWGOLF"
             TextCol6.HeaderText = "ODBC NEWGOLF"
-            TextCol6.Width = 200
+            TextCol6.Width = 0
             ts1.GridColumnStyles.Add(TextCol6)
 
             Dim TextCol7 As New DataGridTextBoxColumn
             TextCol7.MappingName = "HOTEL_ODBC_NEWPOS"
             TextCol7.HeaderText = "ODBC NEWPOS"
-            TextCol7.Width = 200
+            TextCol7.Width = 0
             ts1.GridColumnStyles.Add(TextCol7)
 
             Dim TextCol8 As New DataGridTextBoxColumn
             TextCol8.MappingName = "HOTEL_ODBC_NewPaga"
             TextCol8.HeaderText = "ODBC NewPaga"
-            TextCol8.Width = 200
+            TextCol8.Width = 0
             ts1.GridColumnStyles.Add(TextCol8)
 
-         
+            Dim TextCol9 As New DataGridTextBoxColumn
+            TextCol9.MappingName = "HOTEL_ODBC_ALMACEN"
+            TextCol9.HeaderText = "Odbc NewStock"
+            TextCol9.Width = 0
+            ts1.GridColumnStyles.Add(TextCol9)
 
+
+            Dim TextCol10 As New DataGridTextBoxColumn
+            TextCol10.MappingName = "HOTEL_EMP_NUM"
+            TextCol10.HeaderText = "Emp Num"
+            TextCol10.Width = 20
+            ts1.GridColumnStyles.Add(TextCol10)
 
             Me.DataGridHoteles.TableStyles.Clear()
             Me.DataGridHoteles.TableStyles.Add(ts1)
@@ -157,20 +175,120 @@ Public Class FormIntegraNewPaga
         End Try
 
     End Sub
+    Private Sub ConfGrid()
 
+        Try
+            Dim ts1 As New DataGridTableStyle
+
+            ts1.MappingName = "ASIENTO"
+
+            Dim TextCol1 As New DataGridTextBoxColumn
+            TextCol1.MappingName = "F_VALOR"
+            TextCol1.HeaderText = "F. Valor"
+            TextCol1.Width = 75
+
+            ts1.GridColumnStyles.Add(TextCol1)
+
+
+            Dim TextCol2 As New DataGridTextBoxColumn
+            TextCol2.MappingName = "CUENTA"
+            TextCol2.HeaderText = "Cuenta"
+            TextCol2.Width = 75
+            ts1.GridColumnStyles.Add(TextCol2)
+
+
+
+
+            Dim TextCol2A As New DataGridTextBoxColumn
+            TextCol2A.MappingName = "Tipo"
+            TextCol2A.HeaderText = "Identificador"
+            TextCol2A.Width = 20
+            ts1.GridColumnStyles.Add(TextCol2A)
+
+            Dim TextCol3 As New DataGridTextBoxColumn
+            TextCol3.MappingName = "CONCEPTO"
+            TextCol3.HeaderText = "Concepto"
+            TextCol3.Width = 250
+
+            ts1.GridColumnStyles.Add(TextCol3)
+
+
+            Dim TextCol4 As New DataGridTextBoxColumn
+            TextCol4.MappingName = "DEBE"
+            TextCol4.HeaderText = "Debe"
+            TextCol4.Width = 100
+            TextCol4.NullText = "_"
+            ts1.GridColumnStyles.Add(TextCol4)
+
+
+            Dim TextCol5 As New DataGridTextBoxColumn
+            TextCol5.MappingName = "HABER"
+            TextCol5.HeaderText = "Haber"
+            TextCol5.Width = 100
+            TextCol5.NullText = "_"
+            ts1.GridColumnStyles.Add(TextCol5)
+
+
+            Dim TextCol6 As New DataGridTextBoxColumn
+            TextCol6.MappingName = "OBSERVACION"
+            TextCol6.HeaderText = "Observación"
+            TextCol6.Width = 300
+            TextCol6.NullText = "_"
+            ts1.GridColumnStyles.Add(TextCol6)
+
+            Dim TextCol7 As New DataGridTextBoxColumn
+            TextCol7.MappingName = "CIF"
+            TextCol7.HeaderText = "CIF"
+            TextCol7.Width = 100
+            TextCol7.NullText = "_"
+            ts1.GridColumnStyles.Add(TextCol7)
+
+            Dim TextCol8 As New DataGridTextBoxColumn
+            TextCol8.MappingName = "AUX1"
+            TextCol8.HeaderText = "Auxiliar Str"
+            TextCol8.Width = 100
+            TextCol8.NullText = "_"
+            ts1.GridColumnStyles.Add(TextCol8)
+
+            Dim TextCol9 As New DataGridTextBoxColumn
+            TextCol9.MappingName = "AUX2"
+            TextCol9.HeaderText = "Auxiliar Num"
+            TextCol9.Width = 100
+            TextCol9.NullText = "_"
+            ts1.GridColumnStyles.Add(TextCol9)
+
+
+
+
+
+
+
+            '   ts1.AlternatingBackColor = Color.LightGray
+
+            DataGrid2.TableStyles.Clear()
+            DataGrid2.TableStyles.Add(ts1)
+
+
+
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+
+    End Sub
     Private Sub ButtonAceptar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonAceptar.Click
         Try
             '    Me.MostrardatosTemporal()
 
             Dim INTEGRA As Object
 
-            INTEGRA = New Integracion_NewPaga.NewPaga(Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 0), _
-            Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 1), _
-            MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DATABASE", "STRING"), _
-            Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 7), Format(Me.DateTimePicker1.Value, "dd-MM-yyyy"), "F" & _
-            Format(Me.DateTimePicker1.Value, "dd-MM-yyyy") & ".TXT", Me.CheckBoxDebug.Checked, _
-            Me.TextBoxDebug, Me.ListBoxDebug, Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 4), _
-            Me.ProgressBar1)
+            INTEGRA = New Integracion_NewPaga.NewPaga(Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 0),
+            Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 1),
+              MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DATABASE", "STRING"),
+              Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 7), Format(Me.DateTimePicker1.Value, "dd-MM-yyyy"), "NewPaG" &
+              Format(Me.DateTimePicker1.Value, "dd-MM-yyyy") & ".TXT", Me.CheckBoxDebug.Checked,
+              Me.TextBoxDebug, Me.ListBoxDebug, Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 4),
+              Me.ProgressBar1, Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 8), Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 9))
             INTEGRA.Procesar()
 
 
@@ -199,7 +317,7 @@ Public Class FormIntegraNewPaga
             SQL += " ORDER BY ASNT_CFATOCAB_REFER,ASNT_LINEA"
             Me.DataGrid2.DataSource = Me.DbCentral.TraerDataset(SQL, "ASIENTO")
             Me.DataGrid2.DataMember = "ASIENTO"
-            ' Me.ConfGrid()
+            Me.ConfGrid()
 
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Boton Aceptar")
@@ -316,10 +434,12 @@ Public Class FormIntegraNewPaga
                 Me.DataGrid2.CaptionText = Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 2)
                 Me.mEmpGrupoCod = Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 0)
                 Me.mEmpCod = Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 1)
+                Me.mEmpNum = Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 9)
 
-                SQL = "SELECT NVL(PARA_FILE_SPYRO_PATH,'?') FROM TH_PARA "
+                SQL = "SELECT NVL(PARA_FILE_SPYRO_PATH,'?') FROM TS_PARA "
                 SQL += " WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
                 SQL += " AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
                 Me.TextBoxRutaFicheros.Text = Me.DbCentral.EjecutaSqlScalar(SQL)
 
             End If
@@ -327,5 +447,40 @@ Public Class FormIntegraNewPaga
         Catch ex As Exception
 
         End Try
+    End Sub
+
+    Private Sub DataGrid2_Navigate(sender As Object, ne As NavigateEventArgs) Handles DataGrid2.Navigate
+
+    End Sub
+
+    Private Sub DataGrid2_CurrentCellChanged(sender As Object, e As EventArgs) Handles DataGrid2.CurrentCellChanged
+
+    End Sub
+
+    Private Sub ButtonUpdateFilePAth_Click(sender As Object, e As EventArgs) Handles ButtonUpdateFilePAth.Click
+        Try
+            Me.FolderBrowserDialog1.ShowDialog()
+            If IsNothing(Me.FolderBrowserDialog1.SelectedPath) = False Then
+                If Me.FolderBrowserDialog1.SelectedPath.Length > 0 Then
+                    Me.TextBoxRutaFicheros.Text = Me.FolderBrowserDialog1.SelectedPath & "\"
+                    SQL = "UPDATE TS_PARA SET PARA_FILE_SPYRO_PATH = '" & Me.TextBoxRutaFicheros.Text & "'"
+                    SQL += " WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+                    SQL += " AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
+                    SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
+
+                    Me.Cursor = Cursors.WaitCursor
+                    Me.DbCentral.EjecutaSqlCommit(SQL)
+                    Me.Cursor = Cursors.Default
+
+                End If
+            End If
+        Catch ex As Exception
+            Me.Cursor = Cursors.Default
+            MsgBox(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub DataGridHoteles_Navigate(sender As Object, ne As NavigateEventArgs) Handles DataGridHoteles.Navigate
+
     End Sub
 End Class

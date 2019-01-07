@@ -24,10 +24,12 @@ Public Class NewPaga
     Private mStrConexionHotel As String
     Private mStrConexionCentral As String
     Private mStrConexionSpyro As String
+    Private mStrConexionNewStock As String
 
     Private mFecha As Date
     Private mEmpGrupoCod As String
     Private mEmpCod As String
+    Private mEmpNum As Integer
 
     Private mIndicadorDebe As String
     Private mIndicadorHaber As String
@@ -125,11 +127,12 @@ Public Class NewPaga
     Private DbNewPagaAux As C_DATOS.C_DatosOledb
     Private DbGrabaCentral As C_DATOS.C_DatosOledb
     Private DbSpyro As C_DATOS.C_DatosOledb
+    Private DbNewStock As C_DATOS.C_DatosOledb
 #Region "CONSTRUCTOR"
-    Public Sub New(ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vStrConexionCentral As String, _
-    ByVal vStrConexionNewConta As String, ByVal vFecha As Date, ByVal vFileName As String, ByVal vDebug As Boolean, _
-    ByVal vConrolDebug As System.Windows.Forms.TextBox, ByVal vListBox As System.Windows.Forms.ListBox, _
-    ByVal vStrConexionSpyro As String, ByVal vProgress As System.Windows.Forms.ProgressBar)
+    Public Sub New(ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vStrConexionCentral As String,
+    ByVal vStrConexionNewPaga As String, ByVal vFecha As Date, ByVal vFileName As String, ByVal vDebug As Boolean,
+    ByVal vConrolDebug As System.Windows.Forms.TextBox, ByVal vListBox As System.Windows.Forms.ListBox,
+    ByVal vStrConexionSpyro As String, ByVal vProgress As System.Windows.Forms.ProgressBar, vStrConexionNewStock As String, vEmpNum As Integer)
 
 
         MyBase.New()
@@ -137,9 +140,11 @@ Public Class NewPaga
         Me.mDebug = vDebug
         Me.mEmpGrupoCod = vEmpGrupoCod
         Me.mEmpCod = vEmpCod
-        Me.mStrConexionHotel = vStrConexionNewConta
+        Me.mEmpNum = vEmpNum
+        Me.mStrConexionHotel = vStrConexionNewPaga
         Me.mStrConexionCentral = vStrConexionCentral
         Me.mStrConexionSpyro = vStrConexionSpyro
+        Me.mStrConexionNewStock = vStrConexionNewStock
         Me.mFecha = vFecha
 
         Me.mParaFileName = vFileName
@@ -379,6 +384,10 @@ Public Class NewPaga
             Me.DbNewPagaAux.AbrirConexion()
             Me.DbNewPagaAux.EjecutaSqlCommit("ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY'")
 
+            Me.DbNewStock = New C_DATOS.C_DatosOledb(Me.mStrConexionNewStock)
+            Me.DbNewStock.AbrirConexion()
+            Me.DbNewStock.EjecutaSqlCommit("ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY'")
+
             Me.DbSpyro = New C_DATOS.C_DatosOledb
             ' LA APERTURA se hace mas abajo ahora si existe contabilidad spyro para validar cuentas
             'Me.DbSpyro.AbrirConexion()
@@ -430,8 +439,9 @@ Public Class NewPaga
 
 
 
-            SQL += " FROM TH_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod
-            SQL += "' AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " FROM TH_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+            SQL += " AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
             Me.DbLeeCentral.TraerLector(SQL)
             If Me.DbLeeCentral.mDbLector.Read Then
                 Me.mCtaManoCorriente = CType(Me.DbLeeCentral.mDbLector.Item("PARA_CTA1"), String)
@@ -956,17 +966,6 @@ Public Class NewPaga
         Try
             Filegraba.Close()
 
-
-            ' BORRA EL FICHERO DE SPYRO SI NO SE VA HA USAR 
-
-            ' borra fichero standard
-            Dim FileToDelete As String = Me.mParaFilePath & Me.mParaFileName
-            If System.IO.File.Exists(FileToDelete) = True Then
-                System.IO.File.Delete(FileToDelete)
-            End If
-
-
-
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
@@ -978,6 +977,7 @@ Public Class NewPaga
             Me.DbNewPaga.CerrarConexion()
             Me.DbNewPagaAux.CerrarConexion()
             Me.DbSpyro.CerrarConexion()
+            Me.DbNewStock.CerrarConexion()
         Catch ex As Exception
 
         End Try
@@ -1001,7 +1001,36 @@ Public Class NewPaga
         End Try
     End Sub
 
+    Private Function BuscaCuentaProveedorCuentasPorPagar(ByVal vProveedor As Integer) As String
+        Try
+            SQL = "SELECT NVL(FORN_CEX2,'?') "
+            SQL += " FROM TNST_FORN "
+            SQL += " WHERE FORN_CODI = " & vProveedor
 
+            If IsNothing(Me.DbNewStock.EjecutaSqlScalar(SQL)) = False Then
+                Return Me.DbNewStock.EjecutaSqlScalar(SQL)
+            Else
+                Return "?"
+            End If
+        Catch ex As Exception
+            Return "?"
+        End Try
+    End Function
+    Private Function BuscaCuentaProveedorCuenta(ByVal vProveedor As Integer) As String
+        Try
+            SQL = "SELECT NVL(FORN_CEX1,'?') "
+            SQL += " FROM TNST_FORN "
+            SQL += " WHERE FORN_CODI = " & vProveedor
+
+            If IsNothing(Me.DbNewStock.EjecutaSqlScalar(SQL)) = False Then
+                Return Me.DbNewStock.EjecutaSqlScalar(SQL)
+            Else
+                Return "?"
+            End If
+        Catch ex As Exception
+            Return "?"
+        End Try
+    End Function
 
 
 #Region "ASIENTOS NEWPAGA"
@@ -1034,13 +1063,13 @@ Public Class NewPaga
                 If Total <> 0 Then
                     Me.mTipoAsiento = "DEBE"
                     Me.InsertaOracle("AC", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CType(Me.DbNewPaga.mDbLector("CUENTA"), String), Me.mIndicadorDebe, CType(Me.DbNewPaga.mDbLector("MOVI_DOCU"), String) & " + " & CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI")
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbNewPaga.mDbLector("CUENTA"), String), Me.mIndicadorDebe, CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String) & " " & CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total)
+                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbNewPaga.mDbLector("CUENTA"), String), Me.mIndicadorDebe, CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total)
                 End If
             End While
             Me.DbNewPaga.mDbLector.Close()
 
             ' A DEPOSITOS ANTICIPADOS DEL PROVEEDOR
-            SQL = "SELECT 'PAGOS',MOVI_CODI, TNPG_MOVI.TIMO_CODI, MOVI_INTE, TNPG_MOVI.FORN_CODI AS FORN_CODI, FORN_INTE, "
+            SQL = "SELECT 'PAGOS',MOVI_CODI, TNPG_MOVI.TIMO_CODI, MOVI_INTE, NVL(TNPG_MOVI.FORN_CODI,'0') AS FORN_CODI, FORN_INTE, "
             SQL += "       NVL(MOVI_DOCU,'?') AS MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV, MOVI_IMPO AS TOTAL, "
             SQL += "       MOVI_SALD, TIMO_FORM, NVL (MOVI_SERV, '') MOVI_SERV, MOVI_DEPT, "
             SQL += "       TIMO_CDIA, TIMO_CDOC, MOVI_TIIM, NVL(MOVI_DESC,'?') AS MOVI_DESC,TIMO_DESC "
@@ -1062,8 +1091,8 @@ Public Class NewPaga
                 Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double)
                 If Total <> 0 Then
                     Me.mTipoAsiento = "HABER"
-                    Me.InsertaOracle("AC", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CType(Me.DbNewPaga.mDbLector("CUENTA"), String), Me.mIndicadorHaber, CType(Me.DbNewPaga.mDbLector("MOVI_DOCU"), String) & " + " & CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI")
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbNewPaga.mDbLector("CUENTA"), String), Me.mIndicadorDebe, CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String) & " " & CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total)
+                    Me.InsertaOracle("AC", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, BuscaCuentaProveedorCuentasPorPagar(CInt(Me.DbNewPaga.mDbLector("FORN_CODI"))), Me.mIndicadorHaber, CType(Me.DbNewPaga.mDbLector("MOVI_DOCU"), String) & " + " & CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI")
+                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), BuscaCuentaProveedorCuentasPorPagar(CInt(Me.DbNewPaga.mDbLector("FORN_CODI"))), Me.mIndicadorDebe, CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total)
                 End If
             End While
             Me.DbNewPaga.mDbLector.Close()
@@ -1095,13 +1124,13 @@ Public Class NewPaga
                 If Total <> 0 Then
                     Me.mTipoAsiento = "DEBE"
                     Me.InsertaOracle("AC", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CType(Me.DbNewPaga.mDbLector("CUENTA"), String), Me.mIndicadorDebe, "(A) " & CType(Me.DbNewPaga.mDbLector("MOVI_DOCU"), String) & " + " & CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI")
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbNewPaga.mDbLector("CUENTA"), String), Me.mIndicadorDebe, CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String) & " " & CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total)
+                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbNewPaga.mDbLector("CUENTA"), String), Me.mIndicadorDebe, CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total)
                 End If
             End While
             Me.DbNewPaga.mDbLector.Close()
 
             ' A DEPOSITOS ANTICIPADOS DEL PROVEEDOR
-            SQL = "SELECT 'PAGOS',MOVI_CODI, TNPG_MOVI.TIMO_CODI, MOVI_INTE, TNPG_MOVI.FORN_CODI AS FORN_CODI, FORN_INTE, "
+            SQL = "SELECT 'PAGOS',MOVI_CODI, TNPG_MOVI.TIMO_CODI, MOVI_INTE,  NVL(TNPG_MOVI.FORN_CODI,'0') AS FORN_CODI, FORN_INTE, "
             SQL += "       NVL(MOVI_DOCU,'?') AS MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV, MOVI_IMPO AS TOTAL, "
             SQL += "       MOVI_SALD, TIMO_FORM, NVL (MOVI_SERV, '') MOVI_SERV, MOVI_DEPT, "
             SQL += "       TIMO_CDIA, TIMO_CDOC, MOVI_TIIM, NVL(MOVI_DESC,'?') AS MOVI_DESC,TIMO_DESC "
@@ -1123,8 +1152,8 @@ Public Class NewPaga
                 Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double) * -1
                 If Total <> 0 Then
                     Me.mTipoAsiento = "HABER"
-                    Me.InsertaOracle("AC", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CType(Me.DbNewPaga.mDbLector("CUENTA"), String), Me.mIndicadorHaber, "(A) " & CType(Me.DbNewPaga.mDbLector("MOVI_DOCU"), String) & " + " & CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI")
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbNewPaga.mDbLector("CUENTA"), String), Me.mIndicadorDebe, CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String) & " " & CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total)
+                    Me.InsertaOracle("AC", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, BuscaCuentaProveedorCuentasPorPagar(CInt(Me.DbNewPaga.mDbLector("FORN_CODI"))), Me.mIndicadorHaber, "(A) " & CType(Me.DbNewPaga.mDbLector("MOVI_DOCU"), String) & " + " & CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI")
+                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), BuscaCuentaProveedorCuentasPorPagar(CInt(Me.DbNewPaga.mDbLector("FORN_CODI"))), Me.mIndicadorDebe, CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total)
                 End If
             End While
             Me.DbNewPaga.mDbLector.Close()
@@ -1138,6 +1167,7 @@ Public Class NewPaga
 
 
     End Sub
+
 #End Region
 #Region "ASIENTO 3 FACTURAS REGULARIZADAS"
     Private Sub FacturasRegularizadas()
@@ -1146,22 +1176,21 @@ Public Class NewPaga
             Linea = 0
             ' DEL DEPOSITO PROVEEDOR
             SQL = "SELECT 'PAGOS',MOVI_CODI, TNPG_MOVI.TIMO_CODI, MOVI_INTE, TNPG_MOVI.FORN_CODI AS FORN_CODI, FORN_INTE, "
-            SQL += "       NVL(MOVI_DOCU,'?') AS MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV, (MOVI_IMPO - MOVI_SALD) AS TOTAL, "
+            SQL += "       NVL(MOVI_DOCU,'?') AS MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV,ASOC_IMPO AS TOTAL, "
             SQL += "       MOVI_SALD, TIMO_FORM, NVL (MOVI_SERV, '') MOVI_SERV, MOVI_DEPT, "
             SQL += "       TIMO_CDIA, TIMO_CDOC, MOVI_TIIM, NVL(MOVI_DESC,'?') AS MOVI_DESC,TIMO_DESC "
             SQL += "       ,'DEPOSITOS PROV' AS CUENTA ,NVL(FORN_DESC,'?') AS FORN_DESC"
 
-            SQL += "    FROM TNPG_MOVI, TNPG_TIMO, VNPG_FORN "
+            SQL += "    FROM TNPG_MOVI, TNPG_TIMO, VNPG_FORN,TNPG_ASOC "
             SQL += "   WHERE TNPG_MOVI.TIMO_CODI = TNPG_TIMO.TIMO_CODI "
             SQL += "     AND TNPG_MOVI.FORN_CODI = VNPG_FORN.FORN_CODI "
             SQL += "     AND TNPG_MOVI.FORN_INTE = VNPG_FORN.INTERNO "
+            SQL += "     AND TNPG_MOVI.MOVI_CODI = TNPG_ASOC.ASOC_COD1 "
             SQL += "     AND TNPG_MOVI.MOVI_UNMO = 'EUR' "
-            ' BLOQUEO DEBAJO PERO NO DEBERIA HAY ALGO MAL EN INFORMARCA
-            '  SQL += "     AND TNPG_MOVI.MOVI_REGU = '1' "
+            SQL += " AND  TRUNC (ASOC_DAVA) = '" & Me.mFecha & "'"
+
             ' TIPO PAGO 
             SQL += "     AND TNPG_TIMO.TIMO_DECR = '1' "
-            ' TIENE FACTURAS ASOCIADAS 
-            SQL += "    AND MOVI_CODI IN (SELECT ASOC_COD1 FROM TNPG_ASOC WHERE TRUNC (ASOC_DAVA) = '" & Me.mFecha & "')"
             SQL += "ORDER BY TNPG_MOVI.MOVI_CODI "
 
             Me.DbNewPaga.TraerLector(SQL)
@@ -1172,29 +1201,29 @@ Public Class NewPaga
                 Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double)
                 If Total <> 0 Then
                     Me.mTipoAsiento = "DEBE"
-                    Me.InsertaOracle("AC", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CType(Me.DbNewPaga.mDbLector("CUENTA"), String), Me.mIndicadorDebe, CType(Me.DbNewPaga.mDbLector("MOVI_DOCU"), String) & " + " & CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI")
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbNewPaga.mDbLector("CUENTA"), String), Me.mIndicadorDebe, CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String) & " " & CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total)
+                    Me.InsertaOracle("AC", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, BuscaCuentaProveedorCuentasPorPagar(CInt(Me.DbNewPaga.mDbLector("FORN_CODI"))), Me.mIndicadorDebe, CType(Me.DbNewPaga.mDbLector("MOVI_DOCU"), String) & " + " & CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI")
+                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), BuscaCuentaProveedorCuentasPorPagar(CInt(Me.DbNewPaga.mDbLector("FORN_CODI"))), Me.mIndicadorDebe, CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total)
                 End If
             End While
             Me.DbNewPaga.mDbLector.Close()
 
             ' A FACTURAS
             SQL = "SELECT 'PAGOS',MOVI_CODI, TNPG_MOVI.TIMO_CODI, MOVI_INTE, TNPG_MOVI.FORN_CODI AS FORN_CODI, FORN_INTE, "
-            SQL += "       NVL(MOVI_DOCU,'?') AS MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV, MOVI_IMPO AS TOTAL, "
+            SQL += "       NVL(MOVI_DOCU,'?') AS MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV,ASOC_IMPO AS TOTAL, "
             SQL += "       MOVI_SALD, TIMO_FORM, NVL (MOVI_SERV, '') MOVI_SERV, MOVI_DEPT, "
             SQL += "       TIMO_CDIA, TIMO_CDOC, MOVI_TIIM, NVL(MOVI_DESC,'?') AS MOVI_DESC,TIMO_DESC "
-            SQL += "       ,'FACTURA' AS CUENTA ,NVL(FORN_DESC,'?') AS FORN_DESC"
+            SQL += "       ,'DEPOSITOS PROV' AS CUENTA ,NVL(FORN_DESC,'?') AS FORN_DESC"
 
-            SQL += "    FROM TNPG_MOVI, TNPG_TIMO, VNPG_FORN "
+            SQL += "    FROM TNPG_MOVI, TNPG_TIMO, VNPG_FORN,TNPG_ASOC "
             SQL += "   WHERE TNPG_MOVI.TIMO_CODI = TNPG_TIMO.TIMO_CODI "
             SQL += "     AND TNPG_MOVI.FORN_CODI = VNPG_FORN.FORN_CODI "
             SQL += "     AND TNPG_MOVI.FORN_INTE = VNPG_FORN.INTERNO "
+            SQL += "     AND TNPG_MOVI.MOVI_CODI = TNPG_ASOC.ASOC_COD1 "
             SQL += "     AND TNPG_MOVI.MOVI_UNMO = 'EUR' "
-            SQL += "     AND TNPG_MOVI.MOVI_REGU = '1' "
-            ' TIENE PAGOS  ASOCIADOS CON FECHA DE HOY 
-            SQL += "    AND MOVI_CODI IN (SELECT ASOC_CODI FROM TNPG_ASOC)"
+            SQL += " AND  TRUNC (ASOC_DAVA) = '" & Me.mFecha & "'"
 
-            SQL += "     AND TRUNC (MOVI_DAVA) = '" & Me.mFecha & "'"
+            ' TIPO PAGO 
+            SQL += "     AND TNPG_TIMO.TIMO_DECR = '1' "
             SQL += "ORDER BY TNPG_MOVI.MOVI_CODI "
 
 
@@ -1207,8 +1236,8 @@ Public Class NewPaga
                 Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double)
                 If Total <> 0 Then
                     Me.mTipoAsiento = "HABER"
-                    Me.InsertaOracle("AC", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CType(Me.DbNewPaga.mDbLector("CUENTA"), String), Me.mIndicadorHaber, CType(Me.DbNewPaga.mDbLector("MOVI_DOCU"), String) & " + " & CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI")
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbNewPaga.mDbLector("CUENTA"), String), Me.mIndicadorDebe, CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String) & " " & CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total)
+                    Me.InsertaOracle("AC", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, BuscaCuentaProveedorCuenta(CInt(Me.DbNewPaga.mDbLector("FORN_CODI"))), Me.mIndicadorHaber, CType(Me.DbNewPaga.mDbLector("MOVI_DOCU"), String) & " + " & CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI")
+                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), BuscaCuentaProveedorCuenta(CInt(Me.DbNewPaga.mDbLector("FORN_CODI"))), Me.mIndicadorDebe, CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total)
                 End If
             End While
             Me.DbNewPaga.mDbLector.Close()
@@ -1216,23 +1245,56 @@ Public Class NewPaga
             '-------------------------------------------------------------------------------------------------------
             ' ANULADOS
             '-------------------------------------------------------------------------------------------------------
-
-            '  FACTURAS DESREGULARIZADAS
+            ' DEL DEPOSITO PROVEEDOR
             SQL = "SELECT 'PAGOS',MOVI_CODI, TNPG_MOVI.TIMO_CODI, MOVI_INTE, TNPG_MOVI.FORN_CODI AS FORN_CODI, FORN_INTE, "
-            SQL += "       NVL(MOVI_DOCU,'?') AS MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV, MOVI_IMPO AS TOTAL, "
+            SQL += "       NVL(MOVI_DOCU,'?') AS MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV,ASOC_IMPO AS TOTAL, "
             SQL += "       MOVI_SALD, TIMO_FORM, NVL (MOVI_SERV, '') MOVI_SERV, MOVI_DEPT, "
             SQL += "       TIMO_CDIA, TIMO_CDOC, MOVI_TIIM, NVL(MOVI_DESC,'?') AS MOVI_DESC,TIMO_DESC "
-            SQL += "       ,'FACTURA' AS CUENTA ,NVL(FORN_DESC,'?') AS FORN_DESC"
+            SQL += "       ,'DEPOSITOS PROV' AS CUENTA ,NVL(FORN_DESC,'?') AS FORN_DESC"
 
-            SQL += "    FROM TNPG_MOVI, TNPG_TIMO, VNPG_FORN "
+            SQL += "    FROM TNPG_MOVI, TNPG_TIMO, VNPG_FORN,TNPG_ASOC "
             SQL += "   WHERE TNPG_MOVI.TIMO_CODI = TNPG_TIMO.TIMO_CODI "
             SQL += "     AND TNPG_MOVI.FORN_CODI = VNPG_FORN.FORN_CODI "
             SQL += "     AND TNPG_MOVI.FORN_INTE = VNPG_FORN.INTERNO "
+            SQL += "     AND TNPG_MOVI.MOVI_CODI = TNPG_ASOC.ASOC_COD1 "
             SQL += "     AND TNPG_MOVI.MOVI_UNMO = 'EUR' "
-            SQL += "     AND TNPG_MOVI.MOVI_REGU = '1' "
+            SQL += " AND  TRUNC (ASOC_DAAC) = '" & Me.mFecha & "'"
+
             ' TIPO PAGO 
             SQL += "     AND TNPG_TIMO.TIMO_DECR = '1' "
-            SQL += "     AND TRUNC (MOVI_DAAC) = '" & Me.mFecha & "'"
+            SQL += "ORDER BY TNPG_MOVI.MOVI_CODI "
+
+            Me.DbNewPaga.TraerLector(SQL)
+
+            While Me.DbNewPaga.mDbLector.Read
+
+                Linea = Linea + 1
+                Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double) * -1
+                If Total <> 0 Then
+                    Me.mTipoAsiento = "DEBE"
+                    Me.InsertaOracle("AC", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, BuscaCuentaProveedorCuentasPorPagar(CInt(Me.DbNewPaga.mDbLector("FORN_CODI"))), Me.mIndicadorDebe, CType(Me.DbNewPaga.mDbLector("MOVI_DOCU"), String) & " + " & CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI")
+                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), BuscaCuentaProveedorCuentasPorPagar(CInt(Me.DbNewPaga.mDbLector("FORN_CODI"))), Me.mIndicadorDebe, CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total)
+                End If
+            End While
+            Me.DbNewPaga.mDbLector.Close()
+
+            ' A FACTURAS
+            SQL = "SELECT 'PAGOS',MOVI_CODI, TNPG_MOVI.TIMO_CODI, MOVI_INTE, TNPG_MOVI.FORN_CODI AS FORN_CODI, FORN_INTE, "
+            SQL += "       NVL(MOVI_DOCU,'?') AS MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV,ASOC_IMPO AS TOTAL, "
+            SQL += "       MOVI_SALD, TIMO_FORM, NVL (MOVI_SERV, '') MOVI_SERV, MOVI_DEPT, "
+            SQL += "       TIMO_CDIA, TIMO_CDOC, MOVI_TIIM, NVL(MOVI_DESC,'?') AS MOVI_DESC,TIMO_DESC "
+            SQL += "       ,'DEPOSITOS PROV' AS CUENTA ,NVL(FORN_DESC,'?') AS FORN_DESC"
+
+            SQL += "    FROM TNPG_MOVI, TNPG_TIMO, VNPG_FORN,TNPG_ASOC "
+            SQL += "   WHERE TNPG_MOVI.TIMO_CODI = TNPG_TIMO.TIMO_CODI "
+            SQL += "     AND TNPG_MOVI.FORN_CODI = VNPG_FORN.FORN_CODI "
+            SQL += "     AND TNPG_MOVI.FORN_INTE = VNPG_FORN.INTERNO "
+            SQL += "     AND TNPG_MOVI.MOVI_CODI = TNPG_ASOC.ASOC_COD1 "
+            SQL += "     AND TNPG_MOVI.MOVI_UNMO = 'EUR' "
+            SQL += " AND  TRUNC (ASOC_DAAC) = '" & Me.mFecha & "'"
+
+            ' TIPO PAGO 
+            SQL += "     AND TNPG_TIMO.TIMO_DECR = '1' "
             SQL += "ORDER BY TNPG_MOVI.MOVI_CODI "
 
 
@@ -1244,13 +1306,12 @@ Public Class NewPaga
                 Linea = Linea + 1
                 Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double) * -1
                 If Total <> 0 Then
-                    Me.mTipoAsiento = "DEBE"
-                    Me.InsertaOracle("AC", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CType(Me.DbNewPaga.mDbLector("CUENTA"), String), Me.mIndicadorDebe, CType(Me.DbNewPaga.mDbLector("MOVI_DOCU"), String) & " + " & CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI")
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbNewPaga.mDbLector("CUENTA"), String), Me.mIndicadorDebe, CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String) & " " & CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total)
+                    Me.mTipoAsiento = "HABER"
+                    Me.InsertaOracle("AC", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, BuscaCuentaProveedorCuenta(CInt(Me.DbNewPaga.mDbLector("FORN_CODI"))), Me.mIndicadorHaber, CType(Me.DbNewPaga.mDbLector("MOVI_DOCU"), String) & " + " & CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI")
+                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), BuscaCuentaProveedorCuenta(CInt(Me.DbNewPaga.mDbLector("FORN_CODI"))), Me.mIndicadorDebe, CType(Me.DbNewPaga.mDbLector("MOVI_DESC"), String), Total)
                 End If
             End While
             Me.DbNewPaga.mDbLector.Close()
-
 
 
         Catch EX As Exception
