@@ -483,4 +483,46 @@ Public Class FormIntegraNewPaga
     Private Sub DataGridHoteles_Navigate(sender As Object, ne As NavigateEventArgs) Handles DataGridHoteles.Navigate
 
     End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        Try
+            Me.FechasPosibles()
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
+    Private Sub FechasPosibles()
+        Try
+            Dim Texto As String = ""
+            If HayRegistros = True Then
+                Me.Cursor = Cursors.WaitCursor
+                Me.DbLeeNewPaga = New C_DATOS.C_DatosOledb(Me.mStrConexionNewPaga)
+                Me.DbLeeNewPaga.EjecutaSqlCommit("ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY'")
+
+                SQL = "SELECT DISTINCT (MOVI_DAVA) AS MOVI_DAVA,COUNT(*) AS TOTAL  FROM TNPG_MOVI "
+                SQL += " WHERE  TO_CHAR(MOVI_DAVA,'YYYY') = '" & Year(Me.DateTimePicker1.Value) & "'"
+                SQL += " AND  TO_CHAR(MOVI_DAVA,'MM') = '" & Format(Me.DateTimePicker1.Value, "MM") & "'"
+                SQL += " AND   TNPG_MOVI.FORN_INTE = '0'"
+                SQL += " GROUP BY MOVI_DAVA "
+                SQL += " ORDER BY MOVI_DAVA ASC"
+                DbLeeNewPaga.TraerLector(SQL)
+                While DbLeeNewPaga.mDbLector.Read
+                    Texto += DbLeeNewPaga.mDbLector.Item("MOVI_DAVA") & " (" & DbLeeNewPaga.mDbLector.Item("TOTAL") & ")" & vbCrLf
+                End While
+                DbLeeNewPaga.mDbLector.Close()
+
+                If Texto.Length > 0 Then
+                    MsgBox(Texto, MsgBoxStyle.Information)
+                End If
+
+            End If
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+
+            Me.Cursor = Cursors.Default
+        End Try
+    End Sub
 End Class

@@ -36,6 +36,7 @@ Partial Class FormIntegraNewPaga
         Me.TextBoxRutaFicheros = New System.Windows.Forms.TextBox()
         Me.ButtonUpdateFilePAth = New System.Windows.Forms.Button()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.Button3 = New System.Windows.Forms.Button()
         CType(Me.DataGrid2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DataGridHoteles, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -43,7 +44,7 @@ Partial Class FormIntegraNewPaga
         'ButtonConvertir
         '
         Me.ButtonConvertir.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ButtonConvertir.Location = New System.Drawing.Point(703, 197)
+        Me.ButtonConvertir.Location = New System.Drawing.Point(703, 230)
         Me.ButtonConvertir.Name = "ButtonConvertir"
         Me.ButtonConvertir.Size = New System.Drawing.Size(75, 23)
         Me.ButtonConvertir.TabIndex = 32
@@ -53,7 +54,7 @@ Partial Class FormIntegraNewPaga
         'ButtonImprimir
         '
         Me.ButtonImprimir.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ButtonImprimir.Location = New System.Drawing.Point(703, 165)
+        Me.ButtonImprimir.Location = New System.Drawing.Point(703, 197)
         Me.ButtonImprimir.Name = "ButtonImprimir"
         Me.ButtonImprimir.Size = New System.Drawing.Size(75, 23)
         Me.ButtonImprimir.TabIndex = 31
@@ -79,7 +80,7 @@ Partial Class FormIntegraNewPaga
         '
         'ProgressBar1
         '
-        Me.ProgressBar1.Location = New System.Drawing.Point(15, 141)
+        Me.ProgressBar1.Location = New System.Drawing.Point(15, 173)
         Me.ProgressBar1.Name = "ProgressBar1"
         Me.ProgressBar1.Size = New System.Drawing.Size(672, 15)
         Me.ProgressBar1.TabIndex = 28
@@ -105,10 +106,10 @@ Partial Class FormIntegraNewPaga
         Me.DataGrid2.DataMember = ""
         Me.DataGrid2.Font = New System.Drawing.Font("Verdana", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.DataGrid2.HeaderForeColor = System.Drawing.SystemColors.ControlText
-        Me.DataGrid2.Location = New System.Drawing.Point(15, 165)
+        Me.DataGrid2.Location = New System.Drawing.Point(15, 197)
         Me.DataGrid2.Name = "DataGrid2"
         Me.DataGrid2.ReadOnly = True
-        Me.DataGrid2.Size = New System.Drawing.Size(672, 297)
+        Me.DataGrid2.Size = New System.Drawing.Size(672, 265)
         Me.DataGrid2.TabIndex = 25
         '
         'DataGridHoteles
@@ -119,10 +120,10 @@ Partial Class FormIntegraNewPaga
         Me.DataGridHoteles.DataMember = ""
         Me.DataGridHoteles.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.DataGridHoteles.HeaderForeColor = System.Drawing.SystemColors.ControlText
-        Me.DataGridHoteles.Location = New System.Drawing.Point(15, 37)
+        Me.DataGridHoteles.Location = New System.Drawing.Point(15, 51)
         Me.DataGridHoteles.Name = "DataGridHoteles"
         Me.DataGridHoteles.ReadOnly = True
-        Me.DataGridHoteles.Size = New System.Drawing.Size(392, 96)
+        Me.DataGridHoteles.Size = New System.Drawing.Size(392, 116)
         Me.DataGridHoteles.TabIndex = 24
         '
         'DateTimePicker1
@@ -141,14 +142,14 @@ Partial Class FormIntegraNewPaga
         Me.ButtonAceptar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.ButtonAceptar.Location = New System.Drawing.Point(184, 8)
         Me.ButtonAceptar.Name = "ButtonAceptar"
-        Me.ButtonAceptar.Size = New System.Drawing.Size(80, 23)
+        Me.ButtonAceptar.Size = New System.Drawing.Size(80, 25)
         Me.ButtonAceptar.TabIndex = 33
         Me.ButtonAceptar.Text = "&Aceptar"
         '
         'TextBoxRutaFicheros
         '
         Me.TextBoxRutaFicheros.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBoxRutaFicheros.Location = New System.Drawing.Point(415, 113)
+        Me.TextBoxRutaFicheros.Location = New System.Drawing.Point(413, 147)
         Me.TextBoxRutaFicheros.Name = "TextBoxRutaFicheros"
         Me.TextBoxRutaFicheros.Size = New System.Drawing.Size(272, 20)
         Me.TextBoxRutaFicheros.TabIndex = 34
@@ -156,17 +157,29 @@ Partial Class FormIntegraNewPaga
         'ButtonUpdateFilePAth
         '
         Me.ButtonUpdateFilePAth.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ButtonUpdateFilePAth.Location = New System.Drawing.Point(693, 111)
+        Me.ButtonUpdateFilePAth.Location = New System.Drawing.Point(691, 145)
         Me.ButtonUpdateFilePAth.Name = "ButtonUpdateFilePAth"
         Me.ButtonUpdateFilePAth.Size = New System.Drawing.Size(34, 23)
         Me.ButtonUpdateFilePAth.TabIndex = 49
         Me.ButtonUpdateFilePAth.Text = ":::"
         Me.ButtonUpdateFilePAth.UseVisualStyleBackColor = True
         '
+        'Button3
+        '
+        Me.Button3.Image = CType(resources.GetObject("Button3.Image"), System.Drawing.Image)
+        Me.Button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.Button3.Location = New System.Drawing.Point(270, 8)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(168, 25)
+        Me.Button3.TabIndex = 52
+        Me.Button3.Text = "Fechas Posibles NewPaga?"
+        Me.Button3.UseVisualStyleBackColor = True
+        '
         'FormIntegraNewPaga
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit
         Me.ClientSize = New System.Drawing.Size(792, 570)
+        Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.ButtonUpdateFilePAth)
         Me.Controls.Add(Me.TextBoxRutaFicheros)
         Me.Controls.Add(Me.ButtonAceptar)
@@ -202,4 +215,5 @@ Partial Class FormIntegraNewPaga
     Friend WithEvents TextBoxRutaFicheros As TextBox
     Friend WithEvents ButtonUpdateFilePAth As Button
     Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
+    Friend WithEvents Button3 As Button
 End Class

@@ -224,6 +224,7 @@ Public Class IntegraAlmacen
 
             SQL += " FROM TS_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod
             SQL += "' AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
             Me.DbLeeCentral.TraerLector(SQL)
             If Me.DbLeeCentral.mDbLector.Read Then
 
@@ -357,6 +358,7 @@ Public Class IntegraAlmacen
         SQL = "SELECT NVL(COUNT(*),'0') AS TOTAL FROM TNST_ALMA WHERE ALMA_CCST IS NULL"
         Return CType(Me.DbLeeHotelAux.EjecutaSqlScalar(SQL), Integer)
     End Function
+
     Private Sub BorraRegistros()
         SQL = "DELETE TS_ASNT WHERE ASNT_F_VALOR = '" & Me.mFecha & "'"
         Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
@@ -629,6 +631,33 @@ Public Class IntegraAlmacen
 
             End While
             Me.DbLeeCentral.mDbLector.Close()
+
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub SpyroCompruebaCentrosDeCosto(vCentroCosto As String, vTextoApunte As String)
+        Try
+
+
+            SQL = "SELECT NVL(COUNT(*),0) AS CONTROL   FROM CFCCOSTO WHERE EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+            SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += "  AND COD = '" & vCentroCosto & "'"
+
+
+
+            If CStr(Me.DbSpyro.EjecutaSqlScalar(SQL)) = "0" Then
+                Me.mTexto = "SPYRO   : " & vCentroCosto & " No se localiza Centro de Costo de Spyro para  Apunte " & vTextoApunte
+                SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
+                SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & 99 & "," & 1 & ",'" & Me.mTexto & "')"
+                Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+                Me.GestionIncidencia(Me.mEmpGrupoCod, Me.mEmpCod, Me.mEmpNum, Me.mTexto)
+            End If
+
+
+
 
 
         Catch ex As Exception
@@ -1304,135 +1333,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
 
     End Function
 
-    Private Sub GestionGastosAnaliticaOld(vTimoCodi As Integer, vtipoAsiento As Integer, vTipoDebeHaber As Integer, vTexto As String, vCuenta As String)
-        Dim Total As Double
-        Dim vCentroCosto As String
-        Dim vCuentaAnalitica As String
-        Dim vTipo As String
 
-        Dim Cuenta As String
-
-
-
-        ' MOvimientos del Tipo Recibido Agrupados por FECHA/ALMACEN
-        SQL = "SELECT TNST_MOVG.MOVG_DAVA,"
-        SQL += "TNST_MOVD.ALMA_CODI, SUM(TNST_MOVD.MOVD_TOTA)AS TOTAL,ALMA_DESC AS ALMACEN,"
-        SQL += " TNST_MOVD.ALMA_CODI AS ALMACODI ,NVL(ALMA_COEX,'?') AS CUENTA,TNST_MOVG.MOVG_ANUL"
-        SQL += " FROM TNST_MOVG, TNST_MOVD, TNST_ALMA, TNST_PROD,  TNST_TIMO"
-        SQL += " WHERE (TNST_MOVG.MOVG_CODI = TNST_MOVD.MOVG_CODI)"
-        SQL += " AND (TNST_MOVG.MOVG_ANCI = TNST_MOVD.MOVG_ANCI)"
-        SQL += " AND (TNST_MOVD.ALMA_CODI = TNST_ALMA.ALMA_CODI)"
-        SQL += " AND (TNST_MOVD.PROD_CODI = TNST_PROD.PROD_CODI)"
-        SQL += " AND (TNST_MOVG.TIMO_CODI = TNST_TIMO.TIMO_CODI)"
-        SQL += " AND TNST_TIMO.TIMO_TIPO = " & vTimoCodi
-        SQL += " AND TNST_MOVG.MOVG_DAVA =  " & "'" & Me.mFecha & "'"
-        SQL += " AND TNST_MOVG.MOVG_ANUL = 0"
-        SQL += " GROUP BY TNST_MOVG.TIMO_CODI,TNST_MOVG.MOVG_DAVA,"
-        SQL += "TNST_MOVD.ALMA_CODI,"
-        SQL += "TNST_ALMA.ALMA_DESC,ALMA_COEX,TNST_MOVG.MOVG_ANUL"
-
-        Me.DbLeeHotel.TraerLector(SQL)
-
-        While Me.DbLeeHotel.mDbLector.Read
-
-
-            Linea = Linea + 1
-
-
-            Total = CType(Me.DbLeeHotel.mDbLector("TOTAL"), Double)
-
-            If vTipoDebeHaber = mEnumTipoDebeHaber.Debe Then
-                vTipo = "D"
-                Me.mTipoAsiento = "DEBE"
-            Else
-                vTipo = "H"
-                Me.mTipoAsiento = "HABER"
-            End If
-
-            If vCuenta = "" Then
-                Cuenta = CStr(Me.DbLeeHotel.mDbLector("CUENTA"))
-            Else
-                Cuenta = vCuenta
-            End If
-
-
-            Me.InsertaOracle("AC", vtipoAsiento, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, vTipo, vTexto & " " & CType(Me.DbLeeHotel.mDbLector("ALMACEN"), String), Total, "NO", "0", "")
-            Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, vTipo, vTexto & " " & CType(Me.DbLeeHotel.mDbLector("ALMACEN"), String), Total)
-
-
-            ' Localiza el Almacen del Asiento Anterior 
-            SQL = "SELECT ALMA_COEX_1 AS RAIZ "
-            SQL += " FROM TNST_ALMA "
-            SQL += " WHERE "
-            SQL += " ALMA_CODI = " & CInt(Me.DbLeeHotel.mDbLector("ALMACODI"))
-
-
-
-            Me.mResult = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
-
-            ' Si hay datos en codigo externo 2 es que se pretende analitica por grupo / familia
-            If Me.mResult.Length > 0 Then
-
-                SQL = "SELECT TNST_MOVG.MOVG_DAVA,"
-                SQL += "TNST_MOVD.ALMA_CODI,TNST_GRUP.GRUP_CODI, SUM(TNST_MOVD.MOVD_TOTA)AS TOTAL,ALMA_DESC AS ALMACEN,"
-                SQL += " GRUP_DESC AS GRUPO,TNST_MOVD.ALMA_CODI AS ALMACODI,TNST_GRUP.GRUP_CODI AS GRUPCODI,TNST_FAMI.FAMI_CODI AS FAMICODI,FAMI_DESC AS FAMILIA"
-                SQL += " FROM TNST_MOVG, TNST_MOVD, TNST_ALMA, TNST_PROD, TNST_GRUP, TNST_TIMO,TNST_FAMI"
-                SQL += " WHERE (TNST_MOVG.MOVG_CODI = TNST_MOVD.MOVG_CODI)"
-                SQL += " AND (TNST_MOVG.MOVG_ANCI = TNST_MOVD.MOVG_ANCI)"
-                SQL += " AND (TNST_MOVD.ALMA_CODI = TNST_ALMA.ALMA_CODI)"
-                SQL += " AND (TNST_MOVD.PROD_CODI = TNST_PROD.PROD_CODI)"
-                SQL += " AND (TNST_MOVG.TIMO_CODI = TNST_TIMO.TIMO_CODI)"
-                SQL += " AND (TNST_PROD.GRUP_CODI = TNST_GRUP.GRUP_CODI)"
-                SQL += " AND (TNST_PROD.FAMI_CODI = TNST_FAMI.FAMI_CODI)"
-                SQL += " AND TNST_MOVG.MOVG_DAVA =  " & "'" & Me.mFecha & "'"
-                SQL += " AND TNST_TIMO.TIMO_TIPO = " & Me.mTimo_Albaran
-                SQL += " AND TNST_MOVD.ALMA_CODI =  " & CInt(Me.DbLeeHotel.mDbLector("ALMACODI"))
-                SQL += " AND TNST_MOVG.MOVG_ANUL = 0"
-                SQL += " GROUP BY TNST_MOVG.TIMO_CODI,TNST_MOVG.MOVG_DAVA,"
-                SQL += "TNST_MOVD.ALMA_CODI,"
-                SQL += "TNST_ALMA.ALMA_DESC,"
-                SQL += "TNST_GRUP.GRUP_CODI,"
-                SQL += "TNST_GRUP.GRUP_DESC,"
-                SQL += "TNST_FAMI.FAMI_CODI,"
-                SQL += "TNST_FAMI.FAMI_DESC"
-
-
-                Me.DbLeeHotelAux.TraerLector(SQL)
-                While Me.DbLeeHotelAux.mDbLector.Read
-
-                    vCentroCosto = CStr(Me.DbLeeHotelAux.mDbLector("GRUPCODI")).PadLeft(2, "0") & CStr(Me.DbLeeHotelAux.mDbLector("FAMICODI")).PadLeft(2, "0")
-                    vCuentaAnalitica = CStr(Me.DbLeeHotel.mDbLector("CUENTA")) & CStr(Me.DbLeeHotelAux.mDbLector("GRUPCODI")).PadLeft(2, "0") & CStr(Me.DbLeeHotelAux.mDbLector("FAMICODI")).PadLeft(2, "0")
-
-                    Me.GeneraFileAA("AA", vtipoAsiento, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, vCuentaAnalitica, "0", vCentroCosto, CDbl(Me.DbLeeHotelAux.mDbLector("TOTAL")))
-
-                End While
-                Me.DbLeeHotelAux.mDbLector.Close()
-
-
-            Else
-                SQL = "SELECT ALMA_CCST FROM TNST_ALMA WHERE ALMA_CODI = " & CType(Me.DbLeeHotel.mDbLector("ALMACODI"), Integer)
-                Me.mResult = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
-
-                If Me.mResult.Length > 0 Then
-                    vCentroCosto = Me.mResult
-                Else
-                    vCentroCosto = ""
-                End If
-
-                Me.GeneraFileAA("AA", vtipoAsiento, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Cuenta, "0", vCentroCosto, Total)
-
-            End If
-
-
-
-
-        End While
-        Me.DbLeeHotel.mDbLector.Close()
-
-
-
-
-    End Sub
     Private Sub GestionGastosAnalitica(vTimoCodi As Integer, vtipoAsiento As Integer, vTipoDebeHaber As Integer, vTexto As String, vCuenta As String, vEnsa As String)
         Dim Total As Double
         Dim vCentroCosto As String
@@ -1447,7 +1348,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
         ' MOvimientos del Tipo Recibido Agrupados por FECHA/ALMACEN
         SQL = "SELECT TNST_MOVG.MOVG_DAVA,"
         SQL += "TNST_MOVD.ALMA_CODI, SUM(TNST_MOVD.MOVD_TOTA) + SUM(NVL(TNST_MOVD.MOVD_VERD,0)) AS TOTAL,ALMA_DESC AS ALMACEN,"
-        SQL += " TNST_MOVD.ALMA_CODI AS ALMACODI ,NVL(ALMA_COEX,'?') AS CUENTA,TNST_MOVG.MOVG_ANUL,NVL(ALMA_CCST,'??') AS ALMA_CCST"
+        SQL += " TNST_MOVD.ALMA_CODI AS ALMACODI ,NVL(ALMA_COEX,'?') AS CUENTA,TNST_MOVG.MOVG_ANUL,NVL(ALMA_CCST,'??') AS ALMA_CCST "
         SQL += " FROM TNST_MOVG, TNST_MOVD, TNST_ALMA, TNST_PROD,  TNST_TIMO"
         SQL += " WHERE (TNST_MOVG.MOVG_CODI = TNST_MOVD.MOVG_CODI)"
         SQL += " AND (TNST_MOVG.MOVG_ANCI = TNST_MOVD.MOVG_ANCI)"
@@ -1487,7 +1388,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
 
             SQL2 = "SELECT TNST_MOVG.MOVG_DAVA,"
             SQL2 += "TNST_MOVD.ALMA_CODI,TNST_GRUP.GRUP_CODI, SUM(TNST_MOVD.MOVD_TOTA) + SUM(NVL(TNST_MOVD.MOVD_VERD,0)) AS TOTAL,ALMA_DESC AS ALMACEN,"
-            SQL2 += " GRUP_DESC AS GRUPO,TNST_MOVD.ALMA_CODI AS ALMACODI,TNST_GRUP.GRUP_CODI AS GRUPCODI,TNST_FAMI.FAMI_CODI AS FAMICODI,FAMI_DESC AS FAMILIA,NVL(ALMA_CCST,'??') AS ALMA_CCST "
+            SQL2 += " GRUP_DESC AS GRUPO,TNST_MOVD.ALMA_CODI AS ALMACODI,TNST_GRUP.GRUP_CODI AS GRUPCODI,TNST_FAMI.FAMI_CODI AS FAMICODI,FAMI_DESC AS FAMILIA,NVL(ALMA_CCST,'??') AS ALMA_CCST,NVL(GRUP_CCST,'??') AS GRUP_CCST,NVL(FAMI_CCST,'??') AS FAMI_CCST "
             SQL2 += " FROM TNST_MOVG, TNST_MOVD, TNST_ALMA, TNST_PROD, TNST_GRUP, TNST_TIMO,TNST_FAMI "
             SQL2 += " WHERE (TNST_MOVG.MOVG_CODI = TNST_MOVD.MOVG_CODI)"
             SQL2 += " AND (TNST_MOVG.MOVG_ANCI = TNST_MOVD.MOVG_ANCI)"
@@ -1509,7 +1410,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
             SQL2 += "TNST_GRUP.GRUP_CODI,"
             SQL2 += "TNST_GRUP.GRUP_DESC,"
             SQL2 += "TNST_FAMI.FAMI_CODI,"
-            SQL2 += "TNST_FAMI.FAMI_DESC,ALMA_CCST"
+            SQL2 += "TNST_FAMI.FAMI_DESC,ALMA_CCST,GRUP_CCST,FAMI_CCST "
 
             ' Si la cuenta esta completa (10 bytes ) se agrupa el ac y se detalla el AA
             If Me.mResult.Length = 10 Then
@@ -1540,7 +1441,9 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
                 Me.DbLeeHotelAux.TraerLector(SQL2)
                 While Me.DbLeeHotelAux.mDbLector.Read
 
-                    vCentroCosto = CStr(Me.DbLeeHotelAux.mDbLector("ALMA_CCST")) & CStr(Me.DbLeeHotelAux.mDbLector("GRUPCODI")).PadLeft(2, "0") & CStr(Me.DbLeeHotelAux.mDbLector("FAMICODI")).PadLeft(2, "0")
+                    vCentroCosto = CStr(Me.DbLeeHotelAux.mDbLector("ALMA_CCST")) & CStr(Me.DbLeeHotelAux.mDbLector("GRUP_CCST")).PadLeft(2, "0") & CStr(Me.DbLeeHotelAux.mDbLector("FAMI_CCST")).PadLeft(2, "0")
+
+                    SpyroCompruebaCentrosDeCosto(vCentroCosto, vTexto & " " & CType(Me.DbLeeHotel.mDbLector("ALMACEN"), String) & " " & CStr(Me.DbLeeHotelAux.mDbLector("GRUPO")) & "/" & CStr(Me.DbLeeHotelAux.mDbLector("FAMILIA")))
 
                     Me.GeneraFileAA("AA", vtipoAsiento, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Cuenta, Me.mParaTipoAnalitica, vCentroCosto, CDbl(Me.DbLeeHotelAux.mDbLector("TOTAL")))
 
@@ -1572,8 +1475,11 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
 
                     Texto = vTexto & CStr(Me.DbLeeHotelAux.mDbLector("GRUPO"))
 
-                    vCentroCosto = CStr(Me.DbLeeHotelAux.mDbLector("ALMA_CCST")) & CStr(Me.DbLeeHotelAux.mDbLector("GRUPCODI")).PadLeft(2, "0") & CStr(Me.DbLeeHotelAux.mDbLector("FAMICODI")).PadLeft(2, "0")
-                    vCuentaAnalitica = CStr(Me.DbLeeHotel.mDbLector("CUENTA")) & CStr(Me.DbLeeHotelAux.mDbLector("GRUPCODI")).PadLeft(2, "0") & CStr(Me.DbLeeHotelAux.mDbLector("FAMICODI")).PadLeft(2, "0")
+                    vCentroCosto = CStr(Me.DbLeeHotelAux.mDbLector("ALMA_CCST")) & CStr(Me.DbLeeHotelAux.mDbLector("GRUP_CCST")).PadLeft(2, "0") & CStr(Me.DbLeeHotelAux.mDbLector("FAMI_CCST")).PadLeft(2, "0")
+                    SpyroCompruebaCentrosDeCosto(vCentroCosto, vTexto & " " & CType(Me.DbLeeHotel.mDbLector("ALMACEN"), String) & " " & CStr(Me.DbLeeHotelAux.mDbLector("GRUPO")) & "/" & CStr(Me.DbLeeHotelAux.mDbLector("FAMILIA")))
+
+
+                    vCuentaAnalitica = CStr(Me.DbLeeHotel.mDbLector("CUENTA")) & CStr(Me.DbLeeHotelAux.mDbLector("GRUP_CCST")).PadLeft(2, "0") & CStr(Me.DbLeeHotelAux.mDbLector("FAMI_CCST")).PadLeft(2, "0")
 
 
                     If vCuenta = "" Then

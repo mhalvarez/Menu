@@ -730,6 +730,87 @@ Public Class ContaNetNewHotel
             MsgBox(EX.Message, MsgBoxStyle.Information, "Inserta Asiento Oracle")
         End Try
     End Sub
+    '' aqui
+    Private Sub InsertaOracle(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vCefejerc_Cod As String,
+                                      ByVal vCfatocab_Refer As Integer, ByVal vLinea As Integer _
+                                      , ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As String, ByVal vImonep As Double,
+                                        ByVal vAjuste As String, ByVal vCif As String, ByVal vNombre As String, ByVal vImprimir As String, vCfcCosto As String, vNada As String, vNada2 As String, Vnada3 As String, vNada4 As String)
+
+        Try
+
+            If Me.mTipoAsiento = "DEBE" Then
+                Me.mDebe = vImonep
+                Me.mHbaber = 0
+            Else
+                Me.mDebe = 0
+                Me.mHbaber = vImonep
+
+            End If
+
+            SQL = "INSERT INTO TH_ASNT(ASNT_TIPO_REGISTRO,ASNT_EMPGRUPO_COD,ASNT_EMP_COD,ASNT_CFEJERC_COD,ASNT_CFATODIARI_COD,ASNT_CFATOCAB_REFER,"
+            SQL += "ASNT_LINEA,ASNT_CFCTA_COD,ASNT_CFCPTOS_COD,ASNT_AMPCPTO,ASNT_I_MONEMP,ASNT_CONCIL_SN,ASNT_F_ATOCAB,ASNT_F_VALOR,ASNT_NOMBRE,"
+            SQL += "ASNT_DEBE,ASNT_HABER,ASNT_AJUSTAR,ASNT_CIF,ASNT_IMPRIMIR,ASNT_EMP_NUM,ASNT_CFCCOSTO) values ('"
+            SQL += vTipo & "','"
+            SQL += vEmpGrupoCod & "','"
+            SQL += vEmpCod & "','"
+            SQL += vCefejerc_Cod & "','"
+            SQL += Me.mCfatodiari_Cod & "',"
+            SQL += vAsiento & ","
+            SQL += Linea & ",'"
+            SQL += vCfcta_Cod & "','"
+            SQL += vCfcptos_Cod & "','"
+            SQL += Mid(vAmpcpto, 1, 40).Replace("'", ",") & "',"
+            SQL += vImonep & ","
+            SQL += "'N','"
+            SQL += Format(Me.mFecha, "dd/MM/yyyy") & "','"
+            SQL += Format(Me.mFecha, "dd/MM/yyyy") & "','"
+            SQL += vNombre.Replace("'", "''") & "'," & Me.mDebe & "," & Me.mHbaber & ",'" & vAjuste & "','" & vCif & "','" & vImprimir & "'," & Me.mEmpNum & "," & "'" & vCfcCosto & "')"
+
+
+
+
+            Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+            Me.mTextDebug.Text = "Grabando Registro  " & Mid(vAmpcpto, 1, 40) & " " & Me.mFecha
+            Me.mTextDebug.Update()
+
+            If vCfcta_Cod.Length < 2 And vCfcta_Cod <> "NO TRATAR" Then
+                Me.mTexto = "NEWHOTEL: " & "Cuenta Contable no válida para descripción de Movimiento =  " & Mid(vAmpcpto, 1, 40).PadRight(40, CChar(" ")) & " " & vNombre.Replace("'", "''")
+                Me.mListBoxDebug.Items.Add(Me.mTexto)
+                SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
+                SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & vAsiento & "," & Linea & ",'" & Me.mTexto & "')"
+                Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+                Me.GestionIncidencia(Me.mEmpGrupoCod, Me.mEmpCod, Me.mEmpNum, Me.mTexto)
+
+            End If
+
+
+            If vTipo = "FV" Then
+                If vCif.Length = 0 Or vCif = "0" Then
+                    Me.mTexto = "NEWHOTEL: " & "CIF no válido para descripción de Movimiento =  " & Mid(vAmpcpto, 1, 40).PadRight(40, CChar(" ")) & " " & vNombre.Replace("'", "''")
+                    Me.mListBoxDebug.Items.Add(Me.mTexto)
+
+                    'SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
+                    'SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & vAsiento & "," & Linea & ",'" & Me.mTexto & "')"
+                    'Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+
+                    Me.GestionIncidencia(Me.mEmpGrupoCod, Me.mEmpCod, Me.mEmpNum, Me.mTexto)
+
+                End If
+            End If
+
+            If vCfcta_Cod <> "NO TRATAR" Then
+                If Me.mParaValidaSpyro = 1 Then
+                    '         Me.SpyroCompruebaCuenta(vCfcta_Cod, vTipo, vAsiento, vLinea, vCfcptos_Cod, vAmpcpto, vNombre)
+                End If
+            End If
+
+
+
+        Catch EX As Exception
+
+            MsgBox(EX.Message, MsgBoxStyle.Information, "Inserta Asiento Oracle")
+        End Try
+    End Sub
     ' igic notas de credito
     'aqui 
     Private Sub InsertaOracle(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vCefejerc_Cod As String,
@@ -2285,6 +2366,51 @@ Public Class ContaNetNewHotel
             MsgBox(ex.Message, MsgBoxStyle.Information, " Localiza Cuenta Contable SPYRO")
         End Try
     End Sub
+
+    Private Sub SpyroCompruebaCentrosDeCosto()
+        Try
+            SQL = "SELECT ASNT_CFCTA_COD,ASNT_CFATOCAB_REFER,ASNT_LINEA,ASNT_CFCCOSTO ,"
+            SQL += "NVL(ASNT_AMPCPTO,'?') AS ASNT_AMPCPTO,NVL(ASNT_NOMBRE,'?') AS ASNT_NOMBRE "
+            SQL += "FROM TH_ASNT WHERE "
+            SQL += "     ASNT_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+            SQL += " AND ASNT_EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND ASNT_EMP_NUM = " & Me.mEmpNum
+            SQL += " AND ASNT_F_VALOR = '" & Me.mFecha & "'"
+            SQL += " AND ASNT_CFCTA_COD <> 'NO TRATAR'"
+            ' SOLO ASIENTO DE PRODUCCIUION
+            SQL += " AND ASNT_CFATOCAB_REFER  = 1 "
+            ' SOLO CON CENTRO DE COSTO VALIDO O ZERO
+            SQL += " AND ASNT_CFCCOSTO IS NOT NULL "
+            Me.DbLeeCentral.TraerLector(SQL)
+            While Me.DbLeeCentral.mDbLector.Read
+
+
+
+
+                SQL = "SELECT NVL(COUNT(*),0) AS CONTROL   FROM CFCCOSTO WHERE EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+                SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += "  AND COD = '" & Me.DbLeeCentral.mDbLector.Item("ASNT_CFCCOSTO") & "'"
+
+
+
+                If CStr(Me.DbSpyro.EjecutaSqlScalar(SQL)) = "0" Then
+                    Me.mListBoxDebug.Items.Add("SPYRO   : " & Me.DbLeeCentral.mDbLector.Item("ASNT_CFCTA_COD") & "  No Existe Centro de Costo en Spyro " & Me.DbLeeCentral.mDbLector.Item("ASNT_CFCCOSTO"))
+                    Me.mListBoxDebug.Update()
+                    Me.mTexto = "SPYRO   : " & Me.DbLeeCentral.mDbLector.Item("ASNT_CFCTA_COD") & "  No Existe Centro de Costo en Spyro " & Me.DbLeeCentral.mDbLector.Item("ASNT_CFCCOSTO")
+                    SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
+                    SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & Me.DbLeeCentral.mDbLector.Item("ASNT_CFATOCAB_REFER") & "," & Me.DbLeeCentral.mDbLector.Item("ASNT_LINEA") & ",'" & Me.mTexto & "')"
+                    Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+                    Me.GestionIncidencia(Me.mEmpGrupoCod, Me.mEmpCod, Me.mEmpNum, Me.mTexto)
+                End If
+            End While
+
+            Me.DbLeeCentral.mDbLector.Close()
+
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
     Private Sub GeneraFileAC(ByVal vTipo As String, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vCefejerc_Cod As String,
      ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As String, ByVal vImonep As Double)
         Try
@@ -2545,7 +2671,7 @@ Public Class ContaNetNewHotel
             "F4" & " " & "01" &
             " ".PadRight(2, CChar(" ")) &
             " ".PadRight(16, CChar(" ")) &
-            "VENTAS DE SERVICIOS ".PadRight(500, CChar(" ")) &
+            "TICKETS DE CONTADO".PadRight(500, CChar(" ")) &
             " " & "F" & " " &
             " ".PadRight(8, CChar(" ")) &
             " ".PadRight(8, CChar(" ")) &
@@ -2924,6 +3050,8 @@ Public Class ContaNetNewHotel
 
         Dim Total As Double
         Dim vCentroCosto As String
+        Dim vTipoAnalisis As String
+
         SQL = "SELECT TNHT_MOVI.SECC_CODI,TNHT_MOVI.SERV_CODI SERVICIO,TNHT_SERV.SERV_DESC DEPARTAMENTO,NVL(TNHT_SERV.SERV_CTB1,'0') CUENTA ,"
         SQL += "ROUND (SUM (MOVI_VLIQ), 2) TOTAL "
         SQL += " FROM " & Me.mStrHayHistorico & " TNHT_MOVI,TNHT_SERV"
@@ -2948,15 +3076,24 @@ Public Class ContaNetNewHotel
             SQL = "SELECT NVL(SERV_COMS,'0') FROM TNHT_SERV WHERE SERV_CODI = '" & CType(Me.DbLeeHotel.mDbLector("SERVICIO"), String) & "'"
             vCentroCosto = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
 
+            SQL = "SELECT NVL(PARA_SPYRO_TIPO_ANALITICA,'?') PARA_SPYRO_TIPO_ANALITICA"
+            SQL += " FROM TS_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+            SQL += " AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
+
+            vTipoAnalisis = Me.DbLeeCentral.EjecutaSqlScalar(SQL)
+
+
             Linea = Linea + 1
             Total = CType(Me.DbLeeHotel.mDbLector("TOTAL"), Double)
             If Total <> 0 Then
                 Me.mTipoAsiento = "HABER"
-                Me.InsertaOracle("AC", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorHaber, CType(Me.DbLeeHotel.mDbLector("DEPARTAMENTO"), String), Total, "NO", "", vCentroCosto, "SI")
+                '    Me.InsertaOracle("AC", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorHaber, CType(Me.DbLeeHotel.mDbLector("DEPARTAMENTO"), String), Total, "NO", "", vCentroCosto, "SI")
+
+                Me.InsertaOracle("AC", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorHaber, CType(Me.DbLeeHotel.mDbLector("DEPARTAMENTO"), String), Total, "NO", "", "", "SI", vCentroCosto, "", "", "", "")
                 Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), Me.mIndicadorHaber, CType(Me.DbLeeHotel.mDbLector("DEPARTAMENTO"), String), Total)
-                If vCentroCosto <> "0" Then
-                    '           Me.GeneraFileAA("AA", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), "0", vCentroCosto, Total)
-                End If
+                Me.GeneraFileAA("AA", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), vTipoAnalisis, vCentroCosto, Total)
+
             End If
         End While
         Me.DbLeeHotel.mDbLector.Close()
@@ -4583,8 +4720,11 @@ Public Class ContaNetNewHotel
 
                 '20181227
                 If Me.mParaGeneraRegistrosSII Then
-                    Me.GeneraFileSV("SV", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), Dni)
                     Me.GeneraFileRS("RS", Dni, GetNaciCodi(Me.mPara_SPYRO_NACICODI, CStr(Me.DbLeeHotel.mDbLector("FACT_NACI"))))
+
+                    If CcExCodi = "TPV" Then
+                        Me.GeneraFileSV("SV", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), Dni)
+                    End If
                 End If
 
 
@@ -4956,11 +5096,13 @@ Public Class ContaNetNewHotel
 
         Dim FacturaAnulada As String
 
+        Dim vPais As String
+
 
         SQL = "SELECT"
         SQL += " TNHT_NCRE.SEDO_CODI AS SERIE, TNHT_NCRE.NCRE_DOCU AS NUMERO,TNHT_NCRE.SEFA_CODI AS SERIE2, TNHT_NCRE.NCRE_CODI AS NUMERO2,TNHT_NCRE.NCRE_DOCU||'/'||TNHT_NCRE.SEDO_CODI FACTURA,(NCRE_VALO * -1) TOTAL, "
         SQL += " NCRE_TITU, NCRE_DAEM,NVL(ENTI_NCON_AF,0) CUENTA ,NVL(NCRE_NUCO,0) CIF,NVL(NCRE_TITU,'?') AS NOMBRE,NCRE_ANUL AS ANULADA"
-        SQL += " ,TNHT_NCRE.NCRE_NECO AS ESTADO "
+        SQL += " ,TNHT_NCRE.NCRE_NECO AS ESTADO ,TNHT_NCRE.ENTI_CODI "
 
         SQL += " ,TNHT_NCRE.FACT_CODI AS FNUMERO "
         SQL += " ,TNHT_NCRE.FACT_SEFA AS FSERIE "
@@ -5007,6 +5149,13 @@ Public Class ContaNetNewHotel
             End If
 
 
+            If IsDBNull(Me.DbLeeHotel.mDbLector("ENTI_CODI")) = False Then
+                SQL = "SELECT NVL(NACI_CODI,'?') AS NACI_CODI  FROM TNHT_ENTI WHERE ENTI_CODI = '" & Me.DbLeeHotel.mDbLector("ENTI_CODI") & "'"
+                vPais = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+
+            Else
+                vPais = "PDTE"
+            End If
 
 
             Me.mTipoAsiento = "DEBE"
@@ -5019,8 +5168,7 @@ Public Class ContaNetNewHotel
 
             '20181227
             If Me.mParaGeneraRegistrosSII Then
-                Me.GeneraFileSV("SV", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), CType(Me.DbLeeHotel.mDbLector("CIF"), String))
-                Me.GeneraFileRS("RS", CType(Me.DbLeeHotel.mDbLector("CIF"), String), GetNaciCodi(Me.mPara_SPYRO_NACICODI, "PDTE"))
+                Me.GeneraFileRS("RS", CType(Me.DbLeeHotel.mDbLector("CIF"), String), GetNaciCodi(Me.mPara_SPYRO_NACICODI, vPais))
             End If
 
 
@@ -5082,6 +5230,14 @@ Public Class ContaNetNewHotel
             End If
 
 
+            If IsDBNull(Me.DbLeeHotel.mDbLector("ENTI_CODI")) = False Then
+                SQL = "SELECT NVL(NACI_CODI,'?') AS NACI_CODI  FROM TNHT_ENTI WHERE ENTI_CODI = '" & Me.DbLeeHotel.mDbLector("ENTI_CODI") & "'"
+                vPais = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+
+            Else
+                vPais = "PDTE"
+            End If
+
             Me.mTipoAsiento = "HABER"
             Me.InsertaOracle("AC", 51, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaberFac, CType(Me.DbLeeHotel.mDbLector("FACTURA"), String) & " Anulada ", Total, "NO", CType(Me.DbLeeHotel.mDbLector("CIF"), String), CType(Me.DbLeeHotel.mDbLector("NOMBRE"), String) & " Factura =  " & FacturaAnulada, "SI", TipoNota, CType(Me.DbLeeHotel.mDbLector("NUMERO"), String), CType(Me.DbLeeHotel.mDbLector("SERIE"), String), FacturaAnulada)
 
@@ -5091,8 +5247,7 @@ Public Class ContaNetNewHotel
 
             '20181227
             If Me.mParaGeneraRegistrosSII Then
-                Me.GeneraFileSV("SV", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), CType(Me.DbLeeHotel.mDbLector("CIF"), String))
-                Me.GeneraFileRS("RS", CType(Me.DbLeeHotel.mDbLector("CIF"), String), GetNaciCodi(Me.mPara_SPYRO_NACICODI, "PDTE"))
+                Me.GeneraFileRS("RS", CType(Me.DbLeeHotel.mDbLector("CIF"), String), GetNaciCodi(Me.mPara_SPYRO_NACICODI, vPais))
             End If
 
         End While
@@ -8103,6 +8258,7 @@ Public Class ContaNetNewHotel
 
             If Me.mParaValidaSpyro = 1 Then
                 Me.SpyroCompruebaCuentas()
+                Me.SpyroCompruebaCentrosDeCosto()
             End If
 
 

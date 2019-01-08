@@ -31,6 +31,22 @@ ADD (PARA_SPYRO_TIPO_ANALITICA VARCHAR2(15 BYTE) DEFAULT 'ASM' );
 COMMENT ON COLUMN TS_PARA.PARA_SPYRO_TIPO_ANALITICA IS 'Tipo de Analitica Registros AA';
 
 
+
+ALTER TABLE TS_ASNT 
+ADD (ASNT_CFCCOSTO VARCHAR2(15 BYTE ));
+
+COMMENT ON COLUMN TS_ASNT.ASNT_CFCCOSTO IS 'Centro de Costo Spyro';
+
+ALTER TABLE TH_ASNT 
+ADD (ASNT_CFCCOSTO VARCHAR2(15 BYTE ));
+
+COMMENT ON COLUMN TH_ASNT.ASNT_CFCCOSTO IS 'Centro de Costo Spyro';
+
+
+
+
+
+
 alter session set nls_language = 'AMERICAN';
 alter session set nls_territory = 'AMERICA';
 alter session set nls_date_format = 'DD-MON-YYYY';

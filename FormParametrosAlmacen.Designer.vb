@@ -76,6 +76,8 @@ Partial Class FormParametrosAlmacen
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.TabPageSantaMonica = New System.Windows.Forms.TabPage()
+        Me.TextBoxSpyroTipoAnalitica = New System.Windows.Forms.TextBox()
+        Me.Label29 = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.ButtonAceptar = New System.Windows.Forms.Button()
         Me.ButtonCancelar = New System.Windows.Forms.Button()
@@ -87,8 +89,8 @@ Partial Class FormParametrosAlmacen
         Me.Label78 = New System.Windows.Forms.Label()
         Me.TextBoxEmpNum = New System.Windows.Forms.TextBox()
         Me.Label77 = New System.Windows.Forms.Label()
-        Me.Label29 = New System.Windows.Forms.Label()
-        Me.TextBoxSpyroTipoAnalitica = New System.Windows.Forms.TextBox()
+        Me.TextBoxSpyroCuentaPuenteRemesas = New System.Windows.Forms.TextBox()
+        Me.Label30 = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPageGenerales.SuspendLayout()
@@ -635,6 +637,8 @@ Partial Class FormParametrosAlmacen
         '
         'TabPageSantaMonica
         '
+        Me.TabPageSantaMonica.Controls.Add(Me.TextBoxSpyroCuentaPuenteRemesas)
+        Me.TabPageSantaMonica.Controls.Add(Me.Label30)
         Me.TabPageSantaMonica.Controls.Add(Me.TextBoxSpyroTipoAnalitica)
         Me.TabPageSantaMonica.Controls.Add(Me.Label29)
         Me.TabPageSantaMonica.Location = New System.Drawing.Point(4, 22)
@@ -643,6 +647,23 @@ Partial Class FormParametrosAlmacen
         Me.TabPageSantaMonica.TabIndex = 2
         Me.TabPageSantaMonica.Text = "Santa Mónica"
         Me.TabPageSantaMonica.UseVisualStyleBackColor = True
+        '
+        'TextBoxSpyroTipoAnalitica
+        '
+        Me.TextBoxSpyroTipoAnalitica.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxSpyroTipoAnalitica.Location = New System.Drawing.Point(173, 14)
+        Me.TextBoxSpyroTipoAnalitica.Name = "TextBoxSpyroTipoAnalitica"
+        Me.TextBoxSpyroTipoAnalitica.Size = New System.Drawing.Size(88, 20)
+        Me.TextBoxSpyroTipoAnalitica.TabIndex = 13
+        '
+        'Label29
+        '
+        Me.Label29.AutoSize = True
+        Me.Label29.Location = New System.Drawing.Point(12, 16)
+        Me.Label29.Name = "Label29"
+        Me.Label29.Size = New System.Drawing.Size(144, 13)
+        Me.Label29.TabIndex = 0
+        Me.Label29.Text = "Tipo Análisis  Analítica Spyro"
         '
         'GroupBox2
         '
@@ -749,22 +770,22 @@ Partial Class FormParametrosAlmacen
         Me.Label77.TabIndex = 36
         Me.Label77.Text = "Hotel Nùmero"
         '
-        'Label29
+        'TextBoxSpyroCuentaPuenteRemesas
         '
-        Me.Label29.AutoSize = True
-        Me.Label29.Location = New System.Drawing.Point(12, 16)
-        Me.Label29.Name = "Label29"
-        Me.Label29.Size = New System.Drawing.Size(88, 13)
-        Me.Label29.TabIndex = 0
-        Me.Label29.Text = "Tipo de Analítica"
+        Me.TextBoxSpyroCuentaPuenteRemesas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxSpyroCuentaPuenteRemesas.Location = New System.Drawing.Point(273, 63)
+        Me.TextBoxSpyroCuentaPuenteRemesas.Name = "TextBoxSpyroCuentaPuenteRemesas"
+        Me.TextBoxSpyroCuentaPuenteRemesas.Size = New System.Drawing.Size(88, 20)
+        Me.TextBoxSpyroCuentaPuenteRemesas.TabIndex = 15
         '
-        'TextBoxSpyroTipoAnalitica
+        'Label30
         '
-        Me.TextBoxSpyroTipoAnalitica.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxSpyroTipoAnalitica.Location = New System.Drawing.Point(106, 14)
-        Me.TextBoxSpyroTipoAnalitica.Name = "TextBoxSpyroTipoAnalitica"
-        Me.TextBoxSpyroTipoAnalitica.Size = New System.Drawing.Size(88, 20)
-        Me.TextBoxSpyroTipoAnalitica.TabIndex = 13
+        Me.Label30.AutoSize = True
+        Me.Label30.Location = New System.Drawing.Point(12, 65)
+        Me.Label30.Name = "Label30"
+        Me.Label30.Size = New System.Drawing.Size(241, 13)
+        Me.Label30.TabIndex = 14
+        Me.Label30.Text = "Cuenta ""Puente"" Remesas Bancarias (NewPaga)"
         '
         'FormParametrosAlmacen
         '
@@ -865,4 +886,6 @@ Partial Class FormParametrosAlmacen
     Friend WithEvents TabPageSantaMonica As TabPage
     Friend WithEvents TextBoxSpyroTipoAnalitica As TextBox
     Friend WithEvents Label29 As Label
+    Friend WithEvents TextBoxSpyroCuentaPuenteRemesas As TextBox
+    Friend WithEvents Label30 As Label
 End Class
