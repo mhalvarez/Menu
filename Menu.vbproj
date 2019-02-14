@@ -150,7 +150,7 @@
     </Reference>
     <Reference Include="Hlopez2, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Hlopez2\bin\x86\Release\Hlopez2.dll</HintPath>
+      <HintPath>Hlopez2\bin\x86\Debug\Hlopez2.dll</HintPath>
     </Reference>
     <Reference Include="Hoteles Dunas2, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -166,7 +166,7 @@
     </Reference>
     <Reference Include="Integra NewStock HLopez, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Integra NewStock HLopez\bin\x86\Release\Integra NewStock HLopez.dll</HintPath>
+      <HintPath>Integra NewStock HLopez\bin\x86\Debug\Integra NewStock HLopez.dll</HintPath>
     </Reference>
     <Reference Include="IntegraAlmacen, Version=1.0.6876.31442, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>

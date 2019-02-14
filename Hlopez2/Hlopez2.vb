@@ -168,6 +168,15 @@ Public Class Hlopez2
     Private mTipoComprobantesVersion As Integer
     Private mTipodeEfecto As String
 
+    Private mParaGeneraRegistrosSII As Boolean
+    Private mPara_SPYRO_NACICODI As String
+    Private mParaCcexCodiTPV As String
+    Private RetornoTikets() As String
+    Private mPara_SPYRO_LONGITUD_SV As Integer
+
+    Private mResultStr As String
+    Private mResultInt As Integer
+
     Private Enum mTipoAnticipo As Integer
         Anticipo = 0
         Devolucion = 1
@@ -420,7 +429,31 @@ Public Class Hlopez2
             Return sMSD
         End If
     End Function
+    Private Function GetNaciCodi(vCampo As String, vValor As String) As String
+        Try
+            Dim Retorno As String
 
+            SQL = "SELECT " & vCampo
+            SQL += " FROM TNHT_NACI"
+            SQL += " WHERE NACI_CODI = '" & vValor & "'"
+
+
+            Retorno = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+
+            If IsNothing(Retorno) = False Then
+                If Retorno <> "" Then
+                    Return Retorno
+                Else
+                    Return "?"
+                End If
+            Else
+                Return "?"
+            End If
+
+        Catch ex As Exception
+            Return "?"
+        End Try
+    End Function
 
     Private Sub AbreConexiones()
         Try
@@ -514,7 +547,10 @@ Public Class Hlopez2
 
             SQL += ", NVL(PARA_TEFECT_COD,'?') PARA_TEFECT_COD "
 
-
+            SQL += ",NVL(PARA_SPYRO_SII,'0') PARA_SPYRO_SII"
+            SQL += ",NVL(PARA_SPYRO_NACICODI,'NACI_CODI') PARA_SPYRO_NACICODI"
+            SQL += ",NVL(PARA_CCEX_TPV,'?') AS PARA_CCEX_TPV "
+            SQL += ",NVL(PARA_SPYRO_TIKETSV,8) AS PARA_SPYRO_TIKETSV "
 
             SQL += " FROM TH_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod
             SQL += "' AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
@@ -585,6 +621,16 @@ Public Class Hlopez2
                 Me.mTipoComprobantesVersion = CInt(Me.DbLeeCentral.mDbLector.Item("PARA_LOPEZ_TIPO_COMPROBANTES"))
                 Me.mTipodeEfecto = CStr(Me.DbLeeCentral.mDbLector.Item("PARA_TEFECT_COD"))
 
+                If CInt(Me.DbLeeCentral.mDbLector.Item("PARA_SPYRO_SII")) = 1 Then
+                    Me.mParaGeneraRegistrosSII = True
+                Else
+                    Me.mParaGeneraRegistrosSII = False
+                End If
+
+                Me.mPara_SPYRO_NACICODI = CType(Me.DbLeeCentral.mDbLector.Item("PARA_SPYRO_NACICODI"), String)
+                Me.mParaCcexCodiTPV = CType(Me.DbLeeCentral.mDbLector.Item("PARA_CCEX_TPV"), String)
+
+                Me.mPara_SPYRO_LONGITUD_SV = CInt(Me.DbLeeCentral.mDbLector.Item("PARA_SPYRO_TIKETSV"))
 
             End If
 
@@ -1793,6 +1839,81 @@ Public Class Hlopez2
             Me.mGvagente_Cod.PadRight(8, CChar(" ")) &
             CType(vPendiente, String).PadRight(16, CChar(" ")) &
             CType(vPendiente, String).PadRight(16, CChar(" ")) & "NS")
+
+            Me.mForm.ParentForm.Text = CStr(TotalRegistros)
+
+        Catch EX As Exception
+            MsgBox(EX.Message, MsgBoxStyle.Information, "Genera FileFV")
+        End Try
+    End Sub
+    Private Sub GeneraFileSV(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String,
+    ByVal vSerie As String, ByVal vNfactura As Integer, ByVal vCif As String, vPrimerTiket As String, vUltimoTiket As String)
+
+        Try
+
+            TotalRegistros = TotalRegistros + 1
+            '-------------------------------------------------------------------------------------------------
+            '  Facturas(FACTURAS SII)
+            '-------------------------------------------------------------------------------------------------
+            Me.Filegraba.WriteLine(vTipo.PadRight(2, CChar(" ")) &
+            vEmpGrupoCod.PadRight(4, CChar(" ")) &
+            vEmpCod.PadRight(4, CChar(" ")) &
+            Me.mCfivaLibro_Cod.PadRight(2, CChar(" ")) &
+            vSerie.PadRight(6, CChar(" ")) &
+            CType(vNfactura, String).PadLeft(8, CChar(" ")) &
+            "F4" & " " & "01" &
+            " ".PadRight(2, CChar(" ")) &
+            " ".PadRight(16, CChar(" ")) &
+            "TICKETS DE CONTADO".PadRight(500, CChar(" ")) &
+            " " & "F" & " " &
+            " ".PadRight(8, CChar(" ")) &
+            vPrimerTiket.PadRight(Me.mPara_SPYRO_LONGITUD_SV, CChar(" ")) &
+            vUltimoTiket.PadRight(Me.mPara_SPYRO_LONGITUD_SV, CChar(" ")) &
+            " ".PadRight(60, CChar(" ")) &
+            " " &
+            " ".PadRight(20, CChar(" ")) &
+            " " &
+            " " &
+            " " &
+            " " &
+            " ")
+
+
+            Me.mForm.ParentForm.Text = CStr(TotalRegistros)
+
+        Catch EX As Exception
+            MsgBox(EX.Message, MsgBoxStyle.Information, "Genera FileFV")
+        End Try
+    End Sub
+    Private Sub GeneraFileRS(ByVal vTipo As String, ByVal vCif As String, vPais As String, vTitular As String)
+
+        Try
+
+            TotalRegistros = TotalRegistros + 1
+            '-------------------------------------------------------------------------------------------------
+            '  Facturas(FACTURAS SII)
+            '-------------------------------------------------------------------------------------------------
+            Me.Filegraba.WriteLine(vTipo.PadRight(2, CChar(" ")) &
+            vCif.PadRight(20, CChar(" ")) &
+             vTitular.PadRight(40, CChar(" ")) &
+             " ".PadRight(80, CChar(" ")) &
+             " ".PadRight(6, CChar(" ")) &
+             vPais.PadRight(4, CChar(" ")) &
+             " ".PadRight(4, CChar(" ")) &
+             " ".PadRight(8, CChar(" ")) &
+             " ".PadRight(40, CChar(" ")) &
+             " ".PadRight(20, CChar(" ")) &
+             " ".PadRight(40, CChar(" ")) &
+            " ".PadRight(40, CChar(" ")) &
+            " ".PadRight(40, CChar(" ")) &
+            " ".PadRight(4, CChar(" ")) &
+            " ".PadRight(20, CChar(" ")) &
+            " ".PadRight(16, CChar(" ")) &
+            " ".PadRight(20, CChar(" ")) &
+            "SOC".PadRight(6, CChar(" ")) &
+             " ")
+
+
 
             Me.mForm.ParentForm.Text = CStr(TotalRegistros)
 
@@ -3354,10 +3475,15 @@ Public Class Hlopez2
             Dim Dni As String
             Dim Cuenta As String = "0"
             Dim Titular As String
+
+            Dim CcExCodi As String
             ' TOTAL FACTURA DESPUES DEL DESCUENTO FONANCIERO 
             SQL = "SELECT  TNHT_FACT.FACT_STAT AS ESTADO, TNHT_FACT.FACT_DAEM, TNHT_FACT.FACT_CODI AS NUMERO, NVL(TNHT_FACT.SEFA_CODI,'?')  SERIE, "
             SQL += "  TNHT_FACT.FACT_CODI ||'/'|| TNHT_FACT.SEFA_CODI DESCRIPCION,TNHT_FACT.FACT_TOTA TOTAL,TNHT_FACT.FACT_VALO VALOR,TNHT_FACT.FACT_CONT PENDIENTE,NVL(ENTI_CODI,'') AS ENTI_CODI,NVL(CCEX_CODI,'') AS CCEX_CODI,NVL(CLIE_CODI,'0') AS CLIENTE "
-            SQL += " , NVL(TNHT_FACT.FACT_TITU,'') TITULAR ,TNHT_FACT.FAAN_CODI "
+            SQL += " , NVL(TNHT_FACT.FACT_TITU,'') TITULAR ,TNHT_FACT.FAAN_CODI,CCEX_CODI "
+
+            SQL += ",NVL(FACT_NACI,'?') AS FACT_NACI "
+
             SQL += "FROM TNHT_FACT "
             SQL += "WHERE "
             SQL += "(TNHT_FACT.FACT_DAEM = " & "'" & Me.mFecha & "') "
@@ -3423,12 +3549,29 @@ Public Class Hlopez2
                 Titular = CType(Me.DbLeeHotel.mDbLector("TITULAR"), String)
                 Cuenta = Mid(Cuenta, 1, 4) & Me.mCta56DigitoCuentaClientes & Mid(Cuenta, 5, 6)
 
+                If IsDBNull(Me.DbLeeHotel.mDbLector("CCEX_CODI")) = False Then
+                    CcExCodi = CStr(Me.DbLeeHotel.mDbLector("CCEX_CODI"))
+                Else
+                    CcExCodi = Nothing
+                End If
+
 
 
                 Me.mTipoAsiento = "DEBE"
                 '     Me.InsertaOracle("FV", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("DESCRIPCION"), String), TotalFactura, "NO", Dni, Titular, "SI")
                 Me.GeneraFileFV("FV", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), TotalFactura, CType(Me.DbLeeHotel.mDbLector("DESCRIPCION"), String).PadRight(15, CChar(" ")), Cuenta, Dni, 0)
 
+                '20181227
+                If Me.mParaGeneraRegistrosSII Then
+                    Me.GeneraFileRS("RS", Dni, GetNaciCodi(Me.mPara_SPYRO_NACICODI, CStr(Me.DbLeeHotel.mDbLector("FACT_NACI"))), CStr(Me.DbLeeHotel.mDbLector("TITULAR")))
+
+                    If CcExCodi = Me.mParaCcexCodiTPV Then
+                        Me.GetTiketsPuntosDeVenta(CInt(Me.DbLeeHotel.mDbLector("NUMERO")), CStr(Me.DbLeeHotel.mDbLector("SERIE")), "F")
+                        If RetornoTikets(0) <> "0" Then
+                            Me.GeneraFileSV("SV", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), Dni, RetornoTikets(0), RetornoTikets(1))
+                        End If
+                    End If
+                End If
 
                 Me.GeneraFileAC2("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebeFac, CType(Me.DbLeeHotel.mDbLector("DESCRIPCION"), String), TotalFactura, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer))
                 Me.InsertaOracle("AC", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebeFac, CType(Me.DbLeeHotel.mDbLector("DESCRIPCION"), String), TotalFactura, "NO", Dni, Titular, "SI", CType(Me.DbLeeHotel.mDbLector("NUMERO"), String), CType(Me.DbLeeHotel.mDbLector("SERIE"), String))
@@ -3734,9 +3877,16 @@ Public Class Hlopez2
 
         Dim Cuenta As String
 
+        Dim CcExCodi As String = ""
+        Dim vPais As String
+
         SQL = "SELECT"
         SQL += " TNHT_NCRE.SEDO_CODI AS SERIE, TNHT_NCRE.NCRE_DOCU AS NUMERO,TNHT_NCRE.NCRE_DOCU||'/'||TNHT_NCRE.SEDO_CODI FACTURA,(NCRE_VALO * -1) TOTAL, "
         SQL += " NCRE_TITU, NCRE_DAEM,NVL(ENTI_NCON_AF,0) CUENTA ,NVL(ENTI_NUCO,0) CIF,NVL(ENTI_NOME,'?') AS NOMBRE,NCRE_ANUL AS ANULADA"
+        SQL += ",TNHT_NCRE.ENTI_CODI,CCEX_CODI,CLIE_CODI,FACT_CODI,SEFA_CODI "
+        SQL += " ,TNHT_NCRE.FACT_CODI AS FNUMERO "
+        SQL += " ,TNHT_NCRE.FACT_SEFA AS FSERIE "
+        SQL += " ,TNHT_NCRE.NCRE_CODI AS NUMERO2, TNHT_NCRE.SEFA_CODI AS SERIE2 "
         SQL += " FROM TNHT_NCRE, TNHT_ENTI"
         SQL += " WHERE TNHT_NCRE.ENTI_CODI = TNHT_ENTI.ENTI_CODI "
         SQL += " AND TNHT_NCRE.NCRE_DAEM = " & "'" & Me.mFecha & "' "
@@ -3758,6 +3908,31 @@ Public Class Hlopez2
             Cuenta = Mid(CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), 1, 4) & Me.mCta56DigitoCuentaClientes & Mid(CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), 5, 6)
 
 
+            vPais = ""
+            If IsDBNull(Me.DbLeeHotel.mDbLector("ENTI_CODI")) = False Then
+                SQL = "SELECT NVL(NACI_CODI,'?') AS NACI_CODI  FROM TNHT_ENTI WHERE ENTI_CODI = '" & Me.DbLeeHotel.mDbLector("ENTI_CODI") & "'"
+                vPais = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+
+            ElseIf IsDBNull(Me.DbLeeHotel.mDbLector("FACT_CODI")) = False And vPais = "" Then
+                SQL = "SELECT NVL(FACT_NACI,'?') AS NACI_CODI  FROM TNHT_FACT WHERE FACT_CODI = " & Me.DbLeeHotel.mDbLector("FNUMERO")
+                SQL += " AND SEFA_CODI = '" & Me.DbLeeHotel.mDbLector("FSERIE") & "'"
+                vPais = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+            ElseIf IsDBNull(Me.DbLeeHotel.mDbLector("CCEX_CODI")) = False And vPais = "" Then
+                SQL = "SELECT NVL(NACI_CODI,'?') AS NACI_CODI  FROM TNHT_CCEX WHERE CCEX_CODI = '" & Me.DbLeeHotel.mDbLector("CCEX_CODI") & "'"
+                vPais = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+            ElseIf IsDBNull(Me.DbLeeHotel.mDbLector("CLIE_CODI")) = False And vPais = "" Then
+                SQL = "SELECT NVL(NACI_CODI,'?') AS NACI_CODI  FROM TNHT_CLIE WHERE CLIE_CODI = " & Me.DbLeeHotel.mDbLector("CLIE_CODI")
+                vPais = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+            Else
+                vPais = "PDTE"
+            End If
+
+
+            If IsDBNull(Me.DbLeeHotel.mDbLector("CCEX_CODI")) = False Then
+                CcExCodi = CStr(Me.DbLeeHotel.mDbLector("CCEX_CODI"))
+            Else
+                CcExCodi = Nothing
+            End If
 
             Me.mTipoAsiento = "DEBE"
             Me.InsertaOracle("AC", 51, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebeFac, CType(Me.DbLeeHotel.mDbLector("FACTURA"), String), Total, "NO", CType(Me.DbLeeHotel.mDbLector("CIF"), String), CType(Me.DbLeeHotel.mDbLector("NOMBRE"), String), "SI", "NOTA DE CREDITO", CType(Me.DbLeeHotel.mDbLector("NUMERO"), String), CType(Me.DbLeeHotel.mDbLector("SERIE"), String))
@@ -3771,6 +3946,17 @@ Public Class Hlopez2
             Me.GeneraFileAC2("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebeFac, CType(Me.DbLeeHotel.mDbLector("FACTURA"), String), Total, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer))
             Me.GeneraFileFV("FV", 51, Me.mEmpGrupoCod, Me.mEmpCod, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), Total, CType(Me.DbLeeHotel.mDbLector("FACTURA"), String).PadRight(15, CChar(" ")), Cuenta, CType(Me.DbLeeHotel.mDbLector("CIF"), String), 0)
 
+            '20181227
+            If Me.mParaGeneraRegistrosSII Then
+                Me.GeneraFileRS("RS", CType(Me.DbLeeHotel.mDbLector("CIF"), String), GetNaciCodi(Me.mPara_SPYRO_NACICODI, vPais), CStr(Me.DbLeeHotel.mDbLector("NOMBRE")))
+                If CcExCodi = Me.mParaCcexCodiTPV Then
+                    Me.GetTiketsPuntosDeVenta(CInt(Me.DbLeeHotel.mDbLector("NUMERO2")), CStr(Me.DbLeeHotel.mDbLector("SERIE2")), "N")
+                    If RetornoTikets(0) <> "0" Then
+                        Me.GeneraFileSV("SV", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), CType(Me.DbLeeHotel.mDbLector("CIF"), String), RetornoTikets(0), RetornoTikets(1))
+                    End If
+                End If
+
+            End If
 
 
 
@@ -3781,7 +3967,12 @@ Public Class Hlopez2
         '' ANULADAS 
         SQL = "SELECT"
         SQL += " TNHT_NCRE.SEDO_CODI AS SERIE, TNHT_NCRE.NCRE_DOCU AS NUMERO,TNHT_NCRE.NCRE_DOCU||'/'||TNHT_NCRE.SEDO_CODI FACTURA,(NCRE_VALO * -1) TOTAL, "
-        SQL += " NCRE_TITU, NCRE_DAEM,NVL(ENTI_NCON_AF,0) CUENTA ,NVL(ENTI_NUCO,0) CIF,NVL(ENTI_NOME,'?') AS NOMBRE,NCRE_ANUL AS ANULADA"
+        SQL += " NCRE_TITU, NCRE_DAEM,NVL(ENTI_NCON_AF,0) CUENTA ,NVL(ENTI_NUCO,0) CIF,NVL(ENTI_NOME,'?') AS NOMBRE,NCRE_ANUL AS ANULADA "
+        SQL += ",TNHT_NCRE.ENTI_CODI,CCEX_CODI,CLIE_CODI,FACT_CODI,SEFA_CODI "
+        SQL += " ,TNHT_NCRE.FACT_CODI AS FNUMERO "
+        SQL += " ,TNHT_NCRE.FACT_SEFA AS FSERIE "
+        SQL += " ,TNHT_NCRE.NCRE_CODI AS NUMERO2, TNHT_NCRE.SEFA_CODI AS SERIE2 "
+
         SQL += " FROM TNHT_NCRE, TNHT_ENTI"
         SQL += " WHERE TNHT_NCRE.ENTI_CODI = TNHT_ENTI.ENTI_CODI "
         SQL += " AND TNHT_NCRE.NCRE_DAAN = " & "'" & Me.mFecha & "' "
@@ -3802,6 +3993,30 @@ Public Class Hlopez2
             ' compone 5 y 6 digito cuenta de cliente 
             Cuenta = Mid(CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), 1, 4) & Me.mCta56DigitoCuentaClientes & Mid(CType(Me.DbLeeHotel.mDbLector("CUENTA"), String), 5, 6)
 
+            vPais = ""
+            If IsDBNull(Me.DbLeeHotel.mDbLector("ENTI_CODI")) = False Then
+                SQL = "SELECT NVL(NACI_CODI,'?') AS NACI_CODI  FROM TNHT_ENTI WHERE ENTI_CODI = '" & Me.DbLeeHotel.mDbLector("ENTI_CODI") & "'"
+                vPais = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+
+            ElseIf IsDBNull(Me.DbLeeHotel.mDbLector("FACT_CODI")) = False And vPais = "" Then
+                SQL = "SELECT NVL(FACT_NACI,'?') AS NACI_CODI  FROM TNHT_FACT WHERE FACT_CODI = " & Me.DbLeeHotel.mDbLector("FNUMERO")
+                SQL += " AND SEFA_CODI = '" & Me.DbLeeHotel.mDbLector("FSERIE") & "'"
+                vPais = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+            ElseIf IsDBNull(Me.DbLeeHotel.mDbLector("CCEX_CODI")) = False And vPais = "" Then
+                SQL = "SELECT NVL(NACI_CODI,'?') AS NACI_CODI  FROM TNHT_CCEX WHERE CCEX_CODI = '" & Me.DbLeeHotel.mDbLector("CCEX_CODI") & "'"
+                vPais = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+            ElseIf IsDBNull(Me.DbLeeHotel.mDbLector("CLIE_CODI")) = False And vPais = "" Then
+                SQL = "SELECT NVL(NACI_CODI,'?') AS NACI_CODI  FROM TNHT_CLIE WHERE CLIE_CODI = " & Me.DbLeeHotel.mDbLector("CLIE_CODI")
+                vPais = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+            Else
+                vPais = "PDTE"
+            End If
+
+            If IsDBNull(Me.DbLeeHotel.mDbLector("CCEX_CODI")) = False Then
+                CcExCodi = CStr(Me.DbLeeHotel.mDbLector("CCEX_CODI"))
+            Else
+                CcExCodi = Nothing
+            End If
 
             Me.mTipoAsiento = "HABER"
             Me.InsertaOracle("AC", 51, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaberFac, CType(Me.DbLeeHotel.mDbLector("FACTURA"), String) & " Anulada ", Total, "NO", CType(Me.DbLeeHotel.mDbLector("CIF"), String), CType(Me.DbLeeHotel.mDbLector("NOMBRE"), String), "SI", "NOTA DE CREDITO ANULADA", False, "")
@@ -3809,6 +4024,17 @@ Public Class Hlopez2
             ' total con signo invertido  SOLO en el fichero de facturas
             Me.GeneraFileFV("FV", 51, Me.mEmpGrupoCod, Me.mEmpCod, Me.mParaSerieAnulacion & CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), Total * -1, CType(Me.DbLeeHotel.mDbLector("FACTURA"), String).PadRight(15, CChar(" ")), Cuenta, CType(Me.DbLeeHotel.mDbLector("CIF"), String), 0)
 
+            '20181227
+            If Me.mParaGeneraRegistrosSII Then
+                Me.GeneraFileRS("RS", CType(Me.DbLeeHotel.mDbLector("CIF"), String), GetNaciCodi(Me.mPara_SPYRO_NACICODI, vPais), CStr(Me.DbLeeHotel.mDbLector("NOMBRE")))
+                If CcExCodi = Me.mParaCcexCodiTPV Then
+                    Me.GetTiketsPuntosDeVenta(CInt(Me.DbLeeHotel.mDbLector("NUMERO2")), CStr(Me.DbLeeHotel.mDbLector("SERIE2")), "N")
+                    If RetornoTikets(0) <> "0" Then
+                        Me.GeneraFileSV("SV", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Me.DbLeeHotel.mDbLector("SERIE"), String), CType(Me.DbLeeHotel.mDbLector("NUMERO"), Integer), CType(Me.DbLeeHotel.mDbLector("CIF"), String), RetornoTikets(0), RetornoTikets(1))
+                    End If
+                End If
+
+            End If
 
         End While
         Me.DbLeeHotel.mDbLector.Close()
@@ -6056,9 +6282,190 @@ Public Class Hlopez2
 
     End Sub
 
+    Private Function GetTiketsPuntosDeVenta(ByVal vDoc As Integer, ByVal vSerie As String, vTipo As String) As String()
+        Try
+            ' CONTROL DE EXISTENCIA DEL CAMPO MOVI_SEPO EN LA BASE DE DATOS
+
+            SQL = "SELECT NVL(COUNT(*),0) AS CONTROL   FROM ALL_TAB_COLUMNS  "
+            SQL += "WHERE COLUMN_NAME = 'MOVI_SEPO'  "
+            SQL += "AND TABLE_NAME = 'TNHT_MOVI' "
+            SQL += "AND OWNER = '" & StrConexionExtraeUsuario(Me.mStrConexionHotel) & "'"
+
+            Me.mResultStr = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+
+            If Me.mResultStr = "0" Then
+                ReDim RetornoTikets(1)
+                RetornoTikets(0) = "0"
+                RetornoTikets(1) = "0"
+                Return RetornoTikets
+
+            End If
 
 
 
+
+            If vTipo = "F" Then
+                ' FACTURA
+                SQL = " SELECT  MIN(TO_NUMBER (SUBSTR (NVL (MOVI_SEPO, '0000000000000'), 6))) AS PRIMERO ,MAX(TO_NUMBER (SUBSTR (NVL (MOVI_SEPO, '0000000000000'), 6))) AS ULTIMO  "
+                SQL += " FROM " & Me.mStrHayHistorico & " TNHT_MOVI ,TNHT_FACT, TNHT_FAMO"
+                SQL += "   WHERE     TNHT_FAMO.FACT_CODI = TNHT_FACT.FACT_CODI "
+                SQL += "         AND TNHT_FAMO.SEFA_CODI = TNHT_FACT.SEFA_CODI "
+                SQL += "         AND TNHT_FAMO.MOVI_DARE = TNHT_MOVI.MOVI_DARE "
+                SQL += "         AND TNHT_FAMO.MOVI_CODI = TNHT_MOVI.MOVI_CODI "
+
+                SQL += " AND TNHT_FACT.FACT_CODI = " & vDoc
+                SQL += " AND TNHT_FACT.SEFA_CODI = '" & vSerie & "'"
+                '' SOLO DEBITO
+                SQL += "         AND TNHT_MOVI.MOVI_TIMO = '2' "
+                ' OJO CONTROL LOS TIKETS DEL COMANDERO NO CARGAN ESTE CAMPO 
+                SQL += "         AND TNHT_MOVI.MOVI_SEPO IS NOT NULL  "
+
+                SQL += "ORDER BY SECC_CODI, MOVI_NUDO "
+            Else
+                ' NOTA DE CREDITO
+                SQL = " SELECT  MIN(TO_NUMBER (SUBSTR (NVL (MOVI_SEPO, '0000000000000'), 6))) AS PRIMERO ,MAX(TO_NUMBER (SUBSTR (NVL (MOVI_SEPO, '0000000000000'), 6))) AS ULTIMO  "
+                SQL += " FROM " & Me.mStrHayHistorico & " TNHT_MOVI ,TNHT_NCRE, TNHT_MCRE"
+                SQL += "   WHERE     TNHT_MCRE.NCRE_CODI = TNHT_NCRE.NCRE_CODI "
+                SQL += "         AND TNHT_MCRE.SEFA_CODI = TNHT_NCRE.SEFA_CODI "
+                SQL += "         AND TNHT_MCRE.MOVI_DARE = TNHT_MOVI.MOVI_DARE "
+                SQL += "         AND TNHT_MCRE.MOVI_CODI = TNHT_MOVI.MOVI_CODI "
+
+                SQL += " AND TNHT_NCRE.NCRE_CODI = " & vDoc
+                SQL += " AND TNHT_NCRE.SEFA_CODI = '" & vSerie & "'"
+                '' SOLO DEBITO
+                SQL += "         AND TNHT_MOVI.MOVI_TIMO = '2' "
+                ' OJO CONTROL LOS TIKETS DEL COMANDERO NO CARGAN ESTE CAMPO 
+                SQL += "         AND TNHT_MOVI.MOVI_SEPO IS NOT NULL  "
+
+                SQL += "ORDER BY SECC_CODI, MOVI_NUDO "
+            End If
+
+
+
+            Me.DbLeeHotelAux.TraerLector(SQL)
+
+            Me.DbLeeHotelAux.mDbLector.Read()
+
+            If Me.DbLeeHotelAux.mDbLector.HasRows Then
+
+                ReDim RetornoTikets(1)
+                RetornoTikets(0) = Me.DbLeeHotelAux.mDbLector.Item("PRIMERO")
+                RetornoTikets(1) = Me.DbLeeHotelAux.mDbLector.Item("ULTIMO")
+                Me.DbLeeHotelAux.mDbLector.Close()
+                Return RetornoTikets
+
+            Else
+                ReDim RetornoTikets(1)
+                RetornoTikets(0) = "0"
+                RetornoTikets(1) = "0"
+                Me.DbLeeHotelAux.mDbLector.Close()
+                Return RetornoTikets
+            End If
+
+
+
+        Catch ex As Exception
+            Me.DbLeeHotelAux.mDbLector.Close()
+            ReDim RetornoTikets(1)
+            RetornoTikets(0) = "0"
+            RetornoTikets(1) = "0"
+            Return RetornoTikets
+        End Try
+    End Function
+    Private Function GetSiHayTiketsTpvEnFActura(ByVal vDoc As Integer, ByVal vSerie As String, vTipo As String) As Boolean
+        Try
+            ' CONTROL DE EXISTENCIA DEL CAMPO MOVI_SEPO EN LA BASE DE DATOS
+
+            SQL = "SELECT NVL(COUNT(*),0) AS CONTROL   FROM ALL_TAB_COLUMNS  "
+            SQL += "WHERE COLUMN_NAME = 'MOVI_SEPO'  "
+            SQL += "AND TABLE_NAME = 'TNHT_MOVI' "
+            SQL += "AND OWNER = '" & StrConexionExtraeUsuario(Me.mStrConexionHotel) & "'"
+
+            Me.mResultStr = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+
+            If Me.mResultStr = "0" Then
+                Return False
+            End If
+
+
+
+
+            If vTipo = "F" Then
+                ' FACTURA
+                SQL = " SELECT  COUNT(*) AS TOTAL  "
+                SQL += " FROM " & Me.mStrHayHistorico & " TNHT_MOVI ,TNHT_FACT, TNHT_FAMO"
+                SQL += "   WHERE     TNHT_FAMO.FACT_CODI = TNHT_FACT.FACT_CODI "
+                SQL += "         AND TNHT_FAMO.SEFA_CODI = TNHT_FACT.SEFA_CODI "
+                SQL += "         AND TNHT_FAMO.MOVI_DARE = TNHT_MOVI.MOVI_DARE "
+                SQL += "         AND TNHT_FAMO.MOVI_CODI = TNHT_MOVI.MOVI_CODI "
+
+                SQL += " AND TNHT_FACT.FACT_CODI = " & vDoc
+                SQL += " AND TNHT_FACT.SEFA_CODI = '" & vSerie & "'"
+                '' SOLO DEBITO
+                SQL += "         AND TNHT_MOVI.MOVI_TIMO = '2' "
+                ' OJO CONTROL LOS TIKETS DEL COMANDERO NO CARGAN ESTE CAMPO 
+                SQL += "         AND TNHT_MOVI.MOVI_SEPO IS NOT NULL  "
+
+                SQL += "ORDER BY SECC_CODI, MOVI_NUDO "
+            Else
+                ' NOTA DE CREDITO
+                SQL = " SELECT  COUNT(*) AS TOTAL  "
+                SQL += " FROM " & Me.mStrHayHistorico & " TNHT_MOVI ,TNHT_NCRE, TNHT_MCRE"
+                SQL += "   WHERE     TNHT_MCRE.NCRE_CODI = TNHT_NCRE.NCRE_CODI "
+                SQL += "         AND TNHT_MCRE.SEFA_CODI = TNHT_NCRE.SEFA_CODI "
+                SQL += "         AND TNHT_MCRE.MOVI_DARE = TNHT_MOVI.MOVI_DARE "
+                SQL += "         AND TNHT_MCRE.MOVI_CODI = TNHT_MOVI.MOVI_CODI "
+
+                SQL += " AND TNHT_NCRE.NCRE_CODI = " & vDoc
+                SQL += " AND TNHT_NCRE.SEFA_CODI = '" & vSerie & "'"
+                '' SOLO DEBITO
+                SQL += "         AND TNHT_MOVI.MOVI_TIMO = '2' "
+                ' OJO CONTROL LOS TIKETS DEL COMANDERO NO CARGAN ESTE CAMPO 
+                SQL += "         AND TNHT_MOVI.MOVI_SEPO IS NOT NULL  "
+
+                SQL += "ORDER BY SECC_CODI, MOVI_NUDO "
+            End If
+
+
+
+            Me.DbLeeHotelAux.TraerLector(SQL)
+
+            Me.DbLeeHotelAux.mDbLector.Read()
+
+            If Me.DbLeeHotelAux.mDbLector.HasRows Then
+                Me.DbLeeHotelAux.mDbLector.Close()
+                Return True
+
+            Else
+                Me.DbLeeHotelAux.mDbLector.Close()
+                Return False
+            End If
+
+
+
+        Catch ex As Exception
+            Me.DbLeeHotelAux.mDbLector.Close()
+            Return False
+        End Try
+    End Function
+
+    Private Function StrConexionExtraeUsuario(ByVal vStrConexion As String) As String
+        Try
+            If vStrConexion.Length > 0 Then
+                Dim Elementos As Array
+                Dim SubElementos As Array
+                Elementos = Split(vStrConexion, ";")
+                SubElementos = Split((Elementos(1)), "=")
+                Return CType(SubElementos(1), String).Trim
+            Else
+                Return ""
+            End If
+
+        Catch ex As Exception
+            Return ""
+            MsgBox(ex.Message)
+        End Try
+    End Function
 
 
 

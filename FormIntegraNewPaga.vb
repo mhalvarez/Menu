@@ -16,6 +16,10 @@ Public Class FormIntegraNewPaga
 
     Private DLL As Integer
 
+    Private mRestultStr As String
+    Private mRestulInt As Integer
+
+
     Private Sub FormIntegraNewPaga_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Try
             '---------------------------------------------------------------------------------------------------
@@ -74,7 +78,7 @@ Public Class FormIntegraNewPaga
                 SQL += " AND HOTEL_EMP_NUM = " & Me.mEmpNum
                 Me.mStrConexionNewPaga = Me.DbCentral.EjecutaSqlScalar(SQL)
 
-
+                Me.FechaUltima()
 
             Else
                 Me.HayRegistros = False
@@ -182,6 +186,13 @@ Public Class FormIntegraNewPaga
 
             ts1.MappingName = "ASIENTO"
 
+            Dim TextCol1A As New DataGridTextBoxColumn
+            TextCol1A.MappingName = "F_REGISTRO"
+            TextCol1A.HeaderText = "F. Registro"
+            TextCol1A.Width = 75
+
+            ts1.GridColumnStyles.Add(TextCol1A)
+
             Dim TextCol1 As New DataGridTextBoxColumn
             TextCol1.MappingName = "F_VALOR"
             TextCol1.HeaderText = "F. Valor"
@@ -285,20 +296,20 @@ Public Class FormIntegraNewPaga
             INTEGRA = New Integracion_NewPaga.NewPaga(Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 0),
             Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 1),
               MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DATABASE", "STRING"),
-              Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 7), Format(Me.DateTimePicker1.Value, "dd-MM-yyyy"), "NewPaG" &
+              Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 7), Format(Me.DateTimePicker1.Value, "dd-MM-yyyy"), "NewPaGa " &
               Format(Me.DateTimePicker1.Value, "dd-MM-yyyy") & ".TXT", Me.CheckBoxDebug.Checked,
               Me.TextBoxDebug, Me.ListBoxDebug, Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 4),
               Me.ProgressBar1, Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 8), Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 9))
             INTEGRA.Procesar()
 
 
-            SQL = "SELECT ROUND(SUM(round(ASNT_DEBE,2)),2) FROM TP_ASNT WHERE ASNT_F_VALOR = '" & Me.DateTimePicker1.Value & "'"
+            SQL = "SELECT ROUND(SUM(round(ASNT_DEBE,2)),2) FROM TP_ASNT WHERE ASNT_F_ATOCAB = '" & Me.DateTimePicker1.Value & "'"
             SQL += " AND TP_ASNT.ASNT_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
             SQL += " AND TP_ASNT.ASNT_EMP_COD = '" & Me.mEmpCod & "'"
             '   SQL += " AND ASNT_IMPRIMIR = 'SI'"
             Me.TextBoxDebug.Text = Me.DbCentral.EjecutaSqlScalar(SQL)
 
-            SQL = "SELECT ROUND(SUM(round(ASNT_HABER,2)),2) FROM TP_ASNT WHERE ASNT_F_VALOR = '" & Me.DateTimePicker1.Value & "'"
+            SQL = "SELECT ROUND(SUM(round(ASNT_HABER,2)),2) FROM TP_ASNT WHERE ASNT_F_ATOCAB = '" & Me.DateTimePicker1.Value & "'"
             SQL += " AND TP_ASNT.ASNT_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
             SQL += " AND TP_ASNT.ASNT_EMP_COD = '" & Me.mEmpCod & "'"
             '  SQL += " AND ASNT_IMPRIMIR = 'SI'"
@@ -307,10 +318,10 @@ Public Class FormIntegraNewPaga
 
 
 
-            SQL = "SELECT ASNT_F_VALOR F_VALOR, ASNT_CFCTA_COD AS CUENTA,ASNT_CFATOCAB_REFER AS TIPO,"
+            SQL = "SELECT ASNT_F_ATOCAB AS F_REGISTRO,ASNT_F_VALOR F_VALOR, ASNT_CFCTA_COD AS CUENTA,ASNT_CFATOCAB_REFER AS TIPO,"
             SQL += " ASNT_AMPCPTO AS CONCEPTO, round(ASNT_DEBE,2) AS DEBE, round(ASNT_HABER,2) AS HABER,ASNT_NOMBRE AS OBSERVACION"
             SQL += ",ASNT_CIF AS CIF,ASNT_AUXILIAR_STRING AS AUX1,ASNT_AUXILIAR_NUMERICO AS AUX2 FROM TP_ASNT "
-            SQL += " WHERE ASNT_F_VALOR = '" & Me.DateTimePicker1.Value & "'"
+            SQL += " WHERE ASNT_F_ATOCAB = '" & Me.DateTimePicker1.Value & "'"
             SQL += " AND TP_ASNT.ASNT_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
             SQL += " AND TP_ASNT.ASNT_EMP_COD = '" & Me.mEmpCod & "'"
             '            SQL += " AND ASNT_IMPRIMIR = 'SI'"
@@ -395,7 +406,7 @@ Public Class FormIntegraNewPaga
         Try
             Me.Cursor = Cursors.WaitCursor
 
-            REPORT_SELECTION_FORMULA = "{TP_ASNT.ASNT_F_VALOR}=DATETIME(" & Format(Me.DateTimePicker1.Value, REPORT_DATE_FORMAT) & ")"
+            REPORT_SELECTION_FORMULA = "{TP_ASNT.ASNT_F_ATOCAB}=DATETIME(" & Format(Me.DateTimePicker1.Value, REPORT_DATE_FORMAT) & ")"
             REPORT_SELECTION_FORMULA += " AND {TP_ASNT.ASNT_EMPGRUPO_COD}= '" & Me.mEmpGrupoCod & "'"
             REPORT_SELECTION_FORMULA += " AND {TP_ASNT.ASNT_EMP_COD}= '" & Me.mEmpCod & "'"
 
@@ -503,6 +514,8 @@ Public Class FormIntegraNewPaga
                 SQL = "SELECT DISTINCT (MOVI_DAVA) AS MOVI_DAVA,COUNT(*) AS TOTAL  FROM TNPG_MOVI "
                 SQL += " WHERE  TO_CHAR(MOVI_DAVA,'YYYY') = '" & Year(Me.DateTimePicker1.Value) & "'"
                 SQL += " AND  TO_CHAR(MOVI_DAVA,'MM') = '" & Format(Me.DateTimePicker1.Value, "MM") & "'"
+
+                SQL += " AND TRUNC(MOVI_DAVA) NOT IN (SELECT TRUNC(PARA_DATA) FROM TNPG_PARA) "
                 SQL += " AND   TNPG_MOVI.FORN_INTE = '0'"
                 SQL += " GROUP BY MOVI_DAVA "
                 SQL += " ORDER BY MOVI_DAVA ASC"
@@ -514,6 +527,42 @@ Public Class FormIntegraNewPaga
 
                 If Texto.Length > 0 Then
                     MsgBox(Texto, MsgBoxStyle.Information)
+                End If
+
+            End If
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+
+            Me.Cursor = Cursors.Default
+        End Try
+    End Sub
+
+    Private Sub FechaUltima()
+        Try
+            Dim Texto As String = ""
+            If HayRegistros = True Then
+                Me.Cursor = Cursors.WaitCursor
+                Me.DbLeeNewPaga = New C_DATOS.C_DatosOledb(Me.mStrConexionNewPaga)
+                Me.DbLeeNewPaga.EjecutaSqlCommit("ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY'")
+
+                SQL = "SELECT  "
+                SQL += "   MAX ( MOVI_DAVA ) AS MOVI_DAVA "
+                SQL += "    "
+                SQL += "FROM "
+                SQL += "    TNPG_MOVI "
+                SQL += "WHERE "
+                SQL += "     "
+                SQL += "     "
+                SQL += "     TRUNC(MOVI_DAVA) NOT IN (SELECT TRUNC(PARA_DATA) FROM TNPG_PARA) "
+                SQL += "ORDER BY "
+                SQL += "    MOVI_DAVA ASC "
+
+
+                Me.mRestultStr = DbLeeNewPaga.EjecutaSqlScalar(SQL)
+                If Me.mRestultStr.Length > 0 Then
+                    Me.DateTimePicker1.Value = Format(CDate(Me.mRestultStr), "dd/MM/yyyy")
                 End If
 
             End If

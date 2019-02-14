@@ -1131,7 +1131,7 @@ Public Class FormIntegraAlmacen
                     INTEGRA = New ContanetNewStock.IntegraAlmacen(CStr(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 0)),
                     CStr(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 1)),
                     MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DATABASE", "STRING"),
-                    CStr(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 3)), Me.DateTimePicker1.Value, "A" & Format(Me.DateTimePicker1.Value, "dd-MM-yyyy") & ".TXT", False, Me.TextBoxDebug, Me.ListBoxDebug, Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 4), False, False, Me.mEmpNum)
+                    CStr(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 3)), Me.DateTimePicker1.Value, "NewStock " & Format(Me.DateTimePicker1.Value, "dd-MM-yyyy") & ".TXT", False, Me.TextBoxDebug, Me.ListBoxDebug, Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 4), False, False, Me.mEmpNum)
                     Me.Cursor = Cursors.AppStarting
 
 
@@ -1753,6 +1753,7 @@ Public Class FormIntegraAlmacen
     Private Sub FechasPosibles()
         Try
             Dim Texto As String = ""
+            Dim Result As String
             If HayRegistros = True Then
                 If CStr(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 3)).Length > 0 Then
 
@@ -1761,10 +1762,19 @@ Public Class FormIntegraAlmacen
                     Dim DbLee As New C_DATOS.C_DatosOledb
                     DbLee.StrConexion = CStr(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 3))
                     DbLee.AbrirConexion()
+
+                    DbLee.EjecutaSqlCommit("ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY'")
+
+                    SQL = "SELECT PARA_FETR FROM TNST_PARA"
+                    Result = DbLee.EjecutaSqlScalar(SQL)
+
+
                     SQL = "SELECT DISTINCT (MOVG_DAVA) AS MOVG_DAVA FROM TNST_MOVG "
                     SQL += " WHERE  TO_CHAR(MOVG_DAVA,'YYYY') = '" & Year(Me.DateTimePicker1.Value) & "'"
 
                     SQL += " AND  TO_CHAR(MOVG_DAVA,'MM') = '" & Format(Me.DateTimePicker1.Value, "MM") & "'"
+
+                    SQL += " AND MOVG_DAVA <> '" & Format(CDate(Result), "dd/MM/yyyy") & "'"
                     SQL += " ORDER BY MOVG_DAVA ASC"
                     DbLee.TraerLector(SQL)
                     While DbLee.mDbLector.Read
@@ -1800,6 +1810,7 @@ Public Class FormIntegraAlmacen
                     Dim DbLee As New C_DATOS.C_DatosOledb
                     DbLee.StrConexion = CStr(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 3))
                     DbLee.AbrirConexion()
+                    DbLee.EjecutaSqlCommit("ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY'")
 
                     SQL = " SELECT PARA_FETR FROM TNST_PARA "
                     FechaTrabajoNewStock = CDate(DbLee.EjecutaSqlScalar(SQL))
@@ -1808,10 +1819,11 @@ Public Class FormIntegraAlmacen
                     FechaUltimoMovimiento = CDate(DbLee.EjecutaSqlScalar(SQL))
 
 
+
                     If FechaUltimoMovimiento < FechaTrabajoNewStock Then
                         Me.DateTimePicker1.Value = FechaUltimoMovimiento
                     Else
-                        SQL = " SELECT MAX(MOVG_DAVA) FROM TNST_MOVG "
+                        SQL = " SELECT NVL(MAX(MOVG_DAVA),'" & Format(FechaTrabajoNewStock, "dd/MM/yyyy") & "')" & " FROM TNST_MOVG "
                         SQL = SQL & " "
                         SQL = SQL & "WHERE  MOVG_DAVA NOT IN(SELECT MAX(MOVG_DAVA) FROM TNST_MOVG) "
                         FechaUltimoMovimiento = CDate(DbLee.EjecutaSqlScalar(SQL))

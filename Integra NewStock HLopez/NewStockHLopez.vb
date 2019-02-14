@@ -153,6 +153,11 @@ Public Class NewStockHLopez
     Private mResult As String
     Private mTipoGasto As String
 
+    Private mParaGeneraRegistrosSII As Boolean
+    Private mPara_SPYRO_NACICODI As String
+
+    Private mAbortar As Boolean = False
+
     Private Enum DigitosSerieFactura As Integer
         Cuatro
         Dos
@@ -395,6 +400,34 @@ Public Class NewStockHLopez
 
             End If
             Me.DbLeeCentral.mDbLector.Close()
+
+
+
+            '' Lee de los Parametros de NewHotel Asunto HAcienda SII 
+            SQL = "SELECT "
+            SQL += "NVL(PARA_SPYRO_SII,'0') PARA_SPYRO_SII"
+            SQL += ",NVL(PARA_SPYRO_NACICODI,'NACI_CODI') PARA_SPYRO_NACICODI"
+
+
+            SQL += " FROM TH_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod
+            SQL += "' AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
+            Me.DbLeeCentral.TraerLector(SQL)
+            If Me.DbLeeCentral.mDbLector.Read Then
+
+
+                If CInt(Me.DbLeeCentral.mDbLector.Item("PARA_SPYRO_SII")) = 1 Then
+                    Me.mParaGeneraRegistrosSII = True
+                Else
+                    Me.mParaGeneraRegistrosSII = False
+                End If
+
+                Me.mPara_SPYRO_NACICODI = CType(Me.DbLeeCentral.mDbLector.Item("PARA_SPYRO_NACICODI"), String)
+
+
+            End If
+            Me.DbLeeCentral.mDbLector.Close()
+
         Catch EX As Exception
             MsgBox(EX.Message)
         End Try
@@ -410,6 +443,52 @@ Public Class NewStockHLopez
     Private Function ControlCentrosdeCosto() As Integer
         SQL = "SELECT NVL(COUNT(*),'0') AS TOTAL FROM TNST_ALMA WHERE ALMA_CCST IS NULL"
         Return CType(Me.DbLeeHotelAux.EjecutaSqlScalar(SQL), Integer)
+    End Function
+
+    Private Function ControlPaisesFacturas() As Integer
+        Try
+            Dim Texto As String = ""
+
+            Dim I As Integer
+            SQL = "SELECT DISTINCT FORN_DESC AS PROVEEDOR "
+
+
+            '
+            SQL += "FROM TNST_MOVG, TNST_TIMO,TNST_FORN ,TNST_ALMA "
+            SQL += "WHERE TNST_MOVG.TIMO_CODI = TNST_TIMO.TIMO_CODI "
+            SQL += "AND (TNST_MOVG.MOVG_ORIG = TNST_FORN.FORN_CODI OR TNST_MOVG.MOVG_DEST = TNST_FORN.FORN_CODI) "
+
+            SQL += " AND TNST_MOVG.MOVG_DAVA =  " & "'" & Me.mFecha & "'"
+            SQL += " AND TNST_MOVG.MOVG_ANUL = 0"
+
+            SQL += " AND TNST_MOVG.MOVG_DEST = TNST_ALMA.ALMA_CODI "
+            SQL += " AND FORN_PAIS IS NULL"
+
+
+            SQL += " ORDER BY  FORN_DESC "
+
+            Me.DbLeeHotelAux.TraerLector(SQL)
+
+            While Me.DbLeeHotelAux.mDbLector.Read
+                I = I + 1
+                Texto += CStr(Me.DbLeeHotelAux.mDbLector.Item("PROVEEDOR")) & vbCrLf
+
+            End While
+            Me.DbLeeHotelAux.mDbLector.Close()
+
+            If Texto.Length > 0 Then
+                MsgBox(Mid(Texto, 1, 532) & " ......... Se Cancela este Proceso !!!!! ", MsgBoxStyle.Critical, "Tiene (" & I & ") Proveedores  , con Movimientos y sin Nacionalidad Definida")
+                Return 1
+            Else
+                Return 0
+            End If
+
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+            Return 0
+        End Try
+
     End Function
 
     Private Function ControlTipoSerieFacturaSpyro() As Integer
@@ -589,7 +668,11 @@ Public Class NewStockHLopez
                 End If
             End If
 
-
+            If Me.ControlPaisesFacturas > 0 Then
+                Me.CerrarFichero()
+                Me.CierraConexiones()
+                Exit Sub
+            End If
 
 
             ' DEBUG PARA PROBAR SOLO NEWPAGA
@@ -840,6 +923,10 @@ Public Class NewStockHLopez
 
 
         Catch EX As Exception
+            Me.CerrarFichero()
+            Me.CierraConexiones()
+            Me.mTextDebug.Text = "Fin de Integración"
+            Me.mTextDebug.Update()
             MsgBox(EX.Message)
         End Try
 
@@ -866,6 +953,12 @@ Public Class NewStockHLopez
             End If
 
 
+            If Me.ControlPaisesFacturas > 0 Then
+                Me.CerrarFichero()
+                Me.CierraConexiones()
+                Exit Sub
+            End If
+
             ' ---------------------------------------------------------------
             ' Asiento de Facturas Directas 3
             '----------------------------------------------------------------
@@ -891,8 +984,8 @@ Public Class NewStockHLopez
             Me.mProgresBar.Value = 40
             Me.mProgresBar.Update()
             Me.mControlForm.Update()
-          
-           
+
+
             ' ---------------------------------------------------------------
             ' Asiento de DEVOLUCVION Facturas Directas 5
             '----------------------------------------------------------------
@@ -925,7 +1018,7 @@ Public Class NewStockHLopez
 
 
             Me.TotalFacturasProveedorFormalizadas()
-         
+
 
             Me.mTextDebug.Text = "Calculando Impuesto por Facturas Formalizadas"
             Me.mTextDebug.Update()
@@ -966,7 +1059,7 @@ Public Class NewStockHLopez
             Me.mProgresBar.Update()
             Me.mControlForm.Update()
 
-           
+
             ' ---------------------------------------------------------------
             ' Asiento de Facturas Directas NEWPAGA 40
             '----------------------------------------------------------------
@@ -1010,6 +1103,10 @@ Public Class NewStockHLopez
 
 
         Catch EX As Exception
+            Me.CerrarFichero()
+            Me.CierraConexiones()
+            Me.mTextDebug.Text = "Fin de Integración"
+            Me.mTextDebug.Update()
             MsgBox(EX.Message)
         End Try
 
@@ -1479,6 +1576,31 @@ Public Class NewStockHLopez
             MsgBox("GastosPorCentrodeCostoAlbaranes" & vbCrLf & ex.Message, MsgBoxStyle.Information, "Atención")
         End Try
     End Sub
+    Private Function GetNaciCodi(vCampo As String, vValor As String) As String
+        Try
+            Dim Retorno As String
+
+            SQL = "SELECT " & vCampo
+            SQL += " FROM TNST_PAIS"
+            SQL += " WHERE PAIS_CODI = '" & vValor & "'"
+
+
+            Retorno = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+
+            If IsNothing(Retorno) = False Then
+                If Retorno <> "" Then
+                    Return Retorno
+                Else
+                    Return "?"
+                End If
+            Else
+                Return "?"
+            End If
+
+        Catch ex As Exception
+            Return "?"
+        End Try
+    End Function
 #End Region
     Private Sub InsertaOracle(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vCefejerc_Cod As String, _
                                      ByVal vCfatocab_Refer As Integer, ByVal vLinea As Integer _
@@ -2288,7 +2410,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
             MsgBox(EX.Message, MsgBoxStyle.Information, "Genera FileAA")
         End Try
     End Sub
-    Private Sub GeneraFileFV(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, _
+    Private Sub GeneraFileFV(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String,
     ByVal vSerie As String, ByVal vNfactura As String, ByVal vImonep As Double, ByVal vSfactura As String, ByVal vCuenta As String, ByVal vCif As String, ByVal vFechaDoc As Date)
 
         Try
@@ -2296,34 +2418,68 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
             '  Facturas(FACTURAS)
             '-------------------------------------------------------------------------------------------------
             ' MsgBox(vSfactura)
-            Me.Filegraba.WriteLine(vTipo.PadRight(2, CChar(" ")) & _
-            vEmpGrupoCod.PadRight(4, CChar(" ")) & _
-            vEmpCod.PadRight(4, CChar(" ")) & _
-            Me.mCfivaLibro_Cod.PadRight(2, CChar(" ")) & _
-            vSerie.PadRight(6, CChar(" ")) & _
-            Mid(vNfactura, 1, 8).PadLeft(8, CChar(" ")) & _
-            " ".PadRight(8, CChar(" ")) & _
-            Format(vFechaDoc, "ddMMyyyy") & _
-            Me.mCfivaClase_Cod.PadRight(2, CChar(" ")) & _
-            CType(vImonep, String).PadLeft(16, CChar(" ")) & _
-            Me.mMonedas_Cod.PadRight(4, CChar(" ")) & _
-            CType(vImonep, String).PadLeft(16, CChar(" ")) & _
-            Mid(vSfactura, 1, 15).PadRight(15, CChar("-")) & _
-            vEmpGrupoCod.PadRight(4, CChar(" ")) & _
-            vEmpCod.PadRight(4, CChar(" ")) & _
-            Format(Me.mFecha, "yyyy") & _
-            Me.mCfatodiari_Cod.PadRight(4, CChar(" ")) & _
-            " ".PadLeft(8, CChar(" ")) & _
-            " ".PadLeft(4, CChar(" ")) & _
-            vCuenta.PadRight(15, CChar(" ")) & _
-            vCif.PadRight(20, CChar(" ")) & _
-            " ".PadRight(6, CChar(" ")) & _
-            " ".PadRight(1, CChar(" ")) & _
-            " ".PadRight(8, CChar(" ")) & _
-            " ".PadRight(8, CChar(" ")) & _
-            Me.mGvagente_Cod.PadRight(8, CChar(" ")) & _
-            CType(vImonep, String).PadRight(16, CChar(" ")) & _
+            Me.Filegraba.WriteLine(vTipo.PadRight(2, CChar(" ")) &
+            vEmpGrupoCod.PadRight(4, CChar(" ")) &
+            vEmpCod.PadRight(4, CChar(" ")) &
+            Me.mCfivaLibro_Cod.PadRight(2, CChar(" ")) &
+            vSerie.PadRight(6, CChar(" ")) &
+            Mid(vNfactura, 1, 8).PadLeft(8, CChar(" ")) &
+            " ".PadRight(8, CChar(" ")) &
+            Format(vFechaDoc, "ddMMyyyy") &
+            Me.mCfivaClase_Cod.PadRight(2, CChar(" ")) &
+            CType(vImonep, String).PadLeft(16, CChar(" ")) &
+            Me.mMonedas_Cod.PadRight(4, CChar(" ")) &
+            CType(vImonep, String).PadLeft(16, CChar(" ")) &
+            Mid(vSfactura, 1, 15).PadRight(15, CChar("-")) &
+            vEmpGrupoCod.PadRight(4, CChar(" ")) &
+            vEmpCod.PadRight(4, CChar(" ")) &
+            Format(Me.mFecha, "yyyy") &
+            Me.mCfatodiari_Cod.PadRight(4, CChar(" ")) &
+            " ".PadLeft(8, CChar(" ")) &
+            " ".PadLeft(4, CChar(" ")) &
+            vCuenta.PadRight(15, CChar(" ")) &
+            vCif.PadRight(20, CChar(" ")) &
+            " ".PadRight(6, CChar(" ")) &
+            " ".PadRight(1, CChar(" ")) &
+            " ".PadRight(8, CChar(" ")) &
+            " ".PadRight(8, CChar(" ")) &
+            Me.mGvagente_Cod.PadRight(8, CChar(" ")) &
+            CType(vImonep, String).PadRight(16, CChar(" ")) &
             CType(vImonep, String).PadRight(16, CChar(" ")) & "NN")
+
+
+        Catch EX As Exception
+            MsgBox(EX.Message, MsgBoxStyle.Information, "Genera FileFV")
+        End Try
+    End Sub
+    Private Sub GeneraFileRS(ByVal vTipo As String, ByVal vCif As String, vPais As String, vTitular As String)
+
+        Try
+
+
+            '-------------------------------------------------------------------------------------------------
+            '  Facturas(FACTURAS SII)
+            '-------------------------------------------------------------------------------------------------
+            Me.Filegraba.WriteLine(vTipo.PadRight(2, CChar(" ")) &
+            vCif.PadRight(20, CChar(" ")) &
+             vTitular.PadRight(40, CChar(" ")) &
+             " ".PadRight(80, CChar(" ")) &
+             " ".PadRight(6, CChar(" ")) &
+             vPais.PadRight(4, CChar(" ")) &
+             " ".PadRight(4, CChar(" ")) &
+             " ".PadRight(8, CChar(" ")) &
+             " ".PadRight(40, CChar(" ")) &
+             " ".PadRight(20, CChar(" ")) &
+             " ".PadRight(40, CChar(" ")) &
+            " ".PadRight(40, CChar(" ")) &
+            " ".PadRight(40, CChar(" ")) &
+            " ".PadRight(4, CChar(" ")) &
+            " ".PadRight(20, CChar(" ")) &
+            " ".PadRight(16, CChar(" ")) &
+            " ".PadRight(20, CChar(" ")) &
+            "SOC".PadRight(6, CChar(" ")) &
+             " ")
+
 
 
         Catch EX As Exception
@@ -3186,10 +3342,13 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
 
 
         SQL = "SELECT MOVG_DADO,TNST_MOVG.MOVG_CODI AS NMOVI,TNST_MOVG.MOVG_ANCI,MOVG_ORIG,SUM(TNST_MOVG.MOVG_VATO)AS TOTAL,FORN_DESC AS PROVEEDOR ,TNST_FORN.FORN_CODI AS CODI,"
-        SQL += "NVL(TNST_MOVG.MOVG_IDDO,' ')AS DOCU,'0' AS BASE,NVL(FORN_CNTR,'0') AS CIF ,TNST_MOVG.MOVG_DEST AS MOVG_DEST "
+        SQL += "NVL(TNST_MOVG.MOVG_IDDO,' ')AS DOCU,'0' AS BASE,NVL(FORN_CNTR,'0') AS CIF ,TNST_MOVG.MOVG_DEST AS MOVG_DEST,NVL(FORN_PAIS,'?') AS FORN_PAIS "
 
         ' 2017B
         SQL += " ,NVL(TNST_ALMA.ALMA_COEX_1,'?') AS ALMA_COEX1 "
+        '20190211
+        SQL += ",NVL(MOVG_DADO,'" & Format(Me.mFecha, "dd/MM/yyyy") & "') AS MOVG_DADO "
+        '
 
         '
         SQL += "FROM TNST_MOVG, TNST_TIMO,TNST_FORN ,TNST_ALMA "
@@ -3202,7 +3361,9 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
         SQL += " AND TNST_MOVG.MOVG_DEST = TNST_ALMA.ALMA_CODI "
         SQL += " GROUP BY MOVG_DADO,TNST_MOVG.MOVG_CODI,TNST_MOVG.MOVG_ANCI,MOVG_ORIG,TNST_FORN.FORN_CODI,"
         SQL += "FORN_DESC,TNST_MOVG.MOVG_IDDO,FORN_CNTR,TNST_MOVG.MOVG_DEST"
-        SQL += " ,ALMA_CCST ,ALMA_COEX_1"
+        SQL += " ,ALMA_CCST ,ALMA_COEX_1,FORN_PAIS"
+
+
 
         SQL += " ORDER BY  FORN_DESC,SUBSTR(ALMA_CCST,3,2),  TNST_MOVG.MOVG_IDDO "
 
@@ -3246,8 +3407,13 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
             Me.mTipoAsiento = "HABER"
             Me.InsertaOracle("AC", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaProveedorCuentasPorPagar(CType(Me.DbLeeHotel.mDbLector("CODI"), Integer)), Me.mIndicadorHaberFac, Texto, Total, "NO", CType(Me.DbLeeHotel.mDbLector("DOCU"), String), "", "NEWSTOCK", CType(Me.DbLeeHotel.mDbLector("CIF"), String), CType(Me.DbLeeHotel.mDbLector("MOVG_DADO"), Date), CInt(Me.DbLeeHotel.mDbLector("MOVG_DEST")), Me.mParaSeriefacturasAux)
             Me.GeneraFileAC2("AC", Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotel.mDbLector("MOVG_DEST"))), CType(Now.Year, String), Me.BuscaCuentaProveedorCuentasPorPagar(CType(Me.DbLeeHotel.mDbLector("CODI"), Integer)), Me.mIndicadorHaberFac, Texto, Total, Me.mParaSeriefacturasAux, CType(Me.DbLeeHotel.mDbLector("NMOVI"), String))
-            Me.GeneraFileFV("FV", 3, Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotel.mDbLector("MOVG_DEST"))), Me.mParaSeriefacturasAux, CType(Me.DbLeeHotel.mDbLector("NMOVI"), String), Total, CType(Me.DbLeeHotel.mDbLector("DOCU"), String).PadRight(15, CChar(" ")), Me.BuscaCuentaProveedorCuentasPorPagar(CType(Me.DbLeeHotel.mDbLector("CODI"), Integer)), CType(Me.DbLeeHotel.mDbLector("CIF"), String), CType(Me.DbLeeHotel.mDbLector("MOVG_DADO"), Date))
+            Me.GeneraFileFV("FC", 3, Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotel.mDbLector("MOVG_DEST"))), Me.mParaSeriefacturasAux, CType(Me.DbLeeHotel.mDbLector("NMOVI"), String), Total, CType(Me.DbLeeHotel.mDbLector("DOCU"), String).PadRight(15, CChar(" ")), Me.BuscaCuentaProveedorCuentasPorPagar(CType(Me.DbLeeHotel.mDbLector("CODI"), Integer)), CType(Me.DbLeeHotel.mDbLector("CIF"), String), CType(Me.DbLeeHotel.mDbLector("MOVG_DADO"), Date))
 
+            '20181227
+            If Me.mParaGeneraRegistrosSII Then
+                Me.GeneraFileRS("RS", CStr(Me.DbLeeHotel.mDbLector("CIF")), GetNaciCodi("PAIS_CSAF", CStr(Me.DbLeeHotel.mDbLector("FORN_PAIS"))), CStr(Me.DbLeeHotel.mDbLector("PROVEEDOR")))
+
+            End If
 
             ' sale a hacer los aspuntes de GASTOS , en vez de todos juntos 
             Me.GastosPorCentrodeCostoFacturas(CType(Me.DbLeeHotel.mDbLector("NMOVI"), Integer), CType(Me.DbLeeHotel.mDbLector("MOVG_ANCI"), Integer), Texto)
@@ -3468,7 +3634,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
                     Me.mTipoAsiento = "HABER"
                     Me.InsertaOracle("AC", 40, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaberFac, Texto, Total, "NO", CType(Me.DbLeeNewPaga.mDbLector("DOCUMENTO"), String), "", "NEWPAGA", CType(Me.DbLeeNewPaga.mDbLector("NIF"), String), CType(Me.DbLeeNewPaga.mDbLector("MOVI_DADO"), Date))
                     Me.GeneraFileAC2("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaberFac, Texto, Total, Me.mParaSeriefacturasNewPaga & Me.mFecha.Year, CType(Me.DbLeeNewPaga.mDbLector("MOVI_CODI"), String))
-                    Me.GeneraFileFV("FV", 40, Me.mEmpGrupoCod, Me.mEmpCod, Me.mParaSeriefacturasNewPaga & Me.mFecha.Year, CType(Me.DbLeeNewPaga.mDbLector("MOVI_CODI"), String), Total, CType(Me.DbLeeNewPaga.mDbLector("DOCUMENTO"), String).PadRight(15, CChar(" ")), Cuenta, CType(Me.DbLeeNewPaga.mDbLector("NIF"), String), CType(Me.DbLeeNewPaga.mDbLector("MOVI_DADO"), Date))
+                    Me.GeneraFileFV("FC", 40, Me.mEmpGrupoCod, Me.mEmpCod, Me.mParaSeriefacturasNewPaga & Me.mFecha.Year, CType(Me.DbLeeNewPaga.mDbLector("MOVI_CODI"), String), Total, CType(Me.DbLeeNewPaga.mDbLector("DOCUMENTO"), String).PadRight(15, CChar(" ")), Cuenta, CType(Me.DbLeeNewPaga.mDbLector("NIF"), String), CType(Me.DbLeeNewPaga.mDbLector("MOVI_DADO"), Date))
                 Else
                     MsgBox("Factura sin Líneas Documento =  " & CType(Me.DbLeeNewPaga.mDbLector("DOCUMENTO"), String) & " de " & CType(Me.DbLeeNewPaga.mDbLector("FORN_DESC"), String), MsgBoxStyle.Exclamation, "Atención")
                 End If
@@ -3548,7 +3714,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
                     Me.mTipoAsiento = "HABER"
                     Me.InsertaOracle("AC", 40, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaberFac, CType(Me.DbLeeNewPaga.mDbLector("FORN_DESC"), String) & " Anulada", Total, "NO", CType(Me.DbLeeNewPaga.mDbLector("DOCUMENTO"), String), "", "NEWPAGA", CType(Me.DbLeeNewPaga.mDbLector("NIF"), String), CType(Me.DbLeeNewPaga.mDbLector("MOVI_DADO"), Date))
                     Me.GeneraFileAC2("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaberFac, "FACTURA Anulada Num:  " & CType(Me.DbLeeNewPaga.mDbLector("DOCUMENTO"), String), Total, Me.mParaSeriefacturasNewPaga & Me.mFecha.Year, CType(Me.DbLeeNewPaga.mDbLector("MOVI_CODI"), String))
-                    Me.GeneraFileFV("FV", 40, Me.mEmpGrupoCod, Me.mEmpCod, Me.mParaSeriefacturasNewPaga & Me.mFecha.Year, CType(Me.DbLeeNewPaga.mDbLector("MOVI_CODI"), String), Total, CType(Me.DbLeeNewPaga.mDbLector("DOCUMENTO"), String).PadRight(15, CChar(" ")), Cuenta, CType(Me.DbLeeNewPaga.mDbLector("NIF"), String), CType(Me.DbLeeNewPaga.mDbLector("MOVI_DADO"), Date))
+                    Me.GeneraFileFV("FC", 40, Me.mEmpGrupoCod, Me.mEmpCod, Me.mParaSeriefacturasNewPaga & Me.mFecha.Year, CType(Me.DbLeeNewPaga.mDbLector("MOVI_CODI"), String), Total, CType(Me.DbLeeNewPaga.mDbLector("DOCUMENTO"), String).PadRight(15, CChar(" ")), Cuenta, CType(Me.DbLeeNewPaga.mDbLector("NIF"), String), CType(Me.DbLeeNewPaga.mDbLector("MOVI_DADO"), Date))
                 End If
 
             End While
@@ -3976,7 +4142,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
         Dim Texto As String
 
         SQL = "SELECT MOVG_DADO,TNST_MOVG.MOVG_CODI AS NMOVI,TNST_MOVG.MOVG_ANCI,MOVG_DEST,SUM(TNST_MOVG.MOVG_VATO)AS TOTAL,FORN_DESC AS PROVEEDOR,TNST_FORN.FORN_CODI AS CODI, "
-        SQL += "NVL(TNST_MOVG.MOVG_IDDO,' ')AS DOCU,'0' AS BASE,NVL(FORN_CNTR,'0') AS CIF,TNST_MOVG.MOVG_ORIG AS MOVG_ORIG "
+        SQL += "NVL(TNST_MOVG.MOVG_IDDO,' ')AS DOCU,'0' AS BASE,NVL(FORN_CNTR,'0') AS CIF,TNST_MOVG.MOVG_ORIG AS MOVG_ORIG ,NVL(FORN_PAIS,'?') AS FORN_PAIS "
 
         ' 2017B
         SQL += " ,NVL(TNST_ALMA.ALMA_COEX_1,'?') AS ALMA_COEX1 "
@@ -3996,7 +4162,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
         SQL += " GROUP BY  MOVG_DADO,TNST_MOVG.MOVG_CODI,TNST_MOVG.MOVG_ANCI,MOVG_DEST,TNST_FORN.FORN_CODI,FORN_DESC,TNST_MOVG.MOVG_IDDO,FORN_CNTR,TNST_MOVG.MOVG_ORIG"
 
         ' 2017B
-        SQL += " ,ALMA_CCST ,ALMA_COEX_1"
+        SQL += " ,ALMA_CCST ,ALMA_COEX_1,FORN_PAIS"
 
         SQL += " ORDER BY  FORN_DESC,SUBSTR(ALMA_CCST,3,2),  TNST_MOVG.MOVG_IDDO "
 
@@ -4039,7 +4205,13 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
             Me.mTipoAsiento = "HABER"
             Me.InsertaOracle("AC", 5, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaProveedorCuentasPorPagar(CType(Me.DbLeeHotel.mDbLector("CODI"), Integer)), Me.mIndicadorHaberAbono, Texto, Total * -1, "NO", "", "", "NEWSTOCK", CType(Me.DbLeeHotel.mDbLector("CIF"), String), CType(Me.DbLeeHotel.mDbLector("MOVG_DADO"), Date), CInt(Me.DbLeeHotel.mDbLector("MOVG_ORIG")), Me.mParaSeriefacturasAux)
             Me.GeneraFileAC2("AC", Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotel.mDbLector("MOVG_ORIG"))), CType(Now.Year, String), Me.BuscaCuentaProveedorCuentasPorPagar(CType(Me.DbLeeHotel.mDbLector("CODI"), Integer)), Me.mIndicadorHaberAbono, Texto, Total * -1, Me.mParaSeriefacturasAux, CType(Me.DbLeeHotel.mDbLector("NMOVI"), String))
-            Me.GeneraFileFV("FV", 5, Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotel.mDbLector("MOVG_ORIG"))), Me.mParaSeriefacturasAux, CType(Me.DbLeeHotel.mDbLector("NMOVI"), String), Total * -1, CType(Me.DbLeeHotel.mDbLector("DOCU"), String).PadRight(15, CChar(" ")), Me.BuscaCuentaProveedorCuentasPorPagar(CType(Me.DbLeeHotel.mDbLector("CODI"), Integer)), CType(Me.DbLeeHotel.mDbLector("CIF"), String), CType(Me.DbLeeHotel.mDbLector("MOVG_DADO"), Date))
+            Me.GeneraFileFV("FC", 5, Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotel.mDbLector("MOVG_ORIG"))), Me.mParaSeriefacturasAux, CType(Me.DbLeeHotel.mDbLector("NMOVI"), String), Total * -1, CType(Me.DbLeeHotel.mDbLector("DOCU"), String).PadRight(15, CChar(" ")), Me.BuscaCuentaProveedorCuentasPorPagar(CType(Me.DbLeeHotel.mDbLector("CODI"), Integer)), CType(Me.DbLeeHotel.mDbLector("CIF"), String), CType(Me.DbLeeHotel.mDbLector("MOVG_DADO"), Date))
+
+            '20181227
+            If Me.mParaGeneraRegistrosSII Then
+                Me.GeneraFileRS("RS", CStr(Me.DbLeeHotel.mDbLector("CIF")), GetNaciCodi("PAIS_CSAF", CStr(Me.DbLeeHotel.mDbLector("FORN_PAIS"))), CStr(Me.DbLeeHotel.mDbLector("PROVEEDOR")))
+
+            End If
 
             ' sale a hacer los aspuntes de GASTOS , en vez de todos juntos 
             Me.GastosPorCentrodeCostoFacturasDevolucion(CType(Me.DbLeeHotel.mDbLector("NMOVI"), Integer), CType(Me.DbLeeHotel.mDbLector("MOVG_ANCI"), Integer), Texto)
@@ -4181,7 +4353,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
         Dim Texto As String
 
         SQL = "SELECT MOVG_DADO,TNST_MOVG.MOVG_CODI AS NMOVI,TNST_MOVG.MOVG_ANCI,MOVG_ORIG,MAX(TNST_MOVG.MOVG_VATO)AS TOTAL,FORN_DESC AS PROVEEDOR,"
-        SQL += "TNST_MOVG.MOVG_IDDO AS DOCU,TNST_FORN.FORN_CODI AS CODI,SUM(MOVI_NETO) AS BASE,NVL(FORN_CNTR,'0') AS CIF ,TNST_MOVG.MOVG_DEST AS MOVG_DEST "
+        SQL += "TNST_MOVG.MOVG_IDDO AS DOCU,TNST_FORN.FORN_CODI AS CODI,SUM(MOVI_NETO) AS BASE,NVL(FORN_CNTR,'0') AS CIF ,TNST_MOVG.MOVG_DEST AS MOVG_DEST ,NVL(FORN_PAIS,'?') AS FORN_PAIS "
 
 
 
@@ -4210,7 +4382,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
 
         SQL += " GROUP BY MOVG_DADO,TNST_MOVG.MOVG_CODI,TNST_MOVG.MOVG_ANCI,"
         SQL += " MOVG_ORIG,TNST_FORN.FORN_CODI,FORN_DESC,TNST_MOVG.MOVG_IDDO,FORN_CNTR,TNST_MOVG.MOVG_DEST "
-        SQL += " ,ALMA_CCST"
+        SQL += " ,ALMA_CCST,FORN_PAIS"
 
         ' 2017B
         '  SQL += " , ALMA_COEX_1 "
@@ -4253,7 +4425,15 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
             Me.mTipoAsiento = "HABER"
             Me.InsertaOracle("AC", 6, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaProveedorCuentasPorPagar(CType(r("CODI"), Integer)), Me.mIndicadorHaberFac, Texto, Total, "NO", CType(r("DOCU"), String), "", "NEWSTOCK", CType(r("CIF"), String), CType(r("MOVG_DADO"), Date), CInt(r("MOVG_DEST")), Me.mParaSeriefacturasAux)
             Me.GeneraFileAC2("AC", Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(r("MOVG_DEST"))), CType(Now.Year, String), Me.BuscaCuentaProveedorCuentasPorPagar(CType(r("CODI"), Integer)), Me.mIndicadorHaberFac, Texto, Total, Me.mParaSeriefacturasAux, CType(r("NMOVI"), String))
-            Me.GeneraFileFV("FV", 6, Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(r("MOVG_DEST"))), Me.mParaSeriefacturasAux, CType(r("NMOVI"), String), Total, CType(r("DOCU"), String).PadRight(15, CChar(" ")), Me.BuscaCuentaProveedorCuentasPorPagar(CType(r("CODI"), Integer)), CType(r("CIF"), String), CType(r("MOVG_DADO"), Date))
+            Me.GeneraFileFV("FC", 6, Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(r("MOVG_DEST"))), Me.mParaSeriefacturasAux, CType(r("NMOVI"), String), Total, CType(r("DOCU"), String).PadRight(15, CChar(" ")), Me.BuscaCuentaProveedorCuentasPorPagar(CType(r("CODI"), Integer)), CType(r("CIF"), String), CType(r("MOVG_DADO"), Date))
+
+
+            '20181227
+            If Me.mParaGeneraRegistrosSII Then
+                Me.GeneraFileRS("RS", CStr(r("CIF")), GetNaciCodi("PAIS_CSAF", CStr(r("FORN_PAIS"))), CStr(r("PROVEEDOR")))
+
+            End If
+
             'NO CONDENSADO'
 
             If Me.mCondensarAsiento = False Then
@@ -4355,7 +4535,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
             Me.mTipoAsiento = "HABER"
             Me.InsertaOracle("AC", 6, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.BuscaCuentaProveedorCuentasPorPagar(CType(Me.DbLeeHotel.mDbLector("CODI"), Integer)), Me.mIndicadorHaberFac, Texto, Total, "NO", CType(Me.DbLeeHotel.mDbLector("DOCU"), String), "", "NEWSTOCK", CType(Me.DbLeeHotel.mDbLector("CIF"), String), CType(Me.DbLeeHotel.mDbLector("MOVG_DADO"), Date), CInt(Me.DbLeeHotel.mDbLector("MOVG_DEST")), "")
             Me.GeneraFileAC2("AC", Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotel.mDbLector("MOVG_DEST"))), CType(Now.Year, String), Me.BuscaCuentaProveedorCuentasPorPagar(CType(Me.DbLeeHotel.mDbLector("CODI"), Integer)), Me.mIndicadorHaberFac, Texto, Total, Me.mParaSeriefacturasGenerica & Me.mFecha.Year, CType(Me.DbLeeHotel.mDbLector("NMOVI"), String))
-            Me.GeneraFileFV("FV", 6, Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotel.mDbLector("MOVG_DEST"))), Me.mParaSeriefacturasGenerica & Me.mFecha.Year, CType(Me.DbLeeHotel.mDbLector("NMOVI"), String), Total, CType(Me.DbLeeHotel.mDbLector("DOCU"), String).PadRight(15, CChar(" ")), Me.BuscaCuentaProveedorCuentasPorPagar(CType(Me.DbLeeHotel.mDbLector("CODI"), Integer)), CType(Me.DbLeeHotel.mDbLector("CIF"), String), CType(Me.DbLeeHotel.mDbLector("MOVG_DADO"), Date))
+            Me.GeneraFileFV("FC", 6, Me.mEmpGrupoCod, Me.DameHotelapartirdeAlmacen(CInt(Me.DbLeeHotel.mDbLector("MOVG_DEST"))), Me.mParaSeriefacturasGenerica & Me.mFecha.Year, CType(Me.DbLeeHotel.mDbLector("NMOVI"), String), Total, CType(Me.DbLeeHotel.mDbLector("DOCU"), String).PadRight(15, CChar(" ")), Me.BuscaCuentaProveedorCuentasPorPagar(CType(Me.DbLeeHotel.mDbLector("CODI"), Integer)), CType(Me.DbLeeHotel.mDbLector("CIF"), String), CType(Me.DbLeeHotel.mDbLector("MOVG_DADO"), Date))
             '1X'
 
             Me.TotalAlbaranesProveedorFormalizados(CType(Me.DbLeeHotel.mDbLector("NMOVI"), Integer), CType(Me.DbLeeHotel.mDbLector("MOVG_ANCI"), Integer), "")

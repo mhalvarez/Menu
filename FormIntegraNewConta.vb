@@ -225,15 +225,22 @@ Public Class FormIntegraNewConta
     Private Sub ButtonAceptar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonAceptar.Click
         Try
             '    Me.MostrardatosTemporal()
+            Dim Aux As String
 
-            DLL = CType(MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DLL", "NEWCONTA"), Integer)
-            If IsNumeric(DLL) = False Then
+            Aux = MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DLL", "NEWCONTA")
+            If Aux = "" Then
                 '  MsgBox("Falta Numero de Dll a usar en Fichero .INI ", MsgBoxStyle.Exclamation, "Atención")
                 '  Me.Close()
                 DLL = 0
+            Else
+                DLL = CInt(Aux)
+
             End If
 
             Me.Cursor = Cursors.AppStarting
+
+
+            '     MsgBox("DLL =" & DLL & Me.mEmpGrupoCod)
 
 
             If Me.mEmpGrupoCod = "DUNA" Or DLL = 2 Then
@@ -264,7 +271,7 @@ Public Class FormIntegraNewConta
                 INTEGRA = New ContanetNewConta.ContanetNewConta(Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 0),
                 Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 1),
                 MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DATABASE", "STRING"),
-                Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 7), Format(Me.DateTimePicker1.Value, "dd-MM-yyyy"), "NC-" &
+                Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 7), Format(Me.DateTimePicker1.Value, "dd-MM-yyyy"), "NewConta " &
                 Format(Me.DateTimePicker1.Value, "dd-MM-yyyy") & ".TXT", Me.CheckBoxDebug.Checked,
                 Me.TextBoxDebug, Me.ListBoxDebug, Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 4),
                 Me.ProgressBar1, Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 8),
@@ -463,7 +470,14 @@ Public Class FormIntegraNewConta
                 Form.StartPosition = FormStartPosition.CenterScreen
                 Form.Show()
                 Me.Cursor = Cursors.Default
-            Else
+
+            ElseIf EMPGRUPO_COD = "GSM" Or EMPGRUPO_COD = "GP" Then
+                Dim Form As New FormVisorCrystal("ASIENTO NEWCONTA-SMONICA.rpt", "COBROS  " & Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 2), REPORT_SELECTION_FORMULA, MyIni.IniGet(Application.StartupPath & "\menu.ini", "DATABASE", "STRING"), "", False, False)
+                Form.MdiParent = Me.MdiParent
+                    Form.StartPosition = FormStartPosition.CenterScreen
+                    Form.Show()
+                    Me.Cursor = Cursors.Default
+                Else
                 Dim Form As New FormVisorCrystal("ASIENTO NEWCONTA.rpt", "COBROS  " & Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 2), REPORT_SELECTION_FORMULA, MyIni.IniGet(Application.StartupPath & "\menu.ini", "DATABASE", "STRING"), "", False, False)
                 Form.MdiParent = Me.MdiParent
                 Form.StartPosition = FormStartPosition.CenterScreen

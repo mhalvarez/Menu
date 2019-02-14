@@ -194,7 +194,7 @@
             SQL += "      ,NVL(PARA_TIPO_FORMALIZA,'G') AS PARA_TIPO_FORMALIZA "
 
             SQL += "      ,NVL(PARA_SPYRO_TIPO_ANALITICA,'<Ninguno>') AS PARA_SPYRO_TIPO_ANALITICA"
-
+            SQL += "      ,PARA_SPYRO_TIPO_MOVTRANS   AS PARA_SPYRO_TIPO_MOVTRANS"
 
 
             SQL += "  FROM TS_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
@@ -273,6 +273,12 @@
                 Me.TextBoxCtaAlbaranesPdtesFormalizar.Text = Me.DbLee.mDbLector.Item("PARA_CTA1")
 
                 Me.TextBoxSpyroTipoAnalitica.Text = Me.DbLee.mDbLector.Item("PARA_SPYRO_TIPO_ANALITICA")
+
+                If IsDBNull(Me.DbLee.mDbLector.Item("PARA_SPYRO_TIPO_MOVTRANS")) = False Then
+                    Me.TextBoxSpyroTiposMovTransFerencia.Text = Me.DbLee.mDbLector.Item("PARA_SPYRO_TIPO_MOVTRANS")
+                Else
+                    Me.TextBoxSpyroTiposMovTransFerencia.Text = ""
+                End If
 
 
 
@@ -377,6 +383,14 @@
 
 
             SQL += ",PARA_SPYRO_TIPO_ANALITICA='" & Me.TextBoxSpyroTipoAnalitica.Text.Replace("<Ninguno>", "") & "'"
+
+
+            If Me.TextBoxSpyroTiposMovTransFerencia.TextLength > 0 Then
+                SQL += ",PARA_SPYRO_TIPO_MOVTRANS ='" & Me.TextBoxSpyroTiposMovTransFerencia.Text & "'"
+            Else
+                SQL += ",PARA_SPYRO_TIPO_MOVTRANS = " & "NULL"
+            End If
+
 
 
 

@@ -81,6 +81,8 @@ Public Class FormIntegraFront
     Friend WithEvents ButtonFechaFront As System.Windows.Forms.Button
     Private mProcId As String
     Private mTituloForm As String
+    Private TotalDebe As String
+    Private TotalHaber As String
 
 
     Private Enum mEnumTipoEnvio
@@ -1255,6 +1257,7 @@ Public Class FormIntegraFront
             ' Lee y muestra algunos parametros de Integracion
             '----------------------------------------------------------------------------------------------------
             Me.mEmpGrupoCod = MyIni.IniGet(Application.StartupPath & "\menu.ini", "PARAMETER", "PARA_EMPGRUPO_COD")
+            Me.EsconderTabs()
 
 
 
@@ -1762,7 +1765,7 @@ Public Class FormIntegraFront
                         Me.DllContanet = New ContanetNewHotel.ContaNetNewHotel(Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 0),
                                     Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 1),
                                    MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DATABASE", "STRING"),
-                                  Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 3), Format(Me.DateTimePicker1.Value, "dd-MM-yyyy"), "F" &
+                                  Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 3), Format(Me.DateTimePicker1.Value, "dd-MM-yyyy"), "NewHotel " &
                                   Format(Me.DateTimePicker1.Value, "dd-MM-yyyy") & ".TXT", Me.CheckBoxDebug.Checked,
                                   Me.TextBoxDebug, Me.ListBoxDebug, Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 4),
                                   Me.ProgressBar1, Me.CheckBoxTpvNoFacturado.Checked, Me.CheckBoxFiltroDepositosNewHotel.Checked, Me.mEmpNum, Me,
@@ -1880,19 +1883,25 @@ Public Class FormIntegraFront
 
             ' ASIENTOS
 
+            TotalDebe = ""
+            TotalHaber = ""
+
+
             If MULTIFECHA = "0" Then
 
                 SQL = "SELECT ROUND(SUM(round(ASNT_DEBE,2)),2) FROM TH_ASNT WHERE ASNT_F_VALOR = '" & Me.DateTimePicker1.Value & "'"
                 SQL += " AND TH_ASNT.ASNT_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
                 SQL += " AND TH_ASNT.ASNT_EMP_COD = '" & Me.mEmpCod & "'"
                 SQL += " AND TH_ASNT.ASNT_EMP_NUM = " & Me.mEmpNum
-                Me.TextBoxDebug.Text = Me.DbLee.EjecutaSqlScalar(SQL)
+                TotalDebe = Me.DbLee.EjecutaSqlScalar(SQL)
+                Me.TextBoxDebug.Text = TotalDebe
 
                 SQL = "SELECT ROUND(SUM(round(ASNT_HABER,2)),2) FROM TH_ASNT WHERE ASNT_F_VALOR = '" & Me.DateTimePicker1.Value & "'"
                 SQL += " AND TH_ASNT.ASNT_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
                 SQL += " AND TH_ASNT.ASNT_EMP_COD = '" & Me.mEmpCod & "'"
                 SQL += " AND TH_ASNT.ASNT_EMP_NUM = " & Me.mEmpNum
-                Me.TextBoxDebug.Text = Me.TextBoxDebug.Text & "   " & Me.DbLee.EjecutaSqlScalar(SQL)
+                TotalHaber = Me.DbLee.EjecutaSqlScalar(SQL)
+                Me.TextBoxDebug.Text = Me.TextBoxDebug.Text & "  " & TotalHaber
 
 
 
@@ -1923,15 +1932,16 @@ Public Class FormIntegraFront
                 SQL += " AND TH_ASNT.ASNT_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
                 SQL += " AND TH_ASNT.ASNT_EMP_COD = '" & Me.mEmpCod & "'"
                 SQL += " AND TH_ASNT.ASNT_EMP_NUM = " & Me.mEmpNum
-                Me.TextBoxDebug.Text = Me.DbLee.EjecutaSqlScalar(SQL)
+                TotalDebe = Me.DbLee.EjecutaSqlScalar(SQL)
+                Me.TextBoxDebug.Text = TotalDebe
 
                 SQL = "SELECT ROUND(SUM(round(ASNT_HABER,2)),2) FROM TH_ASNT WHERE ASNT_F_VALOR >= '" & Me.DateTimePicker1.Value & "'"
                 SQL += " AND ASNT_F_VALOR <= '" & Me.DateTimePicker2.Value & "'"
                 SQL += " AND TH_ASNT.ASNT_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
                 SQL += " AND TH_ASNT.ASNT_EMP_COD = '" & Me.mEmpCod & "'"
                 SQL += " AND TH_ASNT.ASNT_EMP_NUM = " & Me.mEmpNum
-                Me.TextBoxDebug.Text = Me.TextBoxDebug.Text & "   " & Me.DbLee.EjecutaSqlScalar(SQL)
-
+                TotalHaber = Me.DbLee.EjecutaSqlScalar(SQL)
+                Me.TextBoxDebug.Text = Me.TextBoxDebug.Text & "  " & TotalHaber
 
 
 
@@ -1967,8 +1977,8 @@ Public Class FormIntegraFront
 
             ' errorres
 
-            If DLL = 3 Or DLL = 4 Or DLL = 7 Or DLL = 13 Then
-                ' HOTELES LOPEZ , hc7 ,ereza, vital suite
+            If DLL = 3 Or DLL = 4 Or DLL = 7 Or DLL = 13 Or DLL = 11 Then
+                ' HOTELES LOPEZ , hc7 ,ereza, vital suite, SANTA MONICA 
                 If MULTIFECHA = "0" Then
                     SQL = "SELECT INCI_DATR,INCI_ORIGEN,INCI_DESCRIPCION FROM TH_INCI WHERE INCI_DATR = '" & Format(Me.DateTimePicker1.Value, "dd/MM/yyyy") & "'"
                     SQL += " AND  INCI_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
@@ -1998,7 +2008,7 @@ Public Class FormIntegraFront
             Me.DataGridErrorres.DataMember = "ERRORES"
 
 
-            If DLL = 3 Or DLL = 4 Or DLL = 7 Or DLL = 13 Then
+            If DLL = 3 Or DLL = 4 Or DLL = 7 Or DLL = 13 Or DLL = 11 Then
                 ' HOTELES LOPEZ , hc7 ,ereza, vital suite
                 Me.ConfGridIncidencias()
             Else
@@ -2049,7 +2059,16 @@ Public Class FormIntegraFront
                 Me.AuditaCobros()
                 Me.DbLeeNewHotel.CerrarConexion()
                 Me.Cursor = Cursors.Default
+
+            Else
+                If TotalDebe <> TotalHaber Then
+                    Me.TextBoxDebug.BackColor = Color.Maroon
+                End If
             End If
+
+
+
+
 
             '   MsgBox("Fin del Proceso")
 
@@ -3039,6 +3058,44 @@ Public Class FormIntegraFront
         End Try
 
     End Sub
+
+    Private Sub EsconderTabs()
+        Try
+
+
+
+
+            ' NO BORRAR PARA SABER EL INDICE/NOMBRE DE CADA UNO
+
+            '    For i As Integer = 0 To Me.TabControlModosdeOperacion.TabPages.Count - 1
+            '   Me.TabControlModosdeOperacion.TabPages(i).Visible = False
+            '  MsgBox(Me.TabControlModosdeOperacion.TabPages(i).TabIndex & " " & Me.TabControlModosdeOperacion.TabPages(i).Text)
+            ' Next
+
+
+
+
+
+
+            If Me.mEmpGrupoCod = "SATO" Then
+                Me.TabControlModosdeOperacion.TabPages.Remove(Me.TabPage11)
+                Me.TabControlModosdeOperacion.TabPages.Remove(Me.TabPage14)
+            Else
+                Me.TabControlModosdeOperacion.TabPages.Remove(Me.TabPage10)
+                Me.TabControlModosdeOperacion.TabPages.Remove(Me.TabPage12)
+                Me.TabControlModosdeOperacion.TabPages.Remove(Me.TabPage13)
+                Me.TabControlModosdeOperacion.TabPages.Remove(Me.TabPage11)
+                Me.TabControlModosdeOperacion.TabPages.Remove(Me.TabPage14)
+
+            End If
+
+                Me.TabControlModosdeOperacion.Update()
+
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
 #End Region
 
     Private Sub ButtonConvertir_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonConvertir.Click
@@ -3298,6 +3355,7 @@ Public Class FormIntegraFront
             Dim FacturasAnuladasNewgolf As Decimal
             Dim PagosCuentaBonosAsociacion As Decimal
             Dim DescuentosFinancieros As Decimal
+            Dim Desesembolsos As Decimal
 
 
             Dim TotalContaBilidad As Double
@@ -3430,6 +3488,18 @@ Public Class FormIntegraFront
             End If
 
 
+            If Me.mEmpGrupoCod <> "SATO" Then
+                SQL = "SELECT NVL(SUM(ASNT_DEBE + ASNT_HABER),0) FROM TH_ASNT "
+                SQL += " WHERE ASNT_F_VALOR = '" & Me.DateTimePicker1.Value & "'"
+                SQL += " AND TH_ASNT.ASNT_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+                SQL += " AND TH_ASNT.ASNT_EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += " AND TH_ASNT.ASNT_EMP_NUM = " & Me.mEmpNum
+                SQL += " AND TH_ASNT.ASNT_AUXILIAR_STRING = 'DESEMBOLSO'"
+                Desesembolsos = Me.DbLee.EjecutaSqlScalar(SQL)
+
+            End If
+
+
             SQL = "SELECT nvl(SUM(ASNT_DEBE + ASNT_HABER),0) FROM TH_ASNT "
             SQL += " WHERE ASNT_F_VALOR = '" & Me.DateTimePicker1.Value & "'"
             SQL += " AND TH_ASNT.ASNT_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
@@ -3449,7 +3519,7 @@ Public Class FormIntegraFront
                 TotalContaBilidad = Decimal.Round(CobrosContabilidad, 2) + Decimal.Round(DescuentosFinancieros, 2) + Decimal.Round(AnticiposRecibidosContabilidad, 2) - Decimal.Round(AnticiposFacturadosContabilidad, 2)
             Else
                 '   TotalContaBilidad = Decimal.Round(CobrosContabilidad, 2) + Decimal.Round(AnticiposRecibidosContabilidad, 2) - Decimal.Round(AnticiposFacturadosContabilidad, 2) - Decimal.Round(NotasCreditoNewgolf, 2) + Decimal.Round(NotasCreditoNewgolfAnuladas, 2) - Decimal.Round(FacturasAnuladasNewgolf, 2) + Decimal.Round(PagosCuentaBonosAsociacion, 2)
-                TotalContaBilidad = Decimal.Round(CobrosContabilidad, 2) + Decimal.Round(AnticiposRecibidosContabilidad, 2)
+                TotalContaBilidad = (Decimal.Round(CobrosContabilidad, 2) + Decimal.Round(AnticiposRecibidosContabilidad, 2)) - Decimal.Round(Desesembolsos, 2)
 
             End If
 
@@ -3462,12 +3532,15 @@ Public Class FormIntegraFront
             Else
                 TotalFinal = Decimal.Round(CobrosNewHotel, 2) - TotalContaBilidad
             End If
+
             Texto = "Cobros NewHotel = " & CobrosNewHotel & " "
             Texto += "Cobros Contabilidad  = " & CobrosContabilidad & " Anticipos Facturados = " & AnticiposFacturadosContabilidad & " Anticipos Recibidos = " & AnticiposRecibidosContabilidad & " Dto Comerciales = " & DescuentosFinancieros
             Texto += " Auditoría de Cobro = " & TotalFinal
 
             Me.TextBoxDebug.Text = Me.TextBoxDebug.Text & "          " & Texto
-            If TotalFinal = 0 Then
+
+
+            If TotalFinal = 0 And TotalDebe = TotalHaber Then
                 Me.TextBoxDebug.BackColor = Color.Green
             Else
                 Me.TextBoxDebug.BackColor = Color.Maroon

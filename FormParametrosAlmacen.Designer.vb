@@ -76,6 +76,8 @@ Partial Class FormParametrosAlmacen
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.TabPageSantaMonica = New System.Windows.Forms.TabPage()
+        Me.TextBoxSpyroTiposMovTransFerencia = New System.Windows.Forms.TextBox()
+        Me.Label30 = New System.Windows.Forms.Label()
         Me.TextBoxSpyroTipoAnalitica = New System.Windows.Forms.TextBox()
         Me.Label29 = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
@@ -89,8 +91,6 @@ Partial Class FormParametrosAlmacen
         Me.Label78 = New System.Windows.Forms.Label()
         Me.TextBoxEmpNum = New System.Windows.Forms.TextBox()
         Me.Label77 = New System.Windows.Forms.Label()
-        Me.TextBoxSpyroCuentaPuenteRemesas = New System.Windows.Forms.TextBox()
-        Me.Label30 = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPageGenerales.SuspendLayout()
@@ -637,7 +637,7 @@ Partial Class FormParametrosAlmacen
         '
         'TabPageSantaMonica
         '
-        Me.TabPageSantaMonica.Controls.Add(Me.TextBoxSpyroCuentaPuenteRemesas)
+        Me.TabPageSantaMonica.Controls.Add(Me.TextBoxSpyroTiposMovTransFerencia)
         Me.TabPageSantaMonica.Controls.Add(Me.Label30)
         Me.TabPageSantaMonica.Controls.Add(Me.TextBoxSpyroTipoAnalitica)
         Me.TabPageSantaMonica.Controls.Add(Me.Label29)
@@ -647,6 +647,24 @@ Partial Class FormParametrosAlmacen
         Me.TabPageSantaMonica.TabIndex = 2
         Me.TabPageSantaMonica.Text = "Santa Mónica"
         Me.TabPageSantaMonica.UseVisualStyleBackColor = True
+        '
+        'TextBoxSpyroTiposMovTransFerencia
+        '
+        Me.TextBoxSpyroTiposMovTransFerencia.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxSpyroTiposMovTransFerencia.Location = New System.Drawing.Point(339, 65)
+        Me.TextBoxSpyroTiposMovTransFerencia.Name = "TextBoxSpyroTiposMovTransFerencia"
+        Me.TextBoxSpyroTiposMovTransFerencia.Size = New System.Drawing.Size(294, 20)
+        Me.TextBoxSpyroTiposMovTransFerencia.TabIndex = 15
+        '
+        'Label30
+        '
+        Me.Label30.AutoSize = True
+        Me.Label30.Location = New System.Drawing.Point(12, 65)
+        Me.Label30.Name = "Label30"
+        Me.Label30.Size = New System.Drawing.Size(321, 26)
+        Me.Label30.TabIndex = 14
+        Me.Label30.Text = "Tipos de Movimiento NEWPAGA que NO usan Cuenta Intermedia " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Separados por Coma   " &
+    "(T1,T2)"
         '
         'TextBoxSpyroTipoAnalitica
         '
@@ -770,23 +788,6 @@ Partial Class FormParametrosAlmacen
         Me.Label77.TabIndex = 36
         Me.Label77.Text = "Hotel Nùmero"
         '
-        'TextBoxSpyroCuentaPuenteRemesas
-        '
-        Me.TextBoxSpyroCuentaPuenteRemesas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxSpyroCuentaPuenteRemesas.Location = New System.Drawing.Point(273, 63)
-        Me.TextBoxSpyroCuentaPuenteRemesas.Name = "TextBoxSpyroCuentaPuenteRemesas"
-        Me.TextBoxSpyroCuentaPuenteRemesas.Size = New System.Drawing.Size(88, 20)
-        Me.TextBoxSpyroCuentaPuenteRemesas.TabIndex = 15
-        '
-        'Label30
-        '
-        Me.Label30.AutoSize = True
-        Me.Label30.Location = New System.Drawing.Point(12, 65)
-        Me.Label30.Name = "Label30"
-        Me.Label30.Size = New System.Drawing.Size(241, 13)
-        Me.Label30.TabIndex = 14
-        Me.Label30.Text = "Cuenta ""Puente"" Remesas Bancarias (NewPaga)"
-        '
         'FormParametrosAlmacen
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -886,6 +887,6 @@ Partial Class FormParametrosAlmacen
     Friend WithEvents TabPageSantaMonica As TabPage
     Friend WithEvents TextBoxSpyroTipoAnalitica As TextBox
     Friend WithEvents Label29 As Label
-    Friend WithEvents TextBoxSpyroCuentaPuenteRemesas As TextBox
+    Friend WithEvents TextBoxSpyroTiposMovTransFerencia As TextBox
     Friend WithEvents Label30 As Label
 End Class

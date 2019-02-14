@@ -282,6 +282,17 @@ Public Class FormParametrosFront
     Friend WithEvents CheckBoxSpyroGeneraSV As CheckBox
     Friend WithEvents Label125 As Label
     Friend WithEvents TextBoxSpyroNaciCodi As TextBox
+    Friend WithEvents ButtonNewHotelCCexTpv As Button
+    Friend WithEvents TextBoxNewHotelCCexTpv As TextBox
+    Friend WithEvents Label129 As Label
+    Friend WithEvents NumericUpDownSpyroLongitudTiketsRs As NumericUpDown
+    Friend WithEvents Label130 As Label
+    Friend WithEvents TextBoxUsuarioNewHotel As TextBox
+    Friend WithEvents Label131 As Label
+    Friend WithEvents CheckBoxNewContaTrataFactAnul2 As CheckBox
+    Friend WithEvents CheckBoxNewContaTrataFactAnul As CheckBox
+    Friend WithEvents CheckBoxNewContaTrataFactNeg2 As CheckBox
+    Friend WithEvents CheckBoxNewContaTrataFactNeg As CheckBox
     Dim SQL As String
 
 #Region " Código generado por el Diseñador de Windows Forms "
@@ -455,6 +466,8 @@ Public Class FormParametrosFront
         Me.TextBoxDebug = New System.Windows.Forms.TextBox()
         Me.Label28 = New System.Windows.Forms.Label()
         Me.TabPage7 = New System.Windows.Forms.TabPage()
+        Me.TextBoxUsuarioNewHotel = New System.Windows.Forms.TextBox()
+        Me.Label131 = New System.Windows.Forms.Label()
         Me.CheckBoxNewContaTrataAnulados = New System.Windows.Forms.CheckBox()
         Me.TextBoxNewContaCodigoHotelNewCentral = New System.Windows.Forms.TextBox()
         Me.Label81 = New System.Windows.Forms.Label()
@@ -465,6 +478,13 @@ Public Class FormParametrosFront
         Me.TabPageSpyro = New System.Windows.Forms.TabPage()
         Me.ListBoxRegistrosSpyro = New System.Windows.Forms.ListBox()
         Me.GroupBox8 = New System.Windows.Forms.GroupBox()
+        Me.NumericUpDownSpyroLongitudTiketsRs = New System.Windows.Forms.NumericUpDown()
+        Me.Label130 = New System.Windows.Forms.Label()
+        Me.ButtonNewHotelCCexTpv = New System.Windows.Forms.Button()
+        Me.TextBoxNewHotelCCexTpv = New System.Windows.Forms.TextBox()
+        Me.Label129 = New System.Windows.Forms.Label()
+        Me.Label125 = New System.Windows.Forms.Label()
+        Me.TextBoxSpyroNaciCodi = New System.Windows.Forms.TextBox()
         Me.CheckBoxSpyroGeneraSV = New System.Windows.Forms.CheckBox()
         Me.CheckBoxValidaCuentasSpyro = New System.Windows.Forms.CheckBox()
         Me.Label88 = New System.Windows.Forms.Label()
@@ -727,8 +747,10 @@ Public Class FormParametrosFront
         Me.TextBoxEmpCod = New System.Windows.Forms.TextBox()
         Me.Label78 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.Label125 = New System.Windows.Forms.Label()
-        Me.TextBoxSpyroNaciCodi = New System.Windows.Forms.TextBox()
+        Me.CheckBoxNewContaTrataFactNeg = New System.Windows.Forms.CheckBox()
+        Me.CheckBoxNewContaTrataFactNeg2 = New System.Windows.Forms.CheckBox()
+        Me.CheckBoxNewContaTrataFactAnul2 = New System.Windows.Forms.CheckBox()
+        Me.CheckBoxNewContaTrataFactAnul = New System.Windows.Forms.CheckBox()
         Me.GroupBox1.SuspendLayout()
         Me.TabControlOpciones.SuspendLayout()
         Me.TabPageGeneral.SuspendLayout()
@@ -738,6 +760,7 @@ Public Class FormParametrosFront
         Me.TabPage7.SuspendLayout()
         Me.TabPageSpyro.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
+        CType(Me.NumericUpDownSpyroLongitudTiketsRs, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox6.SuspendLayout()
         Me.TabPageCadenasOdbc.SuspendLayout()
         Me.TabPageHotelesLopez.SuspendLayout()
@@ -774,7 +797,7 @@ Public Class FormParametrosFront
         Me.GroupBox1.Controls.Add(Me.TabControlOpciones)
         Me.GroupBox1.Location = New System.Drawing.Point(0, 40)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(810, 521)
+        Me.GroupBox1.Size = New System.Drawing.Size(1085, 521)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         '
@@ -796,7 +819,7 @@ Public Class FormParametrosFront
         Me.TabControlOpciones.Location = New System.Drawing.Point(8, 16)
         Me.TabControlOpciones.Name = "TabControlOpciones"
         Me.TabControlOpciones.SelectedIndex = 0
-        Me.TabControlOpciones.Size = New System.Drawing.Size(794, 497)
+        Me.TabControlOpciones.Size = New System.Drawing.Size(1069, 497)
         Me.TabControlOpciones.TabIndex = 0
         '
         'TabPageGeneral
@@ -847,7 +870,7 @@ Public Class FormParametrosFront
         Me.TabPageGeneral.Controls.Add(Me.Label1)
         Me.TabPageGeneral.Location = New System.Drawing.Point(4, 22)
         Me.TabPageGeneral.Name = "TabPageGeneral"
-        Me.TabPageGeneral.Size = New System.Drawing.Size(714, 471)
+        Me.TabPageGeneral.Size = New System.Drawing.Size(1061, 471)
         Me.TabPageGeneral.TabIndex = 0
         Me.TabPageGeneral.Text = "Generales"
         Me.TabPageGeneral.UseVisualStyleBackColor = True
@@ -1274,7 +1297,7 @@ Public Class FormParametrosFront
         Me.TabPageGeneral2.Controls.Add(Me.Label28)
         Me.TabPageGeneral2.Location = New System.Drawing.Point(4, 22)
         Me.TabPageGeneral2.Name = "TabPageGeneral2"
-        Me.TabPageGeneral2.Size = New System.Drawing.Size(714, 471)
+        Me.TabPageGeneral2.Size = New System.Drawing.Size(1061, 471)
         Me.TabPageGeneral2.TabIndex = 3
         Me.TabPageGeneral2.Text = "Generales 2"
         Me.TabPageGeneral2.UseVisualStyleBackColor = True
@@ -1396,6 +1419,12 @@ Public Class FormParametrosFront
         '
         'TabPage7
         '
+        Me.TabPage7.Controls.Add(Me.CheckBoxNewContaTrataFactAnul2)
+        Me.TabPage7.Controls.Add(Me.CheckBoxNewContaTrataFactAnul)
+        Me.TabPage7.Controls.Add(Me.CheckBoxNewContaTrataFactNeg2)
+        Me.TabPage7.Controls.Add(Me.CheckBoxNewContaTrataFactNeg)
+        Me.TabPage7.Controls.Add(Me.TextBoxUsuarioNewHotel)
+        Me.TabPage7.Controls.Add(Me.Label131)
         Me.TabPage7.Controls.Add(Me.CheckBoxNewContaTrataAnulados)
         Me.TabPage7.Controls.Add(Me.TextBoxNewContaCodigoHotelNewCentral)
         Me.TabPage7.Controls.Add(Me.Label81)
@@ -1405,10 +1434,26 @@ Public Class FormParametrosFront
         Me.TabPage7.Controls.Add(Me.Label27)
         Me.TabPage7.Location = New System.Drawing.Point(4, 22)
         Me.TabPage7.Name = "TabPage7"
-        Me.TabPage7.Size = New System.Drawing.Size(714, 471)
+        Me.TabPage7.Size = New System.Drawing.Size(1061, 471)
         Me.TabPage7.TabIndex = 9
         Me.TabPage7.Text = "NewConta Cuentas por Cobrar"
         Me.TabPage7.UseVisualStyleBackColor = True
+        '
+        'TextBoxUsuarioNewHotel
+        '
+        Me.TextBoxUsuarioNewHotel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxUsuarioNewHotel.Location = New System.Drawing.Point(185, 235)
+        Me.TextBoxUsuarioNewHotel.Name = "TextBoxUsuarioNewHotel"
+        Me.TextBoxUsuarioNewHotel.Size = New System.Drawing.Size(112, 20)
+        Me.TextBoxUsuarioNewHotel.TabIndex = 35
+        '
+        'Label131
+        '
+        Me.Label131.Location = New System.Drawing.Point(8, 235)
+        Me.Label131.Name = "Label131"
+        Me.Label131.Size = New System.Drawing.Size(161, 66)
+        Me.Label131.TabIndex = 34
+        Me.Label131.Text = "Usuario DB NewHotel" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Solo si Ambas Bds están en Misma Bd !!"
         '
         'CheckBoxNewContaTrataAnulados
         '
@@ -1479,7 +1524,7 @@ Public Class FormParametrosFront
         Me.TabPageSpyro.Controls.Add(Me.GroupBox6)
         Me.TabPageSpyro.Location = New System.Drawing.Point(4, 22)
         Me.TabPageSpyro.Name = "TabPageSpyro"
-        Me.TabPageSpyro.Size = New System.Drawing.Size(786, 471)
+        Me.TabPageSpyro.Size = New System.Drawing.Size(1061, 471)
         Me.TabPageSpyro.TabIndex = 1
         Me.TabPageSpyro.Text = "Spyro(Diarios ...)"
         Me.TabPageSpyro.UseVisualStyleBackColor = True
@@ -1494,11 +1539,16 @@ Public Class FormParametrosFront
         Me.ListBoxRegistrosSpyro.ItemHeight = 14
         Me.ListBoxRegistrosSpyro.Location = New System.Drawing.Point(526, 90)
         Me.ListBoxRegistrosSpyro.Name = "ListBoxRegistrosSpyro"
-        Me.ListBoxRegistrosSpyro.Size = New System.Drawing.Size(240, 282)
+        Me.ListBoxRegistrosSpyro.Size = New System.Drawing.Size(515, 282)
         Me.ListBoxRegistrosSpyro.TabIndex = 42
         '
         'GroupBox8
         '
+        Me.GroupBox8.Controls.Add(Me.NumericUpDownSpyroLongitudTiketsRs)
+        Me.GroupBox8.Controls.Add(Me.Label130)
+        Me.GroupBox8.Controls.Add(Me.ButtonNewHotelCCexTpv)
+        Me.GroupBox8.Controls.Add(Me.TextBoxNewHotelCCexTpv)
+        Me.GroupBox8.Controls.Add(Me.Label129)
         Me.GroupBox8.Controls.Add(Me.Label125)
         Me.GroupBox8.Controls.Add(Me.TextBoxSpyroNaciCodi)
         Me.GroupBox8.Controls.Add(Me.CheckBoxSpyroGeneraSV)
@@ -1509,25 +1559,87 @@ Public Class FormParametrosFront
         Me.GroupBox8.Controls.Add(Me.Label87)
         Me.GroupBox8.Location = New System.Drawing.Point(15, 3)
         Me.GroupBox8.Name = "GroupBox8"
-        Me.GroupBox8.Size = New System.Drawing.Size(751, 72)
+        Me.GroupBox8.Size = New System.Drawing.Size(1026, 72)
         Me.GroupBox8.TabIndex = 41
         Me.GroupBox8.TabStop = False
         Me.GroupBox8.Text = "General"
         '
+        'NumericUpDownSpyroLongitudTiketsRs
+        '
+        Me.NumericUpDownSpyroLongitudTiketsRs.Location = New System.Drawing.Point(867, 43)
+        Me.NumericUpDownSpyroLongitudTiketsRs.Maximum = New Decimal(New Integer() {512, 0, 0, 0})
+        Me.NumericUpDownSpyroLongitudTiketsRs.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NumericUpDownSpyroLongitudTiketsRs.Name = "NumericUpDownSpyroLongitudTiketsRs"
+        Me.NumericUpDownSpyroLongitudTiketsRs.Size = New System.Drawing.Size(82, 20)
+        Me.NumericUpDownSpyroLongitudTiketsRs.TabIndex = 51
+        Me.NumericUpDownSpyroLongitudTiketsRs.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'Label130
+        '
+        Me.Label130.AutoSize = True
+        Me.Label130.Location = New System.Drawing.Point(684, 46)
+        Me.Label130.Name = "Label130"
+        Me.Label130.Size = New System.Drawing.Size(164, 13)
+        Me.Label130.TabIndex = 50
+        Me.Label130.Text = "Longitud Contador de Tikets (SV)"
+        '
+        'ButtonNewHotelCCexTpv
+        '
+        Me.ButtonNewHotelCCexTpv.Location = New System.Drawing.Point(966, 19)
+        Me.ButtonNewHotelCCexTpv.Name = "ButtonNewHotelCCexTpv"
+        Me.ButtonNewHotelCCexTpv.Size = New System.Drawing.Size(26, 23)
+        Me.ButtonNewHotelCCexTpv.TabIndex = 49
+        Me.ButtonNewHotelCCexTpv.Text = ":::"
+        Me.ButtonNewHotelCCexTpv.UseVisualStyleBackColor = True
+        '
+        'TextBoxNewHotelCCexTpv
+        '
+        Me.TextBoxNewHotelCCexTpv.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxNewHotelCCexTpv.Location = New System.Drawing.Point(867, 22)
+        Me.TextBoxNewHotelCCexTpv.Name = "TextBoxNewHotelCCexTpv"
+        Me.TextBoxNewHotelCCexTpv.Size = New System.Drawing.Size(82, 20)
+        Me.TextBoxNewHotelCCexTpv.TabIndex = 48
+        '
+        'Label129
+        '
+        Me.Label129.AutoSize = True
+        Me.Label129.Location = New System.Drawing.Point(731, 26)
+        Me.Label129.Name = "Label129"
+        Me.Label129.Size = New System.Drawing.Size(118, 13)
+        Me.Label129.TabIndex = 47
+        Me.Label129.Text = "Cuenta No Alojado Tpv"
+        '
+        'Label125
+        '
+        Me.Label125.AutoSize = True
+        Me.Label125.Location = New System.Drawing.Point(486, 46)
+        Me.Label125.Name = "Label125"
+        Me.Label125.Size = New System.Drawing.Size(107, 13)
+        Me.Label125.TabIndex = 6
+        Me.Label125.Text = "Nacionalidad 3 Bytes"
+        '
+        'TextBoxSpyroNaciCodi
+        '
+        Me.TextBoxSpyroNaciCodi.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxSpyroNaciCodi.Location = New System.Drawing.Point(599, 43)
+        Me.TextBoxSpyroNaciCodi.Name = "TextBoxSpyroNaciCodi"
+        Me.TextBoxSpyroNaciCodi.Size = New System.Drawing.Size(79, 20)
+        Me.TextBoxSpyroNaciCodi.TabIndex = 7
+        '
         'CheckBoxSpyroGeneraSV
         '
         Me.CheckBoxSpyroGeneraSV.AutoSize = True
-        Me.CheckBoxSpyroGeneraSV.Location = New System.Drawing.Point(552, 21)
+        Me.CheckBoxSpyroGeneraSV.Location = New System.Drawing.Point(487, 20)
         Me.CheckBoxSpyroGeneraSV.Name = "CheckBoxSpyroGeneraSV"
-        Me.CheckBoxSpyroGeneraSV.Size = New System.Drawing.Size(141, 17)
+        Me.CheckBoxSpyroGeneraSV.Size = New System.Drawing.Size(154, 17)
         Me.CheckBoxSpyroGeneraSV.TabIndex = 5
-        Me.CheckBoxSpyroGeneraSV.Text = "Generar Registros sv SII"
+        Me.CheckBoxSpyroGeneraSV.Text = "Generar Registros ""SV"" SII"
         Me.CheckBoxSpyroGeneraSV.UseVisualStyleBackColor = True
         '
         'CheckBoxValidaCuentasSpyro
         '
         Me.CheckBoxValidaCuentasSpyro.AutoSize = True
-        Me.CheckBoxValidaCuentasSpyro.Location = New System.Drawing.Point(414, 20)
+        Me.CheckBoxValidaCuentasSpyro.Location = New System.Drawing.Point(4, 49)
         Me.CheckBoxValidaCuentasSpyro.Name = "CheckBoxValidaCuentasSpyro"
         Me.CheckBoxValidaCuentasSpyro.Size = New System.Drawing.Size(127, 17)
         Me.CheckBoxValidaCuentasSpyro.TabIndex = 4
@@ -1845,7 +1957,7 @@ Public Class FormParametrosFront
         Me.TabPageCadenasOdbc.Controls.Add(Me.Label21)
         Me.TabPageCadenasOdbc.Location = New System.Drawing.Point(4, 22)
         Me.TabPageCadenasOdbc.Name = "TabPageCadenasOdbc"
-        Me.TabPageCadenasOdbc.Size = New System.Drawing.Size(714, 471)
+        Me.TabPageCadenasOdbc.Size = New System.Drawing.Size(1061, 471)
         Me.TabPageCadenasOdbc.TabIndex = 2
         Me.TabPageCadenasOdbc.Text = "Valores Odbc"
         Me.TabPageCadenasOdbc.UseVisualStyleBackColor = True
@@ -1858,7 +1970,7 @@ Public Class FormParametrosFront
         Me.TextBoxOdbcNewCentral.Font = New System.Drawing.Font("Courier New", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBoxOdbcNewCentral.Location = New System.Drawing.Point(104, 222)
         Me.TextBoxOdbcNewCentral.Name = "TextBoxOdbcNewCentral"
-        Me.TextBoxOdbcNewCentral.Size = New System.Drawing.Size(578, 20)
+        Me.TextBoxOdbcNewCentral.Size = New System.Drawing.Size(925, 20)
         Me.TextBoxOdbcNewCentral.TabIndex = 19
         '
         'Label100
@@ -1877,7 +1989,7 @@ Public Class FormParametrosFront
         Me.TextBoxHotelOdbcNewPaga.Font = New System.Drawing.Font("Courier New", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBoxHotelOdbcNewPaga.Location = New System.Drawing.Point(104, 178)
         Me.TextBoxHotelOdbcNewPaga.Name = "TextBoxHotelOdbcNewPaga"
-        Me.TextBoxHotelOdbcNewPaga.Size = New System.Drawing.Size(578, 20)
+        Me.TextBoxHotelOdbcNewPaga.Size = New System.Drawing.Size(925, 20)
         Me.TextBoxHotelOdbcNewPaga.TabIndex = 17
         '
         'Label80
@@ -1896,7 +2008,7 @@ Public Class FormParametrosFront
         Me.TextBoxHotelOdbcNewPos.Font = New System.Drawing.Font("Courier New", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBoxHotelOdbcNewPos.Location = New System.Drawing.Point(104, 152)
         Me.TextBoxHotelOdbcNewPos.Name = "TextBoxHotelOdbcNewPos"
-        Me.TextBoxHotelOdbcNewPos.Size = New System.Drawing.Size(578, 20)
+        Me.TextBoxHotelOdbcNewPos.Size = New System.Drawing.Size(925, 20)
         Me.TextBoxHotelOdbcNewPos.TabIndex = 15
         '
         'Label50
@@ -1915,7 +2027,7 @@ Public Class FormParametrosFront
         Me.TextBoxHotelOdbcNewGolf.Font = New System.Drawing.Font("Courier New", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBoxHotelOdbcNewGolf.Location = New System.Drawing.Point(104, 128)
         Me.TextBoxHotelOdbcNewGolf.Name = "TextBoxHotelOdbcNewGolf"
-        Me.TextBoxHotelOdbcNewGolf.Size = New System.Drawing.Size(578, 20)
+        Me.TextBoxHotelOdbcNewGolf.Size = New System.Drawing.Size(925, 20)
         Me.TextBoxHotelOdbcNewGolf.TabIndex = 11
         '
         'Label26
@@ -1934,7 +2046,7 @@ Public Class FormParametrosFront
         Me.TextBoxHotelOdbcNewConta.Font = New System.Drawing.Font("Courier New", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBoxHotelOdbcNewConta.Location = New System.Drawing.Point(104, 104)
         Me.TextBoxHotelOdbcNewConta.Name = "TextBoxHotelOdbcNewConta"
-        Me.TextBoxHotelOdbcNewConta.Size = New System.Drawing.Size(442, 20)
+        Me.TextBoxHotelOdbcNewConta.Size = New System.Drawing.Size(789, 20)
         Me.TextBoxHotelOdbcNewConta.TabIndex = 9
         '
         'Label25
@@ -1953,7 +2065,7 @@ Public Class FormParametrosFront
         Me.TextBoxHotelOdbcAlmacen.Font = New System.Drawing.Font("Courier New", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBoxHotelOdbcAlmacen.Location = New System.Drawing.Point(104, 80)
         Me.TextBoxHotelOdbcAlmacen.Name = "TextBoxHotelOdbcAlmacen"
-        Me.TextBoxHotelOdbcAlmacen.Size = New System.Drawing.Size(578, 20)
+        Me.TextBoxHotelOdbcAlmacen.Size = New System.Drawing.Size(925, 20)
         Me.TextBoxHotelOdbcAlmacen.TabIndex = 7
         '
         'Label24
@@ -1972,7 +2084,7 @@ Public Class FormParametrosFront
         Me.TextBoxHotelSpyro.Font = New System.Drawing.Font("Courier New", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBoxHotelSpyro.Location = New System.Drawing.Point(104, 56)
         Me.TextBoxHotelSpyro.Name = "TextBoxHotelSpyro"
-        Me.TextBoxHotelSpyro.Size = New System.Drawing.Size(578, 20)
+        Me.TextBoxHotelSpyro.Size = New System.Drawing.Size(925, 20)
         Me.TextBoxHotelSpyro.TabIndex = 5
         '
         'Label23
@@ -1991,7 +2103,7 @@ Public Class FormParametrosFront
         Me.TextBoxHotelOdbc.Font = New System.Drawing.Font("Courier New", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBoxHotelOdbc.Location = New System.Drawing.Point(104, 32)
         Me.TextBoxHotelOdbc.Name = "TextBoxHotelOdbc"
-        Me.TextBoxHotelOdbc.Size = New System.Drawing.Size(578, 20)
+        Me.TextBoxHotelOdbc.Size = New System.Drawing.Size(925, 20)
         Me.TextBoxHotelOdbc.TabIndex = 3
         '
         'Label22
@@ -2010,7 +2122,7 @@ Public Class FormParametrosFront
         Me.TextBoxHotelDescripcion.Font = New System.Drawing.Font("Courier New", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBoxHotelDescripcion.Location = New System.Drawing.Point(104, 8)
         Me.TextBoxHotelDescripcion.Name = "TextBoxHotelDescripcion"
-        Me.TextBoxHotelDescripcion.Size = New System.Drawing.Size(578, 20)
+        Me.TextBoxHotelDescripcion.Size = New System.Drawing.Size(925, 20)
         Me.TextBoxHotelDescripcion.TabIndex = 1
         '
         'Label21
@@ -2064,7 +2176,7 @@ Public Class FormParametrosFront
         Me.TabPageHotelesLopez.Controls.Add(Me.Label61)
         Me.TabPageHotelesLopez.Location = New System.Drawing.Point(4, 22)
         Me.TabPageHotelesLopez.Name = "TabPageHotelesLopez"
-        Me.TabPageHotelesLopez.Size = New System.Drawing.Size(714, 471)
+        Me.TabPageHotelesLopez.Size = New System.Drawing.Size(1061, 471)
         Me.TabPageHotelesLopez.TabIndex = 6
         Me.TabPageHotelesLopez.Text = "Hoteles Lopez"
         Me.TabPageHotelesLopez.UseVisualStyleBackColor = True
@@ -2537,7 +2649,7 @@ Public Class FormParametrosFront
         Me.TabPageGrupoSatocan.Controls.Add(Me.Label31)
         Me.TabPageGrupoSatocan.Location = New System.Drawing.Point(4, 22)
         Me.TabPageGrupoSatocan.Name = "TabPageGrupoSatocan"
-        Me.TabPageGrupoSatocan.Size = New System.Drawing.Size(714, 471)
+        Me.TabPageGrupoSatocan.Size = New System.Drawing.Size(1061, 471)
         Me.TabPageGrupoSatocan.TabIndex = 7
         Me.TabPageGrupoSatocan.Text = "Grupo Satocan"
         Me.TabPageGrupoSatocan.UseVisualStyleBackColor = True
@@ -3463,7 +3575,7 @@ Public Class FormParametrosFront
         Me.TabPageContanet.Controls.Add(Me.Label29)
         Me.TabPageContanet.Location = New System.Drawing.Point(4, 22)
         Me.TabPageContanet.Name = "TabPageContanet"
-        Me.TabPageContanet.Size = New System.Drawing.Size(714, 471)
+        Me.TabPageContanet.Size = New System.Drawing.Size(1061, 471)
         Me.TabPageContanet.TabIndex = 10
         Me.TabPageContanet.Text = "Contanet"
         Me.TabPageContanet.UseVisualStyleBackColor = True
@@ -3500,7 +3612,7 @@ Public Class FormParametrosFront
         Me.TabPageVital.Controls.Add(Me.GroupBoxVitalOperacionesdeCaja)
         Me.TabPageVital.Location = New System.Drawing.Point(4, 22)
         Me.TabPageVital.Name = "TabPageVital"
-        Me.TabPageVital.Size = New System.Drawing.Size(714, 471)
+        Me.TabPageVital.Size = New System.Drawing.Size(1061, 471)
         Me.TabPageVital.TabIndex = 11
         Me.TabPageVital.Text = "Vital Suites"
         Me.TabPageVital.UseVisualStyleBackColor = True
@@ -3516,7 +3628,7 @@ Public Class FormParametrosFront
         Me.GroupBoxVitalGeneral.Controls.Add(Me.ButtonServiciosNewHotel)
         Me.GroupBoxVitalGeneral.Location = New System.Drawing.Point(11, 18)
         Me.GroupBoxVitalGeneral.Name = "GroupBoxVitalGeneral"
-        Me.GroupBoxVitalGeneral.Size = New System.Drawing.Size(686, 102)
+        Me.GroupBoxVitalGeneral.Size = New System.Drawing.Size(1033, 102)
         Me.GroupBoxVitalGeneral.TabIndex = 46
         Me.GroupBoxVitalGeneral.TabStop = False
         Me.GroupBoxVitalGeneral.Text = "General"
@@ -3577,7 +3689,7 @@ Public Class FormParametrosFront
         Me.GroupBoxVitalOperacionesdeCaja.Controls.Add(Me.TextBoxVitalForeEfectivo)
         Me.GroupBoxVitalOperacionesdeCaja.Location = New System.Drawing.Point(11, 126)
         Me.GroupBoxVitalOperacionesdeCaja.Name = "GroupBoxVitalOperacionesdeCaja"
-        Me.GroupBoxVitalOperacionesdeCaja.Size = New System.Drawing.Size(686, 162)
+        Me.GroupBoxVitalOperacionesdeCaja.Size = New System.Drawing.Size(1033, 162)
         Me.GroupBoxVitalOperacionesdeCaja.TabIndex = 45
         Me.GroupBoxVitalOperacionesdeCaja.TabStop = False
         Me.GroupBoxVitalOperacionesdeCaja.Text = "Operaciones de Caja"
@@ -3668,7 +3780,7 @@ Public Class FormParametrosFront
         Me.TabPageMorasol.Controls.Add(Me.Label108)
         Me.TabPageMorasol.Location = New System.Drawing.Point(4, 22)
         Me.TabPageMorasol.Name = "TabPageMorasol"
-        Me.TabPageMorasol.Size = New System.Drawing.Size(714, 471)
+        Me.TabPageMorasol.Size = New System.Drawing.Size(1061, 471)
         Me.TabPageMorasol.TabIndex = 12
         Me.TabPageMorasol.Text = "Hermanos Tito(Grupo Morasol)"
         Me.TabPageMorasol.UseVisualStyleBackColor = True
@@ -3925,7 +4037,7 @@ Public Class FormParametrosFront
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox2.Controls.Add(Me.ButtonAceptar)
         Me.GroupBox2.Controls.Add(Me.ButtonCancelar)
-        Me.GroupBox2.Location = New System.Drawing.Point(818, 40)
+        Me.GroupBox2.Location = New System.Drawing.Point(1093, 40)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(104, 521)
         Me.GroupBox2.TabIndex = 1
@@ -4046,27 +4158,50 @@ Public Class FormParametrosFront
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'Label125
+        'CheckBoxNewContaTrataFactNeg
         '
-        Me.Label125.AutoSize = True
-        Me.Label125.Location = New System.Drawing.Point(638, 51)
-        Me.Label125.Name = "Label125"
-        Me.Label125.Size = New System.Drawing.Size(107, 13)
-        Me.Label125.TabIndex = 6
-        Me.Label125.Text = "Nacionalidad 3 Bytes"
+        Me.CheckBoxNewContaTrataFactNeg.AutoSize = True
+        Me.CheckBoxNewContaTrataFactNeg.Location = New System.Drawing.Point(448, 30)
+        Me.CheckBoxNewContaTrataFactNeg.Name = "CheckBoxNewContaTrataFactNeg"
+        Me.CheckBoxNewContaTrataFactNeg.Size = New System.Drawing.Size(306, 17)
+        Me.CheckBoxNewContaTrataFactNeg.TabIndex = 36
+        Me.CheckBoxNewContaTrataFactNeg.Text = "Tratar ""Facturas Negativas (Serie de Crédito)"" Como Pagos"
+        Me.CheckBoxNewContaTrataFactNeg.UseVisualStyleBackColor = True
         '
-        'TextBoxSpyroNaciCodi
+        'CheckBoxNewContaTrataFactNeg2
         '
-        Me.TextBoxSpyroNaciCodi.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxSpyroNaciCodi.Location = New System.Drawing.Point(552, 44)
-        Me.TextBoxSpyroNaciCodi.Name = "TextBoxSpyroNaciCodi"
-        Me.TextBoxSpyroNaciCodi.Size = New System.Drawing.Size(81, 20)
-        Me.TextBoxSpyroNaciCodi.TabIndex = 7
+        Me.CheckBoxNewContaTrataFactNeg2.AutoSize = True
+        Me.CheckBoxNewContaTrataFactNeg2.Location = New System.Drawing.Point(448, 53)
+        Me.CheckBoxNewContaTrataFactNeg2.Name = "CheckBoxNewContaTrataFactNeg2"
+        Me.CheckBoxNewContaTrataFactNeg2.Size = New System.Drawing.Size(393, 17)
+        Me.CheckBoxNewContaTrataFactNeg2.TabIndex = 37
+        Me.CheckBoxNewContaTrataFactNeg2.Text = "Tratar Regularizaciones Realizadas con Facturas Negativas (Serie de Crédito)"
+        Me.CheckBoxNewContaTrataFactNeg2.UseVisualStyleBackColor = True
+        '
+        'CheckBoxNewContaTrataFactAnul2
+        '
+        Me.CheckBoxNewContaTrataFactAnul2.AutoSize = True
+        Me.CheckBoxNewContaTrataFactAnul2.Location = New System.Drawing.Point(448, 140)
+        Me.CheckBoxNewContaTrataFactAnul2.Name = "CheckBoxNewContaTrataFactAnul2"
+        Me.CheckBoxNewContaTrataFactAnul2.Size = New System.Drawing.Size(318, 17)
+        Me.CheckBoxNewContaTrataFactAnul2.TabIndex = 39
+        Me.CheckBoxNewContaTrataFactAnul2.Text = "Tratar Regularizaciones Automáticas ""Facturas de Anulación"""
+        Me.CheckBoxNewContaTrataFactAnul2.UseVisualStyleBackColor = True
+        '
+        'CheckBoxNewContaTrataFactAnul
+        '
+        Me.CheckBoxNewContaTrataFactAnul.AutoSize = True
+        Me.CheckBoxNewContaTrataFactAnul.Location = New System.Drawing.Point(448, 117)
+        Me.CheckBoxNewContaTrataFactAnul.Name = "CheckBoxNewContaTrataFactAnul"
+        Me.CheckBoxNewContaTrataFactAnul.Size = New System.Drawing.Size(236, 17)
+        Me.CheckBoxNewContaTrataFactAnul.TabIndex = 38
+        Me.CheckBoxNewContaTrataFactAnul.Text = "Tratar ""Facturas de Anulación"" Como Pagos"
+        Me.CheckBoxNewContaTrataFactAnul.UseVisualStyleBackColor = True
         '
         'FormParametrosFront
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(930, 579)
+        Me.ClientSize = New System.Drawing.Size(1205, 579)
         Me.Controls.Add(Me.ButtonNuevo)
         Me.Controls.Add(Me.TextBoxEmpCod)
         Me.Controls.Add(Me.Label78)
@@ -4095,6 +4230,7 @@ Public Class FormParametrosFront
         Me.TabPageSpyro.ResumeLayout(False)
         Me.GroupBox8.ResumeLayout(False)
         Me.GroupBox8.PerformLayout()
+        CType(Me.NumericUpDownSpyroLongitudTiketsRs, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox6.ResumeLayout(False)
         Me.GroupBox6.PerformLayout()
         Me.TabPageCadenasOdbc.ResumeLayout(False)
@@ -4418,6 +4554,9 @@ Public Class FormParametrosFront
 
             SQL += ",NVL(PARA_SPYRO_NACICODI,'NACI_CODI') AS PARA_SPYRO_NACICODI "
 
+            SQL += ",NVL(PARA_CCEX_TPV,'<Ninguno>') AS PARA_CCEX_TPV   "
+
+            SQL += ",NVL(PARA_SPYRO_TIKETSV,8) AS PARA_SPYRO_TIKETSV "
 
             SQL += "  FROM TH_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"
@@ -4758,7 +4897,14 @@ Public Class FormParametrosFront
 
                 Me.TextBoxSpyroNaciCodi.Text = CStr(Me.DbLee.mDbLector.Item("PARA_SPYRO_NACICODI"))
 
+                If IsDBNull(Me.DbLee.mDbLector.Item("PARA_CCEX_TPV")) = True Then
+                    Me.TextBoxNewHotelCCexTpv.Text = ""
+                Else
+                    Me.TextBoxNewHotelCCexTpv.Text = Me.DbLee.mDbLector.Item("PARA_CCEX_TPV")
+                End If
 
+
+                Me.NumericUpDownSpyroLongitudTiketsRs.Value = CInt(Me.DbLee.mDbLector.Item("PARA_SPYRO_TIKETSV"))
 
                 'trata de conectar con newgolf' 
                 Try
@@ -4910,7 +5056,8 @@ Public Class FormParametrosFront
     Private Sub MostrarDatosNewConta()
         Try
             SQL = "SELECT  PARA_ORIGENCUENTAS,NVL(PARA_ESTABLECIMIENTO,'<Ninguno>') AS PARA_ESTABLECIMIENTO ,PARA_TRATA_ANULACIONES,PARA_CFBCOTMOV_COD,PARA_CFBCOTMOV_COD2,PARA_FPAGO_COD,PARA_FPAGO_COD2  "
-            SQL += " ,PARA_BANCOS_COD,PARA_BANCOS_COD2 "
+            SQL += " ,PARA_BANCOS_COD,PARA_BANCOS_COD2,PARA_USER_NEWHOTEL "
+            SQL += ",PARA_USA_FACT_NEG,PARA_USA_FACT_NEG2,PARA_USA_FACT_ANUL,PARA_USA_FACT_ANUL2"
             SQL += "  FROM TC_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"
             SQL += " AND PARA_EMP_NUM = " & Me.mParaEmpNum
@@ -4937,10 +5084,8 @@ Public Class FormParametrosFront
 
                 If Me.DbLee.mDbLector.Item("PARA_TRATA_ANULACIONES") = "0" Then
                     Me.CheckBoxNewContaTrataAnulados.Checked = False
-
                 Else
                     Me.CheckBoxNewContaTrataAnulados.Checked = True
-
                 End If
 
                 If IsDBNull(Me.DbLee.mDbLector.Item("PARA_CFBCOTMOV_COD")) = False Then
@@ -4982,7 +5127,36 @@ Public Class FormParametrosFront
                 Else
                     Me.TextBoxNewContaBanco.Text = ""
                 End If
+                If IsDBNull(Me.DbLee.mDbLector.Item("PARA_USER_NEWHOTEL")) = False Then
+                    Me.TextBoxUsuarioNewHotel.Text = CStr(Me.DbLee.mDbLector.Item("PARA_USER_NEWHOTEL"))
+                Else
+                    Me.TextBoxUsuarioNewHotel.Text = ""
+                End If
 
+
+                If Me.DbLee.mDbLector.Item("PARA_USA_FACT_NEG") = "0" Then
+                    Me.CheckBoxNewContaTrataFactNeg.Checked = False
+                Else
+                    Me.CheckBoxNewContaTrataFactNeg.Checked = True
+                End If
+                If Me.DbLee.mDbLector.Item("PARA_USA_FACT_NEG2") = "0" Then
+                    Me.CheckBoxNewContaTrataFactNeg2.Checked = False
+                Else
+                    Me.CheckBoxNewContaTrataFactNeg2.Checked = True
+                End If
+
+
+
+                If Me.DbLee.mDbLector.Item("PARA_USA_FACT_ANUL") = "0" Then
+                    Me.CheckBoxNewContaTrataFactAnul.Checked = False
+                Else
+                    Me.CheckBoxNewContaTrataFactAnul.Checked = True
+                End If
+                If Me.DbLee.mDbLector.Item("PARA_USA_FACT_ANUL2") = "0" Then
+                    Me.CheckBoxNewContaTrataFactAnul2.Checked = False
+                Else
+                    Me.CheckBoxNewContaTrataFactAnul2.Checked = True
+                End If
 
             End While
             Me.DbLee.mDbLector.Close()
@@ -5014,6 +5188,40 @@ Public Class FormParametrosFront
                     DbNh.CerrarConexion()
                     DbNh = Nothing
                     MsgBox(Result)
+                End If
+
+            Else
+                MsgBox("No existe Interfaz Odbc con el Hotel", MsgBoxStyle.Information, "Atención")
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
+    Private Sub MuestraCuentasNoAlojadoNewhotel()
+        Try
+            If Me.CheckBoxInterfazNewHotel.Checked = True Then
+                Dim StrHotel As String
+                Dim Result As String = ""
+                SQL = "SELECT HOTEL_ODBC FROM TH_HOTEL WHERE HOTEL_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
+                SQL += " AND HOTEL_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"
+                SQL += " AND HOTEL_EMP_NUM = " & Me.TextBoxEmpNum.Text
+                StrHotel = CStr(Me.DbLeeAux.EjecutaSqlScalar(SQL))
+
+                If StrHotel <> "" Then
+                    Dim DbNh As New C_DATOS.C_DatosOledb
+                    DbNh.StrConexion = StrHotel
+                    DbNh.AbrirConexion()
+                    SQL = "SELECT CCEX_CODI , NVL(CCEX_TITU,'?')  AS CCEX_TITU FROM TNHT_CCEX ORDER BY CCEX_TITU"
+                    DbNh.TraerLector(SQL)
+                    While DbNh.mDbLector.Read
+
+
+                        Result += CStr(DbNh.mDbLector.Item("CCEX_CODI")).PadRight(8, " ") & " = " & CStr(DbNh.mDbLector.Item("CCEX_TITU")) & vbCrLf
+                    End While
+                    DbNh.mDbLector.Close()
+                    DbNh.CerrarConexion()
+                    DbNh = Nothing
+                    MsgBox(Result,)
                 End If
 
             Else
@@ -5348,6 +5556,10 @@ Public Class FormParametrosFront
             End If
 
 
+            SQL += ",PARA_CCEX_TPV ='" & Me.TextBoxNewHotelCCexTpv.Text.Replace("<Ninguno>", "") & "'"
+
+            SQL += ",PARA_SPYRO_TIKETSV =" & Me.NumericUpDownSpyroLongitudTiketsRs.Value
+
             SQL += " WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"
             SQL += " AND PARA_EMP_NUM = " & Me.mParaEmpNum
@@ -5410,6 +5622,7 @@ Public Class FormParametrosFront
             SQL = "SELECT NVL(COUNT(*),0) AS TOTAL FROM TC_PARA"
             SQL += " WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"
+            SQL += " AND PARA_EMP_NUM = " & Me.mParaEmpNum
 
             Contador = Me.DbWrite.EjecutaSqlScalar(SQL)
             If Contador = 0 Then Exit Try
@@ -5478,6 +5691,36 @@ Public Class FormParametrosFront
                 SQL += ",PARA_BANCOS_COD2 = ''"
             End If
 
+            If Me.TextBoxUsuarioNewHotel.TextLength > 0 Then
+                SQL += " ,PARA_USER_NEWHOTEL = '" & Me.TextBoxUsuarioNewHotel.Text & "'"
+            Else
+                SQL += ",PARA_USER_NEWHOTEL = ''"
+            End If
+
+
+            If Me.CheckBoxNewContaTrataFactAnul.Checked Then
+                SQL += " , PARA_USA_FACT_ANUL = 1"
+            Else
+                SQL += ", PARA_USA_FACT_ANUL = 0"
+            End If
+            If Me.CheckBoxNewContaTrataFactAnul2.Checked Then
+                SQL += " , PARA_USA_FACT_ANUL2 = 1"
+            Else
+                SQL += ", PARA_USA_FACT_ANUL2 = 0"
+            End If
+
+
+            If Me.CheckBoxNewContaTrataFactNeg.Checked Then
+                SQL += " , PARA_USA_FACT_NEG = 1"
+            Else
+                SQL += ", PARA_USA_FACT_NEG = 0"
+            End If
+
+            If Me.CheckBoxNewContaTrataFactNeg2.Checked Then
+                SQL += " , PARA_USA_FACT_NEG2 = 1"
+            Else
+                SQL += ", PARA_USA_FACT_NEG2 = 0"
+            End If
 
             SQL += " ,PARA_ESTABLECIMIENTO = '" & Me.TextBoxNewContaEstablecimientoNewConta.Text & "'"
 
@@ -6072,6 +6315,14 @@ Public Class FormParametrosFront
             End If
         Catch ex As Exception
 
+        End Try
+    End Sub
+
+    Private Sub ButtonNewHotelCCexTpv_Click(sender As Object, e As EventArgs) Handles ButtonNewHotelCCexTpv.Click
+        Try
+            Me.MuestraCuentasNoAlojadoNewhotel()
+        Catch ex As Exception
+            MsgBox(ex.Message)
         End Try
     End Sub
 End Class
