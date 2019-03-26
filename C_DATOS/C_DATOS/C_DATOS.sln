@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "C_DATOS", "C_DATOS.vbproj", "{9E539DC1-50AC-4BCA-B89F-8A85ABA3416F}"
 EndProject
@@ -10,10 +10,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9E539DC1-50AC-4BCA-B89F-8A85ABA3416F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E539DC1-50AC-4BCA-B89F-8A85ABA3416F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E539DC1-50AC-4BCA-B89F-8A85ABA3416F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E539DC1-50AC-4BCA-B89F-8A85ABA3416F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E539DC1-50AC-4BCA-B89F-8A85ABA3416F}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{9E539DC1-50AC-4BCA-B89F-8A85ABA3416F}.Debug|Any CPU.Build.0 = Debug|x86
+		{9E539DC1-50AC-4BCA-B89F-8A85ABA3416F}.Release|Any CPU.ActiveCfg = Release|x86
+		{9E539DC1-50AC-4BCA-B89F-8A85ABA3416F}.Release|Any CPU.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

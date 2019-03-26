@@ -123,16 +123,20 @@
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="ButtonAceptar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        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
+        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
 </value>
   </data>
   <data name="ButtonResetPerfil.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

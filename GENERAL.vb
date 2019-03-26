@@ -48,6 +48,7 @@ Module GENERAL
     'Public PROPIETARIO_HOTEL As String
 
     Public REPORT_SELECTION_FORMULA As String
+    Public REPORT_NAME As String
     Public REPORT_DATE_FORMAT As String = "yyyy, MM, dd"
 
 

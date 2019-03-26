@@ -59,6 +59,10 @@ Public Class NewPaga
 
     Private mParaUsaCtaComision As Integer
 
+    Private mParaUsaCtaPuentePagos As Boolean
+    Private mParaCtaPuentePagos As String
+    Private mParaAgrupaCtaPuentePagos As Boolean
+
 
 
     Private mUsaTnhtMoviAuto As Boolean
@@ -132,6 +136,18 @@ Public Class NewPaga
     Private DbGrabaCentral As C_DATOS.C_DatosOledb
     Private DbSpyro As C_DATOS.C_DatosOledb
     Private DbNewStock As C_DATOS.C_DatosOledb
+
+    Private mProcesaAnulados As Boolean
+    Private mAuxStr As String
+    Private TipoAsiento As Integer
+
+    Private mResult As String
+
+    Private Enum mEnumEstaDo
+        NoAnulado
+        SiAnulado
+
+    End Enum
 
 #Region "CONSTRUCTOR"
     Public Sub New(ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vStrConexionCentral As String,
@@ -269,6 +285,7 @@ Public Class NewPaga
         Try
             'Filegraba = New StreamWriter(vFile, False, System.Text.Encoding.UTF8)
             Filegraba = New StreamWriter(vFile, False, System.Text.Encoding.ASCII)
+
 
             Filegraba.WriteLine("")
             FileEstaOk = True
@@ -500,6 +517,11 @@ Public Class NewPaga
             SQL = "SELECT  "
             SQL += "PARA_SPYRO_TIPO_MOVTRANS "
 
+            SQL += ",NVL(PARA_USA_CUENTAPUENTE,'0') PARA_USA_CUENTAPUENTE"
+            SQL += ",NVL(PARA_CTAPUENTE_PAGOS,'0') PARA_CTAPUENTE_PAGOS"
+            SQL += ",NVL(PARA_CUENTAPUENTE_AGRUPA,'0') PARA_CUENTAPUENTE_AGRUPA"
+
+
             SQL += " FROM TS_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
             SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
@@ -528,6 +550,21 @@ Public Class NewPaga
                 End If
 
 
+                If CStr(Me.DbLeeCentral.mDbLector.Item("PARA_USA_CUENTAPUENTE")) = "0" Then
+                    mParaUsaCtaPuentePagos = False
+                Else
+                    mParaUsaCtaPuentePagos = True
+                End If
+
+                mParaCtaPuentePagos = CStr(Me.DbLeeCentral.mDbLector.Item("PARA_CTAPUENTE_PAGOS"))
+
+                If CStr(Me.DbLeeCentral.mDbLector.Item("PARA_CUENTAPUENTE_AGRUPA")) = "0" Then
+                    mParaAgrupaCtaPuentePagos = False
+                Else
+                    mParaAgrupaCtaPuentePagos = True
+                End If
+
+
             End If
                 Me.DbLeeCentral.mDbLector.Close()
         Catch EX As Exception
@@ -539,12 +576,14 @@ Public Class NewPaga
             SQL = "SELECT COUNT(*) FROM TP_ASNT WHERE ASNT_F_ATOCAB = '" & Me.mFecha & "'"
             SQL += " AND ASNT_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
             SQL += " AND ASNT_EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND (ASNT_EMP_NUM = " & Me.mEmpNum & " OR ASNT_EMP_NUM IS NULL )"
             If CType(Me.DbLeeCentral.EjecutaSqlScalar(SQL), Integer) > 0 Then
                 MsgBox("Ya existen Movimientos de Integración para esta Fecha", MsgBoxStyle.Information, "Atención")
             End If
             SQL = "DELETE TP_ASNT WHERE ASNT_F_ATOCAB = '" & Me.mFecha & "'"
             SQL += " AND ASNT_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
             SQL += " AND ASNT_EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND ASNT_EMP_NUM= " & Me.mEmpNum
             Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
             SQL = "DELETE TH_ERRO WHERE ERRO_F_ATOCAB =  '" & Me.mFecha & "'"
             Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
@@ -556,7 +595,7 @@ Public Class NewPaga
     Private Sub InsertaOracle(ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vCefejerc_Cod As String,
                                       ByVal vCfatocab_Refer As Integer, ByVal vLinea As Integer _
                                       , ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As String, ByVal vImonep As Double,
-                                        ByVal vAjuste As String, ByVal vCif As String, ByVal vNombre As String, ByVal vImprimir As String, vFechaValor As Date)
+                                        ByVal vAjuste As String, ByVal vCif As String, ByVal vNombre As String, ByVal vImprimir As String, vFechaValor As Date, vOperacion As String, vDatosAnulacion As String, vPagoCodi As String)
 
         Try
 
@@ -571,7 +610,7 @@ Public Class NewPaga
 
             SQL = "INSERT INTO TP_ASNT(ASNT_TIPO_REGISTRO,ASNT_EMPGRUPO_COD,ASNT_EMP_COD,ASNT_CFEJERC_COD,ASNT_CFATODIARI_COD,ASNT_CFATOCAB_REFER,"
             SQL += "ASNT_LINEA,ASNT_CFCTA_COD,ASNT_CFCPTOS_COD,ASNT_AMPCPTO,ASNT_I_MONEMP,ASNT_CONCIL_SN,ASNT_F_ATOCAB,ASNT_F_VALOR,ASNT_NOMBRE,"
-            SQL += "ASNT_DEBE,ASNT_HABER,ASNT_AJUSTAR,ASNT_CIF,ASNT_IMPRIMIR) values ('"
+            SQL += "ASNT_DEBE,ASNT_HABER,ASNT_AJUSTAR,ASNT_CIF,ASNT_IMPRIMIR,ASNT_AUXILIAR_STRING,ASNT_AUXILIAR_STRING2,ASNT_FORE_CODI,ASNT_EMP_NUM) values ('"
             SQL += vTipo & "','"
             SQL += vEmpGrupoCod & "','"
             SQL += vEmpCod & "','"
@@ -586,7 +625,7 @@ Public Class NewPaga
             SQL += "'N','"
             SQL += Format(Me.mFecha, "dd/MM/yyyy") & "','"
             SQL += Format(vFechaValor, "dd/MM/yyyy") & "','"
-            SQL += vNombre.Replace("'", "''") & "'," & Me.mDebe & "," & Me.mHbaber & ",'" & vAjuste & "','" & vCif & "','" & vImprimir & "')"
+            SQL += vNombre.Replace("'", "''") & "'," & Me.mDebe & "," & Me.mHbaber & ",'" & vAjuste & "','" & vCif & "','" & vImprimir & "','" & vOperacion & "','" & vDatosAnulacion & "','" & vPagoCodi & "'," & Me.mEmpNum & ")"
 
 
 
@@ -596,34 +635,163 @@ Public Class NewPaga
             Me.mTextDebug.Update()
 
             If vCfcta_Cod.Length < 2 And vCfcta_Cod <> "NO TRATAR" Then
-                Me.mTexto = "NEWHOTEL: " & "Cuenta Contable no válida para descripción de Movimiento =  " & Mid(vAmpcpto, 1, 40)
+                Me.mTexto = "NEWPAGA: " & "Cuenta Contable no válida para descripción de Movimiento =  " & Mid(vAmpcpto, 1, 40)
                 Me.mListBoxDebug.Items.Add(Me.mTexto)
                 SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
                 SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & vAsiento & "," & Linea & ",'" & Me.mTexto & "')"
                 Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+                Me.GestionIncidencia(Me.mEmpGrupoCod, Me.mEmpCod, Me.mEmpNum, Me.mTexto)
             End If
 
-
-            If vTipo = "FV" Then
-                If vCif.Length = 0 Then
-                    Me.mTexto = "NEWHOTEL: " & "CIF no válido para descripción de Movimiento =  " & Mid(vAmpcpto, 1, 40)
-                    Me.mListBoxDebug.Items.Add(Me.mTexto)
-                    'SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
-                    'SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & vAsiento & "," & Linea & ",'" & Me.mTexto & "')"
-                    'Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
-                End If
-            End If
-
-            If vCfcta_Cod <> "NO TRATAR" Then
-                If Me.mParaValidaSpyro = 1 Then
-                    Me.SpyroCompruebaCuenta(vCfcta_Cod, vTipo, vAsiento, vLinea, vCfcptos_Cod)
-                End If
-            End If
 
 
         Catch EX As Exception
 
             MsgBox(EX.Message, MsgBoxStyle.Information, "Inserta Asiento Oracle")
+        End Try
+    End Sub
+    Private Sub SpyroCompruebaCuentas()
+        Try
+            SQL = "SELECT DISTINCT ASNT_CFCTA_COD,ASNT_TIPO_REGISTRO,ASNT_CFCPTOS_COD FROM TP_ASNT WHERE "
+            SQL += "     ASNT_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+            SQL += " AND ASNT_EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND ASNT_EMP_NUM = " & Me.mEmpNum
+            SQL += " AND ASNT_F_ATOCAB = '" & Me.mFecha & "'"
+            '  SQL += " AND ASNT_F_VALOR = '" & Me.mFecha & "'"
+            SQL += " AND ASNT_CFCTA_COD <> 'NO TRATAR'"
+
+            Me.DbLeeCentral.TraerLector(SQL)
+            While Me.DbLeeCentral.mDbLector.Read
+                Me.SpyroCompruebaCuentaSimple(CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_CFCTA_COD")),
+                                        CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_TIPO_REGISTRO")),
+                                        CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_CFCPTOS_COD")))
+
+
+            End While
+            Me.DbLeeCentral.mDbLector.Close()
+
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
+    Private Sub SpyroCompruebaCuentaSimple(ByVal vCuenta As String, ByVal vTipo As String, ByVal vDebeHaber As String)
+
+        Try
+
+            Me.mTextDebug.Text = "Validando Plan de Cuentas Spyro " & vCuenta.PadRight(20, CChar(" ")) & " Longitud : " & vCuenta.Length
+            Me.mTextDebug.Update()
+
+
+            SQL = "SELECT COD FROM CFCTA WHERE EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+            SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += "  AND COD = '" & vCuenta & "'"
+
+
+
+            Me.mResult = Me.DbSpyro.EjecutaSqlScalar(SQL)
+
+            If Me.mResult = "" Or IsNothing(Me.mResult) = True Then
+                Me.mTexto = "SPYRO   : " & vCuenta & " no se localiza en Plan de Cuentas de Spyro"
+                SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
+                SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & 99 & "," & 1 & ",'" & Me.mTexto & "')"
+                Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+                Me.GestionIncidencia(Me.mEmpGrupoCod, Me.mEmpCod, Me.mEmpNum, Me.mTexto)
+                Exit Sub
+            End If
+
+
+            SQL = "SELECT APTESDIR_SN FROM CFCTA WHERE EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+            SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += "  AND COD = '" & vCuenta & "'"
+
+
+
+            If Me.DbSpyro.EjecutaSqlScalar(SQL) <> "S" Then
+                Me.mTexto = "SPYRO   : " & vCuenta & " No es una Cuenta de Apuntes Directos en Plan de Cuentas Spyro"
+                SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
+                SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & 99 & "," & 1 & ",'" & Me.mTexto & "')"
+                Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+                Me.GestionIncidencia(Me.mEmpGrupoCod, Me.mEmpCod, Me.mEmpNum, Me.mTexto)
+                Exit Sub
+            End If
+
+            If vTipo = "AC" And (vDebeHaber = Me.mIndicadorDebeFac Or vDebeHaber = Me.mIndicadorHaberFac) Then
+                SQL = "SELECT 'X' FROM CFCTA WHERE EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+                SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += "  AND COD = '" & vCuenta & "'"
+                SQL += " AND RSOCIAL_COD IS NULL"
+
+
+
+                If Me.DbSpyro.EjecutaSqlScalar(SQL) = "X" Then
+                    Me.mTexto = "SPYRO   : " & vCuenta & " No tiene definida Razón Social  en Plan de Cuentas de Spyro"
+                    SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
+                    SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & 99 & "," & 1 & ",'" & Me.mTexto & "')"
+                    Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+                    Me.GestionIncidencia(Me.mEmpGrupoCod, Me.mEmpCod, Me.mEmpNum, Me.mTexto)
+                    Exit Sub
+                End If
+
+            End If
+
+            If vTipo = "AC" And (vDebeHaber = Me.mIndicadorDebeFac Or vDebeHaber = Me.mIndicadorHaberFac) Then
+                SQL = "SELECT 'X' FROM CFCTA WHERE EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+                SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += "  AND COD = '" & vCuenta & "'"
+                SQL += " AND CFIVALIBRO_COD IS NULL"
+
+
+
+                If Me.DbSpyro.EjecutaSqlScalar(SQL) = "X" Then
+                    Me.mTexto = "SPYRO   : " & vCuenta & " No tiene definido Libro de Iva   en Plan de Cuentas de Spyro"
+                    SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
+                    SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & 99 & "," & 1 & ",'" & Me.mTexto & "')"
+                    Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+                    Me.GestionIncidencia(Me.mEmpGrupoCod, Me.mEmpCod, Me.mEmpNum, Me.mTexto)
+                    Exit Sub
+                End If
+
+            End If
+            If vTipo = "AC" And (vDebeHaber = Me.mIndicadorDebeFac Or vDebeHaber = Me.mIndicadorHaberFac) Then
+                SQL = "SELECT 'X' FROM CFCTA WHERE EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+                SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += "  AND COD = '" & vCuenta & "'"
+                SQL += " AND CFIVACLASE_COD IS NULL"
+
+
+
+                If Me.DbSpyro.EjecutaSqlScalar(SQL) = "X" Then
+                    Me.mTexto = "SPYRO   : " & vCuenta & " No tiene definido Clase de Iva   en Plan de Cuentas de Spyro"
+                    SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
+                    SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & 99 & "," & 1 & ",'" & Me.mTexto & "')"
+                    Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+                    Me.GestionIncidencia(Me.mEmpGrupoCod, Me.mEmpCod, Me.mEmpNum, Me.mTexto)
+                    Exit Sub
+                End If
+
+            End If
+
+            If vTipo = "AC" And (vDebeHaber = Me.mIndicadorDebeFac Or vDebeHaber = Me.mIndicadorHaberFac) Then
+                SQL = "SELECT 'X' FROM CFCTACONDI WHERE EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+                SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += "  AND CFCTA_COD = '" & vCuenta & "'"
+
+                If IsNothing(Me.DbSpyro.EjecutaSqlScalar(SQL)) = True Then
+                    Me.mTexto = "SPYRO   : " & vCuenta & " No tiene definido Forma de pago en Plan de Cuentas de Spyro"
+                    SQL = "INSERT INTO TH_ERRO ( ERRO_F_ATOCAB, ERRO_CBATOCAB_REFER, ERRO_LINEA,"
+                    SQL += "ERRO_DESCRIPCION ) VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "'," & 99 & "," & 1 & ",'" & Me.mTexto & "')"
+                    Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+                    Me.GestionIncidencia(Me.mEmpGrupoCod, Me.mEmpCod, Me.mEmpNum, Me.mTexto)
+                    Exit Sub
+                End If
+
+            End If
+
+
+
+        Catch ex As OleDb.OleDbException
+            MsgBox(ex.Message, MsgBoxStyle.Information, " Localiza Cuenta Contable SPYRO")
         End Try
     End Sub
     Private Sub SpyroCompruebaCuenta(ByVal vCuenta As String, ByVal vTipo As String, ByVal vAsiento As Integer, ByVal vLinea As Integer, ByVal vDebeHaber As String)
@@ -744,6 +912,27 @@ Public Class NewPaga
         Catch ex As OleDb.OleDbException
             MsgBox(ex.Message, MsgBoxStyle.Information, " Localiza Cuenta Contable SPYRO")
         End Try
+    End Sub
+    Private Sub GestionIncidencia(ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vEmpNum As Integer, ByVal vDescripcion As String)
+
+        Try
+
+            SQL = "INSERT INTO TH_INCI (INCI_DATR,INCI_EMPGRUPO_COD,INCI_EMP_COD,INCI_EMP_NUM,INCI_ORIGEN,INCI_DESCRIPCION) "
+            SQL += " VALUES ('" & Format(Me.mFecha, "dd/MM/yyyy") & "','" & Me.mEmpGrupoCod & "','" & Me.mEmpCod & "'," & Me.mEmpNum & ",'NEWSTOCK COMPRAS','" & vDescripcion & "')"
+
+            Me.DbGrabaCentral.IniciaTransaccion()
+
+            Me.DbGrabaCentral.EjecutaSql(SQL)
+
+            Me.DbGrabaCentral.ConfirmaTransaccion()
+
+            Me.mListBoxDebug.Items.Add(vDescripcion)
+            Me.mListBoxDebug.Update()
+
+        Catch ex As Exception
+            Me.DbGrabaCentral.CancelaTransaccion()
+        End Try
+
     End Sub
     Private Sub GeneraFileAC(ByVal vTipo As String, ByVal vEmpGrupoCod As String, ByVal vEmpCod As String, ByVal vCefejerc_Cod As String, _
      ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As String, ByVal vImonep As Double)
@@ -1033,23 +1222,6 @@ Public Class NewPaga
         End Try
 
     End Sub
-    Private Sub FacturasSinCuentaContable()
-        Try
-            SQL = "SELECT DECODE(FACT_ANUL,'0','EMITIDA','1','ANULADA') AS ESTADO ,FACT_CODI,SEFA_CODI,FACT_TITU FROM TNHT_FACT WHERE FACT_DAEM = '" & Me.mFecha & "'"
-            SQL += " AND FACT_STAT IN('2','3') AND ENTI_CODI IS NULL AND CCEX_CODI IS NULL"
-            Me.DbNewPaga.TraerLector(SQL)
-            While Me.DbNewPaga.mDbLector.Read
-                Me.mTexto = "Factura de Crédito sin cuenta Contable Localizable" & vbCrLf
-                Me.mTexto += CType(Me.DbNewPaga.mDbLector.Item("FACT_CODI"), String) & "/" & CType(Me.DbNewPaga.mDbLector.Item("SEFA_CODI"), String) & vbCrLf
-                Me.mTexto += CType(Me.DbNewPaga.mDbLector.Item("FACT_TITU"), String) & vbCrLf
-                Me.mTexto += "Estado Actual  =" & CType(Me.DbNewPaga.mDbLector.Item("ESTADO"), String) & vbCrLf
-                MsgBox(Me.mTexto, MsgBoxStyle.Exclamation, "Atención")
-            End While
-            Me.DbNewPaga.mDbLector.Close()
-        Catch EX As Exception
-            MsgBox(EX.Message, MsgBoxStyle.Information, "Facturas sin Cuenta Contable")
-        End Try
-    End Sub
 
     Private Function BuscaCuentaProveedorCuentasPorPagar(ByVal vProveedor As Integer) As String
         Try
@@ -1102,34 +1274,127 @@ Public Class NewPaga
 
 #Region "ASIENTOS NEWPAGA"
 #Region "ASIENTO 1 PAGOS REALIZADOS"
-    Private Sub PagosRealizados()
+    Private Sub PagosRealizados(vAnulados As Integer)
         Try
             Dim Total As Double
-            Dim Texto As String
+            Dim Texto As String = ""
+            Dim Anulado As String = ""
 
-            Linea = 0
-            ' DEL BANCO 
-            SQL = "SELECT 'PAGOS',MOVI_CODI, TNPG_MOVI.TIMO_CODI, MOVI_INTE, TNPG_MOVI.FORN_CODI AS FORN_CODI, FORN_INTE, "
-            '  SQL += "       NVL(MOVI_DOCU,'?') AS MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV,  (MOVI_IMPO - MOVI_SALD) AS TOTAL, "
-            SQL += "       NVL(MOVI_DOCU,'?') AS MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV,  MOVI_IMPO  AS TOTAL, "
-            SQL += "       MOVI_SALD, TIMO_FORM, NVL (MOVI_SERV, '') MOVI_SERV, MOVI_DEPT, "
-            SQL += "       TIMO_CDIA, TIMO_CDOC, MOVI_TIIM, MOVI_DESC ,TIMO_DESC,MOVI_DAVA,MOVI_DAAC,NVL(TIMO_DESC,'?') AS TIMO_DESC "
-            SQL += "       ,NVL(FORN_DESC,'?') AS FORN_DESC,NVL(ENTI_CODI,0) AS ENTI_CODI ,NVL(BACU_CNTA,'?') AS BACU_CNTA "
-            SQL += "  FROM TNPG_MOVI, TNPG_TIMO,VNPG_FORN "
-            SQL += " WHERE TRUNC (MOVI_DAVA) = '" & Me.mFecha & "'"
-            ' Excluye anulados en mismo dia
-            SQL += "   AND TO_DATE(MOVI_DAVA,'DD/MM/YYYY') <> TO_DATE(NVL(MOVI_DAAC,'31/12/2099'),'DD/MM/YYYY') "
-            SQL += "   AND MOVI_IMPO <> 0.0 "
-            SQL += "   AND TNPG_MOVI.TIMO_CODI = TNPG_TIMO.TIMO_CODI "
-            SQL += "   AND TNPG_MOVI.FORN_CODI = VNPG_FORN.FORN_CODI(+) "
-            SQL += "  AND TIMO_EXCO = 1 "
-            SQL += "  AND NOT ((MOVI_INTE = 1) AND (TIMO_FORM IN (0, 1, 2, 3))) "
+            Dim Cuenta As String
 
-            If Me.mParaNewPagaMovTrans.Length > 0 Then
-                SQL += "   AND TNPG_MOVI.TIMO_CODI NOT IN (" & Me.mParaNewPagaMovTrans & ")"
+            If vAnulados = 0 Then
+                Linea = 0
             End If
 
-            SQL += " ORDER BY MOVI_CODI "
+            If Me.mParaAgrupaCtaPuentePagos = True Then
+                ' DEL BANCO 
+                SQL = "SELECT SUM(TOTAL)  AS TOTAL , "
+                SQL += "MOVI_DAVA, "
+                SQL += "TIMO_CODI, "
+                SQL += "TIMO_FORM, "
+                SQL += "  MOVI_DAAC, "
+                '     SQL += "DECODE(MOVI_DAAC,NULL,NVL(TIMO_DESC,' '),NVL(TIMO_DESC,' ') || ' ANULADOS') AS MOVI_DESC, "
+                SQL += " MOVI_DESC, "
+                '   SQL += "'0' AS MOVI_DOCU "
+                SQL += " MOVI_DOCU "
+                SQL += ",NVL(TIMO_DESC,' ') AS TIMO_DESC, "
+                SQL += "'0' AS FORN_CODI, "
+                '     SQL += "' ' AS FORN_DESC,'0' AS MOVI_CODI "
+                SQL += "' ' AS FORN_DESC, MOVI_CODI "
+                SQL += "FROM ( "
+                SQL += "SELECT "
+                SQL += "  MOVI_IMPO  AS TOTAL , "
+                SQL += "MOVI_DAVA,TNPG_MOVI.TIMO_CODI, "
+                SQL += "TIMO_FORM, "
+                SQL += "MOVI_DAAC, "
+                '  SQL += "DECODE(MOVI_DAAC,NULL,NVL(TIMO_DESC,' '),NVL(TIMO_DESC,' ') || ' ANULADOS') AS MOVI_DESC, "
+                SQL += " MOVI_DESC, "
+                '  SQL += "'0' AS MOVI_DOCU "
+                SQL += "MOVI_DOCU "
+                SQL += ",NVL(TIMO_DESC,' ') AS TIMO_DESC, "
+                SQL += "'0' AS FORN_CODI, "
+                '   SQL += "' ' AS FORN_DESC,'0' AS MOVI_CODI "
+                SQL += "' ' AS FORN_DESC, MOVI_CODI "
+                SQL += "FROM "
+                SQL += "    TNPG_MOVI, "
+                SQL += "    TNPG_TIMO, "
+                SQL += "    VNPG_FORN "
+
+                If vAnulados = 0 Then
+                    SQL += " WHERE TRUNC (MOVI_DAVA) = '" & Me.mFecha & "'"
+                Else
+                    SQL += " WHERE TRUNC (MOVI_DAAC) = '" & Me.mFecha & "'"
+                End If
+
+                ' Excluye anulados en mismo dia
+                SQL += "    AND TO_DATE(MOVI_DAVA, 'DD/MM/YYYY') <> TO_DATE(NVL(MOVI_DAAC, '01/01/1901'), 'DD/MM/YYYY') "
+                SQL += "    AND TNPG_MOVI.TIMO_CODI = TNPG_TIMO.TIMO_CODI "
+                SQL += "    AND TNPG_MOVI.FORN_CODI = VNPG_FORN.FORN_CODI (+) "
+                SQL += "    AND TIMO_EXCO = 1 "
+                SQL += "    AND NOT ( ( MOVI_INTE = 1 ) "
+                SQL += "              AND ( TIMO_FORM IN ( "
+                SQL += "        0, "
+                SQL += "        1, "
+                SQL += "        2, "
+                SQL += "        3 "
+                SQL += "    ) ) ) "
+
+
+                If Me.mParaNewPagaMovTrans.Length > 0 Then
+                    SQL += "   AND TNPG_MOVI.TIMO_CODI NOT IN (" & Me.mParaNewPagaMovTrans & ")"
+                End If
+
+
+                SQL += ") "
+                SQL += "GROUP BY   "
+                SQL += "MOVI_DAVA, "
+
+                ' NUEVO
+                SQL += "MOVI_CODI, "
+
+                SQL += "TIMO_CODI, "
+                SQL += "TIMO_FORM ,"
+                SQL += "MOVI_DAAC, "
+                SQL += " MOVI_DESC, "
+                SQL += " MOVI_DOCU "
+                SQL += ", TIMO_DESC, "
+                SQL += "FORN_CODI, "
+                SQL += " FORN_DESC "
+
+                SQL += " ORDER BY TIMO_CODI "
+
+
+            Else
+                ' DEL BANCO 
+                SQL = "SELECT 'PAGOS',MOVI_CODI, TNPG_MOVI.TIMO_CODI, MOVI_INTE, TNPG_MOVI.FORN_CODI AS FORN_CODI, FORN_INTE, "
+                SQL += "       MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV,  MOVI_IMPO  AS TOTAL, "
+                SQL += "       MOVI_SALD, TIMO_FORM, NVL (MOVI_SERV, '') MOVI_SERV, MOVI_DEPT, "
+                SQL += "       TIMO_CDIA, TIMO_CDOC, MOVI_TIIM, MOVI_DESC ,TIMO_DESC,MOVI_DAVA,MOVI_DAAC,NVL(TIMO_DESC,'?') AS TIMO_DESC "
+                SQL += "      ,NVL(FORN_DESC,'?') AS FORN_DESC,NVL(ENTI_CODI,0) AS ENTI_CODI ,NVL(BACU_CNTA,'?') AS BACU_CNTA "
+                SQL += "  FROM TNPG_MOVI, TNPG_TIMO,VNPG_FORN "
+
+                If vAnulados = 0 Then
+                    SQL += " WHERE TRUNC (MOVI_DAVA) = '" & Me.mFecha & "'"
+                Else
+                    SQL += " WHERE TRUNC (MOVI_DAAC) = '" & Me.mFecha & "'"
+                End If
+
+
+                ' Excluye anulados en mismo dia
+                SQL += "  AND TO_DATE(MOVI_DAVA,'DD/MM/YYYY') <> TO_DATE(NVL(MOVI_DAAC,'01/01/1901'),'DD/MM/YYYY') "
+                SQL += "  AND TNPG_MOVI.TIMO_CODI = TNPG_TIMO.TIMO_CODI "
+                SQL += "  AND TNPG_MOVI.FORN_CODI = VNPG_FORN.FORN_CODI(+) "
+                SQL += "  AND TIMO_EXCO = 1 "
+                SQL += "  AND NOT ((MOVI_INTE = 1) AND (TIMO_FORM IN (0, 1, 2, 3))) "
+
+                If Me.mParaNewPagaMovTrans.Length > 0 Then
+                    SQL += "   AND TNPG_MOVI.TIMO_CODI NOT IN (" & Me.mParaNewPagaMovTrans & ")"
+                End If
+
+                SQL += " ORDER BY MOVI_CODI "
+            End If
+
+
 
             Me.DbNewPaga.TraerLector(SQL)
 
@@ -1137,161 +1402,554 @@ Public Class NewPaga
 
 
                 Linea = Linea + 1
-                Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double)
 
-                If IsDBNull(Me.DbNewPaga.mDbLector("MOVI_DESC")) Then
-                    '     Texto = CStr(Me.DbNewPaga.mDbLector("TIMO_DESC")) & " " & Format(Me.DbNewPaga.mDbLector("MOVI_DAVA"), "MMMM").ToUpper & " " & Format(Me.DbNewPaga.mDbLector("MOVI_DAVA"), "yyyy") & " + " & CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU"))
-                    Texto = CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU")) & " + " & CStr(Me.DbNewPaga.mDbLector("TIMO_DESC"))
+                ' ANULADO O DEVOLUCION (TIMO_FORM = 1)
+                If vAnulados = 0 Then
+                    If CStr(Me.DbNewPaga.mDbLector("TIMO_FORM")) = "1" Then
+                        TipoAsiento = 2
+                        Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double) * -1
+                    Else
+                        TipoAsiento = 1
+                        Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double)
+                    End If
                 Else
-                    '    Texto = CStr(Me.DbNewPaga.mDbLector("MOVI_DESC")) & " + " & CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU"))
-                    Texto = CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU")) & " + " & CStr(Me.DbNewPaga.mDbLector("MOVI_DESC"))
+                    If CStr(Me.DbNewPaga.mDbLector("TIMO_FORM")) = "1" Then
+                        TipoAsiento = 2
+                        Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double)
+                    Else
+                        TipoAsiento = 1
+                        Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double) * -1
+                    End If
                 End If
 
 
 
+
+                If IsDBNull(Me.DbNewPaga.mDbLector("MOVI_DESC")) = False Then
+                    Texto = CStr(Me.DbNewPaga.mDbLector("MOVI_DESC"))
+                ElseIf IsDBNull(Me.DbNewPaga.mDbLector("MOVI_DESC")) = True Then
+                    If IsDBNull(Me.DbNewPaga.mDbLector("MOVI_DOCU")) = False Then
+                        Texto = "Pago Doc : " & CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU"))
+                    Else
+                        Texto = "Pago S/N : " & CStr(Me.DbNewPaga.mDbLector("TIMO_DESC"))
+                    End If
+                End If
+
+                If IsDBNull(Me.DbNewPaga.mDbLector("MOVI_DAAC")) = False Then
+                    Anulado = Format(CDate((Me.DbNewPaga.mDbLector("MOVI_DAAC"))), "dd/MM/yyyy")
+                Else
+                    Anulado = ""
+                End If
+
                 If Total <> 0 Then
                     Me.mTipoAsiento = "HABER"
-                    Me.InsertaOracle("AC", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, BuscaCuentaBanco(CStr(Me.DbNewPaga.mDbLector("TIMO_CODI"))), Me.mIndicadorHaber, Texto, Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI", CDate(Format(CDate(Me.DbNewPaga.mDbLector("MOVI_DAVA")), "dd/MM/yyyy")))
+                    Me.InsertaOracle("AC", TipoAsiento, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, BuscaCuentaBanco(CStr(Me.DbNewPaga.mDbLector("TIMO_CODI"))), Me.mIndicadorHaber, Texto, Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI", CDate(Format(CDate(Me.DbNewPaga.mDbLector("MOVI_DAVA")), "dd/MM/yyyy")), "Comprobante Nº Movimiento : " & CStr(Me.DbNewPaga.mDbLector("TIMO_CODI")), Anulado, CStr(Me.DbNewPaga.mDbLector("TIMO_CODI")))
                     Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), BuscaCuentaBanco(CStr(Me.DbNewPaga.mDbLector("TIMO_CODI"))), Me.mIndicadorHaber, Texto, Total)
                 End If
             End While
             Me.DbNewPaga.mDbLector.Close()
 
-            ' A DEPOSITOS ANTICIPADOS DEL PROVEEDOR
-            SQL = "SELECT 'PAGOS',MOVI_CODI, TNPG_MOVI.TIMO_CODI, MOVI_INTE, NVL(TNPG_MOVI.FORN_CODI,'0') AS FORN_CODI, FORN_INTE, "
-            '      SQL += "       NVL(MOVI_DOCU,'?') AS MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV,  (MOVI_IMPO - MOVI_SALD) AS TOTAL, "
-            SQL += "       NVL(MOVI_DOCU,'?') AS MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV,  MOVI_IMPO AS TOTAL, "
-            SQL += "       MOVI_SALD, TIMO_FORM, NVL (MOVI_SERV, '') MOVI_SERV, MOVI_DEPT, "
-            SQL += "       TIMO_CDIA, TIMO_CDOC, MOVI_TIIM, MOVI_DESC,TIMO_DESC ,MOVI_DAVA,MOVI_DAAC,NVL(TIMO_DESC,'?') AS TIMO_DESC "
-            SQL += "       ,'DEPOSITOS PROV' AS CUENTA ,NVL(FORN_DESC,'?') AS FORN_DESC"
-            SQL += "  FROM TNPG_MOVI, TNPG_TIMO,VNPG_FORN "
-            SQL += " WHERE TRUNC (MOVI_DAVA) = '" & Me.mFecha & "'"
-            SQL += "   AND TO_DATE(MOVI_DAVA,'DD/MM/YYYY') <> TO_DATE(NVL(MOVI_DAAC,'31/12/2099'),'DD/MM/YYYY') "
-            SQL += "   AND MOVI_IMPO <> 0.0 "
-            SQL += "   AND TNPG_MOVI.TIMO_CODI = TNPG_TIMO.TIMO_CODI "
-            SQL += "   AND TNPG_MOVI.FORN_CODI = VNPG_FORN.FORN_CODI(+) "
-            SQL += "  AND TIMO_EXCO = 1 "
-            SQL += "  AND NOT ((MOVI_INTE = 1) AND (TIMO_FORM IN (0, 1, 2, 3))) "
 
-            If Me.mParaNewPagaMovTrans.Length > 0 Then
-                SQL += "   AND TNPG_MOVI.TIMO_CODI NOT IN (" & Me.mParaNewPagaMovTrans & ")"
+
+            ' A DEPOSITOS ANTICIPADOS DEL PROVEEDOR
+            If Me.mParaAgrupaCtaPuentePagos = True Then
+                SQL = "SELECT "
+                SQL += "    'PAGOS', "
+                SQL += "    '0' AS FORN_CODI, "
+                SQL += "    MOVI_DOCU, "
+                SQL += "    SUM(TOTAL) AS TOTAL, "
+                SQL += "    TIMO_FORM, "
+                SQL += "    TIMO_DESC AS MOVI_DESC , "
+                SQL += "     TIMO_DESC, "
+                SQL += "    MOVI_DAAC, "
+                SQL += "    ' ' AS FORN_DESC, "
+                SQL += "    MOVI_DAVA, "
+                SQL += "    TIMO_CODI AS MOVI_CODI, "
+                SQL += "     TIMO_CODI "
+                SQL += " FROM "
+                SQL += "    ( "
+                SQL += "        SELECT "
+                SQL += "            'PAGOS', "
+                SQL += "            '0' AS FORN_CODI, "
+                SQL += "            '' AS MOVI_DOCU, "
+                SQL += "            MOVI_IMPO   AS TOTAL, "
+                SQL += "            TIMO_FORM, "
+                SQL += "            '*PAGOS AGRUPADOS INTERFAZ*' AS MOVI_DESC, "
+                SQL += "             NVL(TIMO_DESC,'?') AS TIMO_DESC, "
+                SQL += "            NULL AS MOVI_DAAC, "
+                SQL += "            ' ' AS FORN_DESC, "
+                SQL += "            MOVI_DAVA, "
+                SQL += "            '0' AS MOVI_CODI, "
+                SQL += "            TNPG_MOVI.TIMO_CODI "
+                SQL += "        FROM "
+                SQL += "            TNPG_MOVI, "
+                SQL += "            TNPG_TIMO, "
+                SQL += "            VNPG_FORN "
+
+                If vAnulados = 0 Then
+                    SQL += " WHERE TRUNC (MOVI_DAVA) = '" & Me.mFecha & "'"
+                Else
+                    SQL += " WHERE TRUNC (MOVI_DAAC) = '" & Me.mFecha & "'"
+                End If
+
+                ' Excluye anulados en mismo dia
+                SQL += "    AND TO_DATE(MOVI_DAVA, 'DD/MM/YYYY') <> TO_DATE(NVL(MOVI_DAAC, '01/01/1901'), 'DD/MM/YYYY') "
+                SQL += "    AND TNPG_MOVI.TIMO_CODI = TNPG_TIMO.TIMO_CODI "
+                SQL += "    AND TNPG_MOVI.FORN_CODI = VNPG_FORN.FORN_CODI (+) "
+                SQL += "    AND TIMO_EXCO = 1 "
+                SQL += "    AND NOT ( ( MOVI_INTE = 1 ) "
+                SQL += "              AND ( TIMO_FORM IN ( "
+                SQL += "        0, "
+                SQL += "        1, "
+                SQL += "        2, "
+                SQL += "        3 "
+                SQL += "    ) ) ) "
+
+
+                If Me.mParaNewPagaMovTrans.Length > 0 Then
+                    SQL += "   AND TNPG_MOVI.TIMO_CODI NOT IN (" & Me.mParaNewPagaMovTrans & ")"
+                End If
+
+
+                SQL += ") "
+                SQL += "GROUP BY "
+                SQL += "    MOVI_DAVA, "
+                SQL += "    FORN_CODI, "
+                SQL += "    MOVI_DOCU, "
+                SQL += "    TIMO_FORM, "
+                SQL += "    MOVI_DESC, "
+                SQL += "    TIMO_DESC, "
+                SQL += "    MOVI_DAAC, "
+                SQL += "    TIMO_DESC, "
+                SQL += "    TIMO_CODI "
+
+
+
+            Else
+
+                SQL = "SELECT 'PAGOS',MOVI_CODI, TNPG_MOVI.TIMO_CODI, MOVI_INTE, NVL(TNPG_MOVI.FORN_CODI,'0') AS FORN_CODI, FORN_INTE, "
+                SQL += "       MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV,  MOVI_IMPO AS TOTAL, "
+                SQL += "       MOVI_SALD, TIMO_FORM, NVL (MOVI_SERV, '') MOVI_SERV, MOVI_DEPT, "
+                SQL += "       TIMO_CDIA, TIMO_CDOC, MOVI_TIIM, MOVI_DESC,TIMO_DESC ,MOVI_DAVA,MOVI_DAAC,NVL(TIMO_DESC,'?') AS TIMO_DESC "
+                SQL += "       ,'DEPOSITOS PROV' AS CUENTA ,NVL(FORN_DESC,'?') AS FORN_DESC"
+                SQL += "  FROM TNPG_MOVI, TNPG_TIMO,VNPG_FORN "
+
+                If vAnulados = 0 Then
+                    SQL += " WHERE TRUNC (MOVI_DAVA) = '" & Me.mFecha & "'"
+                Else
+                    SQL += " WHERE TRUNC (MOVI_DAAC) = '" & Me.mFecha & "'"
+                End If
+
+                SQL += "  AND TO_DATE(MOVI_DAVA,'DD/MM/YYYY') <> TO_DATE(NVL(MOVI_DAAC,'01/01/1901'),'DD/MM/YYYY') "
+                SQL += "  AND TNPG_MOVI.TIMO_CODI = TNPG_TIMO.TIMO_CODI "
+                SQL += "  AND TNPG_MOVI.FORN_CODI = VNPG_FORN.FORN_CODI(+) "
+                SQL += "  AND TIMO_EXCO = 1 "
+                SQL += "  AND NOT ((MOVI_INTE = 1) AND (TIMO_FORM IN (0, 1, 2, 3))) "
+
+                If Me.mParaNewPagaMovTrans.Length > 0 Then
+                    SQL += "   AND TNPG_MOVI.TIMO_CODI NOT IN (" & Me.mParaNewPagaMovTrans & ")"
+                End If
+                SQL += " ORDER BY MOVI_CODI "
+
+
             End If
-            SQL += " ORDER BY MOVI_CODI "
+
+
 
             Me.DbNewPaga.TraerLector(SQL)
 
             While Me.DbNewPaga.mDbLector.Read
 
                 Linea = Linea + 1
-                Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double)
 
-                If IsDBNull(Me.DbNewPaga.mDbLector("MOVI_DESC")) Then
-                    '     Texto = CStr(Me.DbNewPaga.mDbLector("TIMO_DESC")) & " " & Format(Me.DbNewPaga.mDbLector("MOVI_DAVA"), "MMMM").ToUpper & " " & Format(Me.DbNewPaga.mDbLector("MOVI_DAVA"), "yyyy") & " + " & CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU"))
-                    Texto = CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU")) & " + " & CStr(Me.DbNewPaga.mDbLector("TIMO_DESC"))
+
+                ' ANULADO O DEVOLUCION (TIMO_FORM = 1)
+                If vAnulados = 0 Then
+                    If CStr(Me.DbNewPaga.mDbLector("TIMO_FORM")) = "1" Then
+                        TipoAsiento = 2
+                        Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double) * -1
+                    Else
+                        TipoAsiento = 1
+                        Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double)
+                    End If
                 Else
-                    '    Texto = CStr(Me.DbNewPaga.mDbLector("MOVI_DESC")) & " + " & CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU"))
-                    Texto = CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU")) & " + " & CStr(Me.DbNewPaga.mDbLector("MOVI_DESC"))
+                    If CStr(Me.DbNewPaga.mDbLector("TIMO_FORM")) = "1" Then
+                        TipoAsiento = 2
+                        Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double)
+                    Else
+                        TipoAsiento = 1
+                        Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double) * -1
+                    End If
                 End If
+
+                If IsDBNull(Me.DbNewPaga.mDbLector("MOVI_DESC")) = False Then
+                    Texto = CStr(Me.DbNewPaga.mDbLector("MOVI_DESC"))
+                ElseIf IsDBNull(Me.DbNewPaga.mDbLector("MOVI_DESC")) = True Then
+                    If IsDBNull(Me.DbNewPaga.mDbLector("MOVI_DOCU")) = False Then
+                        Texto = "Pago Doc : " & CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU"))
+                    Else
+                        Texto = "Pago S/N : " & CStr(Me.DbNewPaga.mDbLector("TIMO_DESC"))
+                    End If
+                End If
+
+                If IsDBNull(Me.DbNewPaga.mDbLector("MOVI_DAAC")) = False Then
+                    Anulado = Format(CDate((Me.DbNewPaga.mDbLector("MOVI_DAAC"))), "dd/MM/yyyy")
+                Else
+                    Anulado = ""
+                End If
+
+                If mParaUsaCtaPuentePagos = False Then
+                    Cuenta = BuscaCuentaProveedorCuentasPorPagar(CInt(Me.DbNewPaga.mDbLector("FORN_CODI")))
+                Else
+                    Cuenta = Me.mParaCtaPuentePagos
+                End If
+
+
+
+
 
                 If Total <> 0 Then
                     Me.mTipoAsiento = "DEBE"
-                    Me.InsertaOracle("AC", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, BuscaCuentaProveedorCuentasPorPagar(CInt(Me.DbNewPaga.mDbLector("FORN_CODI"))), Me.mIndicadorDebe, Texto, Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI", CDate(Format(CDate(Me.DbNewPaga.mDbLector("MOVI_DAVA")), "dd/MM/yyyy")))
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), BuscaCuentaProveedorCuentasPorPagar(CInt(Me.DbNewPaga.mDbLector("FORN_CODI"))), Me.mIndicadorDebe, Texto, Total)
+                    Me.InsertaOracle("AC", TipoAsiento, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, Texto, Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI", CDate(Format(CDate(Me.DbNewPaga.mDbLector("MOVI_DAVA")), "dd/MM/yyyy")), "Comprobante Nº Movimiento : " & CStr(Me.DbNewPaga.mDbLector("MOVI_CODI")), Anulado, CStr(Me.DbNewPaga.mDbLector("TIMO_CODI")))
+                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, Texto, Total)
                 End If
             End While
             Me.DbNewPaga.mDbLector.Close()
 
-            '-------------------------------------------------------------------------------------------------------
-            ' ANULADOS
-            '-------------------------------------------------------------------------------------------------------
-            ' DEL BANCO 
-            SQL = "SELECT 'PAGOS',MOVI_CODI, TNPG_MOVI.TIMO_CODI, MOVI_INTE, TNPG_MOVI.FORN_CODI AS FORN_CODI, FORN_INTE, "
-            '   SQL += "       NVL(MOVI_DOCU,'?') AS MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV, (MOVI_IMPO - MOVI_SALD) AS TOTAL, "
-            SQL += "       NVL(MOVI_DOCU,'?') AS MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV, MOVI_IMPO  AS TOTAL, "
-            SQL += "       MOVI_SALD, TIMO_FORM, NVL (MOVI_SERV, '') MOVI_SERV, MOVI_DEPT, "
-            SQL += "       TIMO_CDIA, TIMO_CDOC, MOVI_TIIM,  MOVI_DESC,TIMO_DESC,MOVI_DAVA,MOVI_DAAC,NVL(TIMO_DESC,'?') AS TIMO_DESC  "
-            SQL += "       ,'BANCO' AS CUENTA ,NVL(FORN_DESC,'?') AS FORN_DESC"
-            SQL += "  FROM TNPG_MOVI, TNPG_TIMO,VNPG_FORN "
-            SQL += " WHERE TRUNC (MOVI_DAAC) = '" & Me.mFecha & "'"
-            SQL += "   AND TO_DATE(MOVI_DAVA,'DD/MM/YYYY') <> TO_DATE(NVL(MOVI_DAAC,'31/12/2099'),'DD/MM/YYYY') "
-            SQL += "   AND MOVI_IMPO <> 0.0 "
-            SQL += "   AND TNPG_MOVI.TIMO_CODI = TNPG_TIMO.TIMO_CODI "
-            SQL += "   AND TNPG_MOVI.FORN_CODI = VNPG_FORN.FORN_CODI(+) "
-            SQL += "  AND TIMO_EXCO = 1 "
-            SQL += "  AND NOT ((MOVI_INTE = 1) AND (TIMO_FORM IN (0, 1, 2, 3))) "
 
-            If Me.mParaNewPagaMovTrans.Length > 0 Then
-                SQL += "   AND TNPG_MOVI.TIMO_CODI NOT IN (" & Me.mParaNewPagaMovTrans & ")"
+
+        Catch EX As Exception
+            MsgBox(EX.Message)
+        End Try
+
+
+    End Sub
+
+#End Region
+#Region "ASIENTO 3 FACTURAS REGULARIZADAS"
+    Private Sub FacturasRegularizadas(vAnulados As Integer)
+        Try
+            Dim Total As Double
+            Dim Texto As String
+            Dim Anulado As String = ""
+
+            If vAnulados = 0 Then
+                Linea = 0
             End If
-            SQL += " ORDER BY MOVI_CODI "
+
+
+            Dim Cuenta As String = ""
+
+            Dim Aux() As String
+            Dim EsUnaTransferencia As Boolean = False
+
+
+            If Me.mParaAgrupaCtaPuentePagos = False Then
+                ' DEL DEPOSITO PROVEEDOR
+                SQL = "SELECT "
+                SQL += "    'DOCUMENTOS A PAGAR' AS TIPO, ASOC_DAVA,"
+                SQL += "    MOVI_DEBI.MOVI_CODI   AS ORDEN, "
+                SQL += "    MOVI_DEBI.TIMO_CODI   AS TIMO_DEBI, "
+                SQL += "    NVL(MOVI_DEBI.MOVI_DOCU,'S/N')   AS DEBI_DOCU, "
+                SQL += "    SUM(ASOC_IMPO)             AS TOTAL, "
+                SQL += "    MOVI_CRED.FORN_CODI   AS FORN_CODI, "
+                SQL += "    NVL(MOVI_CRED.MOVI_DOCU, '?') AS MOVI_DOCU, "
+                '   SQL += "    '0' AS MOVI_DOCU, "
+                SQL += "    NVL(FORN_DESC, '?') AS FORN_DESC ,ASOC_CODA,TIMO_DEBI.TIMO_FORM "
+                SQL += " FROM "
+                SQL += "    TNPG_MOVI MOVI_CRED, "
+                SQL += "    TNPG_MOVI MOVI_DEBI, "
+                SQL += "    TNPG_TIMO, "
+                SQL += "    TNPG_TIMO TIMO_DEBI, "
+                SQL += "    VNPG_FORN, "
+                SQL += "    TNPG_ASOC "
+                SQL += " WHERE "
+                SQL += "    MOVI_CRED.TIMO_CODI = TNPG_TIMO.TIMO_CODI "
+                SQL += "    AND MOVI_CRED.FORN_CODI = VNPG_FORN.FORN_CODI "
+                SQL += "    AND MOVI_CRED.FORN_INTE = VNPG_FORN.INTERNO "
+                SQL += "    AND MOVI_CRED.MOVI_CODI = TNPG_ASOC.ASOC_COD1 "
+                SQL += "    AND MOVI_DEBI.MOVI_CODI = TNPG_ASOC.ASOC_CODI "
+                SQL += "    AND MOVI_DEBI.TIMO_CODI = TIMO_DEBI.TIMO_CODI "
+                SQL += "    AND MOVI_CRED.MOVI_UNMO = 'EUR' "
+                If vAnulados = 0 Then
+                    SQL += " AND  TRUNC (ASOC_DAVA) = '" & Me.mFecha & "'"
+                Else
+                    SQL += " AND  TRUNC (ASOC_DAAC) = '" & Me.mFecha & "'"
+                End If
+                SQL += "    AND TO_DATE(ASOC_DAVA, 'DD/MM/YYYY') <> TO_DATE(NVL(ASOC_DAAC, '01/01/1901'), 'DD/MM/YYYY') "
+                SQL += "    AND TNPG_TIMO.TIMO_DECR = '1' "
+                If Me.mParaNewPagaMovTrans.Length > 0 Then
+                    SQL += "   AND MOVI_DEBI.TIMO_CODI  IN (" & Me.mParaNewPagaMovTrans & ")"
+                Else
+                    SQL += "   AND MOVI_DEBI.TIMO_CODI  IN (" & "'~~~'" & ")"
+                End If
+
+                SQL += "  AND TIMO_DEBI.TIMO_EXCO = 1 "
+                SQL += "  AND NOT ((MOVI_DEBI.MOVI_INTE = 1) AND (TIMO_DEBI.TIMO_FORM IN (0, 1, 2, 3))) "
+                SQL += " GROUP BY  ASOC_DAVA,MOVI_DEBI.MOVI_CODI,MOVI_DEBI.TIMO_CODI,MOVI_CRED.FORN_CODI,MOVI_DEBI.MOVI_DOCU,MOVI_CRED.MOVI_DOCU,FORN_DESC,ASOC_CODA,TIMO_DEBI.TIMO_FORM "
+
+                SQL += " UNION ALL "
+                SQL += "SELECT "
+                SQL += "     'DOCUMENTOS A PAGAR' AS TIPO, ASOC_DAVA,"
+                SQL += "    MOVI_DEBI.MOVI_CODI   AS ORDEN, "
+                SQL += "    MOVI_DEBI.TIMO_CODI   AS TIMO_DEBI, "
+                SQL += "    NVL(MOVI_DEBI.MOVI_DOCU,'S/N')   AS DEBI_DOCU, "
+                SQL += "    SUM(ASOC_IMPO)             AS TOTAL, "
+                SQL += "    MOVI_DEBI.FORN_CODI, "
+                SQL += "    NVL(MOVI_CRED.MOVI_DOCU, '?') AS MOVI_DOCU, "
+                SQL += "     NVL(FORN_DESC,'?') AS FORN_DESC,  ASOC_CODA,TIMO_DEBI.TIMO_FORM "
+                SQL += " FROM "
+                SQL += "    TNPG_MOVI MOVI_CRED, "
+                SQL += "    TNPG_MOVI MOVI_DEBI, "
+                SQL += "    TNPG_TIMO, "
+                SQL += "    TNPG_TIMO TIMO_DEBI, "
+                SQL += "    VNPG_FORN, "
+                SQL += "    TNPG_ASOC "
+                SQL += " WHERE "
+                SQL += "    MOVI_CRED.TIMO_CODI = TNPG_TIMO.TIMO_CODI "
+                SQL += "    AND MOVI_CRED.FORN_CODI = VNPG_FORN.FORN_CODI "
+                SQL += "    AND MOVI_CRED.FORN_INTE = VNPG_FORN.INTERNO "
+                SQL += "    AND MOVI_CRED.MOVI_CODI = TNPG_ASOC.ASOC_COD1 "
+                SQL += "    AND MOVI_DEBI.MOVI_CODI = TNPG_ASOC.ASOC_CODI "
+                SQL += "    AND MOVI_DEBI.TIMO_CODI = TIMO_DEBI.TIMO_CODI "
+                SQL += "    AND MOVI_CRED.MOVI_UNMO = 'EUR' "
+                If vAnulados = 0 Then
+                    SQL += " AND  TRUNC (ASOC_DAVA) = '" & Me.mFecha & "'"
+                Else
+                    SQL += " AND  TRUNC (ASOC_DAAC) = '" & Me.mFecha & "'"
+                End If
+                SQL += "    AND TO_DATE(ASOC_DAVA, 'DD/MM/YYYY') <> TO_DATE(NVL(ASOC_DAAC, '01/01/1901'), 'DD/MM/YYYY') "
+                SQL += "    AND TNPG_TIMO.TIMO_DECR = '1' "
+                If Me.mParaNewPagaMovTrans.Length > 0 Then
+                    SQL += "   AND MOVI_DEBI.TIMO_CODI NOT  IN (" & Me.mParaNewPagaMovTrans & ")"
+                End If
+                SQL += "  AND TIMO_DEBI.TIMO_EXCO = 1 "
+                SQL += "  AND NOT ((MOVI_DEBI.MOVI_INTE = 1) AND (TIMO_DEBI.TIMO_FORM IN (0, 1, 2, 3))) "
+                SQL += " GROUP BY ASOC_DAVA,MOVI_DEBI.MOVI_CODI, MOVI_DEBI.TIMO_CODI, MOVI_DEBI.MOVI_DOCU,TIMO_DEBI.TIMO_FORM,ASOC_CODA,MOVI_DEBI.FORN_CODI,FORN_DESC,MOVI_CRED.MOVI_DOCU "
+                SQL += " ORDER BY "
+                SQL += "    ORDEN "
+
+            Else
+                SQL = "SELECT "
+                SQL += "    'DOCUMENTOS A PAGAR TRANS ' AS TIPO, "
+                SQL += "    ASOC_DAVA, "
+                SQL += "    MOVI_DEBI.MOVI_CODI   AS ORDEN, "
+                SQL += "    MOVI_DEBI.TIMO_CODI   AS TIMO_DEBI, "
+                SQL += "                                            NVL(MOVI_DEBI.MOVI_DOCU, 'S/N') AS DEBI_DOCU, "
+                SQL += "    SUM(ASOC_IMPO) AS TOTAL, "
+                SQL += "    0 AS FORN_CODI, "
+                SQL += "    '0' AS MOVI_DOCU, "
+                SQL += "    '* PROVEEDORES AGRUPADOS INTERFAZ *' AS FORN_DESC, "
+                SQL += "                    0 AS ASOC_CODA, "
+                SQL += "    TIMO_DEBI.TIMO_FORM "
+                SQL += "FROM "
+                SQL += "    TNPG_MOVI MOVI_CRED, "
+                SQL += "    TNPG_MOVI MOVI_DEBI, "
+                SQL += "    TNPG_TIMO, "
+                SQL += "    TNPG_TIMO TIMO_DEBI, "
+                SQL += "    VNPG_FORN, "
+                SQL += "    TNPG_ASOC "
+                SQL += "WHERE "
+                SQL += "    MOVI_CRED.TIMO_CODI = TNPG_TIMO.TIMO_CODI "
+                SQL += "    AND MOVI_CRED.FORN_CODI = VNPG_FORN.FORN_CODI "
+                SQL += "    AND MOVI_CRED.FORN_INTE = VNPG_FORN.INTERNO "
+                SQL += "    AND MOVI_CRED.MOVI_CODI = TNPG_ASOC.ASOC_COD1 "
+                SQL += "    AND MOVI_DEBI.MOVI_CODI = TNPG_ASOC.ASOC_CODI "
+                SQL += "    AND MOVI_DEBI.TIMO_CODI = TIMO_DEBI.TIMO_CODI "
+                SQL += "    AND MOVI_CRED.MOVI_UNMO = 'EUR' "
+                If vAnulados = 0 Then
+                    SQL += " AND  TRUNC (ASOC_DAVA) = '" & Me.mFecha & "'"
+                Else
+                    SQL += " AND  TRUNC (ASOC_DAAC) = '" & Me.mFecha & "'"
+                End If
+                SQL += "    AND TO_DATE(ASOC_DAVA, 'DD/MM/YYYY') <> TO_DATE(NVL(ASOC_DAAC, '01/01/1901'), 'DD/MM/YYYY') "
+                SQL += "    AND TNPG_TIMO.TIMO_DECR = '1' "
+                If Me.mParaNewPagaMovTrans.Length > 0 Then
+                    SQL += "   AND MOVI_DEBI.TIMO_CODI  IN (" & Me.mParaNewPagaMovTrans & ")"
+                Else
+                    SQL += "   AND MOVI_DEBI.TIMO_CODI  IN (" & "'~~~'" & ")"
+                End If
+                SQL += "        AND TIMO_DEBI.TIMO_EXCO = 1 "
+                SQL += "    AND NOT ( ( MOVI_DEBI.MOVI_INTE = 1 ) "
+                SQL += "              AND ( TIMO_DEBI.TIMO_FORM IN ( "
+                SQL += "        0, "
+                SQL += "        1, "
+                SQL += "        2, "
+                SQL += "        3 "
+                SQL += "        ) ) ) "
+                SQL += "    GROUP BY "
+                SQL += "        ASOC_DAVA, "
+                SQL += "        MOVI_DEBI.MOVI_CODI, "
+                SQL += "        MOVI_DEBI.TIMO_CODI, "
+                SQL += "        MOVI_DEBI.MOVI_DOCU, "
+                SQL += "        TIMO_DEBI.TIMO_FORM "
+                SQL += "         "
+                SQL += "UNION ALL "
+                SQL += "SELECT "
+                SQL += "    'DOCUMENTOS A PAGAR RESTO ' AS TIPO, "
+                SQL += "    ASOC_DAVA, "
+                SQL += "     ORDEN, "
+                SQL += "     TIMO_DEBI, "
+                SQL += "    DEBI_DOCU, "
+                SQL += "    SUM(TOTAL) AS TOTAL, "
+                SQL += "     FORN_CODI, "
+                SQL += "     MOVI_DOCU, "
+                SQL += "    '* PROVEEDORES AGRUPADOS INTERFAZ *' AS FORN_DESC, "
+                SQL += "                     ASOC_CODA, "
+                SQL += "    TIMO_FORM  FROM ( "
+                SQL += "SELECT "
+                SQL += "    'DOCUMENTOS A PAGAR RESTO ' AS TIPO, "
+                SQL += "    ASOC_DAVA, "
+                SQL += "    0   AS ORDEN, "
+                SQL += "    MOVI_DEBI.TIMO_CODI   AS TIMO_DEBI, "
+                SQL += "   '' AS DEBI_DOCU, "
+                SQL += "    SUM(ASOC_IMPO) AS TOTAL, "
+                SQL += "    0 AS FORN_CODI, "
+                SQL += "    '0' AS MOVI_DOCU, "
+                SQL += "    '* PROVEEDORES AGRUPADOS INTERFAZ *' AS FORN_DESC, "
+                SQL += "                    0 AS ASOC_CODA, "
+                SQL += "    TIMO_DEBI.TIMO_FORM "
+                SQL += "FROM "
+                SQL += "    TNPG_MOVI MOVI_CRED, "
+                SQL += "    TNPG_MOVI MOVI_DEBI, "
+                SQL += "    TNPG_TIMO, "
+                SQL += "    TNPG_TIMO TIMO_DEBI, "
+                SQL += "    VNPG_FORN, "
+                SQL += "    TNPG_ASOC "
+                SQL += "WHERE "
+                SQL += "    MOVI_CRED.TIMO_CODI = TNPG_TIMO.TIMO_CODI "
+                SQL += "    AND MOVI_CRED.FORN_CODI = VNPG_FORN.FORN_CODI "
+                SQL += "    AND MOVI_CRED.FORN_INTE = VNPG_FORN.INTERNO "
+                SQL += "    AND MOVI_CRED.MOVI_CODI = TNPG_ASOC.ASOC_COD1 "
+                SQL += "    AND MOVI_DEBI.MOVI_CODI = TNPG_ASOC.ASOC_CODI "
+                SQL += "    AND MOVI_DEBI.TIMO_CODI = TIMO_DEBI.TIMO_CODI "
+                SQL += "    AND MOVI_CRED.MOVI_UNMO = 'EUR' "
+                If vAnulados = 0 Then
+                    SQL += " AND  TRUNC (ASOC_DAVA) = '" & Me.mFecha & "'"
+                Else
+                    SQL += " AND  TRUNC (ASOC_DAAC) = '" & Me.mFecha & "'"
+                End If
+                SQL += "    AND TO_DATE(ASOC_DAVA, 'DD/MM/YYYY') <> TO_DATE(NVL(ASOC_DAAC, '01/01/1901'), 'DD/MM/YYYY') "
+                SQL += "    AND TNPG_TIMO.TIMO_DECR = '1' "
+
+                If Me.mParaNewPagaMovTrans.Length > 0 Then
+                    SQL += "   AND MOVI_DEBI.TIMO_CODI NOT IN (" & Me.mParaNewPagaMovTrans & ")"
+                End If
+                SQL += "        AND TIMO_DEBI.TIMO_EXCO = 1 "
+                SQL += "    AND NOT ( ( MOVI_DEBI.MOVI_INTE = 1 ) "
+                SQL += "              AND ( TIMO_DEBI.TIMO_FORM IN ( "
+                SQL += "        0, "
+                SQL += "        1, "
+                SQL += "        2, "
+                SQL += "        3 "
+                SQL += "        ) ) ) "
+                SQL += "    GROUP BY "
+                SQL += "        ASOC_DAVA, "
+                SQL += "        MOVI_DEBI.MOVI_CODI, "
+                SQL += "        MOVI_DEBI.TIMO_CODI, "
+                SQL += "        MOVI_DEBI.MOVI_DOCU, "
+                SQL += "        TIMO_DEBI.TIMO_FORM "
+                SQL += "         "
+                SQL += "        ) "
+                SQL += "         "
+                SQL += "        GROUP  BY  "
+                SQL += "         "
+                SQL += "   ASOC_DAVA, "
+                SQL += "        ORDEN, "
+                SQL += "        TIMO_DEBI, "
+                SQL += "        DEBI_DOCU, "
+                SQL += "        FORN_CODI, "
+                SQL += "        MOVI_DOCU, "
+                SQL += "        ASOC_CODA, "
+                SQL += "        TIMO_FORM         "
+
+            End If
+
+
+
 
             Me.DbNewPaga.TraerLector(SQL)
 
             While Me.DbNewPaga.mDbLector.Read
 
                 Linea = Linea + 1
-                Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double) * -1
 
-                If IsDBNull(Me.DbNewPaga.mDbLector("MOVI_DESC")) Then
-                    '     Texto = CStr(Me.DbNewPaga.mDbLector("TIMO_DESC")) & " " & Format(Me.DbNewPaga.mDbLector("MOVI_DAVA"), "MMMM").ToUpper & " " & Format(Me.DbNewPaga.mDbLector("MOVI_DAVA"), "yyyy") & " + " & CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU"))
-                    Texto = CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU")) & " + " & CStr(Me.DbNewPaga.mDbLector("TIMO_DESC"))
+
+                ' ANULADO O DEVOLUCION (TIMO_FORM = 1)
+                If vAnulados = 0 Then
+                    If CStr(Me.DbNewPaga.mDbLector("TIMO_FORM")) = "1" Then
+                        TipoAsiento = 5
+                        Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double) * -1
+                    Else
+                        TipoAsiento = 3
+                        Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double)
+                    End If
                 Else
-                    '    Texto = CStr(Me.DbNewPaga.mDbLector("MOVI_DESC")) & " + " & CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU"))
-                    Texto = CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU")) & " + " & CStr(Me.DbNewPaga.mDbLector("MOVI_DESC"))
+                    If CStr(Me.DbNewPaga.mDbLector("TIMO_FORM")) = "1" Then
+                        TipoAsiento = 5
+                        Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double)
+                    Else
+                        TipoAsiento = 3
+                        Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double) * -1
+                    End If
                 End If
+
+
+                Me.AuxTipoMovimiento = CStr(Me.DbNewPaga.mDbLector("TIMO_DEBI"))
+
+                EsUnaTransferencia = False
+                If Me.mParaNewPagaMovTrans.Length > 0 Then
+                    Aux = Split(Me.mParaNewPagaMovTransAuxiliar, ",")
+                    For I As Integer = 0 To Aux.Length - 1
+                        If Aux(I) = Me.AuxTipoMovimiento Then
+                            EsUnaTransferencia = True
+                        End If
+                    Next
+                End If
+
+
+
+                If EsUnaTransferencia Then
+                    Cuenta = BuscaCuentaBanco(Me.AuxTipoMovimiento)
+                    Texto = "Just. de Pago : " & CStr(Me.DbNewPaga.mDbLector("DEBI_DOCU"))
+                    Me.mAuxStr = CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String)
+                Else
+
+                    If mParaUsaCtaPuentePagos = False Then
+                        Cuenta = BuscaCuentaProveedorCuentasPorPagar(CInt(Me.DbNewPaga.mDbLector("FORN_CODI")))
+                    Else
+                        Cuenta = Me.mParaCtaPuentePagos
+                    End If
+
+                    If Me.mParaAgrupaCtaPuentePagos = False Then
+                        Texto = "Su / Factura : " & CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU"))
+                        Me.mAuxStr = CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String)
+                    Else
+                        SQL = "SELECT NVL(TIMO_DESC,'?') AS TIMO_DESC  FROM TNPG_TIMO WHERE TIMO_CODI = " & "'" & CStr(Me.DbNewPaga.mDbLector("TIMO_DEBI")) & "'"
+                        Texto = "Pagos  : " & Me.DbNewPagaAux.EjecutaSqlScalar(SQL)
+                        Me.mAuxStr = CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String)
+                    End If
+
+                End If
+
+
+
 
 
                 If Total <> 0 Then
                     Me.mTipoAsiento = "HABER"
-                    Me.InsertaOracle("AC", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CType(Me.DbNewPaga.mDbLector("CUENTA"), String), Me.mIndicadorHaber, "(A) " & Texto, Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI", CDate(Format(CDate(Me.DbNewPaga.mDbLector("MOVI_DAVA")), "dd/MM/yyyy")))
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), CType(Me.DbNewPaga.mDbLector("CUENTA"), String), Me.mIndicadorHaber, Texto, Total)
-                End If
-            End While
-            Me.DbNewPaga.mDbLector.Close()
+                    Me.InsertaOracle("AC", TipoAsiento, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, Texto, Total, "NO", "", Me.mAuxStr, "SI", CDate(Format(CDate(Me.DbNewPaga.mDbLector("ASOC_DAVA")), "dd/MM/yyyy")), "Comprobante Nº Movimiento : " & CStr(Me.DbNewPaga.mDbLector("ORDEN")), "", CStr(Me.DbNewPaga.mDbLector("TIMO_DEBI")))
+                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaber, Texto, Total)
 
-            ' A DEPOSITOS ANTICIPADOS DEL PROVEEDOR
-            SQL = "SELECT 'PAGOS',MOVI_CODI, TNPG_MOVI.TIMO_CODI, MOVI_INTE,  NVL(TNPG_MOVI.FORN_CODI,'0') AS FORN_CODI, FORN_INTE, "
-            '     SQL += "       NVL(MOVI_DOCU,'?') AS MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV, (MOVI_IMPO - MOVI_SALD) AS TOTAL, "
-            SQL += "       NVL(MOVI_DOCU,'?') AS MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV, MOVI_IMPO  AS TOTAL, "
-            SQL += "       MOVI_SALD, TIMO_FORM, NVL (MOVI_SERV, '') MOVI_SERV, MOVI_DEPT, "
-            SQL += "       TIMO_CDIA, TIMO_CDOC, MOVI_TIIM,  MOVI_DESC,TIMO_DESC ,MOVI_DAVA,MOVI_DAAC,NVL(TIMO_DESC,'?') AS TIMO_DESC "
-            SQL += "       ,'DEPOSITOS PROV' AS CUENTA ,NVL(FORN_DESC,'?') AS FORN_DESC"
-            SQL += "  FROM TNPG_MOVI, TNPG_TIMO,VNPG_FORN "
-            SQL += " WHERE TRUNC (MOVI_DAAC) = '" & Me.mFecha & "'"
-            SQL += "   AND TO_DATE(MOVI_DAVA,'DD/MM/YYYY') <> TO_DATE(NVL(MOVI_DAAC,'31/12/2099'),'DD/MM/YYYY') "
-            SQL += "   AND MOVI_IMPO <> 0.0 "
-            SQL += "   AND TNPG_MOVI.TIMO_CODI = TNPG_TIMO.TIMO_CODI "
-            SQL += "   AND TNPG_MOVI.FORN_CODI = VNPG_FORN.FORN_CODI(+) "
-            SQL += "  AND TIMO_EXCO = 1 "
-            SQL += "  AND NOT ((MOVI_INTE = 1) AND (TIMO_FORM IN (0, 1, 2, 3))) "
+                    ' Sale al Asiento de Contrapartida(Dettale de Facturas Pagadas)  de este Pago
+                    If EsUnaTransferencia Then
+                        Me.FacturasRegularizadasDocumentos(vAnulados, CInt(Me.DbNewPaga.mDbLector("ORDEN")), CInt(Me.DbNewPaga.mDbLector("ASOC_CODA")), "")
+                    Else
+                        Me.FacturasRegularizadasDocumentos(vAnulados, CInt(Me.DbNewPaga.mDbLector("ORDEN")), CInt(Me.DbNewPaga.mDbLector("ASOC_CODA")), CStr(Me.DbNewPaga.mDbLector("TIMO_DEBI")))
+                    End If
 
 
-            If Me.mParaNewPagaMovTrans.Length > 0 Then
-                SQL += "   AND TNPG_MOVI.TIMO_CODI NOT IN (" & Me.mParaNewPagaMovTrans & ")"
-            End If
 
-            SQL += " ORDER BY MOVI_CODI "
-
-            Me.DbNewPaga.TraerLector(SQL)
-
-            While Me.DbNewPaga.mDbLector.Read
-
-                Linea = Linea + 1
-                Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double) * -1
-
-                If IsDBNull(Me.DbNewPaga.mDbLector("MOVI_DESC")) Then
-                    '     Texto = CStr(Me.DbNewPaga.mDbLector("TIMO_DESC")) & " " & Format(Me.DbNewPaga.mDbLector("MOVI_DAVA"), "MMMM").ToUpper & " " & Format(Me.DbNewPaga.mDbLector("MOVI_DAVA"), "yyyy") & " + " & CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU"))
-                    Texto = CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU")) & " + " & CStr(Me.DbNewPaga.mDbLector("TIMO_DESC"))
-                Else
-                    '    Texto = CStr(Me.DbNewPaga.mDbLector("MOVI_DESC")) & " + " & CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU"))
-                    Texto = CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU")) & " + " & CStr(Me.DbNewPaga.mDbLector("MOVI_DESC"))
-                End If
-
-
-                If Total <> 0 Then
-                    Me.mTipoAsiento = "DEBE"
-                    Me.InsertaOracle("AC", 1, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, BuscaCuentaProveedorCuentasPorPagar(CInt(Me.DbNewPaga.mDbLector("FORN_CODI"))), Me.mIndicadorDebe, "(A) " & Texto, Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI", CDate(Format(CDate(Me.DbNewPaga.mDbLector("MOVI_DAVA")), "dd/MM/yyyy")))
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), BuscaCuentaProveedorCuentasPorPagar(CInt(Me.DbNewPaga.mDbLector("FORN_CODI"))), Me.mIndicadorDebe, Texto, Total)
                 End If
             End While
             Me.DbNewPaga.mDbLector.Close()
@@ -1305,231 +1963,102 @@ Public Class NewPaga
 
 
     End Sub
-
-#End Region
-#Region "ASIENTO 3 FACTURAS REGULARIZADAS"
-    Private Sub FacturasRegularizadas()
+    Private Sub FacturasRegularizadasDocumentos(vAnulados As Integer, vMoviDebi As Integer, vAsocCoda As Integer, vTimoCodi As String)
         Try
             Dim Total As Double
             Dim Texto As String
-            Linea = 0
 
+            Dim Anulado As String = ""
             Dim Cuenta As String = ""
 
-            Dim Aux() As String
-            Dim EsUnaTransferencia As Boolean = False
-
-            ' DEL DEPOSITO PROVEEDOR
-            SQL = "SELECT 'PAGOS',MOVI_CODI, TNPG_MOVI.TIMO_CODI, MOVI_INTE, TNPG_MOVI.FORN_CODI AS FORN_CODI, FORN_INTE, "
-            SQL += "       NVL(MOVI_DOCU,'?') AS MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV,ASOC_IMPO AS TOTAL, "
-            SQL += "       MOVI_SALD, TIMO_FORM, NVL (MOVI_SERV, '') MOVI_SERV, MOVI_DEPT, "
-            SQL += "       TIMO_CDIA, TIMO_CDOC, MOVI_TIIM, NVL(MOVI_DESC,'?') AS MOVI_DESC,TIMO_DESC "
-            SQL += "       ,'DEPOSITOS PROV' AS CUENTA ,NVL(FORN_DESC,'?') AS FORN_DESC,ASOC_DAVA,ASOC_DAAC ,ASOC_CODI"
-
-            SQL += "    FROM TNPG_MOVI, TNPG_TIMO, VNPG_FORN,TNPG_ASOC "
-            SQL += "   WHERE TNPG_MOVI.TIMO_CODI = TNPG_TIMO.TIMO_CODI "
-            SQL += "     AND TNPG_MOVI.FORN_CODI = VNPG_FORN.FORN_CODI "
-            SQL += "     AND TNPG_MOVI.FORN_INTE = VNPG_FORN.INTERNO "
-            SQL += "     AND TNPG_MOVI.MOVI_CODI = TNPG_ASOC.ASOC_COD1 "
-            SQL += "     AND TNPG_MOVI.MOVI_UNMO = 'EUR' "
-            SQL += " AND  TRUNC (ASOC_DAVA) = '" & Me.mFecha & "'"
-            SQL += "   AND TO_DATE(ASOC_DAVA,'DD/MM/YYYY') <> TO_DATE(NVL(ASOC_DAAC,'31/12/2099'),'DD/MM/YYYY') "
-
-
-            ' TIPO PAGO 
-            SQL += "     AND TNPG_TIMO.TIMO_DECR = '1' "
-            SQL += "ORDER BY TNPG_ASOC.ASOC_CODI,TNPG_MOVI.MOVI_CODI "
-
-            Me.DbNewPaga.TraerLector(SQL)
-
-            While Me.DbNewPaga.mDbLector.Read
-
-                Linea = Linea + 1
-                Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double)
-                Texto = "SU /FACTURA : " & CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU"))
-
-                SQL = "SELECT NVL(MOVI_DOCU,'?') AS DOCU  FROM TNPG_MOVI WHERE MOVI_CODI =  " & CInt(Me.DbNewPaga.mDbLector("ASOC_CODI"))
-                Me.AuxDoc = Me.DbNewPagaAux.EjecutaSqlScalar(SQL)
-
-
-                SQL = "SELECT TIMO_CODI FROM TNPG_MOVI WHERE MOVI_CODI =  " & CInt(Me.DbNewPaga.mDbLector("ASOC_CODI"))
-                Me.AuxTipoMovimiento = Me.DbNewPagaAux.EjecutaSqlScalar(SQL)
-
-                EsUnaTransferencia = False
-                If Me.mParaNewPagaMovTrans.Length > 0 Then
-                    Aux = Split(Me.mParaNewPagaMovTransAuxiliar, ",")
-                    For I As Integer = 0 To Aux.Length - 1
-                        If Aux(I) = Me.AuxTipoMovimiento Then
-                            EsUnaTransferencia = True
-                        End If
-                    Next
-                End If
-
-
-
-                If EsUnaTransferencia Then
-                    Cuenta = BuscaCuentaBanco(Me.AuxTipoMovimiento)
-                Else
-                    Cuenta = BuscaCuentaProveedorCuentasPorPagar(CInt(Me.DbNewPaga.mDbLector("FORN_CODI")))
-                End If
-
-                If Total <> 0 Then
-                    Me.mTipoAsiento = "HABER"
-                    Me.InsertaOracle("AC", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, Texto, Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI", CDate(Format(CDate(Me.DbNewPaga.mDbLector("ASOC_DAVA")), "dd/MM/yyyy")))
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaber, Texto, Total)
-                End If
-            End While
-            Me.DbNewPaga.mDbLector.Close()
-
             ' A FACTURAS
-            SQL = "SELECT 'PAGOS',MOVI_CODI, TNPG_MOVI.TIMO_CODI, MOVI_INTE, TNPG_MOVI.FORN_CODI AS FORN_CODI, FORN_INTE, "
-            SQL += "       NVL(MOVI_DOCU,'?') AS MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV,ASOC_IMPO AS TOTAL, "
-            SQL += "       MOVI_SALD, TIMO_FORM, NVL (MOVI_SERV, '') MOVI_SERV, MOVI_DEPT, "
-            SQL += "       TIMO_CDIA, TIMO_CDOC, MOVI_TIIM, NVL(MOVI_DESC,'?') AS MOVI_DESC,TIMO_DESC "
-            SQL += "       ,'DEPOSITOS PROV' AS CUENTA ,NVL(FORN_DESC,'?') AS FORN_DESC,ASOC_DAVA,ASOC_DAAC,ASOC_CODI"
+            SQL = "SELECT 'PAGOS', TNPG_MOVI.FORN_CODI AS FORN_CODI,  "
+            SQL += "       NVL(TNPG_MOVI.MOVI_DOCU,'?') AS MOVI_DOCU, ASOC_IMPO AS TOTAL, "
+            SQL += "       NVL(FORN_DESC,'?') AS FORN_DESC,ASOC_DAVA,TIMO_DEBI.TIMO_FORM "
 
-            SQL += "    FROM TNPG_MOVI, TNPG_TIMO, VNPG_FORN,TNPG_ASOC "
-            SQL += "   WHERE TNPG_MOVI.TIMO_CODI = TNPG_TIMO.TIMO_CODI "
+            SQL += "    FROM TNPG_MOVI, TNPG_MOVI MOVI_DEBI,TNPG_TIMO,TNPG_TIMO TIMO_DEBI,  VNPG_FORN,TNPG_ASOC "
+            SQL += "     WHERE TNPG_MOVI.TIMO_CODI = TNPG_TIMO.TIMO_CODI "
+            SQL += "     AND MOVI_DEBI.TIMO_CODI = TIMO_DEBI.TIMO_CODI "
             SQL += "     AND TNPG_MOVI.FORN_CODI = VNPG_FORN.FORN_CODI "
             SQL += "     AND TNPG_MOVI.FORN_INTE = VNPG_FORN.INTERNO "
             SQL += "     AND TNPG_MOVI.MOVI_CODI = TNPG_ASOC.ASOC_COD1 "
+            SQL += "     AND MOVI_DEBI.MOVI_CODI = TNPG_ASOC.ASOC_CODI "
             SQL += "     AND TNPG_MOVI.MOVI_UNMO = 'EUR' "
-            SQL += " AND  TRUNC (ASOC_DAVA) = '" & Me.mFecha & "'"
-            SQL += "   AND TO_DATE(ASOC_DAVA,'DD/MM/YYYY') <> TO_DATE(NVL(ASOC_DAAC,'31/12/2099'),'DD/MM/YYYY') "
+            If vAnulados = 0 Then
+                SQL += " AND  TRUNC (ASOC_DAVA) = '" & Me.mFecha & "'"
+            Else
+                SQL += " AND  TRUNC (ASOC_DAAC) = '" & Me.mFecha & "'"
+            End If
+            SQL += "   AND TO_DATE(ASOC_DAVA,'DD/MM/YYYY') <> TO_DATE(NVL(ASOC_DAAC,'01/01/1901'),'DD/MM/YYYY') "
 
 
             ' TIPO PAGO 
             SQL += "     AND TNPG_TIMO.TIMO_DECR = '1' "
-            SQL += "ORDER BY TNPG_ASOC.ASOC_CODI,TNPG_MOVI.MOVI_CODI "
+            ' Mismo Criterio que la Rutina de llamada 
+            SQL += "        AND TIMO_DEBI.TIMO_EXCO = 1 "
+            SQL += "    AND NOT ( ( MOVI_DEBI.MOVI_INTE = 1 ) "
+            SQL += "              AND ( TIMO_DEBI.TIMO_FORM IN ( "
+            SQL += "        0, "
+            SQL += "        1, "
+            SQL += "        2, "
+            SQL += "        3 "
+            SQL += "        ) ) ) "
+
+            If vAsocCoda <> 0 Then
+                SQL += " AND  ASOC_CODA  = " & vAsocCoda
+            End If
+
+            If vTimoCodi.Length > 0 Then
+                ' Se Buscan Todos los Documentos Regularizados Asociados a una  Transferencia Bancaria
+                SQL += " AND  TIMO_DEBI.TIMO_CODI  = " & "'" & vTimoCodi & "'"
+            Else
+                ' Se Buscan Todos los Documentos Regularizados Asociados a una  Forma de Cobro 
+                SQL += " AND  MOVI_DEBI.MOVI_CODI = " & vMoviDebi
+            End If
+
+            SQL += " ORDER BY MOVI_DEBI.MOVI_CODI "
 
 
 
-            Me.DbNewPaga.TraerLector(SQL)
+            Me.DbNewPagaAux.TraerLector(SQL)
 
-            While Me.DbNewPaga.mDbLector.Read
+            While Me.DbNewPagaAux.mDbLector.Read
 
                 Linea = Linea + 1
-                Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double)
-                Texto = "SU /FACTURA : " & CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU"))
-
-                SQL = "SELECT NVL(MOVI_DOCU,'?') AS DOCU  FROM TNPG_MOVI WHERE MOVI_CODI =  " & CInt(Me.DbNewPaga.mDbLector("ASOC_CODI"))
-                Me.AuxDoc = Me.DbNewPagaAux.EjecutaSqlScalar(SQL)
-
-                If Total <> 0 Then
-                    Me.mTipoAsiento = "DEBE"
-                    Me.InsertaOracle("AC", 3, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, BuscaCuentaProveedorCuenta(CInt(Me.DbNewPaga.mDbLector("FORN_CODI"))), Me.mIndicadorDebe, Texto, Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI", CDate(Format(CDate(Me.DbNewPaga.mDbLector("ASOC_DAVA")), "dd/MM/yyyy")))
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), BuscaCuentaProveedorCuenta(CInt(Me.DbNewPaga.mDbLector("FORN_CODI"))), Me.mIndicadorDebe, Texto, Total)
-                End If
-            End While
-            Me.DbNewPaga.mDbLector.Close()
-
-            '-------------------------------------------------------------------------------------------------------
-            ' ANULADOS
-            '-------------------------------------------------------------------------------------------------------
-            ' DEL DEPOSITO PROVEEDOR
-            SQL = "SELECT 'PAGOS',MOVI_CODI, TNPG_MOVI.TIMO_CODI, MOVI_INTE, TNPG_MOVI.FORN_CODI AS FORN_CODI, FORN_INTE, "
-            SQL += "       NVL(MOVI_DOCU,'?') AS MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV,ASOC_IMPO AS TOTAL, "
-            SQL += "       MOVI_SALD, TIMO_FORM, NVL (MOVI_SERV, '') MOVI_SERV, MOVI_DEPT, "
-            SQL += "       TIMO_CDIA, TIMO_CDOC, MOVI_TIIM, NVL(MOVI_DESC,'?') AS MOVI_DESC,TIMO_DESC "
-            SQL += "       ,'DEPOSITOS PROV' AS CUENTA ,NVL(FORN_DESC,'?') AS FORN_DESC,ASOC_DAVA,ASOC_DAAC,ASOC_CODI"
-
-            SQL += "    FROM TNPG_MOVI, TNPG_TIMO, VNPG_FORN,TNPG_ASOC "
-            SQL += "   WHERE TNPG_MOVI.TIMO_CODI = TNPG_TIMO.TIMO_CODI "
-            SQL += "     AND TNPG_MOVI.FORN_CODI = VNPG_FORN.FORN_CODI "
-            SQL += "     AND TNPG_MOVI.FORN_INTE = VNPG_FORN.INTERNO "
-            SQL += "     AND TNPG_MOVI.MOVI_CODI = TNPG_ASOC.ASOC_COD1 "
-            SQL += "     AND TNPG_MOVI.MOVI_UNMO = 'EUR' "
-            SQL += " AND  TRUNC (ASOC_DAAC) = '" & Me.mFecha & "'"
-            SQL += "   AND TO_DATE(ASOC_DAVA,'DD/MM/YYYY') <> TO_DATE(NVL(ASOC_DAAC,'31/12/2099'),'DD/MM/YYYY') "
 
 
-            ' TIPO PAGO 
-            SQL += "     AND TNPG_TIMO.TIMO_DECR = '1' "
-            SQL += "ORDER BY TNPG_ASOC.ASOC_CODI,TNPG_MOVI.MOVI_CODI "
-
-            Me.DbNewPaga.TraerLector(SQL)
-
-            While Me.DbNewPaga.mDbLector.Read
-                Linea = Linea + 1
-                Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double) * -1
-                Texto = "SU /FACTURA : " & CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU"))
-
-                SQL = "SELECT NVL(MOVI_DOCU,'?') AS DOCU  FROM TNPG_MOVI WHERE MOVI_CODI =  " & CInt(Me.DbNewPaga.mDbLector("ASOC_CODI"))
-                Me.AuxDoc = Me.DbNewPagaAux.EjecutaSqlScalar(SQL)
-
-                SQL = "SELECT TIMO_CODI FROM TNPG_MOVI WHERE MOVI_CODI =  " & CInt(Me.DbNewPaga.mDbLector("ASOC_CODI"))
-                Me.AuxTipoMovimiento = Me.DbNewPagaAux.EjecutaSqlScalar(SQL)
-
-                EsUnaTransferencia = False
-                If Me.mParaNewPagaMovTrans.Length > 0 Then
-                    Aux = Split(Me.mParaNewPagaMovTransAuxiliar, ",")
-                    For I As Integer = 0 To Aux.Length - 1
-                        If Aux(I) = Me.AuxTipoMovimiento Then
-                            EsUnaTransferencia = True
-                        End If
-                    Next
-
-                End If
-
-
-
-                If EsUnaTransferencia Then
-                    Cuenta = BuscaCuentaBanco(Me.AuxTipoMovimiento)
+                ' ANULADO O DEVOLUCION (TIMO_FORM = 1)
+                If vAnulados = 0 Then
+                    If CStr(Me.DbNewPaga.mDbLector("TIMO_FORM")) = "1" Then
+                        TipoAsiento = 5
+                        Total = CType(Me.DbNewPagaAux.mDbLector("TOTAL"), Double) * -1
+                    Else
+                        TipoAsiento = 3
+                        Total = CType(Me.DbNewPagaAux.mDbLector("TOTAL"), Double)
+                    End If
                 Else
-                    Cuenta = BuscaCuentaProveedorCuentasPorPagar(CInt(Me.DbNewPaga.mDbLector("FORN_CODI")))
+                    If CStr(Me.DbNewPagaAux.mDbLector("TIMO_FORM")) = "1" Then
+                        TipoAsiento = 5
+                        Total = CType(Me.DbNewPagaAux.mDbLector("TOTAL"), Double)
+                    Else
+                        TipoAsiento = 3
+                        Total = CType(Me.DbNewPagaAux.mDbLector("TOTAL"), Double) * -1
+                    End If
                 End If
 
+                Texto = "Su / Factura : " & CStr(Me.DbNewPagaAux.mDbLector("MOVI_DOCU"))
 
-                If Total <> 0 Then
-                    Me.mTipoAsiento = "HABER"
-                    Me.InsertaOracle("AC", 4, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, Texto, Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI", CDate(Format(CDate(Me.DbNewPaga.mDbLector("ASOC_DAVA")), "dd/MM/yyyy")))
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaber, Texto, Total)
-                End If
-            End While
-            Me.DbNewPaga.mDbLector.Close()
-
-            ' A FACTURAS
-            SQL = "SELECT 'PAGOS',MOVI_CODI, TNPG_MOVI.TIMO_CODI, MOVI_INTE, TNPG_MOVI.FORN_CODI AS FORN_CODI, FORN_INTE, "
-            SQL += "       NVL(MOVI_DOCU,'?') AS MOVI_DOCU, MOVI_DAVA, MOVI_UNMO, MOVI_EMPR, MOVI_LLAV,ASOC_IMPO AS TOTAL, "
-            SQL += "       MOVI_SALD, TIMO_FORM, NVL (MOVI_SERV, '') MOVI_SERV, MOVI_DEPT, "
-            SQL += "       TIMO_CDIA, TIMO_CDOC, MOVI_TIIM, NVL(MOVI_DESC,'?') AS MOVI_DESC,TIMO_DESC "
-            SQL += "       ,'DEPOSITOS PROV' AS CUENTA ,NVL(FORN_DESC,'?') AS FORN_DESC,ASOC_DAVA,ASOC_DAAC,ASOC_CODI"
-
-            SQL += "    FROM TNPG_MOVI, TNPG_TIMO, VNPG_FORN,TNPG_ASOC "
-            SQL += "   WHERE TNPG_MOVI.TIMO_CODI = TNPG_TIMO.TIMO_CODI "
-            SQL += "     AND TNPG_MOVI.FORN_CODI = VNPG_FORN.FORN_CODI "
-            SQL += "     AND TNPG_MOVI.FORN_INTE = VNPG_FORN.INTERNO "
-            SQL += "     AND TNPG_MOVI.MOVI_CODI = TNPG_ASOC.ASOC_COD1 "
-            SQL += "     AND TNPG_MOVI.MOVI_UNMO = 'EUR' "
-            SQL += " AND  TRUNC (ASOC_DAAC) = '" & Me.mFecha & "'"
-            SQL += "   AND TO_DATE(ASOC_DAVA,'DD/MM/YYYY') <> TO_DATE(NVL(ASOC_DAAC,'31/12/2099'),'DD/MM/YYYY') "
-
-
-            ' TIPO PAGO 
-            SQL += "     AND TNPG_TIMO.TIMO_DECR = '1' "
-            SQL += "ORDER BY TNPG_ASOC.ASOC_CODI,TNPG_MOVI.MOVI_CODI "
-
-
-
-            Me.DbNewPaga.TraerLector(SQL)
-
-            While Me.DbNewPaga.mDbLector.Read
-
-                Linea = Linea + 1
-                Total = CType(Me.DbNewPaga.mDbLector("TOTAL"), Double) * -1
-                Texto = "SU /FACTURA : " & CStr(Me.DbNewPaga.mDbLector("MOVI_DOCU"))
-
-                SQL = "SELECT NVL(MOVI_DOCU,'?') AS DOCU  FROM TNPG_MOVI WHERE MOVI_CODI =  " & CInt(Me.DbNewPaga.mDbLector("ASOC_CODI"))
-                Me.AuxDoc = Me.DbNewPagaAux.EjecutaSqlScalar(SQL)
 
 
                 If Total <> 0 Then
                     Me.mTipoAsiento = "DEBE"
-                    Me.InsertaOracle("AC", 4, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, BuscaCuentaProveedorCuenta(CInt(Me.DbNewPaga.mDbLector("FORN_CODI"))), Me.mIndicadorDebe, Texto, Total, "NO", "", CType(Me.DbNewPaga.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPaga.mDbLector("FORN_DESC"), String), "SI", CDate(Format(CDate(Me.DbNewPaga.mDbLector("ASOC_DAVA")), "dd/MM/yyyy")))
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), BuscaCuentaProveedorCuenta(CInt(Me.DbNewPaga.mDbLector("FORN_CODI"))), Me.mIndicadorDebe, Texto, Total)
+                    Me.InsertaOracle("AC", TipoAsiento, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, BuscaCuentaProveedorCuenta(CInt(Me.DbNewPagaAux.mDbLector("FORN_CODI"))), Me.mIndicadorDebe, Texto, Total, "NO", "", CType(Me.DbNewPagaAux.mDbLector("FORN_CODI"), String) & " " & CType(Me.DbNewPagaAux.mDbLector("FORN_DESC"), String), "SI", CDate(Format(CDate(Me.DbNewPagaAux.mDbLector("ASOC_DAVA")), "dd/MM/yyyy")), "Comprobante Nº Movimiento : " & CStr(vMoviDebi), "", "")
+                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), BuscaCuentaProveedorCuenta(CInt(Me.DbNewPagaAux.mDbLector("FORN_CODI"))), Me.mIndicadorDebe, Texto, Total)
                 End If
             End While
-            Me.DbNewPaga.mDbLector.Close()
+            Me.DbNewPagaAux.mDbLector.Close()
+
+
 
 
         Catch EX As Exception
@@ -1557,10 +2086,12 @@ Public Class NewPaga
             ' Asiento Facturacion total del dia 
             '----------------------------------------------------------------
             If Me.DbNewPaga.EstadoConexion = ConnectionState.Open Then
+
                 Me.mTextDebug.Text = "Calculando Pagos Realizados"
                 Me.mTextDebug.Update()
 
-                Me.PagosRealizados()
+                Me.PagosRealizados(mEnumEstaDo.NoAnulado)
+                Me.PagosRealizados(mEnumEstaDo.SiAnulado)
 
                 Me.mProgress.Value = 50
                 Me.mProgress.Update()
@@ -1568,7 +2099,8 @@ Public Class NewPaga
                 Me.mTextDebug.Text = "Calculando Facturas Regularizadas"
                 Me.mTextDebug.Update()
 
-                Me.FacturasRegularizadas()
+                Me.FacturasRegularizadas(mEnumEstaDo.NoAnulado)
+                Me.FacturasRegularizadas(mEnumEstaDo.SiAnulado)
 
                 Me.mProgress.Value = 100
                 Me.mProgress.Update()
@@ -1582,7 +2114,15 @@ Public Class NewPaga
             Me.mProgress.Value = 100
             Me.mProgress.Update()
 
+
             Me.CerrarFichero()
+
+            If Me.mParaValidaSpyro = 1 Then
+                Me.SpyroCompruebaCuentas()
+            End If
+
+
+
             Me.CierraConexiones()
             Me.mTextDebug.Text = "Fin de Integración"
             Me.mTextDebug.Update()
@@ -1634,7 +2174,7 @@ Public Class NewPaga
                 TotalDiferencia = TotalHaber - TotalDebe
                 MsgBox("Se va ha producir un Ajuste Decimal  de " & TotalDiferencia & "  " & vbCrLf & vbCrLf & "No Integre con valores superiores a 0.05", MsgBoxStyle.Information, "Atención")
                 Me.mTipoAsiento = "DEBE"
-                Me.InsertaOracle("AC", 999, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.mCtaRedondeo, Me.mIndicadorDebe, "AJUSTE REDONDEO", TotalDiferencia, "SI", "", "", "SI", Me.mFecha)
+                Me.InsertaOracle("AC", 999, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.mCtaRedondeo, Me.mIndicadorDebe, "AJUSTE REDONDEO", TotalDiferencia, "SI", "", "", "SI", Me.mFecha, "", "", "")
                 Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Me.mCtaRedondeo, Me.mIndicadorDebe, "AJUSTE REDONDEO", TotalDiferencia)
             End If
 
@@ -1642,7 +2182,7 @@ Public Class NewPaga
                 TotalDiferencia = TotalDebe - TotalHaber
                 MsgBox("Se va ha producir un Ajuste Decimal  de " & TotalDiferencia & "  " & vbCrLf & vbCrLf & "No Integre con valores superiores a 0.05", MsgBoxStyle.Information, "Atención")
                 Me.mTipoAsiento = "HABER"
-                Me.InsertaOracle("AC", 999, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.mCtaRedondeo, Me.mIndicadorHaber, "AJUSTE REDONDEO", TotalDiferencia, "SI", "", "", "SI", CDate(Format(CDate(Me.DbNewPaga.mDbLector("ASOC_DAVA")), "dd/MM/yyyy")))
+                Me.InsertaOracle("AC", 999, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.mCtaRedondeo, Me.mIndicadorHaber, "AJUSTE REDONDEO", TotalDiferencia, "SI", "", "", "SI", Me.mFecha, "", "", "")
                 Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Me.mCtaRedondeo, Me.mIndicadorHaber, "AJUSTE REDONDEO", TotalDiferencia)
             End If
 

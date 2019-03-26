@@ -1,4 +1,4 @@
-
+Imports System.Text
 Public Class FormIntegraNewPaga
     Dim MyIni As New cIniArray
     Dim DbCentral As C_DATOS.C_DatosOledb
@@ -293,6 +293,8 @@ Public Class FormIntegraNewPaga
 
             Dim INTEGRA As Object
 
+            Me.ButtonIncidencias.Enabled = False
+
             INTEGRA = New Integracion_NewPaga.NewPaga(Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 0),
             Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 1),
               MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DATABASE", "STRING"),
@@ -300,6 +302,8 @@ Public Class FormIntegraNewPaga
               Format(Me.DateTimePicker1.Value, "dd-MM-yyyy") & ".TXT", Me.CheckBoxDebug.Checked,
               Me.TextBoxDebug, Me.ListBoxDebug, Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 4),
               Me.ProgressBar1, Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 8), Me.DataGridHoteles.Item(Me.DataGridHoteles.CurrentRowIndex, 9))
+
+            Me.Cursor = Cursors.AppStarting
             INTEGRA.Procesar()
 
 
@@ -330,7 +334,14 @@ Public Class FormIntegraNewPaga
             Me.DataGrid2.DataMember = "ASIENTO"
             Me.ConfGrid()
 
+            If Me.ListBoxDebug.Items.Count > 0 Then
+                Me.ButtonIncidencias.Enabled = True
+            End If
+
+
+            Me.Cursor = Cursors.Default
         Catch ex As Exception
+            Me.Cursor = Cursors.Default
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Boton Aceptar")
         End Try
     End Sub
@@ -572,6 +583,23 @@ Public Class FormIntegraNewPaga
         Finally
 
             Me.Cursor = Cursors.Default
+        End Try
+    End Sub
+
+    Private Sub ButtonIncidencias_Click(sender As Object, e As EventArgs) Handles ButtonIncidencias.Click
+        Try
+            If Me.ListBoxDebug.Items.Count > 0 Then
+                Dim buffer As New StringBuilder
+                For i As Integer = 0 To Me.ListBoxDebug.Items.Count - 1
+                    buffer.Append(Me.ListBoxDebug.Items(i).ToString)
+                    buffer.Append(vbCrLf)
+                Next
+
+                My.Computer.Clipboard.SetText(buffer.ToString)
+            End If
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
         End Try
     End Sub
 End Class

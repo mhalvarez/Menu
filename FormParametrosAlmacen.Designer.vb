@@ -26,6 +26,8 @@ Partial Class FormParametrosAlmacen
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPageGenerales = New System.Windows.Forms.TabPage()
+        Me.TextBoxCtaRoturas = New System.Windows.Forms.TextBox()
+        Me.Label31 = New System.Windows.Forms.Label()
         Me.TextBoxCtaAlbaranesPdtesFormalizar = New System.Windows.Forms.TextBox()
         Me.CheckBoxTipoFormalizaAlbaranes = New System.Windows.Forms.CheckBox()
         Me.Label28 = New System.Windows.Forms.Label()
@@ -76,6 +78,9 @@ Partial Class FormParametrosAlmacen
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.TabPageSantaMonica = New System.Windows.Forms.TabPage()
+        Me.TextBoxNewPagaCtaPuente = New System.Windows.Forms.TextBox()
+        Me.CheckBoxNewPagaAgrupaCtaPuente = New System.Windows.Forms.CheckBox()
+        Me.CheckBoxNewPagaUsaCtaPuente = New System.Windows.Forms.CheckBox()
         Me.TextBoxSpyroTiposMovTransFerencia = New System.Windows.Forms.TextBox()
         Me.Label30 = New System.Windows.Forms.Label()
         Me.TextBoxSpyroTipoAnalitica = New System.Windows.Forms.TextBox()
@@ -91,6 +96,8 @@ Partial Class FormParametrosAlmacen
         Me.Label78 = New System.Windows.Forms.Label()
         Me.TextBoxEmpNum = New System.Windows.Forms.TextBox()
         Me.Label77 = New System.Windows.Forms.Label()
+        Me.TextBoxCtaPuntoVerde = New System.Windows.Forms.TextBox()
+        Me.Label32 = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPageGenerales.SuspendLayout()
@@ -128,6 +135,10 @@ Partial Class FormParametrosAlmacen
         '
         'TabPageGenerales
         '
+        Me.TabPageGenerales.Controls.Add(Me.TextBoxCtaPuntoVerde)
+        Me.TabPageGenerales.Controls.Add(Me.Label32)
+        Me.TabPageGenerales.Controls.Add(Me.TextBoxCtaRoturas)
+        Me.TabPageGenerales.Controls.Add(Me.Label31)
         Me.TabPageGenerales.Controls.Add(Me.TextBoxCtaAlbaranesPdtesFormalizar)
         Me.TabPageGenerales.Controls.Add(Me.CheckBoxTipoFormalizaAlbaranes)
         Me.TabPageGenerales.Controls.Add(Me.Label28)
@@ -152,10 +163,28 @@ Partial Class FormParametrosAlmacen
         Me.TabPageGenerales.Text = "Generales"
         Me.TabPageGenerales.UseVisualStyleBackColor = True
         '
+        'TextBoxCtaRoturas
+        '
+        Me.TextBoxCtaRoturas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxCtaRoturas.Location = New System.Drawing.Point(150, 123)
+        Me.TextBoxCtaRoturas.MaxLength = 15
+        Me.TextBoxCtaRoturas.Name = "TextBoxCtaRoturas"
+        Me.TextBoxCtaRoturas.Size = New System.Drawing.Size(164, 20)
+        Me.TextBoxCtaRoturas.TabIndex = 27
+        '
+        'Label31
+        '
+        Me.Label31.AutoSize = True
+        Me.Label31.Location = New System.Drawing.Point(14, 125)
+        Me.Label31.Name = "Label31"
+        Me.Label31.Size = New System.Drawing.Size(66, 13)
+        Me.Label31.TabIndex = 26
+        Me.Label31.Text = "Cta. Roturas"
+        '
         'TextBoxCtaAlbaranesPdtesFormalizar
         '
         Me.TextBoxCtaAlbaranesPdtesFormalizar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxCtaAlbaranesPdtesFormalizar.Location = New System.Drawing.Point(186, 45)
+        Me.TextBoxCtaAlbaranesPdtesFormalizar.Location = New System.Drawing.Point(199, 84)
         Me.TextBoxCtaAlbaranesPdtesFormalizar.MaxLength = 15
         Me.TextBoxCtaAlbaranesPdtesFormalizar.Name = "TextBoxCtaAlbaranesPdtesFormalizar"
         Me.TextBoxCtaAlbaranesPdtesFormalizar.Size = New System.Drawing.Size(164, 20)
@@ -165,7 +194,7 @@ Partial Class FormParametrosAlmacen
         '
         Me.CheckBoxTipoFormalizaAlbaranes.AutoSize = True
         Me.CheckBoxTipoFormalizaAlbaranes.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.CheckBoxTipoFormalizaAlbaranes.Location = New System.Drawing.Point(186, 71)
+        Me.CheckBoxTipoFormalizaAlbaranes.Location = New System.Drawing.Point(17, 48)
         Me.CheckBoxTipoFormalizaAlbaranes.Name = "CheckBoxTipoFormalizaAlbaranes"
         Me.CheckBoxTipoFormalizaAlbaranes.Size = New System.Drawing.Size(323, 17)
         Me.CheckBoxTipoFormalizaAlbaranes.TabIndex = 24
@@ -175,7 +204,7 @@ Partial Class FormParametrosAlmacen
         'Label28
         '
         Me.Label28.AutoSize = True
-        Me.Label28.Location = New System.Drawing.Point(14, 47)
+        Me.Label28.Location = New System.Drawing.Point(39, 84)
         Me.Label28.Name = "Label28"
         Me.Label28.Size = New System.Drawing.Size(154, 13)
         Me.Label28.TabIndex = 22
@@ -276,7 +305,7 @@ Partial Class FormParametrosAlmacen
         '
         Me.CheckBoxSoloFacturas.AutoSize = True
         Me.CheckBoxSoloFacturas.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.CheckBoxSoloFacturas.Location = New System.Drawing.Point(17, 177)
+        Me.CheckBoxSoloFacturas.Location = New System.Drawing.Point(594, 48)
         Me.CheckBoxSoloFacturas.Name = "CheckBoxSoloFacturas"
         Me.CheckBoxSoloFacturas.Size = New System.Drawing.Size(88, 17)
         Me.CheckBoxSoloFacturas.TabIndex = 2
@@ -296,7 +325,7 @@ Partial Class FormParametrosAlmacen
         '
         Me.CheckBoxUsaNewPaga.AutoSize = True
         Me.CheckBoxUsaNewPaga.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.CheckBoxUsaNewPaga.Location = New System.Drawing.Point(17, 145)
+        Me.CheckBoxUsaNewPaga.Location = New System.Drawing.Point(594, 16)
         Me.CheckBoxUsaNewPaga.Name = "CheckBoxUsaNewPaga"
         Me.CheckBoxUsaNewPaga.Size = New System.Drawing.Size(92, 17)
         Me.CheckBoxUsaNewPaga.TabIndex = 0
@@ -452,9 +481,10 @@ Partial Class FormParametrosAlmacen
         'CheckBoxBuscaCuentasNewCentral
         '
         Me.CheckBoxBuscaCuentasNewCentral.AutoSize = True
+        Me.CheckBoxBuscaCuentasNewCentral.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.CheckBoxBuscaCuentasNewCentral.Location = New System.Drawing.Point(16, 172)
         Me.CheckBoxBuscaCuentasNewCentral.Name = "CheckBoxBuscaCuentasNewCentral"
-        Me.CheckBoxBuscaCuentasNewCentral.Size = New System.Drawing.Size(395, 17)
+        Me.CheckBoxBuscaCuentasNewCentral.Size = New System.Drawing.Size(392, 17)
         Me.CheckBoxBuscaCuentasNewCentral.TabIndex = 20
         Me.CheckBoxBuscaCuentasNewCentral.Text = "Cuentas de Gastos en Newcentral( Evita Conexiones al Hotel Cliente Servidor)"
         Me.CheckBoxBuscaCuentasNewCentral.UseVisualStyleBackColor = True
@@ -637,6 +667,9 @@ Partial Class FormParametrosAlmacen
         '
         'TabPageSantaMonica
         '
+        Me.TabPageSantaMonica.Controls.Add(Me.TextBoxNewPagaCtaPuente)
+        Me.TabPageSantaMonica.Controls.Add(Me.CheckBoxNewPagaAgrupaCtaPuente)
+        Me.TabPageSantaMonica.Controls.Add(Me.CheckBoxNewPagaUsaCtaPuente)
         Me.TabPageSantaMonica.Controls.Add(Me.TextBoxSpyroTiposMovTransFerencia)
         Me.TabPageSantaMonica.Controls.Add(Me.Label30)
         Me.TabPageSantaMonica.Controls.Add(Me.TextBoxSpyroTipoAnalitica)
@@ -648,10 +681,41 @@ Partial Class FormParametrosAlmacen
         Me.TabPageSantaMonica.Text = "Santa Mónica"
         Me.TabPageSantaMonica.UseVisualStyleBackColor = True
         '
+        'TextBoxNewPagaCtaPuente
+        '
+        Me.TextBoxNewPagaCtaPuente.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxNewPagaCtaPuente.Location = New System.Drawing.Point(366, 143)
+        Me.TextBoxNewPagaCtaPuente.Name = "TextBoxNewPagaCtaPuente"
+        Me.TextBoxNewPagaCtaPuente.Size = New System.Drawing.Size(143, 20)
+        Me.TextBoxNewPagaCtaPuente.TabIndex = 44
+        Me.TextBoxNewPagaCtaPuente.Tag = "PARA_CTAPUENTE_PAGOS"
+        '
+        'CheckBoxNewPagaAgrupaCtaPuente
+        '
+        Me.CheckBoxNewPagaAgrupaCtaPuente.AutoSize = True
+        Me.CheckBoxNewPagaAgrupaCtaPuente.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.CheckBoxNewPagaAgrupaCtaPuente.Location = New System.Drawing.Point(526, 146)
+        Me.CheckBoxNewPagaAgrupaCtaPuente.Name = "CheckBoxNewPagaAgrupaCtaPuente"
+        Me.CheckBoxNewPagaAgrupaCtaPuente.Size = New System.Drawing.Size(131, 17)
+        Me.CheckBoxNewPagaAgrupaCtaPuente.TabIndex = 43
+        Me.CheckBoxNewPagaAgrupaCtaPuente.Text = "Agrupa Cuenta Puente"
+        Me.CheckBoxNewPagaAgrupaCtaPuente.UseVisualStyleBackColor = True
+        '
+        'CheckBoxNewPagaUsaCtaPuente
+        '
+        Me.CheckBoxNewPagaUsaCtaPuente.AutoSize = True
+        Me.CheckBoxNewPagaUsaCtaPuente.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.CheckBoxNewPagaUsaCtaPuente.Location = New System.Drawing.Point(15, 146)
+        Me.CheckBoxNewPagaUsaCtaPuente.Name = "CheckBoxNewPagaUsaCtaPuente"
+        Me.CheckBoxNewPagaUsaCtaPuente.Size = New System.Drawing.Size(309, 17)
+        Me.CheckBoxNewPagaUsaCtaPuente.TabIndex = 42
+        Me.CheckBoxNewPagaUsaCtaPuente.Text = "(NewPaga) Usar Cuenta Puente  Asiento ""Pagos Recibidos"""
+        Me.CheckBoxNewPagaUsaCtaPuente.UseVisualStyleBackColor = True
+        '
         'TextBoxSpyroTiposMovTransFerencia
         '
         Me.TextBoxSpyroTiposMovTransFerencia.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxSpyroTiposMovTransFerencia.Location = New System.Drawing.Point(339, 65)
+        Me.TextBoxSpyroTiposMovTransFerencia.Location = New System.Drawing.Point(366, 63)
         Me.TextBoxSpyroTiposMovTransFerencia.Name = "TextBoxSpyroTiposMovTransFerencia"
         Me.TextBoxSpyroTiposMovTransFerencia.Size = New System.Drawing.Size(294, 20)
         Me.TextBoxSpyroTiposMovTransFerencia.TabIndex = 15
@@ -669,7 +733,7 @@ Partial Class FormParametrosAlmacen
         'TextBoxSpyroTipoAnalitica
         '
         Me.TextBoxSpyroTipoAnalitica.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxSpyroTipoAnalitica.Location = New System.Drawing.Point(173, 14)
+        Me.TextBoxSpyroTipoAnalitica.Location = New System.Drawing.Point(190, 14)
         Me.TextBoxSpyroTipoAnalitica.Name = "TextBoxSpyroTipoAnalitica"
         Me.TextBoxSpyroTipoAnalitica.Size = New System.Drawing.Size(88, 20)
         Me.TextBoxSpyroTipoAnalitica.TabIndex = 13
@@ -788,6 +852,24 @@ Partial Class FormParametrosAlmacen
         Me.Label77.TabIndex = 36
         Me.Label77.Text = "Hotel Nùmero"
         '
+        'TextBoxCtaPuntoVerde
+        '
+        Me.TextBoxCtaPuntoVerde.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxCtaPuntoVerde.Location = New System.Drawing.Point(150, 152)
+        Me.TextBoxCtaPuntoVerde.MaxLength = 15
+        Me.TextBoxCtaPuntoVerde.Name = "TextBoxCtaPuntoVerde"
+        Me.TextBoxCtaPuntoVerde.Size = New System.Drawing.Size(164, 20)
+        Me.TextBoxCtaPuntoVerde.TabIndex = 29
+        '
+        'Label32
+        '
+        Me.Label32.AutoSize = True
+        Me.Label32.Location = New System.Drawing.Point(14, 159)
+        Me.Label32.Name = "Label32"
+        Me.Label32.Size = New System.Drawing.Size(88, 13)
+        Me.Label32.TabIndex = 28
+        Me.Label32.Text = "Cta. Punto Verde"
+        '
         'FormParametrosAlmacen
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -889,4 +971,11 @@ Partial Class FormParametrosAlmacen
     Friend WithEvents Label29 As Label
     Friend WithEvents TextBoxSpyroTiposMovTransFerencia As TextBox
     Friend WithEvents Label30 As Label
+    Friend WithEvents TextBoxCtaRoturas As TextBox
+    Friend WithEvents Label31 As Label
+    Friend WithEvents CheckBoxNewPagaAgrupaCtaPuente As CheckBox
+    Friend WithEvents CheckBoxNewPagaUsaCtaPuente As CheckBox
+    Friend WithEvents TextBoxNewPagaCtaPuente As TextBox
+    Friend WithEvents TextBoxCtaPuntoVerde As TextBox
+    Friend WithEvents Label32 As Label
 End Class

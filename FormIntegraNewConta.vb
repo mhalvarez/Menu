@@ -725,8 +725,12 @@ Public Class FormIntegraNewConta
 
             If Me.mEmpGrupoCod = "DUNA" Then
                 ReportName = "SALDOS DUNAS.rpt"
-            Else
+            ElseIf Me.mEmpGrupoCod = "GRHL" Then
                 ReportName = "SALDOS HLOPEZ.rpt"
+            ElseIf Me.mEmpGrupoCod = "GSM" Or Me.mEmpGrupoCod = "GP" Then
+                ReportName = "SALDOS SMONICA.rpt"
+            Else
+                Exit Sub
             End If
 
             Me.Cursor = Cursors.WaitCursor

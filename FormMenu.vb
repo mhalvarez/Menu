@@ -818,79 +818,97 @@ Public Class FormMenu
     End Sub
     Private Sub ComprobarVersion()
         Try
+
+
             Dim SQL As String
             Dim MyIni As New cIniArray
 
             Dim FechaExe As Date
             Dim FechaBase As Date
             Dim Pat As String
+            Dim AuxStr As String
 
             Me.StatusBarPanelDialogo.Text = "Conectando a la Base de Datos"
             Me.Cursor = Cursors.WaitCursor
             Dim DB As New C_DATOS.C_DatosOledb(MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DATABASE", "STRING"))
 
+            If DB.EstadoConexion = ConnectionState.Open Then
+                DB.EjecutaSqlCommit("ALTER SESSION SET NLS_DATE_FORMAT = 'DD/MM/YYYY'")
+                Me.StatusBarPanelDialogo.Text = "Conectado a la Base de Datos " & StrConexionExtraeDataSource(MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DATABASE", "STRING"))
+                Me.Cursor = Cursors.Default
+
+                SQL = "SELECT PARA_FECHA_EXE FROM TH_PARA "
+                SQL += " WHERE PARA_EMPGRUPO_COD = '" & EMPGRUPO_COD & "'"
+                '  SQL += " AND  PARA_EMP_COD = '" & EMP_COD & "'"
+
+                AuxStr = DB.EjecutaSqlScalar(SQL)
+
+                If IsNothing(AuxStr) Then
+                    DB.CerrarConexion()
+                    MsgBox("No se Dispone de Parámetros para Grupo de Empresas " & EMPGRUPO_COD,, "Atención")
+                    Me.Close()
+                Else
+                    FechaExe = CType(DB.EjecutaSqlScalar(SQL), Date)
+                End If
+
+                SQL = "SELECT PARA_FECHA_BASE FROM TH_PARA"
+                SQL += " WHERE PARA_EMPGRUPO_COD = '" & EMPGRUPO_COD & "'"
+                '   SQL += " AND  PARA_EMP_COD = '" & EMP_COD & "'"
 
 
-            DB.EjecutaSqlCommit("ALTER SESSION SET NLS_DATE_FORMAT = 'DD/MM/YYYY'")
-            Me.StatusBarPanelDialogo.Text = "Conectado a la Base de Datos " & StrConexionExtraeDataSource(MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DATABASE", "STRING"))
-            Me.Cursor = Cursors.Default
+                FechaBase = CType(DB.EjecutaSqlScalar(SQL), Date)
 
-            SQL = "SELECT PARA_FECHA_EXE FROM TH_PARA "
-            SQL += " WHERE PARA_EMPGRUPO_COD = '" & EMPGRUPO_COD & "'"
-            '  SQL += " AND  PARA_EMP_COD = '" & EMP_COD & "'"
+                Me.StatusBarPanelVersionExe.Text = "Ejecutable = " & FechaExe & " Base de Datos = " & FechaBase
 
-            FechaExe = CType(DB.EjecutaSqlScalar(SQL), Date)
+                SQL = "SELECT NVL(PARA_PAT_NUM,'?') FROM TH_PARA"
+                SQL += " WHERE PARA_EMPGRUPO_COD = '" & EMPGRUPO_COD & "'"
+                '    SQL += " AND  PARA_EMP_COD = '" & EMP_COD & "'"
 
-            SQL = "SELECT PARA_FECHA_BASE FROM TH_PARA"
-            SQL += " WHERE PARA_EMPGRUPO_COD = '" & EMPGRUPO_COD & "'"
-            '   SQL += " AND  PARA_EMP_COD = '" & EMP_COD & "'"
+                Pat = CStr(DB.EjecutaSqlScalar(SQL))
 
-            FechaBase = CType(DB.EjecutaSqlScalar(SQL), Date)
+                SQL = "SELECT NVL(PARA_PASO,'?') FROM TH_PARA"
+                SQL += " WHERE PARA_EMPGRUPO_COD = '" & EMPGRUPO_COD & "'"
+                '     SQL += " AND  PARA_EMP_COD = '" & EMP_COD & "'"
 
-            Me.StatusBarPanelVersionExe.Text = "Ejecutable = " & FechaExe & " Base de Datos = " & FechaBase
-
-            SQL = "SELECT NVL(PARA_PAT_NUM,'?') FROM TH_PARA"
-            SQL += " WHERE PARA_EMPGRUPO_COD = '" & EMPGRUPO_COD & "'"
-            '    SQL += " AND  PARA_EMP_COD = '" & EMP_COD & "'"
-
-            Pat = CStr(DB.EjecutaSqlScalar(SQL))
-
-            SQL = "SELECT NVL(PARA_PASO,'?') FROM TH_PARA"
-            SQL += " WHERE PARA_EMPGRUPO_COD = '" & EMPGRUPO_COD & "'"
-            '     SQL += " AND  PARA_EMP_COD = '" & EMP_COD & "'"
-
-            PARA_PASO_OK = CStr(DB.EjecutaSqlScalar(SQL))
+                PARA_PASO_OK = CStr(DB.EjecutaSqlScalar(SQL))
 
 
-            Me.StatusBarPanelPat.Text = "Pat Num = " & Pat
+                Me.StatusBarPanelPat.Text = "Pat Num = " & Pat
 
 
 
-            Me.StatusBarMenu.Update()
+                Me.StatusBarMenu.Update()
 
-            If FechaExe > FechaBase Then
-                MsgBox("La versión del Ejecutable es superior a la Base de Datos " & vbCrLf & "Desea Actualizar ? ", MsgBoxStyle.Question)
-            End If
+                If FechaExe > FechaBase Then
+                    MsgBox("La versión del Ejecutable es superior a la Base de Datos " & vbCrLf & "Desea Actualizar ? ", MsgBoxStyle.Question)
+                End If
 
-            If FechaExe < FechaBase Then
-                MsgBox("La versión del Ejecutable no se corresponde con la Base de Datos ", MsgBoxStyle.Information)
-                Application.Exit()
-            End If
+                If FechaExe < FechaBase Then
+                    MsgBox("La versión del Ejecutable no se corresponde con la Base de Datos ", MsgBoxStyle.Information)
+                    Application.Exit()
+                End If
 
-            DB.CerrarConexion()
+                DB.CerrarConexion()
 
-            ' FONDO
-            Dim Fondo As String
+                ' FONDO
+                Dim Fondo As String
 
-            Fondo = MyIni.IniGet(Application.StartupPath & "\Menu.ini", "OPERATION", "FONDO")
+                Fondo = MyIni.IniGet(Application.StartupPath & "\Menu.ini", "OPERATION", "FONDO")
 
-            If Fondo.Length > 0 Then
-                If Fondo = 1 Then
-                    Me.BackgroundImage = My.Resources.ResourceFondos.propietarios
+                If Fondo.Length > 0 Then
+                    If Fondo = 1 Then
+                        Me.BackgroundImage = My.Resources.ResourceFondos.propietarios
+                    End If
+                Else
+                    MsgBox("Revise Parámetro FONDO en OPERATION del Fichero INI", MsgBoxStyle.Information, "Atención")
                 End If
             Else
-                MsgBox("Revise Parámetro FONDO en OPERATION del Fichero INI", MsgBoxStyle.Information, "Atención")
+
+                MsgBox("No se Dispone de acceso a la BAse de Datos",, "Atención")
+                Me.Close()
             End If
+
+
 
 
         Catch ex As Exception

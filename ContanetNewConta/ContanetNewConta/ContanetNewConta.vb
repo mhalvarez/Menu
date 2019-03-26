@@ -88,6 +88,8 @@ Public Class ContanetNewConta
     Private mParaFActNeg As Integer
     Private mParaFActNeg2 As Integer
 
+    Private mParaContaBilizaPagos As Integer
+
 
 
 
@@ -509,7 +511,7 @@ Public Class ContanetNewConta
             Me.mTextDebug.Update()
 
             SQL = "SELECT  NVL(PARA_ORIGENCUENTAS,0) AS PARA_ORIGENCUENTAS,NVL(PARA_CFATODIARI_COD,'?') AS  DIARIO,PARA_TRATA_ANULACIONES,NVL(PARA_USER_NEWHOTEL,'RMC') AS PARA_USER_NEWHOTEL "
-            SQL += ",NVL(PARA_USA_FACT_NEG,0) AS PARA_USA_FACT_NEG ,NVL(PARA_USA_FACT_NEG2,0) AS PARA_USA_FACT_NEG2,NVL(PARA_USA_FACT_ANUL,0) AS PARA_USA_FACT_ANUL ,NVL(PARA_USA_FACT_ANUL2,0) AS PARA_USA_FACT_ANUL2  "
+            SQL += ",NVL(PARA_USA_FACT_NEG,0) AS PARA_USA_FACT_NEG ,NVL(PARA_USA_FACT_NEG2,0) AS PARA_USA_FACT_NEG2,NVL(PARA_USA_FACT_ANUL,0) AS PARA_USA_FACT_ANUL ,NVL(PARA_USA_FACT_ANUL2,0) AS PARA_USA_FACT_ANUL2 ,PARA_USA_PAGOS "
             SQL += "  FROM TC_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
             SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
@@ -526,6 +528,7 @@ Public Class ContanetNewConta
 
                 Me.mParaFActNeg = CInt(Me.DbLeeCentral.mDbLector.Item("PARA_USA_FACT_NEG"))
                 Me.mParaFActNeg2 = CInt(Me.DbLeeCentral.mDbLector.Item("PARA_USA_FACT_NEG2"))
+                Me.mParaContaBilizaPagos = CInt(Me.DbLeeCentral.mDbLector.Item("PARA_USA_PAGOS"))
 
             Else
                 Me.mOrigenCuentasNewConta = 0
@@ -809,7 +812,7 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
 
             SQL = "INSERT INTO TC_ASNT(ASNT_TIPO_REGISTRO,ASNT_EMPGRUPO_COD,ASNT_EMP_COD,ASNT_CFEJERC_COD,ASNT_CFATODIARI_COD,ASNT_CFATOCAB_REFER,"
             SQL += "ASNT_LINEA,ASNT_CFCTA_COD,ASNT_CFCPTOS_COD,ASNT_AMPCPTO,ASNT_I_MONEMP,ASNT_CONCIL_SN,ASNT_F_ATOCAB,ASNT_F_VALOR,ASNT_NOMBRE,"
-            SQL += "ASNT_DEBE,ASNT_HABER,ASNT_AJUSTAR,ASNT_CIF,ASNT_IMPRIMIR,ASNT_EMP_NUM,ASNT_AUXILIAR_STRING,ASNT_DOC_CREDITO,ASNT_DOC_DEBITO,ASNT_DESC_CREDITO,ASNT_DESC_DEBITO,ASNT_RECIBO) values ('"
+            SQL += "ASNT_DEBE,ASNT_HABER,ASNT_AJUSTAR,ASNT_CIF,ASNT_IMPRIMIR,ASNT_EMP_NUM,ASNT_AUXILIAR_STRING,ASNT_DOC_CREDITO,ASNT_DOC_DEBITO,ASNT_DESC_CREDITO,ASNT_DESC_DEBITO,ASNT_RECIBOS) values ('"
             SQL += vTipo & "','"
             SQL += vEmpGrupoCod & "','"
             SQL += vEmpCod & "','"
@@ -955,7 +958,7 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
 
             SQL = "INSERT INTO TC_ASNT(ASNT_TIPO_REGISTRO,ASNT_EMPGRUPO_COD,ASNT_EMP_COD,ASNT_CFEJERC_COD,ASNT_CFATODIARI_COD,ASNT_CFATOCAB_REFER,"
             SQL += "ASNT_LINEA,ASNT_CFCTA_COD,ASNT_CFCPTOS_COD,ASNT_AMPCPTO,ASNT_I_MONEMP,ASNT_CONCIL_SN,ASNT_F_ATOCAB,ASNT_F_VALOR,ASNT_NOMBRE,"
-            SQL += "ASNT_DEBE,ASNT_HABER,ASNT_AJUSTAR,ASNT_CIF,ASNT_IMPRIMIR,ASNT_EMP_NUM,ASNT_AUXILIAR_STRING,ASNT_AUXILIAR_STRING2,ASNT_CFBCOCOMP_COMPROB,ASNT_BANCOS_NOT,ASNT_RECIBO) values ('"
+            SQL += "ASNT_DEBE,ASNT_HABER,ASNT_AJUSTAR,ASNT_CIF,ASNT_IMPRIMIR,ASNT_EMP_NUM,ASNT_AUXILIAR_STRING,ASNT_AUXILIAR_STRING2,ASNT_CFBCOCOMP_COMPROB,ASNT_BANCOS_NOT,ASNT_RECIBOS) values ('"
             SQL += vTipo & "','"
             SQL += vEmpGrupoCod & "','"
             SQL += vEmpCod & "','"
@@ -1604,6 +1607,8 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
             Dim DocDeb As String
             Dim Recibo As String
 
+
+
             SQL = "SELECT  'MOVIMIENTOS DE CREDITO TIPO PAGO' , 'DEBE',KEY_FIELD, VNCO_MOCO.HOTE_CODI,VNCO_MOCO.TACO_CODI,NVL(TNCO_TIMO.TIMO_COCO,'0') AS CUENTA, VNCO_MOCO.TIMO_CODI, "
             SQL += "         VNCO_MOCO.MOCO_DOCU, VNCO_MOCO.MOCO_DOC1, VNCO_MOCO.UNMO_CODI, "
             SQL += "         TRUNC (VNCO_MOCO.MOCO_DAVA) DAVA, VNCO_MOCO.MOCO_VAOR, "
@@ -1635,6 +1640,9 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
             '--
             '    SQL += "     AND VNCO_MOCO.MOCO_DAVA = '" & Me.mFecha & "'"
             SQL += "     AND VNCO_MOCO.MOCO_DATR = '" & Me.mFecha & "'"
+
+            ' Excluye Pagos Realizados y Anulados el mismo dia 
+            SQL += "  AND (VNCO_MOCO.MOCO_DAAN > VNCO_MOCO.MOCO_DATR  OR VNCO_MOCO.MOCO_DAAN IS NULL) "
 
             SQL += "   AND VNCO_MOCO.HOTE_CODI = '" & Me.mEstablecimientoNewConta & "'"
             SQL += "    ORDER BY VNCO_MOCO.MOCO_DAVA DESC, VNCO_MOCO.MOCO_ANUL "
@@ -1733,6 +1741,10 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
             '--
             '   SQL += "     AND VNCO_MOCO.MOCO_DAVA = '" & Me.mFecha & "'"
             SQL += "     AND VNCO_MOCO.MOCO_DATR= '" & Me.mFecha & "'"
+
+            ' Excluye Pagos Realizados y Anulados el mismo dia 
+            SQL += "  AND (VNCO_MOCO.MOCO_DAAN > VNCO_MOCO.MOCO_DATR  OR VNCO_MOCO.MOCO_DAAN IS NULL) "
+
             SQL += "     AND VNCO_MOCO.HOTE_CODI = '" & Me.mEstablecimientoNewConta & "'"
 
             SQL += "    ORDER BY VNCO_MOCO.MOCO_DAVA DESC, VNCO_MOCO.MOCO_ANUL "
@@ -4151,6 +4163,10 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
 
             Dim Recibo As String = ""
 
+            Dim AuxiliarTipoMovimiento As String
+
+            Dim TipoAsiento As Integer
+
 
             SQL = "SELECT '1', /*+ INDEX(TNCO_MORE TNCO_MORE_PRIMARY) */ TAC1.TACO_CODA "
             SQL += "                                                                    TACO_DACR, "
@@ -4226,10 +4242,14 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
             '  SQL += "   AND MOC1.TIMO_CODI <> '" & Me.mCodigoNotasCredito & "'"
 
             SQL += "  AND MORE_DARE = '" & Me.mFecha & "'"
+
+            ' Excluye Operaciones Realizadas y Anuladas el mismo dia 
+            SQL += "  AND (TNCO_MORE.MORE_DAAN > TNCO_MORE.MORE_DARE  OR TNCO_MORE.MORE_DAAN IS NULL) "
+
             SQL += "  AND MOCO.HOTE_CODI = '" & Me.mEstablecimientoNewConta & "'"
 
 
-            SQL += "ORDER BY SEFA_CODI,FACT_CODI"
+            SQL += " ORDER BY SEFA_CODI,FACT_CODI"
 
 
 
@@ -4242,9 +4262,14 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                 Cuenta = BuscaCuentaClienteNewHotel(CType(Me.DbNewConta.mDbLector("TACO_DEBI"), String))
 
                 If CType(Me.DbNewConta.mDbLector("TIPOPAGO"), String) = "0" Then
+                    '  TipoAsiento = 334
+                    TipoAsiento = 333
                     EsFormaDePago = False
+                    AuxiliarTipoMovimiento = CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " (-)"
                 Else
                     EsFormaDePago = True
+                    TipoAsiento = 333
+                    AuxiliarTipoMovimiento = CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String)
                 End If
 
 
@@ -4257,14 +4282,14 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                 End If
 
 
-                Recibo = BuscaReciboDeRegularizacion(CStr(Me.DbNewConta.mDbLector("TACO_DEBI")), CInt(Me.DbNewConta.mDbLector("MOCO_DEBI")))
+                Recibo = BuscaReciboDeRegularizacion(CStr(Me.DbNewConta.mDbLector("TACO_DEBI")), CInt(Me.DbNewConta.mDbLector("MOCO_DEBI")), Total, 0)
 
 
                 If Total <> 0 Then
                     Me.mTipoAsiento = "HABER"
 
 
-                    Me.InsertaOracleLopez("AC", 333, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("NOMBRE"), String), "SI", CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String).PadRight(50, CChar(" ")), "  Pagada con : " & CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), "", "", CDate(Format(CDate(Me.DbNewConta.mDbLector("DAVACRE")), "dd/MM/yyyy")), Recibo)
+                    Me.InsertaOracleLopez("AC", TipoAsiento, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("NOMBRE"), String), "SI", AuxiliarTipoMovimiento, "  Pagada con : " & CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), CStr(Me.DbNewConta.mDbLector("MOCO_CRED")), "", CDate(Format(CDate(Me.DbNewConta.mDbLector("MORE_DARE")), "dd/MM/yyyy")), Recibo)
                     Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), Total)
 
 
@@ -4341,8 +4366,13 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
             '    SQL += "   AND MOC1.TIMO_CODI <> '" & Me.mCodigoNotasCredito & "'"
 
             SQL += "  AND MORE_DARE = '" & Me.mFecha & "'"
+
+            ' Excluye Operaciones Realizadas y Anuladas el mismo dia 
+            SQL += "  AND (TNCO_MORE.MORE_DAAN > TNCO_MORE.MORE_DARE  OR TNCO_MORE.MORE_DAAN IS NULL) "
+
+
             SQL += "  AND MOCO.HOTE_CODI = '" & Me.mEstablecimientoNewConta & "'"
-            SQL += "ORDER BY SEFA_CODI,FACT_CODI"
+            SQL += " ORDER BY SEFA_CODI,FACT_CODI"
 
             Me.DbNewConta.TraerLector(SQL)
 
@@ -4353,9 +4383,14 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
 
 
                 If CType(Me.DbNewConta.mDbLector("TIPOPAGO"), String) = "0" Then
+                    '  TipoAsiento = 334
+                    TipoAsiento = 333
                     EsFormaDePago = False
+                    AuxiliarTipoMovimiento = CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " (-)"
                 Else
                     EsFormaDePago = True
+                    TipoAsiento = 333
+                    AuxiliarTipoMovimiento = CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String)
                 End If
 
                 ' Si el documento o parte del documento se saldo con una nota de credito el importe va negativo
@@ -4366,11 +4401,11 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                     Total = Math.Round(CType(Me.DbNewConta.mDbLector("TOTAL"), Double), 2)
                 End If
 
-                Recibo = BuscaReciboDeRegularizacion(CStr(Me.DbNewConta.mDbLector("TACO_DEBI")), CInt(Me.DbNewConta.mDbLector("MOCO_DEBI")))
+                Recibo = BuscaReciboDeRegularizacion(CStr(Me.DbNewConta.mDbLector("TACO_DEBI")), CInt(Me.DbNewConta.mDbLector("MOCO_DEBI")), Total, 0)
 
                 If Total <> 0 Then
                     Me.mTipoAsiento = "DEBE"
-                    Me.InsertaOracleLopez("AC", 333, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("NOMBRE"), String), "SI", CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String).PadRight(50, CChar(" ")) & " [Es Forma de PAgo = " & EsFormaDePago.ToString & "]", "  Paga a : " & CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), "", "", CDate(Format(CDate(Me.DbNewConta.mDbLector("DAVACRE")), "dd/MM/yyyy")), Recibo)
+                    Me.InsertaOracleLopez("AC", TipoAsiento, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("NOMBRE"), String), "SI", AuxiliarTipoMovimiento, "  Paga a : " & CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), CStr(Me.DbNewConta.mDbLector("MOCO_CRED")), "", CDate(Format(CDate(Me.DbNewConta.mDbLector("MORE_DARE")), "dd/MM/yyyy")), Recibo)
                     Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, " " & CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), Total)
                 End If
             End While
@@ -4389,6 +4424,8 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
             Dim EsFormaDePago As Boolean = False
 
             Dim Recibo As String
+            Dim AuxiliarTipoMovimiento As String
+            Dim TipoAsiento As Integer
 
 
             SQL = "SELECT '1', /*+ INDEX(TNCO_MORE TNCO_MORE_PRIMARY) */ TAC1.TACO_CODA "
@@ -4468,8 +4505,12 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
             '   SQL += "   AND MOC1.TIMO_CODI <> '" & Me.mCodigoNotasCredito & "'"
 
             SQL += "  AND MORE_DAAN = '" & Me.mFecha & "'"
-            SQL += "  AND MOCO.HOTE_CODI = '" & Me.mEstablecimientoNewConta & "'"
 
+            ' Excluye Operaciones Realizadas y Anuladas el mismo dia 
+            SQL += "  AND (TNCO_MORE.MORE_DAAN > TNCO_MORE.MORE_DARE  OR TNCO_MORE.MORE_DAAN IS NULL) "
+
+            SQL += "  AND MOCO.HOTE_CODI = '" & Me.mEstablecimientoNewConta & "'"
+            SQL += " ORDER BY SEFA_CODI,FACT_CODI"
 
 
 
@@ -4488,9 +4529,14 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
 
 
                 If CType(Me.DbNewConta.mDbLector("TIPOPAGO"), String) = "0" Then
+                    '  TipoAsiento = 778
+                    TipoAsiento = 777
                     EsFormaDePago = False
+                    AuxiliarTipoMovimiento = CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " (-)"
                 Else
                     EsFormaDePago = True
+                    TipoAsiento = 777
+                    AuxiliarTipoMovimiento = CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String)
                 End If
 
 
@@ -4502,12 +4548,12 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                     Total = Math.Round(CType(Me.DbNewConta.mDbLector("TOTAL"), Double), 2) * -1
                 End If
 
-                Recibo = BuscaReciboDeRegularizacion(CStr(Me.DbNewConta.mDbLector("TACO_DEBI")), CInt(Me.DbNewConta.mDbLector("MOCO_DEBI")))
+                Recibo = BuscaReciboDeRegularizacion(CStr(Me.DbNewConta.mDbLector("TACO_DEBI")), CInt(Me.DbNewConta.mDbLector("MOCO_DEBI")), Total * -1, 1)
 
                 If Total <> 0 Then
                     Me.mTipoAsiento = "HABER"
 
-                    Me.InsertaOracleLopez("AC", 777, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("NOMBRE"), String), "SI", CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String).PadRight(50, CChar(" ")), " Pagada con : " & CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), "", "", CDate(Format(CDate(Me.DbNewConta.mDbLector("DAVACRE")), "dd/MM/yyyy")), Recibo)
+                    Me.InsertaOracleLopez("AC", TipoAsiento, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("NOMBRE"), String), "SI", AuxiliarTipoMovimiento, " Pagada con : " & CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), CStr(Me.DbNewConta.mDbLector("MOCO_CRED")), "", CDate(Format(CDate(Me.DbNewConta.mDbLector("MORE_DARE")), "dd/MM/yyyy")), Recibo)
                     Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaber, CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), Total)
 
 
@@ -4586,7 +4632,12 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
             '   SQL += "   AND MOC1.TIMO_CODI <> '" & Me.mCodigoNotasCredito & "'"
 
             SQL += "  AND MORE_DAAN = '" & Me.mFecha & "'"
+
+            ' Excluye Operaciones Realizadas y Anuladas el mismo dia 
+            SQL += "  AND (TNCO_MORE.MORE_DAAN > TNCO_MORE.MORE_DARE  OR TNCO_MORE.MORE_DAAN IS NULL) "
+
             SQL += "  AND MOCO.HOTE_CODI = '" & Me.mEstablecimientoNewConta & "'"
+            SQL += " ORDER BY SEFA_CODI,FACT_CODI"
 
 
             Me.DbNewConta.TraerLector(SQL)
@@ -4600,9 +4651,14 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
 
 
                 If CType(Me.DbNewConta.mDbLector("TIPOPAGO"), String) = "0" Then
+                    '  TipoAsiento = 778
+                    TipoAsiento = 777
                     EsFormaDePago = False
+                    AuxiliarTipoMovimiento = CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String) & " (-)"
                 Else
                     EsFormaDePago = True
+                    TipoAsiento = 777
+                    AuxiliarTipoMovimiento = CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String)
                 End If
 
 
@@ -4614,11 +4670,11 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                     Total = Math.Round(CType(Me.DbNewConta.mDbLector("TOTAL"), Double), 2) * -1
                 End If
 
-                Recibo = BuscaReciboDeRegularizacion(CStr(Me.DbNewConta.mDbLector("TACO_DEBI")), CInt(Me.DbNewConta.mDbLector("MOCO_DEBI")))
+                Recibo = BuscaReciboDeRegularizacion(CStr(Me.DbNewConta.mDbLector("TACO_DEBI")), CInt(Me.DbNewConta.mDbLector("MOCO_DEBI")), Total * -1, 1)
 
                 If Total <> 0 Then
                     Me.mTipoAsiento = "DEBE"
-                    Me.InsertaOracleLopez("AC", 777, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("NOMBRE"), String), "SI", CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String).PadRight(50, CChar(" ")) & " [Es Forma de PAgo = " & EsFormaDePago.ToString & "]", " Paga a : " & CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), "", "", CDate(Format(CDate(Me.DbNewConta.mDbLector("DAVACRE")), "dd/MM/yyyy")), Recibo)
+                    Me.InsertaOracleLopez("AC", TipoAsiento, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("NOMBRE"), String), "SI", AuxiliarTipoMovimiento, " Paga a : " & CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), CStr(Me.DbNewConta.mDbLector("MOCO_CRED")), "", CDate(Format(CDate(Me.DbNewConta.mDbLector("MORE_DARE")), "dd/MM/yyyy")), Recibo)
                     Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, " " & CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), Total)
                 End If
             End While
@@ -4649,7 +4705,11 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                 Me.mTextDebug.Text = "Calculando Pagos Recibidos"
                 Me.mTextDebug.Update()
 
-                Me.NCPagosRecibidos()
+
+                If Me.mParaContaBilizaPagos = 1 Then
+                    Me.NCPagosRecibidos()
+                End If
+
 
                 If Me.mParaFActNeg = 1 Then
                     Me.NCPagosRecibidosFacturasNegativas()
@@ -4662,82 +4722,72 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
 
 
                 Me.mProgress.Value = 10
-                    Me.mProgress.Update()
+                Me.mProgress.Update()
 
-                    Me.mTextDebug.Text = "Calculando Facturas Regularizadas"
+                Me.mTextDebug.Text = "Calculando Facturas Regularizadas"
+                Me.mTextDebug.Update()
+
+                '  Me.NCFacturasRegularizadas()
+
+                Me.NCFacturasRegularizadasLopez()
+
+                Me.mProgress.Value = 20
+                Me.mProgress.Update()
+
+
+
+                Me.mTextDebug.Text = "Calculando Facturas Des-Regularizadas por Pagos anulados"
+                Me.mTextDebug.Update()
+
+                '  Me.NCFacturasRegularizadasAnuladas2()
+                Me.NCFacturasRegularizadasAnuladasLopez()
+
+
+
+                Me.mProgress.Value = 30
+                Me.mProgress.Update()
+
+
+
+
+                Me.mTextDebug.Text = "Calculando Pagos de Más"
+                Me.mTextDebug.Update()
+                Me.NCPagosDeMas()
+
+                Me.mProgress.Value = 40
+                Me.mProgress.Update()
+
+
+                If Me.mOtrosCreditos = True Then
+                    Me.mTextDebug.Text = "Calculando Otros Movimientos"
                     Me.mTextDebug.Update()
 
+                    Me.NCOtrosMovimientosCredito()
 
-
-                    '  Me.NCFacturasRegularizadas()
-
-                    Me.NCFacturasRegularizadasLopez()
-
-
-
-
-
-
-
-
-                    Me.mProgress.Value = 20
+                    Me.mProgress.Value = 50
                     Me.mProgress.Update()
+                End If
 
 
 
-                    Me.mTextDebug.Text = "Calculando Facturas Des-Regularizadas por Pagos anulados"
+                If Me.mOtrosDebitos = True Then
+                    Me.mTextDebug.Text = "Calculando Otros Movimientos"
                     Me.mTextDebug.Update()
 
-                    '  Me.NCFacturasRegularizadasAnuladas2()
-                    Me.NCFacturasRegularizadasAnuladasLopez()
+                    Me.NCOtrosMovimientosDebito()
 
-
-
-                    Me.mProgress.Value = 30
+                    Me.mProgress.Value = 60
                     Me.mProgress.Update()
-
-
-
-
-                    Me.mTextDebug.Text = "Calculando Pagos de Más"
-                    Me.mTextDebug.Update()
-
-                    Me.NCPagosDeMas()
-
-                    Me.mProgress.Value = 40
-                    Me.mProgress.Update()
-
-
-                    If Me.mOtrosCreditos = True Then
-                        Me.mTextDebug.Text = "Calculando Otros Movimientos"
-                        Me.mTextDebug.Update()
-
-                        Me.NCOtrosMovimientosCredito()
-
-                        Me.mProgress.Value = 50
-                        Me.mProgress.Update()
-                    End If
-
-
-
-                    If Me.mOtrosDebitos = True Then
-                        Me.mTextDebug.Text = "Calculando Otros Movimientos"
-                        Me.mTextDebug.Update()
-
-                        Me.NCOtrosMovimientosDebito()
-
-                        Me.mProgress.Value = 60
-                        Me.mProgress.Update()
-
-                    End If
-
 
                 End If
 
 
-                ' VALIDACION DE CUENTAS EB SPYRO TODAS JUNTAS AL FINAL
+            End If
 
-                If Me.mParaValidaSpyro = 1 Then
+
+            ' VALIDACION DE CUENTAS EB SPYRO TODAS JUNTAS AL FINAL
+
+            If Me.mParaValidaSpyro = 1 Then
                 Me.SpyroCompruebaCuentasCorto()
                 '   Me.SpyroCompruebaBancos()
             End If
@@ -5235,30 +5285,50 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
         End Try
 
     End Function
-    Private Function BuscaReciboDeRegularizacion(ByVal vTacoCodi As String, vMocoCodi As Integer) As String
+    Private Function BuscaReciboDeRegularizacion(ByVal vTacoCodi As String, vMocoCodi As Integer, vDereVare As Double, vAnulado As Integer) As String
 
         Try
             Dim Result As String = ""
 
-            SQL = "SELECT RECO_CODI || '/' || RECO_ANCI AS RECIBO"
-            SQL += " FROM TNCO_DERE "
-            SQL += " WHERE TACO_CODI = " & "'" & vTacoCodi & "'"
-            SQL += " AND MOCO_CODI  = " & vMocoCodi
+            SQL = "SELECT TNCO_DERE.RECO_CODI || '/' || TNCO_DERE.RECO_ANCI AS RECIBO"
+            SQL += " FROM TNCO_DERE,TNCO_RECO "
+            SQL += " WHERE "
 
+            SQL += "  TNCO_DERE.RECO_CODI = TNCO_RECO.RECO_CODI"
+            SQL += " AND TNCO_DERE.RECO_ANCI = TNCO_RECO.RECO_ANCI"
+            SQL += "  AND TNCO_DERE.TACO_CODI = " & "'" & vTacoCodi & "'"
+            SQL += " AND TNCO_DERE.MOCO_CODI  = " & vMocoCodi
+            SQL += " AND DERE_VARE  = " & vDereVare
+            If vAnulado = 0 Then
+                SQL += "  AND RECO_DAEM = '" & Me.mFecha & "'"
+                SQL += "  AND RECO_ANUL = '" & "0" & "'"
 
-            Result = Me.DbNewContaAux.EjecutaSqlScalar(SQL)
-
-            If Result.Length > 0 Then
-                Return Result
             Else
-                Return "?"
+                SQL += "  AND RECO_DAAN = '" & Me.mFecha & "'"
             End If
+
+
+            Me.DbNewContaAux.TraerLector(SQL)
+
+
+            While Me.DbNewContaAux.mDbLector.Read
+                If Result = "" Then
+                    Result = CStr(Me.DbNewContaAux.mDbLector.Item("RECIBO"))
+                Else
+                    Result = Result & " , " & CStr(Me.DbNewContaAux.mDbLector.Item("RECIBO"))
+                    End If
+                End While
+            Me.DbNewContaAux.mDbLector.Close()
+
+
+            Return Result
+
 
 
 
         Catch ex As Exception
             MsgBox(ex.Message)
-            Return "?"
+            Return "No Localizado"
         End Try
 
     End Function
@@ -5279,10 +5349,10 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                 If Result.Length > 0 Then
                     Return Result
                 Else
-                    Return "?"
+                    Return ""
                 End If
             Else
-                Return "?"
+                Return ""
             End If
 
 

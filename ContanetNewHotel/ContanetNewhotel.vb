@@ -146,6 +146,7 @@ Public Class ContaNetNewHotel
     Private SQL As String
     Private Linea As Integer
     Private mTexto As String
+    Private mOrigenMovimiento As String
     Private Filegraba As StreamWriter
     Private FileEstaOk As Boolean = False
     Private DbLeeCentral As C_DATOS.C_DatosOledb
@@ -3931,10 +3932,14 @@ Public Class ContaNetNewHotel
 
 
             SQL = "SELECT TNHT_MOVI.MOVI_VDEB TOTAL,TNHT_CACR.CACR_DESC TARJETA,NVL(TNHT_CACR.CACR_CTBA,'0') CUENTA,"
-            SQL = SQL & "NVL(FNHT_MOVI_RECI(TNHT_MOVI.MOVI_CODI,TNHT_MOVI.MOVI_DARE,TNHT_MOVI.MOVI_TIMO),'?') RECI_COBR,NVL(MOVI_NUDO,' ') MOVI_NUDO,NVL(MOVI_DESC,' ') MOVI_DESC,NVL(SECC_CODI,'?') AS SECC_CODI"
+            SQL = SQL & "NVL(SECC_CODI,'?') AS SECC_CODI"
             SQL = SQL & " ,TNHT_MOVI.CCEX_CODI AS CCEX_CODI,NVL(TNHT_CCEX.CCEX_TITU,' ') AS CCEX_TITU "
 
             SQL = SQL & ",TNHT_MOVI.RESE_CODI,TNHT_MOVI.RESE_ANCI,TNHT_MOVI.ALOJ_CODI "
+
+            SQL += "   ,NVL(FNHT_MOVI_RECI(TNHT_MOVI.MOVI_CODI, TNHT_MOVI.MOVI_DARE, TNHT_MOVI.MOVI_TIMO),' ') AS RECI_COBR "
+            SQL += "   ,NVL(MOVI_NUDO, ' ') MOVI_NUDO"
+            SQL += "   ,NVL(MOVI_DESC, ' ') MOVI_DESC,NVL(MOVI_ORIG,'0') AS MOVI_ORIG "
 
             SQL = SQL & " FROM " & Me.mStrHayHistorico & " TNHT_MOVI,TNHT_CACR,TNHT_RESE,TNHT_CCEX  "
             SQL = SQL & " WHERE TNHT_MOVI.CACR_CODI = TNHT_CACR.CACR_CODI"
@@ -3963,7 +3968,7 @@ Public Class ContaNetNewHotel
                 SQL = SQL & " AND TNHT_MOVI.MOVI_AUTO = '0' "
             End If
 
-            SQL = SQL & " ORDER BY TNHT_MOVI.MOVI_HORE ASC "
+            SQL = SQL & " ORDER BY RECI_COBR,MOVI_NUDO ASC "
             '
             '  SQL = SQL & " GROUP BY TNHT_MOVI.CACR_CODI,TNHT_CACR.CACR_DESC,TNHT_CACR.CACR_CTBA"
 
@@ -4003,13 +4008,26 @@ Public Class ContaNetNewHotel
                     AlojCodi = ""
                 End If
 
+                If IsDBNull(Me.DbLeeHotel.mDbLector("MOVI_ORIG")) Then
+                    Me.mOrigenMovimiento = "0"
+                Else
+                    Me.mOrigenMovimiento = CStr(Me.DbLeeHotel.mDbLector("MOVI_ORIG"))
+                End If
+
+                If Me.mOrigenMovimiento <> "0" Then
+                    Me.mTexto = CStr(Me.DbLeeHotel.mDbLector("TARJETA")) & " (TPV) " & CStr(Me.DbLeeHotel.mDbLector("MOVI_NUDO"))
+                Else
+                    Me.mTexto = CStr(Me.DbLeeHotel.mDbLector("TARJETA")) & " " & CStr(Me.DbLeeHotel.mDbLector("MOVI_DESC")) & " " & CStr(Me.DbLeeHotel.mDbLector("RECI_COBR"))
+                End If
+
+
 
                 Total = CType(Me.DbLeeHotel.mDbLector("TOTAL"), Double)
                 If Total <> 0 Then
                     Linea = Linea + 1
                     Me.mTipoAsiento = "DEBE"
-                    Me.InsertaOracle("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", "", "SI", "ANTICIPO RECIBIDO", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), CcExCodi, "", ReseCodi, ReseAnci, AlojCodi)
-                    Me.GeneraFileACMultiDiario("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, Me.Multidiario)
+                    Me.InsertaOracle("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, Me.mTexto, Total, "NO", "", "", "SI", "ANTICIPO RECIBIDO", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), CcExCodi, "", ReseCodi, ReseAnci, AlojCodi)
+                    Me.GeneraFileACMultiDiario("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, Me.mTexto, Total, Me.Multidiario)
                 End If
 
 
@@ -4032,9 +4050,12 @@ Public Class ContaNetNewHotel
         Dim AlojCodi As String
 
         SQL = "SELECT TNHT_MOVI.MOVI_VDEB TOTAL,TNHT_FORE.FORE_DESC TIPO,NVL(TNHT_FORE.FORE_CTB1,'0') CUENTA,"
-        SQL = SQL & "NVL(FNHT_MOVI_RECI(TNHT_MOVI.MOVI_CODI,TNHT_MOVI.MOVI_DARE,TNHT_MOVI.MOVI_TIMO),'?') RECI_COBR,NVL(MOVI_NUDO,' ') MOVI_NUDO,NVL(MOVI_DESC,' ') MOVI_DESC,NVL(SECC_CODI,'?') AS SECC_CODI "
+        SQL = SQL & "NVL(SECC_CODI,'?') AS SECC_CODI "
         SQL = SQL & " ,TNHT_MOVI.CCEX_CODI AS CCEX_CODI,NVL(TNHT_CCEX.CCEX_TITU,' ') AS CCEX_TITU "
         SQL = SQL & ",TNHT_MOVI.RESE_CODI,TNHT_MOVI.RESE_ANCI,TNHT_MOVI.ALOJ_CODI "
+        SQL += "   ,NVL(FNHT_MOVI_RECI(TNHT_MOVI.MOVI_CODI, TNHT_MOVI.MOVI_DARE, TNHT_MOVI.MOVI_TIMO),' ') AS RECI_COBR "
+        SQL += "   ,NVL(MOVI_NUDO, ' ') MOVI_NUDO"
+        SQL += "   ,NVL(MOVI_DESC, ' ') MOVI_DESC,NVL(MOVI_ORIG,'0') AS MOVI_ORIG "
         SQL = SQL & " FROM " & Me.mStrHayHistorico & " TNHT_MOVI,TNHT_FORE,TNHT_RESE,TNHT_CCEX "
         SQL = SQL & " WHERE TNHT_MOVI.FORE_CODI = TNHT_FORE.FORE_CODI "
         SQL = SQL & " AND TNHT_MOVI.RESE_CODI = TNHT_RESE.RESE_CODI(+) "
@@ -4065,7 +4086,7 @@ Public Class ContaNetNewHotel
         If Me.mUsaTnhtMoviAuto = True Then
             SQL = SQL & " AND TNHT_MOVI.MOVI_AUTO = '0' "
         End If
-        SQL = SQL & " ORDER BY TNHT_MOVI.MOVI_HORE ASC "
+        SQL = SQL & " ORDER BY RECI_COBR,MOVI_NUDO ASC "
 
         '   SQL = SQL & " GROUP BY TNHT_MOVI.TIRE_CODI,TNHT_MOVI.FORE_CODI,TNHT_FORE.FORE_DESC,TNHT_FORE.FORE_CTB1"
         Me.DbLeeHotel.TraerLector(SQL)
@@ -4103,13 +4124,24 @@ Public Class ContaNetNewHotel
                 AlojCodi = ""
             End If
 
+            If IsDBNull(Me.DbLeeHotel.mDbLector("MOVI_ORIG")) Then
+                Me.mOrigenMovimiento = "0"
+            Else
+                Me.mOrigenMovimiento = CStr(Me.DbLeeHotel.mDbLector("MOVI_ORIG"))
+            End If
+
+            If Me.mOrigenMovimiento <> "0" Then
+                Me.mTexto = CStr(Me.DbLeeHotel.mDbLector("TIPO")) & " (TPV) " & CStr(Me.DbLeeHotel.mDbLector("MOVI_NUDO"))
+            Else
+                Me.mTexto = CStr(Me.DbLeeHotel.mDbLector("TIPO")) & " " & CStr(Me.DbLeeHotel.mDbLector("MOVI_DESC")) & " " & CStr(Me.DbLeeHotel.mDbLector("RECI_COBR"))
+            End If
 
             Total = CType(Me.DbLeeHotel.mDbLector("TOTAL"), Double)
             If Total <> 0 Then
                 Linea = Linea + 1
                 Me.mTipoAsiento = "DEBE"
-                Me.InsertaOracle("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TIPO"), String) & " " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", "", "SI", "ANTICIPO RECIBIDO", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), CcExCodi, "", ReseCodi, ReseAnci, AlojCodi)
-                Me.GeneraFileACMultiDiario("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TIPO"), String) & " " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, Me.Multidiario)
+                Me.InsertaOracle("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, Me.mTexto, Total, "NO", "", "", "SI", "ANTICIPO RECIBIDO", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), CcExCodi, "", ReseCodi, ReseAnci, AlojCodi)
+                Me.GeneraFileACMultiDiario("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, Me.mTexto, Total, Me.Multidiario)
             End If
 
 
@@ -4125,10 +4157,13 @@ Public Class ContaNetNewHotel
         Dim ReseAnci As String
         Dim AlojCodi As String
 
-        SQL = "SELECT TNHT_MOVI.RESE_CODI || '/' || TNHT_MOVI.RESE_ANCI RESERVA,NVL(RESE_ANPH,'?') CLIENTE ,TNHT_MOVI.MOVI_VDEB TOTAL,NVL(MOVI_DESC,' ') MOVI_DESC,"
+        SQL = "SELECT TNHT_MOVI.RESE_CODI || '/' || TNHT_MOVI.RESE_ANCI RESERVA,NVL(RESE_ANPH,'?') CLIENTE ,TNHT_MOVI.MOVI_VDEB TOTAL, "
         SQL = SQL & " TNHT_CACR.CACR_DESC TARJETA,MOVI_DAVA,NVL(SECC_CODI,'?') AS SECC_CODI "
         SQL = SQL & " ,TNHT_MOVI.CCEX_CODI AS CCEX_CODI,NVL(TNHT_CCEX.CCEX_TITU,' ') AS CCEX_TITU "
-        SQL = SQL & ",TNHT_MOVI.RESE_CODI,TNHT_MOVI.RESE_ANCI,TNHT_MOVI.ALOJ_CODI "
+        SQL = SQL & ",TNHT_MOVI.RESE_CODI,TNHT_MOVI.RESE_ANCI,TNHT_MOVI.ALOJ_CODI"
+        SQL += "   ,NVL(FNHT_MOVI_RECI(TNHT_MOVI.MOVI_CODI, TNHT_MOVI.MOVI_DARE, TNHT_MOVI.MOVI_TIMO),' ') AS RECI_COBR "
+        SQL += "   ,NVL(MOVI_NUDO, ' ') MOVI_NUDO"
+        SQL += "   ,NVL(MOVI_DESC, ' ') MOVI_DESC ,NVL(MOVI_ORIG,'0') AS MOVI_ORIG "
         SQL = SQL & " FROM " & Me.mStrHayHistorico & " TNHT_MOVI,"
         SQL = SQL & " TNHT_CACR,TNHT_RESE,TNHT_CCEX  WHERE TNHT_MOVI.CACR_CODI = TNHT_CACR.CACR_CODI"
         SQL = SQL & " AND TNHT_MOVI.RESE_CODI = TNHT_RESE.RESE_CODI(+) "
@@ -4156,7 +4191,7 @@ Public Class ContaNetNewHotel
         If Me.mUsaTnhtMoviAuto = True Then
             SQL = SQL & " AND TNHT_MOVI.MOVI_AUTO = '0' "
         End If
-        SQL = SQL & " ORDER BY TNHT_MOVI.MOVI_HORE ASC "
+        SQL = SQL & " ORDER BY RECI_COBR,MOVI_NUDO ASC "
 
         Me.DbLeeHotel.TraerLector(SQL)
         While Me.DbLeeHotel.mDbLector.Read
@@ -4196,11 +4231,23 @@ Public Class ContaNetNewHotel
                 AlojCodi = ""
             End If
 
+            If IsDBNull(Me.DbLeeHotel.mDbLector("MOVI_ORIG")) Then
+                Me.mOrigenMovimiento = "0"
+            Else
+                Me.mOrigenMovimiento = CStr(Me.DbLeeHotel.mDbLector("MOVI_ORIG"))
+            End If
+
+            If Me.mOrigenMovimiento <> "0" Then
+                Me.mTexto = CStr(Me.DbLeeHotel.mDbLector("TARJETA")) & " (TPV) " & CStr(Me.DbLeeHotel.mDbLector("MOVI_NUDO"))
+            Else
+                Me.mTexto = CStr(Me.DbLeeHotel.mDbLector("TARJETA")) & " " & CStr(Me.DbLeeHotel.mDbLector("MOVI_DESC")) & " " & CStr(Me.DbLeeHotel.mDbLector("RECI_COBR"))
+            End If
+
             If Total <> 0 Then
                 Linea = Linea + 1
                 Me.mTipoAsiento = "HABER"
-                Me.InsertaOracle("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", "F. Valor " & CType(Me.DbLeeHotel.mDbLector("MOVI_DAVA"), String), "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), CcExCodi, ReseCodi, ReseAnci, AlojCodi)
-                Me.GeneraFileACMultiDiario("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaber, CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, Me.Multidiario)
+                Me.InsertaOracle("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, Me.mTexto, Total, "NO", "", "F. Valor " & CType(Me.DbLeeHotel.mDbLector("MOVI_DAVA"), String), "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), CcExCodi, ReseCodi, ReseAnci, AlojCodi)
+                Me.GeneraFileACMultiDiario("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaber, Me.mTexto, Total, Me.Multidiario)
             End If
 
 
@@ -4216,11 +4263,13 @@ Public Class ContaNetNewHotel
         Dim ReseAnci As String
         Dim AlojCodi As String
 
-        SQL = "SELECT TNHT_MOVI.RESE_CODI || '/' || TNHT_MOVI.RESE_ANCI RESERVA,NVL(RESE_ANPH,'?') CLIENTE,TNHT_MOVI.MOVI_VDEB TOTAL,TNHT_FORE.FORE_DESC TIPO,NVL(TNHT_FORE.FORE_CTB1,'0') CUENTA,MOVI_DAVA,NVL(MOVI_DESC,' ') MOVI_DESC,NVL(SECC_CODI,'?') AS SECC_CODI "
+        SQL = "SELECT TNHT_MOVI.RESE_CODI || '/' || TNHT_MOVI.RESE_ANCI RESERVA,NVL(RESE_ANPH,'?') CLIENTE,TNHT_MOVI.MOVI_VDEB TOTAL,TNHT_FORE.FORE_DESC TIPO,NVL(TNHT_FORE.FORE_CTB1,'0') CUENTA,MOVI_DAVA,NVL(SECC_CODI,'?') AS SECC_CODI "
+        SQL = SQL & " ,TNHT_MOVI.CCEX_CODI AS CCEX_CODI ,NVL(TNHT_CCEX.CCEX_TITU,' ') AS CCEX_TITU  "
+        SQL = SQL & ",TNHT_MOVI.RESE_CODI,TNHT_MOVI.RESE_ANCI,TNHT_MOVI.ALOJ_CODI"
+        SQL += "   ,NVL(FNHT_MOVI_RECI(TNHT_MOVI.MOVI_CODI, TNHT_MOVI.MOVI_DARE, TNHT_MOVI.MOVI_TIMO),' ') AS RECI_COBR "
+        SQL += "   ,NVL(MOVI_NUDO, ' ') MOVI_NUDO"
+        SQL += "   ,NVL(MOVI_DESC, ' ') MOVI_DESC,NVL(MOVI_ORIG,'0') AS MOVI_ORIG "
 
-        SQL = SQL & " ,TNHT_MOVI.CCEX_CODI AS CCEX_CODI ,NVL(TNHT_CCEX.CCEX_TITU,' ') AS CCEX_TITU "
-
-        SQL = SQL & ",TNHT_MOVI.RESE_CODI,TNHT_MOVI.RESE_ANCI,TNHT_MOVI.ALOJ_CODI "
         SQL = SQL & " FROM " & Me.mStrHayHistorico & " TNHT_MOVI,TNHT_FORE,TNHT_RESE,TNHT_CCEX WHERE "
 
         SQL = SQL & " TNHT_MOVI.FORE_CODI = TNHT_FORE.FORE_CODI "
@@ -4252,7 +4301,7 @@ Public Class ContaNetNewHotel
             SQL = SQL & " AND TNHT_MOVI.MOVI_AUTO = '0' "
         End If
 
-        SQL = SQL & " ORDER BY TNHT_MOVI.MOVI_HORE ASC "
+        SQL = SQL & " ORDER BY RECI_COBR,MOVI_NUDO ASC "
 
         Me.DbLeeHotel.TraerLector(SQL)
         While Me.DbLeeHotel.mDbLector.Read
@@ -4292,13 +4341,23 @@ Public Class ContaNetNewHotel
             End If
 
 
+            If IsDBNull(Me.DbLeeHotel.mDbLector("MOVI_ORIG")) Then
+                Me.mOrigenMovimiento = "0"
+            Else
+                Me.mOrigenMovimiento = CStr(Me.DbLeeHotel.mDbLector("MOVI_ORIG"))
+            End If
+
+            If Me.mOrigenMovimiento <> "0" Then
+                Me.mTexto = CStr(Me.DbLeeHotel.mDbLector("TIPO")) & " (TPV) " & CStr(Me.DbLeeHotel.mDbLector("MOVI_NUDO"))
+            Else
+                Me.mTexto = CStr(Me.DbLeeHotel.mDbLector("TIPO")) & " " & CStr(Me.DbLeeHotel.mDbLector("MOVI_DESC")) & " " & CStr(Me.DbLeeHotel.mDbLector("RECI_COBR"))
+            End If
+
             If Total <> 0 Then
                 Linea = Linea + 1
                 Me.mTipoAsiento = "HABER"
-                ' LLAMADA ORIGINAL BLOQUEADA 
-                'Me.InsertaOracle("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", "F. Valor " & CType(Me.DbLeeHotel.mDbLector("MOVI_DAVA"), String), "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), CcExCodi)
-                Me.InsertaOracle("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", "F. Valor " & CType(Me.DbLeeHotel.mDbLector("MOVI_DAVA"), String), "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), CcExCodi, ReseCodi, ReseAnci, AlojCodi)
-                Me.GeneraFileACMultiDiario("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaber, CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, Me.Multidiario)
+                Me.InsertaOracle("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, Me.mTexto, Total, "NO", "", "F. Valor " & CType(Me.DbLeeHotel.mDbLector("MOVI_DAVA"), String), "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), CcExCodi, ReseCodi, ReseAnci, AlojCodi)
+                Me.GeneraFileACMultiDiario("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaber, Me.mTexto, Total, Me.Multidiario)
             End If
 
 

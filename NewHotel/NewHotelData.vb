@@ -102,12 +102,12 @@ Public Class NewHotelData
         Try
 
             ' CONTROL CURSORES 
-            SQL = "SELECT NVL(COUNT(*),0) AS TOTAL  FROM V$OPEN_CURSOR"
-            Cursores = CInt(Me.DbLeeHotel.EjecutaSqlScalar(SQL))
-            If Cursores > 300 Then
-                ' Me.CerrarConexiones()
-                ' Me.AbreConexiones()
-            End If
+            ' SQL = "SELECT NVL(COUNT(*),0) AS TOTAL  FROM V$OPEN_CURSOR"
+            'Cursores = CInt(Me.DbLeeHotel.EjecutaSqlScalar(SQL))
+            'If Cursores > 300 Then
+            ' Me.CerrarConexiones()
+            ' Me.AbreConexiones()
+            'End If
 
             SQL = " SELECT SEFA_CODI,FACT_CODI,ENTI_CODI,CCEX_CODI,TACO_CODI  FROM TNHT_FACT WHERE SEFA_CODI = '" & vSerie & "'"
             SQL += " AND FACT_CODI = " & vNFactura
@@ -164,12 +164,12 @@ Public Class NewHotelData
         Try
 
             ' CONTROL CURSORES 
-            SQL = "SELECT NVL(COUNT(*),0) AS TOTAL  FROM V$OPEN_CURSOR"
-            Cursores = CInt(Me.DbLeeHotel.EjecutaSqlScalar(SQL))
-            If Cursores > 300 Then
-                ' Me.CerrarConexiones()
-                ' Me.AbreConexiones()
-            End If
+            ' SQL = "SELECT NVL(COUNT(*),0) AS TOTAL  FROM V$OPEN_CURSOR"
+            'Cursores = CInt(Me.DbLeeHotel.EjecutaSqlScalar(SQL))
+            'If Cursores > 300 Then
+            ' Me.CerrarConexiones()
+            ' Me.AbreConexiones()
+            ' End If
 
             SQL = " SELECT SEFA_CODI,NCRE_CODI,ENTI_CODI,CCEX_CODI,NCRE_NECO AS TACO_CODI  FROM TNHT_NCRE WHERE SEFA_CODI = '" & vSerie & "'"
             SQL += " AND NCRE_CODI = " & vNFactura
@@ -229,12 +229,12 @@ Public Class NewHotelData
         Try
 
             ' CONTROL CURSORES 
-            SQL = "SELECT NVL(COUNT(*),0) AS TOTAL  FROM V$OPEN_CURSOR"
-            Cursores = CInt(Me.DbLeeHotel.EjecutaSqlScalar(SQL))
-            If Cursores > 300 Then
-                ' Me.CerrarConexiones()
-                ' Me.AbreConexiones()
-            End If
+            'SQL = "SELECT NVL(COUNT(*),0) AS TOTAL  FROM V$OPEN_CURSOR"
+            'Cursores = CInt(Me.DbLeeHotel.EjecutaSqlScalar(SQL))
+            'If Cursores > 300 Then
+            ' ' Me.CerrarConexiones()
+            ' Me.AbreConexiones()
+            'End If
 
             SQL = " SELECT SEFA_CODI,FACT_CODI,ENTI_CODI,CCEX_CODI,TACO_CODI  FROM TNHT_FACT WHERE SEFA_CODI = '" & vSerie & "'"
             SQL += " AND FACT_CODI = " & vNFactura
@@ -302,12 +302,12 @@ Public Class NewHotelData
         Try
 
             ' CONTROL CURSORES 
-            SQL = "SELECT NVL(COUNT(*),0) AS TOTAL  FROM V$OPEN_CURSOR"
-            Cursores = CInt(Me.DbLeeHotel.EjecutaSqlScalar(SQL))
-            If Cursores > 250 Then
-                ' Me.CerrarConexiones()
-                ' Me.AbreConexiones()
-            End If
+            'SQL = "SELECT NVL(COUNT(*),0) AS TOTAL  FROM V$OPEN_CURSOR"
+            'Cursores = CInt(Me.DbLeeHotel.EjecutaSqlScalar(SQL))
+            'If Cursores > 300 Then
+            ' ' Me.CerrarConexiones()
+            ' Me.AbreConexiones()
+            'End If
 
             SQL = " SELECT SEFA_CODI,FACT_CODI,ENTI_CODI,CCEX_CODI  FROM TNHT_FACT WHERE SEFA_CODI = '" & vSerie & "'"
             SQL += " AND FACT_CODI = " & vNFactura
@@ -379,14 +379,14 @@ Public Class NewHotelData
         Try
 
             ' CONTROL CURSORES 
-            SQL = "SELECT NVL(COUNT(*),0) AS TOTAL  FROM V$OPEN_CURSOR"
-            Cursores = CInt(Me.DbLeeHotel.EjecutaSqlScalar(SQL))
-            If Cursores > 250 Then
-                ' Me.CerrarConexiones()
-                ' Me.AbreConexiones()
-            End If
+            'SQL = "SELECT NVL(COUNT(*),0) AS TOTAL  FROM V$OPEN_CURSOR"
+            'Cursores = CInt(Me.DbLeeHotel.EjecutaSqlScalar(SQL))
+            'If Cursores > 300 Then
+            ' ' Me.CerrarConexiones()
+            ' Me.AbreConexiones()
+            'End If
 
-            SQL = " SELECT SEFA_CODI,FACT_CODI,ENTI_CODI,CCEX_CODI,NVL(CLIE_CODI,'0') AS CLIENTE,NVL(FACT_NUCO,'0') AS CIF  FROM TNHT_FACT WHERE SEFA_CODI = '" & vSerie & "'"
+            SQL = " SELECT SEFA_CODI,FACT_CODI,ENTI_CODI,CCEX_CODI,NVL(CLIE_CODI,'0') AS CLIENTE,NVL(FACT_NUCO,'0') AS CIF ,FACT_NUCO  FROM TNHT_FACT WHERE SEFA_CODI = '" & vSerie & "'"
             SQL += " AND FACT_CODI = " & vNFactura
 
             Me.DbLeeHotel.TraerLector(SQL)
@@ -414,21 +414,21 @@ Public Class NewHotelData
                 Return CType(Me.DbLeeHotel.mDbLector("CIF"), String)
             ElseIf Tipo = TipoFactura.Contado Then
 
-                SQL = "SELECT NVL(PARA_CLIENTES_CONTADO_CIF,0) CIF "
-                SQL += " FROM TH_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod
-                SQL += "' AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
-                Dni = Me.DbLeeIntegracion.EjecutaSqlScalar(SQL)
-
-                'SQL = "SELECT NVL(CLIE_NUID,'0') FROM TNHT_CLIE WHERE CLIE_CODI = " & CType(Me.DbLeeHotel.mDbLector("CLIENTE"), Integer)
-                'Dni = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
-                'If Dni = "0" Or IsNothing(Dni) = True Then
-                'SQL = "SELECT NVL(PARA_CLIENTES_CONTADO_CIF,0) CIF "
-                'SQL += " FROM TH_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod
-                'SQL += "' AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
-                'Dni = Me.DbLeeIntegracion.EjecutaSqlScalar(SQL)
-                'End If
-                Return Dni
-
+                If IsDBNull(Me.DbLeeHotel.mDbLector("FACT_NUCO")) = False Then
+                    Return CStr(Me.DbLeeHotel.mDbLector("FACT_NUCO"))
+                Else
+                    SQL = "SELECT NVL(CLIE_NUID,'0') FROM TNHT_CLIE WHERE CLIE_CODI = " & CType(Me.DbLeeHotel.mDbLector("CLIENTE"), Integer)
+                    Dni = Me.DbLeeHotelAux.EjecutaSqlScalar(SQL)
+                    If Dni = "0" Or IsNothing(Dni) = True Then
+                        SQL = "SELECT NVL(PARA_CLIENTES_CONTADO_CIF,0) CIF "
+                        SQL += " FROM TH_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod
+                        SQL += "' AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
+                        Dni = Me.DbLeeIntegracion.EjecutaSqlScalar(SQL)
+                        Return Dni
+                    Else
+                        Return Dni
+                    End If
+                End If
             Else
                 Return "0"
             End If
@@ -453,12 +453,12 @@ Public Class NewHotelData
         Try
 
             ' CONTROL CURSORES 
-            SQL = "SELECT NVL(COUNT(*),0) AS TOTAL  FROM V$OPEN_CURSOR"
-            Cursores = CInt(Me.DbLeeHotel.EjecutaSqlScalar(SQL))
-            If Cursores > 250 Then
-                '  Me.CerrarConexiones()
-                '  Me.AbreConexiones()
-            End If
+            'SQL = "SELECT NVL(COUNT(*),0) AS TOTAL  FROM V$OPEN_CURSOR"
+            'Cursores = CInt(Me.DbLeeHotel.EjecutaSqlScalar(SQL))
+            'If Cursores > 300 Then
+            ' ' Me.CerrarConexiones()
+            ' Me.AbreConexiones()
+            'End If
 
             SQL = " SELECT SEFA_CODI,FACT_CODI,ENTI_CODI,CCEX_CODI,NVL(CLIE_CODI,'0') AS CLIENTE  FROM TNHT_FACT WHERE SEFA_CODI = '" & vSerie & "'"
             SQL += " AND FACT_CODI = " & vNFactura
@@ -514,12 +514,12 @@ Public Class NewHotelData
         Try
 
             ' CONTROL CURSORES 
-            SQL = "SELECT NVL(COUNT(*),0) AS TOTAL  FROM V$OPEN_CURSOR"
-            Cursores = CInt(Me.DbLeeHotel.EjecutaSqlScalar(SQL))
-            If Cursores > 250 Then
-                ' Me.CerrarConexiones()
-                '  Me.AbreConexiones()
-            End If
+            'SQL = "SELECT NVL(COUNT(*),0) AS TOTAL  FROM V$OPEN_CURSOR"
+            'Cursores = CInt(Me.DbLeeHotel.EjecutaSqlScalar(SQL))
+            'If Cursores > 300 Then
+            ' ' Me.CerrarConexiones()
+            ' Me.AbreConexiones()
+            'End If
 
             SQL = " SELECT SEFA_CODI,FACT_CODI,ENTI_CODI,CCEX_CODI,NVL(CLIE_CODI,'0') AS CLIENTE  FROM TNHT_FACT WHERE SEFA_CODI = '" & vSerie & "'"
             SQL += " AND FACT_CODI = " & vNFactura
@@ -551,12 +551,12 @@ Public Class NewHotelData
         Try
 
             ' CONTROL CURSORES 
-            SQL = "SELECT NVL(COUNT(*),0) AS TOTAL  FROM V$OPEN_CURSOR"
-            Cursores = CInt(Me.DbLeeHotel.EjecutaSqlScalar(SQL))
-            If Cursores > 250 Then
-                '  Me.CerrarConexiones()
-                '  Me.AbreConexiones()
-            End If
+            'SQL = "SELECT NVL(COUNT(*),0) AS TOTAL  FROM V$OPEN_CURSOR"
+            'Cursores = CInt(Me.DbLeeHotel.EjecutaSqlScalar(SQL))
+            'If Cursores > 300 Then
+            ' ' Me.CerrarConexiones()
+            ' Me.AbreConexiones()
+            'End If
 
             SQL = " SELECT SEFA_CODI,FACT_CODI,ENTI_CODI,CCEX_CODI,NVL(CLIE_CODI,'0') AS CLIENTE  FROM TNHT_FACT WHERE SEFA_CODI = '" & vSerie & "'"
             SQL += " AND FACT_CODI = " & vNFactura
@@ -653,12 +653,12 @@ Public Class NewHotelData
         Try
 
             ' CONTROL CURSORES 
-            SQL = "SELECT NVL(COUNT(*),0) AS TOTAL  FROM V$OPEN_CURSOR"
-            Cursores = CInt(Me.DbLeeHotel.EjecutaSqlScalar(SQL))
-            If Cursores > 250 Then
-                '  Me.CerrarConexiones()
-                '  Me.AbreConexiones()
-            End If
+            'SQL = "SELECT NVL(COUNT(*),0) AS TOTAL  FROM V$OPEN_CURSOR"
+            'Cursores = CInt(Me.DbLeeHotel.EjecutaSqlScalar(SQL))
+            'If Cursores > 300 Then
+            ' ' Me.CerrarConexiones()
+            ' Me.AbreConexiones()
+            'End If
 
             SQL = " SELECT SECC_DESC FROM TNHT_SECC WHERE SECC_CODI = '" & vSeccion & "'"
 
@@ -687,12 +687,12 @@ Public Class NewHotelData
         Try
 
             ' CONTROL CURSORES 
-            SQL = "SELECT NVL(COUNT(*),0) AS TOTAL  FROM V$OPEN_CURSOR"
-            Cursores = CInt(Me.DbLeeHotel.EjecutaSqlScalar(SQL))
-            If Cursores > 300 Then
-                ' Me.CerrarConexiones()
-                ' Me.AbreConexiones()
-            End If
+            'SQL = "SELECT NVL(COUNT(*),0) AS TOTAL  FROM V$OPEN_CURSOR"
+            'Cursores = CInt(Me.DbLeeHotel.EjecutaSqlScalar(SQL))
+            'If Cursores > 300 Then
+            ' ' Me.CerrarConexiones()
+            ' Me.AbreConexiones()
+            'End If
 
 
             SQL = "  SELECT TNHT_FACT.SEFA_CODI AS SERIE, "

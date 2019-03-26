@@ -196,6 +196,16 @@
             SQL += "      ,NVL(PARA_SPYRO_TIPO_ANALITICA,'<Ninguno>') AS PARA_SPYRO_TIPO_ANALITICA"
             SQL += "      ,PARA_SPYRO_TIPO_MOVTRANS   AS PARA_SPYRO_TIPO_MOVTRANS"
 
+            SQL += "      ,NVL(PARA_CTA5,'<Ninguno>')  AS PARA_CTA5"
+
+
+
+
+            SQL += "      ,NVL(PARA_USA_CUENTAPUENTE,0) AS PARA_USA_CUENTAPUENTE"
+            SQL += "      ,NVL(PARA_CTAPUENTE_PAGOS,'<Ninguno>')  AS PARA_CTAPUENTE_PAGOS"
+            SQL += "      ,NVL(PARA_CUENTAPUENTE_AGRUPA,0) AS PARA_CUENTAPUENTE_AGRUPA"
+
+            SQL += "      ,NVL(PARA_CTA_PUNTOVERDE,'<Ninguno>')  AS PARA_CTA_PUNTOVERDE"
 
             SQL += "  FROM TS_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"
@@ -271,6 +281,7 @@
                 End If
 
                 Me.TextBoxCtaAlbaranesPdtesFormalizar.Text = Me.DbLee.mDbLector.Item("PARA_CTA1")
+                Me.TextBoxCtaRoturas.Text = Me.DbLee.mDbLector.Item("PARA_CTA5")
 
                 Me.TextBoxSpyroTipoAnalitica.Text = Me.DbLee.mDbLector.Item("PARA_SPYRO_TIPO_ANALITICA")
 
@@ -281,6 +292,26 @@
                 End If
 
 
+                If CInt(Me.DbLee.mDbLector.Item("PARA_USA_CUENTAPUENTE")) = 1 Then
+                    Me.CheckBoxNewPagaUsaCtaPuente.Checked = True
+                Else
+                    Me.CheckBoxNewPagaUsaCtaPuente.Checked = False
+                End If
+
+                If IsDBNull(Me.DbLee.mDbLector.Item("PARA_CTAPUENTE_PAGOS")) = False Then
+                    Me.TextBoxNewPagaCtaPuente.Text = Me.DbLee.mDbLector.Item("PARA_CTAPUENTE_PAGOS")
+                Else
+                    Me.TextBoxNewPagaCtaPuente.Text = ""
+                End If
+
+                If CInt(Me.DbLee.mDbLector.Item("PARA_CUENTAPUENTE_AGRUPA")) = 1 Then
+                    Me.CheckBoxNewPagaAgrupaCtaPuente.Checked = True
+                Else
+                    Me.CheckBoxNewPagaAgrupaCtaPuente.Checked = False
+                End If
+
+
+                Me.TextBoxCtaPuntoVerde.Text = Me.DbLee.mDbLector.Item("PARA_CTA_PUNTOVERDE")
 
             Else
                 MsgBox("Atención NO existen Registros de Parámeros TS_PARA para Mostrar", MsgBoxStyle.Critical, "Atención")
@@ -392,7 +423,25 @@
             End If
 
 
+            SQL += " ,PARA_CTA5='" & Me.TextBoxCtaRoturas.Text.Replace("<Ninguno>", "") & "'"
 
+
+            If Me.CheckBoxNewPagaUsaCtaPuente.Checked Then
+                SQL += ",PARA_USA_CUENTAPUENTE = 1"
+            Else
+                SQL += ",PARA_USA_CUENTAPUENTE = 0"
+            End If
+
+            SQL += " ,PARA_CTAPUENTE_PAGOS='" & Me.TextBoxNewPagaCtaPuente.Text.Replace("<Ninguno>", "") & "'"
+
+            If Me.CheckBoxNewPagaAgrupaCtaPuente.Checked Then
+                SQL += ",PARA_CUENTAPUENTE_AGRUPA = 1"
+            Else
+                SQL += ",PARA_CUENTAPUENTE_AGRUPA = 0"
+            End If
+
+
+            SQL += " ,PARA_CTA_PUNTOVERDE='" & Me.TextBoxCtaPuntoVerde.Text.Replace("<Ninguno>", "") & "'"
 
             SQL += " WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"
@@ -496,5 +545,20 @@
         End Try
     End Sub
 
-
+    Private Sub CheckBoxNewPagaUsaCtaPuente_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBoxNewPagaUsaCtaPuente.CheckedChanged
+        Try
+            If Me.CheckBoxNewPagaUsaCtaPuente.Checked Then
+                Me.TextBoxNewPagaCtaPuente.Enabled = True
+                Me.CheckBoxNewPagaAgrupaCtaPuente.Enabled = True
+                Exit Sub
+            Else
+                Me.TextBoxNewPagaCtaPuente.Enabled = False
+                Me.CheckBoxNewPagaAgrupaCtaPuente.Checked = False
+                Me.CheckBoxNewPagaAgrupaCtaPuente.Enabled = False
+                Exit Sub
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
 End Class

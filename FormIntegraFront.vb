@@ -184,9 +184,9 @@ Public Class FormIntegraFront
     Friend WithEvents ButtonRutaFicheros As System.Windows.Forms.Button
     Friend WithEvents FolderBrowserDialog1 As System.Windows.Forms.FolderBrowserDialog
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormIntegraFront))
         Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         Me.DataGridHoteles = New System.Windows.Forms.DataGrid()
@@ -325,7 +325,7 @@ Public Class FormIntegraFront
         '
         Me.CheckBoxDebug.Checked = True
         Me.CheckBoxDebug.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBoxDebug.Location = New System.Drawing.Point(6, 0)
+        Me.CheckBoxDebug.Location = New System.Drawing.Point(6, -1)
         Me.CheckBoxDebug.Name = "CheckBoxDebug"
         Me.CheckBoxDebug.Size = New System.Drawing.Size(66, 24)
         Me.CheckBoxDebug.TabIndex = 4
@@ -399,34 +399,34 @@ Public Class FormIntegraFront
         'DataGridViewBonos
         '
         Me.DataGridViewBonos.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridViewBonos.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridViewBonos.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.DataGridViewBonos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.DataGridViewBonos.DefaultCellStyle = DataGridViewCellStyle5
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.DataGridViewBonos.DefaultCellStyle = DataGridViewCellStyle2
         Me.DataGridViewBonos.Location = New System.Drawing.Point(643, 42)
         Me.DataGridViewBonos.Name = "DataGridViewBonos"
         Me.DataGridViewBonos.ReadOnly = True
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle6.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridViewBonos.RowHeadersDefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridViewBonos.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
         Me.DataGridViewBonos.Size = New System.Drawing.Size(164, 46)
         Me.DataGridViewBonos.TabIndex = 36
         '
@@ -463,7 +463,7 @@ Public Class FormIntegraFront
         Me.TabPage1.Controls.Add(Me.Label4)
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Size = New System.Drawing.Size(838, 105)
+        Me.TabPage1.Size = New System.Drawing.Size(823, 105)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Venta Líquida"
         '
@@ -479,7 +479,7 @@ Public Class FormIntegraFront
         '
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Size = New System.Drawing.Size(838, 105)
+        Me.TabPage2.Size = New System.Drawing.Size(823, 105)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Anticipos Recibidos"
         '
@@ -497,7 +497,7 @@ Public Class FormIntegraFront
         Me.TabPage3.Controls.Add(Me.TextBox2)
         Me.TabPage3.Location = New System.Drawing.Point(4, 22)
         Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.Size = New System.Drawing.Size(838, 105)
+        Me.TabPage3.Size = New System.Drawing.Size(823, 105)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Fact. Contado"
         '
@@ -561,7 +561,7 @@ Public Class FormIntegraFront
         '
         Me.TabPage4.Location = New System.Drawing.Point(4, 22)
         Me.TabPage4.Name = "TabPage4"
-        Me.TabPage4.Size = New System.Drawing.Size(838, 105)
+        Me.TabPage4.Size = New System.Drawing.Size(823, 105)
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "Desembolsos"
         '
@@ -569,7 +569,7 @@ Public Class FormIntegraFront
         '
         Me.TabPage5.Location = New System.Drawing.Point(4, 22)
         Me.TabPage5.Name = "TabPage5"
-        Me.TabPage5.Size = New System.Drawing.Size(838, 105)
+        Me.TabPage5.Size = New System.Drawing.Size(823, 105)
         Me.TabPage5.TabIndex = 4
         Me.TabPage5.Text = "Facturación de Crédito"
         '
@@ -577,7 +577,7 @@ Public Class FormIntegraFront
         '
         Me.TabPage6.Location = New System.Drawing.Point(4, 22)
         Me.TabPage6.Name = "TabPage6"
-        Me.TabPage6.Size = New System.Drawing.Size(838, 105)
+        Me.TabPage6.Size = New System.Drawing.Size(823, 105)
         Me.TabPage6.TabIndex = 5
         Me.TabPage6.Text = "Facturación de Crédito Anulada"
         '
@@ -598,7 +598,7 @@ Public Class FormIntegraFront
         '
         Me.CheckBoxAnalitica.Checked = True
         Me.CheckBoxAnalitica.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBoxAnalitica.Location = New System.Drawing.Point(77, 3)
+        Me.CheckBoxAnalitica.Location = New System.Drawing.Point(77, 2)
         Me.CheckBoxAnalitica.Name = "CheckBoxAnalitica"
         Me.CheckBoxAnalitica.Size = New System.Drawing.Size(72, 20)
         Me.CheckBoxAnalitica.TabIndex = 10
@@ -642,9 +642,9 @@ Public Class FormIntegraFront
         '
         Me.CheckBoxTpvNoFacturado.Checked = True
         Me.CheckBoxTpvNoFacturado.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBoxTpvNoFacturado.Location = New System.Drawing.Point(157, 3)
+        Me.CheckBoxTpvNoFacturado.Location = New System.Drawing.Point(157, 0)
         Me.CheckBoxTpvNoFacturado.Name = "CheckBoxTpvNoFacturado"
-        Me.CheckBoxTpvNoFacturado.Size = New System.Drawing.Size(246, 24)
+        Me.CheckBoxTpvNoFacturado.Size = New System.Drawing.Size(205, 24)
         Me.CheckBoxTpvNoFacturado.TabIndex = 19
         Me.CheckBoxTpvNoFacturado.Text = "NO Tratar Débito Tpv no Facturado"
         '
@@ -678,9 +678,9 @@ Public Class FormIntegraFront
         Me.CheckBoxFiltroDepositosNewHotel.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckBoxFiltroDepositosNewHotel.Enabled = False
         Me.CheckBoxFiltroDepositosNewHotel.ForeColor = System.Drawing.Color.Maroon
-        Me.CheckBoxFiltroDepositosNewHotel.Location = New System.Drawing.Point(384, 4)
+        Me.CheckBoxFiltroDepositosNewHotel.Location = New System.Drawing.Point(420, 3)
         Me.CheckBoxFiltroDepositosNewHotel.Name = "CheckBoxFiltroDepositosNewHotel"
-        Me.CheckBoxFiltroDepositosNewHotel.Size = New System.Drawing.Size(112, 20)
+        Me.CheckBoxFiltroDepositosNewHotel.Size = New System.Drawing.Size(130, 20)
         Me.CheckBoxFiltroDepositosNewHotel.TabIndex = 25
         Me.CheckBoxFiltroDepositosNewHotel.Text = "Movi_AUTO = 0"
         '
@@ -698,7 +698,7 @@ Public Class FormIntegraFront
         'ButtonConvertir
         '
         Me.ButtonConvertir.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ButtonConvertir.BackColor = System.Drawing.Color.Maroon
+        Me.ButtonConvertir.BackColor = System.Drawing.Color.Teal
         Me.ButtonConvertir.Enabled = False
         Me.ButtonConvertir.ForeColor = System.Drawing.Color.White
         Me.ButtonConvertir.Location = New System.Drawing.Point(862, 241)
@@ -949,7 +949,7 @@ Public Class FormIntegraFront
         Me.TabPage8.Location = New System.Drawing.Point(4, 22)
         Me.TabPage8.Name = "TabPage8"
         Me.TabPage8.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage8.Size = New System.Drawing.Size(581, 42)
+        Me.TabPage8.Size = New System.Drawing.Size(562, 42)
         Me.TabPage8.TabIndex = 1
         Me.TabPage8.Text = "Modos de Operación"
         Me.TabPage8.UseVisualStyleBackColor = True
@@ -958,7 +958,7 @@ Public Class FormIntegraFront
         '
         Me.TabPage9.Location = New System.Drawing.Point(4, 22)
         Me.TabPage9.Name = "TabPage9"
-        Me.TabPage9.Size = New System.Drawing.Size(581, 42)
+        Me.TabPage9.Size = New System.Drawing.Size(562, 42)
         Me.TabPage9.TabIndex = 2
         Me.TabPage9.Text = "Debug"
         Me.TabPage9.UseVisualStyleBackColor = True
@@ -971,7 +971,7 @@ Public Class FormIntegraFront
         Me.TabPage10.Controls.Add(Me.CheckBoxIncluyeBonos)
         Me.TabPage10.Location = New System.Drawing.Point(4, 22)
         Me.TabPage10.Name = "TabPage10"
-        Me.TabPage10.Size = New System.Drawing.Size(581, 42)
+        Me.TabPage10.Size = New System.Drawing.Size(562, 42)
         Me.TabPage10.TabIndex = 3
         Me.TabPage10.Text = "Satocan"
         Me.TabPage10.UseVisualStyleBackColor = True
@@ -983,7 +983,7 @@ Public Class FormIntegraFront
         Me.TabPage12.Controls.Add(Me.ButtonManoCorriente)
         Me.TabPage12.Location = New System.Drawing.Point(4, 22)
         Me.TabPage12.Name = "TabPage12"
-        Me.TabPage12.Size = New System.Drawing.Size(581, 42)
+        Me.TabPage12.Size = New System.Drawing.Size(562, 42)
         Me.TabPage12.TabIndex = 5
         Me.TabPage12.Text = "Satocan"
         Me.TabPage12.UseVisualStyleBackColor = True
@@ -995,7 +995,7 @@ Public Class FormIntegraFront
         Me.TabPage13.Controls.Add(Me.ButtonImprimeErrores)
         Me.TabPage13.Location = New System.Drawing.Point(4, 22)
         Me.TabPage13.Name = "TabPage13"
-        Me.TabPage13.Size = New System.Drawing.Size(581, 42)
+        Me.TabPage13.Size = New System.Drawing.Size(562, 42)
         Me.TabPage13.TabIndex = 6
         Me.TabPage13.Text = "Satocan Incidencias Reports"
         Me.TabPage13.UseVisualStyleBackColor = True
@@ -1034,7 +1034,7 @@ Public Class FormIntegraFront
         '
         Me.TabPage11.Location = New System.Drawing.Point(4, 22)
         Me.TabPage11.Name = "TabPage11"
-        Me.TabPage11.Size = New System.Drawing.Size(581, 42)
+        Me.TabPage11.Size = New System.Drawing.Size(562, 42)
         Me.TabPage11.TabIndex = 4
         Me.TabPage11.Text = "GRHL"
         Me.TabPage11.UseVisualStyleBackColor = True
@@ -1043,22 +1043,22 @@ Public Class FormIntegraFront
         '
         Me.TabPage14.Location = New System.Drawing.Point(4, 22)
         Me.TabPage14.Name = "TabPage14"
-        Me.TabPage14.Size = New System.Drawing.Size(581, 42)
+        Me.TabPage14.Size = New System.Drawing.Size(562, 42)
         Me.TabPage14.TabIndex = 7
         Me.TabPage14.Text = "HC7 Hotels"
         Me.TabPage14.UseVisualStyleBackColor = True
         '
         'ButtonAceptar
         '
-        Me.ButtonAceptar.BackColor = System.Drawing.Color.Maroon
+        Me.ButtonAceptar.BackColor = System.Drawing.Color.Teal
         Me.ButtonAceptar.ForeColor = System.Drawing.Color.White
         Me.ButtonAceptar.Image = CType(resources.GetObject("ButtonAceptar.Image"), System.Drawing.Image)
         Me.ButtonAceptar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.ButtonAceptar.Location = New System.Drawing.Point(168, 8)
         Me.ButtonAceptar.Name = "ButtonAceptar"
-        Me.ButtonAceptar.Size = New System.Drawing.Size(80, 23)
+        Me.ButtonAceptar.Size = New System.Drawing.Size(95, 32)
         Me.ButtonAceptar.TabIndex = 11
-        Me.ButtonAceptar.Text = "&Aceptar"
+        Me.ButtonAceptar.Text = "&Procesar"
         Me.ButtonAceptar.UseVisualStyleBackColor = False
         '
         'ButtonResetPerfil
@@ -1108,7 +1108,7 @@ Public Class FormIntegraFront
         'ButtonImprimir
         '
         Me.ButtonImprimir.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ButtonImprimir.BackColor = System.Drawing.Color.Maroon
+        Me.ButtonImprimir.BackColor = System.Drawing.Color.Teal
         Me.ButtonImprimir.ForeColor = System.Drawing.Color.White
         Me.ButtonImprimir.Image = CType(resources.GetObject("ButtonImprimir.Image"), System.Drawing.Image)
         Me.ButtonImprimir.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft

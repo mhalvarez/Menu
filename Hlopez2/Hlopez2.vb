@@ -2569,7 +2569,7 @@ Public Class Hlopez2
 
 
             SQL = "SELECT TNHT_MOVI.MOVI_VDEB TOTAL,TNHT_CACR.CACR_DESC TARJETA,NVL(TNHT_CACR.CACR_CTBA,'0') CUENTA,"
-            SQL += "NVL(FNHT_MOVI_RECI(TNHT_MOVI.MOVI_CODI,TNHT_MOVI.MOVI_DARE,TNHT_MOVI.MOVI_TIMO),'?') RECI_COBR,NVL(MOVI_NUDO,' ') MOVI_NUDO,NVL(MOVI_DESC,' ') MOVI_DESC,NVL(SECC_CODI,'?') AS SECC_CODI,CACR_CTB3 "
+            SQL += "NVL(FNHT_MOVI_RECI(TNHT_MOVI.MOVI_CODI,TNHT_MOVI.MOVI_DARE,TNHT_MOVI.MOVI_TIMO),NVL(MOVI_NUDO,' ')) RECI_COBR,NVL(MOVI_NUDO,' ') MOVI_NUDO,NVL(MOVI_DESC,' ') MOVI_DESC,NVL(SECC_CODI,'?') AS SECC_CODI,CACR_CTB3 "
             SQL = SQL & " FROM " & Me.mStrHayHistorico & " TNHT_MOVI,TNHT_CACR,TNHT_RESE WHERE TNHT_MOVI.CACR_CODI = TNHT_CACR.CACR_CODI"
             SQL = SQL & " AND TNHT_MOVI.RESE_CODI = TNHT_RESE.RESE_CODI(+) "
             SQL = SQL & " AND TNHT_MOVI.RESE_ANCI = TNHT_RESE.RESE_ANCI(+)"
@@ -2673,7 +2673,7 @@ Public Class Hlopez2
         Dim Total As Double
         Dim Cuenta As String
         SQL = "SELECT TNHT_MOVI.MOVI_VDEB TOTAL,TNHT_FORE.FORE_DESC TIPO,NVL(TNHT_FORE.FORE_CTB1,'0') CUENTA,"
-        SQL += "NVL(FNHT_MOVI_RECI(TNHT_MOVI.MOVI_CODI,TNHT_MOVI.MOVI_DARE,TNHT_MOVI.MOVI_TIMO),'?') RECI_COBR,NVL(MOVI_NUDO,' ') MOVI_NUDO,NVL(MOVI_DESC,' ') MOVI_DESC,NVL(SECC_CODI,'?') AS SECC_CODI "
+        SQL += "NVL(FNHT_MOVI_RECI(TNHT_MOVI.MOVI_CODI,TNHT_MOVI.MOVI_DARE,TNHT_MOVI.MOVI_TIMO),NVL(MOVI_NUDO,' ')) RECI_COBR,NVL(MOVI_NUDO,' ') MOVI_NUDO,NVL(MOVI_DESC,' ') MOVI_DESC,NVL(SECC_CODI,'?') AS SECC_CODI "
         SQL += ",NVL(SUBSTR(FNHT_MOVI_RECI(TNHT_MOVI.MOVI_CODI,TNHT_MOVI.MOVI_DARE,TNHT_MOVI.MOVI_TIMO),1,20),' ') RECI_COBR "
         SQL += " FROM " & Me.mStrHayHistorico & " TNHT_MOVI,TNHT_FORE,TNHT_RESE WHERE"
         SQL = SQL & " TNHT_MOVI.FORE_CODI = TNHT_FORE.FORE_CODI "
@@ -2730,7 +2730,7 @@ Public Class Hlopez2
     Private Sub DetallePagosaCuentaVisas()
         Dim Total As Double
         Dim Cuenta As String = ""
-        SQL = "SELECT TNHT_MOVI.RESE_CODI || '/' || TNHT_MOVI.RESE_ANCI RESERVA,NVL(RESE_ANPH,'?') CLIENTE ,TNHT_MOVI.MOVI_VDEB TOTAL,NVL(MOVI_DESC,' ') MOVI_DESC,"
+        SQL = "SELECT TNHT_MOVI.RESE_CODI || '/' || TNHT_MOVI.RESE_ANCI RESERVA,NVL(RESE_ANPH,'?') CLIENTE ,TNHT_MOVI.MOVI_VDEB TOTAL,NVL(MOVI_DESC,' ') MOVI_DESC,NVL(MOVI_NUDO,' ') MOVI_NUDO,"
         SQL = SQL & " TNHT_CACR.CACR_DESC TARJETA,MOVI_DAVA,NVL(SECC_CODI,'?') AS SECC_CODI FROM " & Me.mStrHayHistorico & " TNHT_MOVI,"
         SQL = SQL & " TNHT_CACR,TNHT_RESE WHERE TNHT_MOVI.CACR_CODI = TNHT_CACR.CACR_CODI"
         SQL = SQL & " AND TNHT_MOVI.RESE_CODI = TNHT_RESE.RESE_CODI(+) "
@@ -2770,8 +2770,8 @@ Public Class Hlopez2
             If Total <> 0 Then
                 Linea = Linea + 1
                 Me.mTipoAsiento = "HABER"
-                Me.InsertaOracle("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, "Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", "F. Valor " & CType(Me.DbLeeHotel.mDbLector("MOVI_DAVA"), String), "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String))
-                Me.GeneraFileACMultiDiario("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaber, "Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, Me.Multidiario)
+                Me.InsertaOracle("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, "Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String) & " " & CType(Me.DbLeeHotel.mDbLector("MOVI_NUDO"), String), Total, "NO", "", "F. Valor " & CType(Me.DbLeeHotel.mDbLector("MOVI_DAVA"), String), "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String))
+                Me.GeneraFileACMultiDiario("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaber, "Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String) & " " & CType(Me.DbLeeHotel.mDbLector("MOVI_NUDO"), String), Total, Me.Multidiario)
             End If
 
 
@@ -2781,7 +2781,7 @@ Public Class Hlopez2
     Private Sub DetallePagosaCuentaOtrasFormas()
         Dim Total As Double
         Dim Cuenta As String = ""
-        SQL = "SELECT TNHT_MOVI.RESE_CODI || '/' || TNHT_MOVI.RESE_ANCI RESERVA,NVL(RESE_ANPH,'?') CLIENTE,TNHT_MOVI.MOVI_VDEB TOTAL,TNHT_FORE.FORE_DESC TIPO,NVL(TNHT_FORE.FORE_CTB1,'0') CUENTA,MOVI_DAVA,NVL(MOVI_DESC,' ') MOVI_DESC,NVL(SECC_CODI,'?') AS SECC_CODI FROM " & Me.mStrHayHistorico & " TNHT_MOVI,TNHT_FORE,TNHT_RESE WHERE"
+        SQL = "SELECT TNHT_MOVI.RESE_CODI || '/' || TNHT_MOVI.RESE_ANCI RESERVA,NVL(RESE_ANPH,'?') CLIENTE,TNHT_MOVI.MOVI_VDEB TOTAL,TNHT_FORE.FORE_DESC TIPO,NVL(TNHT_FORE.FORE_CTB1,'0') CUENTA,MOVI_DAVA,NVL(MOVI_DESC,' ') MOVI_DESC,NVL(MOVI_NUDO,' ') MOVI_NUDO,NVL(SECC_CODI,'?') AS SECC_CODI FROM " & Me.mStrHayHistorico & " TNHT_MOVI,TNHT_FORE,TNHT_RESE WHERE"
         SQL = SQL & " TNHT_MOVI.FORE_CODI = TNHT_FORE.FORE_CODI "
         SQL = SQL & " AND TNHT_MOVI.RESE_CODI = TNHT_RESE.RESE_CODI(+) "
         SQL = SQL & " AND TNHT_MOVI.RESE_ANCI = TNHT_RESE.RESE_ANCI(+)"
@@ -2824,8 +2824,8 @@ Public Class Hlopez2
             If Total <> 0 Then
                 Linea = Linea + 1
                 Me.mTipoAsiento = "HABER"
-                Me.InsertaOracle("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, "Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", "F. Valor " & CType(Me.DbLeeHotel.mDbLector("MOVI_DAVA"), String), "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String))
-                Me.GeneraFileACMultiDiario("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaber, "Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, Me.Multidiario)
+                Me.InsertaOracle("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, "Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String) & " " & CType(Me.DbLeeHotel.mDbLector("MOVI_NUDO"), String), Total, "NO", "", "F. Valor " & CType(Me.DbLeeHotel.mDbLector("MOVI_DAVA"), String), "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String))
+                Me.GeneraFileACMultiDiario("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorHaber, "Descrip: " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String) & " " & CType(Me.DbLeeHotel.mDbLector("MOVI_NUDO"), String), Total, Me.Multidiario)
             End If
 
 
@@ -3482,7 +3482,7 @@ Public Class Hlopez2
             SQL += "  TNHT_FACT.FACT_CODI ||'/'|| TNHT_FACT.SEFA_CODI DESCRIPCION,TNHT_FACT.FACT_TOTA TOTAL,TNHT_FACT.FACT_VALO VALOR,TNHT_FACT.FACT_CONT PENDIENTE,NVL(ENTI_CODI,'') AS ENTI_CODI,NVL(CCEX_CODI,'') AS CCEX_CODI,NVL(CLIE_CODI,'0') AS CLIENTE "
             SQL += " , NVL(TNHT_FACT.FACT_TITU,'') TITULAR ,TNHT_FACT.FAAN_CODI,CCEX_CODI "
 
-            SQL += ",NVL(FACT_NACI,'?') AS FACT_NACI "
+            SQL += ",NVL(FACT_NACI,'?') AS FACT_NACI,FACT_NUCO "
 
             SQL += "FROM TNHT_FACT "
             SQL += "WHERE "
@@ -3515,22 +3515,14 @@ Public Class Hlopez2
 
 
                 Cuenta = GetNewHotel.DevuelveCuentaContabledeFactura(CInt(Me.DbLeeHotel.mDbLector("NUMERO")), CStr(Me.DbLeeHotel.mDbLector("SERIE")))
+
+                '20181227
                 Dni = GetNewHotel.DevuelveDniCifContabledeFactura(CInt(Me.DbLeeHotel.mDbLector("NUMERO")), CStr(Me.DbLeeHotel.mDbLector("SERIE")))
-
-
-
-
-
-                ' Algunos Controles
-
-
-                If Dni = "0" Then
-                    Me.mTexto = "NEWHOTEL: " & "CIF no válido para descripción de Movimiento =  " & CType(Me.DbLeeHotel.mDbLector("DESCRIPCION"), String) & " " & CType(Me.DbLeeHotel.mDbLector("TITULAR"), String).Replace("'", "''")
-                    Me.mListBoxDebug.Items.Add(Me.mTexto)
-
-                    Me.GestionIncidencia(Me.mEmpGrupoCod, Me.mEmpCod, Me.mEmpNum, Me.mTexto)
-
-                End If
+                'If IsDBNull(Me.DbLeeHotel.mDbLector("FACT_NUCO")) = False Then
+                'Dni = Me.DbLeeHotel.mDbLector("FACT_NUCO")
+                'Else
+                ' Dni = ""
+                'End If
 
 
                 ' FACTURAS TRANSFERIDAS A CONTABILIDAD SIBN CODIGO DE ENTIDAD NI CUENTA NO ALOJADO
@@ -3554,6 +3546,19 @@ Public Class Hlopez2
                 Else
                     CcExCodi = Nothing
                 End If
+
+
+                ' Algunos Controles
+
+
+                If Dni = "0" Or (Dni = Me.mClientesContadoCif And CcExCodi <> Me.mParaCcexCodiTPV) Then
+                    Me.mTexto = "NEWHOTEL: " & Me.mClientesContadoCif & " CIF no válido o a Revisar  para descripción de Movimiento =  " & CType(Me.DbLeeHotel.mDbLector("DESCRIPCION"), String) & " " & CType(Me.DbLeeHotel.mDbLector("TITULAR"), String).Replace("'", "''")
+                    Me.mListBoxDebug.Items.Add(Me.mTexto)
+
+                    Me.GestionIncidencia(Me.mEmpGrupoCod, Me.mEmpCod, Me.mEmpNum, Me.mTexto)
+
+                End If
+
 
 
 
@@ -3882,7 +3887,7 @@ Public Class Hlopez2
 
         SQL = "SELECT"
         SQL += " TNHT_NCRE.SEDO_CODI AS SERIE, TNHT_NCRE.NCRE_DOCU AS NUMERO,TNHT_NCRE.NCRE_DOCU||'/'||TNHT_NCRE.SEDO_CODI FACTURA,(NCRE_VALO * -1) TOTAL, "
-        SQL += " NCRE_TITU, NCRE_DAEM,NVL(ENTI_NCON_AF,0) CUENTA ,NVL(ENTI_NUCO,0) CIF,NVL(ENTI_NOME,'?') AS NOMBRE,NCRE_ANUL AS ANULADA"
+        SQL += " NCRE_TITU, NCRE_DAEM,NVL(ENTI_NCON_AF,0) CUENTA ,NVL(NCRE_NUCO,0) CIF,NVL(ENTI_NOME,'?') AS NOMBRE,NCRE_ANUL AS ANULADA"
         SQL += ",TNHT_NCRE.ENTI_CODI,CCEX_CODI,CLIE_CODI,FACT_CODI,SEFA_CODI "
         SQL += " ,TNHT_NCRE.FACT_CODI AS FNUMERO "
         SQL += " ,TNHT_NCRE.FACT_SEFA AS FSERIE "
@@ -3967,7 +3972,7 @@ Public Class Hlopez2
         '' ANULADAS 
         SQL = "SELECT"
         SQL += " TNHT_NCRE.SEDO_CODI AS SERIE, TNHT_NCRE.NCRE_DOCU AS NUMERO,TNHT_NCRE.NCRE_DOCU||'/'||TNHT_NCRE.SEDO_CODI FACTURA,(NCRE_VALO * -1) TOTAL, "
-        SQL += " NCRE_TITU, NCRE_DAEM,NVL(ENTI_NCON_AF,0) CUENTA ,NVL(ENTI_NUCO,0) CIF,NVL(ENTI_NOME,'?') AS NOMBRE,NCRE_ANUL AS ANULADA "
+        SQL += " NCRE_TITU, NCRE_DAEM,NVL(ENTI_NCON_AF,0) CUENTA ,NVL(NCRE_NUCO,0) CIF,NVL(ENTI_NOME,'?') AS NOMBRE,NCRE_ANUL AS ANULADA "
         SQL += ",TNHT_NCRE.ENTI_CODI,CCEX_CODI,CLIE_CODI,FACT_CODI,SEFA_CODI "
         SQL += " ,TNHT_NCRE.FACT_CODI AS FNUMERO "
         SQL += " ,TNHT_NCRE.FACT_SEFA AS FSERIE "
@@ -4491,7 +4496,8 @@ Public Class Hlopez2
         SQL = SQL & " AND TNHT_FAMO.MOVI_CODI = TNHT_MOVI.MOVI_CODI "
 
         SQL += "AND    TNHT_MOVI.MOVI_TIMO = '2'                 AND "
-        SQL += "      (TNHT_MOVI.MOVI_AUTO = '1' OR TNHT_MOVI.MOVI_AUTO = '0' AND TNHT_MOVI.CCEX_CODI = 'TPV') "
+        '  SQL += "      (TNHT_MOVI.MOVI_AUTO = '1' OR TNHT_MOVI.MOVI_AUTO = '0' AND TNHT_MOVI.CCEX_CODI = 'TPV') "
+        SQL += "      TNHT_MOVI.MOVI_AUTO = '1'  "
         SQL += "AND TNHT_FACT.FACT_DAEM = " & "'" & Me.mFecha & "' "
         SQL += "AND TNHT_FACT.FACT_STAT = " & "'1'"
         SQL += "AND TNHT_FACT.FAAN_CODI IS  NULL "
@@ -4622,7 +4628,8 @@ Public Class Hlopez2
         SQL = SQL & " AND TNHT_FAMO.MOVI_CODI = TNHT_MOVI.MOVI_CODI"
         SQL = SQL & " AND TNHT_MOVI.TIRE_CODI = '1'"
         SQL = SQL & " AND TNHT_MOVI.CACR_CODI = TNHT_CACR.CACR_CODI"
-        SQL = SQL & "  AND (TNHT_MOVI.MOVI_AUTO = '1' OR TNHT_MOVI.MOVI_AUTO = '0' AND TNHT_MOVI.CCEX_CODI = 'TPV')"
+        '   SQL = SQL & "  AND (TNHT_MOVI.MOVI_AUTO = '1' OR TNHT_MOVI.MOVI_AUTO = '0' AND TNHT_MOVI.CCEX_CODI = 'TPV')"
+        SQL = SQL & "  AND TNHT_MOVI.MOVI_AUTO = '1' "
         SQL = SQL & " AND TNHT_FACT.FACT_DAEM = " & "'" & Me.mFecha & "'"
 
         ' NUEVO PARA QUE NO TRATE LAS DEVOLUCIONES SI YA SE TRATAN EN UN ASIENTO PROPIO 20090219
@@ -4775,7 +4782,8 @@ Public Class Hlopez2
 
         ' NUEVO XXXXXXXXXXXXXXX
 
-        SQL = SQL & "  AND (TNHT_MOVI.MOVI_AUTO = '1' OR TNHT_MOVI.MOVI_AUTO = '0' AND TNHT_MOVI.CCEX_CODI = 'TPV')"
+        '  SQL = SQL & "  AND (TNHT_MOVI.MOVI_AUTO = '1' OR TNHT_MOVI.MOVI_AUTO = '0' AND TNHT_MOVI.CCEX_CODI = 'TPV')"
+        SQL = SQL & "  AND TNHT_MOVI.MOVI_AUTO = '1' "
 
         SQL = SQL & " AND TNHT_FACT.FACT_DAEM= " & "'" & Me.mFecha & "'"
 

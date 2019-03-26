@@ -49,12 +49,14 @@ Public Class FormIntegraAlmacen
     Friend WithEvents TextBoxOracleSid As System.Windows.Forms.TextBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents Timer1 As System.Windows.Forms.Timer
-    Friend WithEvents PictureBox2 As System.Windows.Forms.PictureBox
     Friend WithEvents CheckBoxTextoApuntes As System.Windows.Forms.CheckBox
     Friend WithEvents CheckBoxLostContact As System.Windows.Forms.CheckBox
 
     Private CampoFecha As String
     Private mTituloForm As String
+
+    Private mTotalDebe As String
+    Private mTotalHaber As String
 
     Private Enum mEnumTipoEnvio
         FrontOffice
@@ -170,7 +172,6 @@ Public Class FormIntegraAlmacen
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.ButtonAceptar = New System.Windows.Forms.Button()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.PictureBox2 = New System.Windows.Forms.PictureBox()
         CType(Me.DataGrid1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControlDebug.SuspendLayout()
         Me.TabPageAlbaranes.SuspendLayout()
@@ -180,7 +181,6 @@ Public Class FormIntegraAlmacen
         CType(Me.DataGrid2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'DateTimePicker1
@@ -503,7 +503,7 @@ Public Class FormIntegraAlmacen
         '
         Me.TextBoxDebug.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBoxDebug.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.TextBoxDebug.BackColor = System.Drawing.Color.Teal
         Me.TextBoxDebug.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBoxDebug.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBoxDebug.ForeColor = System.Drawing.Color.White
@@ -710,35 +710,26 @@ Public Class FormIntegraAlmacen
         '
         'ButtonAceptar
         '
+        Me.ButtonAceptar.BackColor = System.Drawing.Color.Teal
+        Me.ButtonAceptar.ForeColor = System.Drawing.Color.White
         Me.ButtonAceptar.Image = CType(resources.GetObject("ButtonAceptar.Image"), System.Drawing.Image)
         Me.ButtonAceptar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.ButtonAceptar.Location = New System.Drawing.Point(168, 4)
         Me.ButtonAceptar.Name = "ButtonAceptar"
         Me.ButtonAceptar.Size = New System.Drawing.Size(102, 27)
         Me.ButtonAceptar.TabIndex = 12
-        Me.ButtonAceptar.Text = "&Aceptar"
+        Me.ButtonAceptar.Text = "&Procesar"
+        Me.ButtonAceptar.UseVisualStyleBackColor = False
         '
         'Timer1
         '
         Me.Timer1.Interval = 1000
-        '
-        'PictureBox2
-        '
-        Me.PictureBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.PictureBox2.Image = CType(resources.GetObject("PictureBox2.Image"), System.Drawing.Image)
-        Me.PictureBox2.Location = New System.Drawing.Point(168, 393)
-        Me.PictureBox2.Name = "PictureBox2"
-        Me.PictureBox2.Size = New System.Drawing.Size(55, 47)
-        Me.PictureBox2.TabIndex = 53
-        Me.PictureBox2.TabStop = False
-        Me.PictureBox2.Visible = False
         '
         'FormIntegraAlmacen
         '
         Me.AcceptButton = Me.ButtonAceptar
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.ClientSize = New System.Drawing.Size(864, 604)
-        Me.Controls.Add(Me.PictureBox2)
         Me.Controls.Add(Me.ButtonResetPerfil)
         Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.Button2)
@@ -779,7 +770,6 @@ Public Class FormIntegraAlmacen
         CType(Me.DataGrid2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -884,9 +874,17 @@ Public Class FormIntegraAlmacen
 
                 Me.TextBoxOracleSid.Text = StrConexionExtraeDataSource(MyIni.IniGet(Application.StartupPath & "\menu.ini", "DATABASE", "STRING"))
 
+                Me.Update()
+            Else
+                Dim tb As TabControl.TabPageCollection = Me.TabControlDebug.TabPages
+                tb.Remove(Me.TabPageTraspasos)
+                tb.Remove(Me.TabPageFacturasDirectas)
+                tb.Remove(Me.TabPageFacturasAlbaran)
+                tb.Remove(Me.TabPageDevoluciones)
+                tb.Remove(Me.TabPageSatocanIncidencias)
+                tb.Remove(Me.TabPagesSatocanUtils)
 
-
-
+                Me.GroupBox2.Enabled = False
                 Me.Update()
             End If
 
@@ -915,6 +913,9 @@ Public Class FormIntegraAlmacen
             ' Texto = "Ojo Falta Marcar determinados Almacenes para que no se hagan los traspasos"
             '  MsgBox(Texto, MsgBoxStyle.Information, "Falta Desarrollo")
 
+
+            Me.TextBoxDebug.BackColor = Color.Teal
+            Me.TextBoxDebug.Update()
 
             DLL = CType(MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DLL", "ALMACEN"), Integer)
             If IsNumeric(DLL) = False Then
@@ -990,7 +991,7 @@ Public Class FormIntegraAlmacen
 
                     Me.TextBoxDuracion.Text = Format(Now, "dd/MM/yyyy HH:mm:ss")
                     Me.Timer1.Enabled = False
-                    Me.PictureBox2.Visible = False
+                    Me.PictureBox1.Visible = False
 
 
                     If Me.mParaSoloFacturas = 0 Then
@@ -1006,7 +1007,7 @@ Public Class FormIntegraAlmacen
                     Me.TextBoxDuracion.Text = (Format(Date.FromOADate(Me.mDuracion), "mm 'minutos ' ss ' segundos'"))
 
                     If Me.ListBoxDebug.Items.Count > 0 Then
-                        Me.PictureBox2.Visible = True
+                        Me.PictureBox1.Visible = True
                         Me.Timer1.Enabled = True
                         Dim Texto As String
                         Texto = " (1)  Existen INCIDENCIAS en el Proceso de Validación de Cuentas " & vbCrLf & vbCrLf
@@ -1092,7 +1093,7 @@ Public Class FormIntegraAlmacen
 
                     Me.TextBoxDuracion.Text = Format(Now, "dd/MM/yyyy HH:mm:ss")
                     Me.Timer1.Enabled = False
-                    Me.PictureBox2.Visible = False
+                    Me.PictureBox1.Visible = False
 
                     Application.DoEvents()
                     INTEGRA.Procesar()
@@ -1103,7 +1104,7 @@ Public Class FormIntegraAlmacen
                     Me.TextBoxDuracion.Text = (Format(Date.FromOADate(Me.mDuracion), "mm 'minutos ' ss ' segundos'"))
 
                     If Me.ListBoxDebug.Items.Count > 0 Then
-                        Me.PictureBox2.Visible = True
+                        Me.PictureBox1.Visible = True
                         Me.Timer1.Enabled = True
                         Dim Texto As String
                         Texto = " (1)  Existen INCIDENCIAS en el Proceso de Validación de Cuentas " & vbCrLf & vbCrLf
@@ -1142,7 +1143,7 @@ Public Class FormIntegraAlmacen
 
                     Me.TextBoxDuracion.Text = Format(Now, "dd/MM/yyyy HH:mm:ss")
                     Me.Timer1.Enabled = False
-                    Me.PictureBox2.Visible = False
+                    Me.PictureBox1.Visible = False
 
                     Application.DoEvents()
                     INTEGRA.Procesar()
@@ -1152,7 +1153,7 @@ Public Class FormIntegraAlmacen
                     Me.TextBoxDuracion.Text = (Format(Date.FromOADate(Me.mDuracion), "mm 'minutos ' ss ' segundos'"))
 
                     If Me.ListBoxDebug.Items.Count > 0 Then
-                        Me.PictureBox2.Visible = True
+                        Me.PictureBox1.Visible = True
                         Me.Timer1.Enabled = True
                         Dim Texto As String
                         Texto = " (1)  Existen INCIDENCIAS en el Proceso de Validación de Cuentas " & vbCrLf & vbCrLf
@@ -1172,7 +1173,7 @@ Public Class FormIntegraAlmacen
                     ' Me.TextBox1.Text = INTEGRA.LiquidoServiciosConIgic
                     ' Me.TextBox2.Text = INTEGRA.LiquidoServiciosSinIgic
                     ' Me.TextBox3.Text = INTEGRA.LiquidoDesembolsos
-                    Me.Update()
+                    '  Me.Update()
                 End If
 
             End If
@@ -1184,24 +1185,32 @@ Public Class FormIntegraAlmacen
             Me.DataGrid2.Update()
 
 
-            SQL = "SELECT SUM(ASNT_DEBE)FROM TS_ASNT WHERE " & Me.CampoFecha & "  = '" & Me.DateTimePicker1.Value & "'"
+            SQL = "SELECT SUM(NVL(ASNT_DEBE,0)) AS ASNT_DEBE FROM TS_ASNT WHERE " & Me.CampoFecha & "  = '" & Me.DateTimePicker1.Value & "'"
             SQL += " AND TS_ASNT.ASNT_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
             SQL += " AND TS_ASNT.ASNT_EMP_COD = '" & Me.mEmpCod & "'"
             SQL += " AND TS_ASNT.ASNT_EMP_NUM = " & Me.mEmpNum
 
 
 
-            Me.TextBoxDebug.Text = Me.DbLee.EjecutaSqlScalar(SQL)
+            Me.mTotalDebe = Me.DbLee.EjecutaSqlScalar(SQL)
 
-            SQL = "SELECT SUM(ASNT_HABER)FROM TS_ASNT WHERE " & Me.CampoFecha & "  = '" & Me.DateTimePicker1.Value & "'"
+            SQL = "SELECT SUM(NVL(ASNT_HABER,0)) AS ASNT_HABER FROM TS_ASNT WHERE " & Me.CampoFecha & "  = '" & Me.DateTimePicker1.Value & "'"
 
             SQL += " AND TS_ASNT.ASNT_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
             SQL += " AND TS_ASNT.ASNT_EMP_COD = '" & Me.mEmpCod & "'"
             SQL += " AND TS_ASNT.ASNT_EMP_NUM = " & Me.mEmpNum
 
 
-            Me.TextBoxDebug.Text = Me.TextBoxDebug.Text & "   " & Me.DbLee.EjecutaSqlScalar(SQL)
+            Me.mTotalHaber = Me.DbLee.EjecutaSqlScalar(SQL)
 
+            Me.TextBoxDebug.Text += " " & Me.mTotalDebe & "   " & Me.mTotalHaber
+
+            If Me.mTotalDebe <> Me.mTotalHaber Then
+                Me.TextBoxDebug.BackColor = Color.Maroon
+            Else
+                Me.TextBoxDebug.BackColor = Color.Teal
+            End If
+            Me.TextBoxDebug.Update()
 
             SQL = "SELECT ASNT_EMPGRUPO_COD,ASNT_EMP_COD,ASNT_EMP_NUM,ASNT_ALMA_CODI,ASNT_F_ATOCAB FECHA,ASNT_F_VALOR AS ""FECHA DE VALOR"", ASNT_CFCTA_COD AS CUENTA, "
             SQL += "ASNT_AMPCPTO AS CONCEPTO,ASNT_DOCU AS DOCUMENTO,NVL(ASNT_AUXILIAR_STRING,'?') AS ORIGEN , "
@@ -1543,9 +1552,16 @@ Public Class FormIntegraAlmacen
             REPORT_SELECTION_FORMULA += " AND {TS_ASNT.ASNT_EMPGRUPO_COD}= '" & Me.mEmpGrupoCod & "'"
             REPORT_SELECTION_FORMULA += " AND {TS_ASNT.ASNT_EMP_COD}= '" & Me.mEmpCod & "'"
 
+            If DLL = 5 Then
+                ' Santa Monica 
+                REPORT_NAME = "Asiento_Almacen-SMONICA.RPT"
+            Else
+                REPORT_NAME = "ASIENTO_ALMACEN.RPT"
+            End If
 
 
-            Dim Form As New FormVisorCrystal("ASIENTO_ALMACEN.RPT", Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 2), REPORT_SELECTION_FORMULA, MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DATABASE", "STRING"), "", False, False)
+
+            Dim Form As New FormVisorCrystal(REPORT_NAME, Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 2), REPORT_SELECTION_FORMULA, MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DATABASE", "STRING"), "", False, False)
             Form.MdiParent = Me.MdiParent
             Form.StartPosition = FormStartPosition.CenterScreen
             Form.Show()
@@ -2153,15 +2169,53 @@ Public Class FormIntegraAlmacen
         Try
 
 
-            If Me.PictureBox2.Visible = True Then
-                Me.PictureBox2.Visible = False
+            If Me.PictureBox1.Visible = True Then
+                Me.PictureBox1.Visible = False
                 Exit Sub
             End If
 
-            If Me.PictureBox2.Visible = False Then
-                Me.PictureBox2.Visible = True
+            If Me.PictureBox1.Visible = False Then
+                Me.PictureBox1.Visible = True
                 Exit Sub
             End If
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub EsconderTabs()
+        Try
+
+
+
+
+            ' NO BORRAR PARA SABER EL INDICE/NOMBRE DE CADA UNO
+
+            For i As Integer = 0 To Me.TabControlDebug.TabPages.Count - 1
+                Me.TabControlDebug.TabPages(i).Visible = False
+                MsgBox(Me.TabControlDebug.TabPages(i).TabIndex & " " & Me.TabControlDebug.TabPages(i).Text)
+            Next
+
+
+
+
+
+
+            '   If Me.mEmpGrupoCod = "SATO" Then
+            '   Me.TabControlModosdeOperacion.TabPages.Remove(Me.TabPage11)
+            '  Me.TabControlModosdeOperacion.TabPages.Remove(Me.TabPage14)
+            ' Else
+            'Me.TabControlModosdeOperacion.TabPages.Remove(Me.TabPage10)
+            'Me.TabControlModosdeOperacion.TabPages.Remove(Me.TabPage12)
+            '    'Me.TabControlModosdeOperacion.TabPages.Remove(Me.TabPage13)
+            '   Me.TabControlModosdeOperacion.TabPages.Remove(Me.TabPage11)
+            'Me.TabControlModosdeOperacion.TabPages.Remove(Me.TabPage14)
+
+            '   End If
+
+            'Me.TabControlModosdeOperacion.Update()
+
 
         Catch ex As Exception
             MsgBox(ex.Message)
@@ -2194,15 +2248,5 @@ Public Class FormIntegraAlmacen
         End Try
     End Sub
 
-    Private Sub TextBoxDuracion_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TextBoxDuracion.TextChanged
 
-    End Sub
-
-    Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
-
-    End Sub
-
-    Private Sub FormIntegraAlmacen_Shown(sender As Object, e As EventArgs) Handles Me.Shown
-
-    End Sub
 End Class

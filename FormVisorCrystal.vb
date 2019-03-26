@@ -30,6 +30,7 @@ Public Class FormVisorCrystal
     Private CrTablas As CrystalDecisions.CrystalReports.Engine.Tables
     Private CrTabla As CrystalDecisions.CrystalReports.Engine.Table
     Private CrTablaLogInfo As CrystalDecisions.Shared.TableLogOnInfo
+    Friend WithEvents CrystalReportViewer1 As CrystalDecisions.Windows.Forms.CrystalReportViewer
 
     ' paso de parametros al report
     Private vParFecha1 As String
@@ -51,7 +52,7 @@ Public Class FormVisorCrystal
         InitializeComponent()
         If IsDBNull(vReportName) = True Then
 
-            Throw New ArgumentException( _
+            Throw New ArgumentException(
                         "El nombre del Report no puede ser una cadena vacía")
         Else
             Me.mReportName = vReportName
@@ -78,29 +79,26 @@ Public Class FormVisorCrystal
     'Requerido por el Diseñador de Windows Forms
     Private components As System.ComponentModel.IContainer
 
-    'NOTA: el Diseñador de Windows Forms requiere el siguiente procedimiento
-    'Puede modificarse utilizando el Diseñador de Windows Forms. 
-    'No lo modifique con el editor de código.
-    Friend WithEvents CrystalReportViewer As CrystalDecisions.Windows.Forms.CrystalReportViewer
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.CrystalReportViewer = New CrystalDecisions.Windows.Forms.CrystalReportViewer
+        Me.CrystalReportViewer1 = New CrystalDecisions.Windows.Forms.CrystalReportViewer()
         Me.SuspendLayout()
         '
-        'CrystalReportViewer
+        'CrystalReportViewer1
         '
-        Me.CrystalReportViewer.ActiveViewIndex = -1
-        Me.CrystalReportViewer.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CrystalReportViewer.Location = New System.Drawing.Point(0, 0)
-        Me.CrystalReportViewer.Name = "CrystalReportViewer"
-        Me.CrystalReportViewer.ReportSource = Nothing
-        Me.CrystalReportViewer.Size = New System.Drawing.Size(840, 273)
-        Me.CrystalReportViewer.TabIndex = 0
+        Me.CrystalReportViewer1.ActiveViewIndex = -1
+        Me.CrystalReportViewer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.CrystalReportViewer1.Cursor = System.Windows.Forms.Cursors.Default
+        Me.CrystalReportViewer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.CrystalReportViewer1.Location = New System.Drawing.Point(0, 0)
+        Me.CrystalReportViewer1.Name = "CrystalReportViewer1"
+        Me.CrystalReportViewer1.Size = New System.Drawing.Size(840, 301)
+        Me.CrystalReportViewer1.TabIndex = 0
         '
         'FormVisorCrystal
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(840, 273)
-        Me.Controls.Add(Me.CrystalReportViewer)
+        Me.ClientSize = New System.Drawing.Size(840, 301)
+        Me.Controls.Add(Me.CrystalReportViewer1)
         Me.Name = "FormVisorCrystal"
         Me.Text = "Visor de Informes"
         Me.ResumeLayout(False)
@@ -159,13 +157,14 @@ Public Class FormVisorCrystal
 
 
             'Paso Formula
-            Me.CrystalReportViewer.SelectionFormula = Me.mSelectionFormula
+            Me.CrystalReportViewer1.SelectionFormula = Me.mSelectionFormula
 
 
 
 
-            Me.CrystalReportViewer.ReportSource = Me.Reporte
+            Me.CrystalReportViewer1.ReportSource = Me.Reporte
             Me.LogOnReport(MyConexion)
+            Me.CrystalReportViewer1.Zoom(120)
 
         Catch EX As Exception
             MsgBox(EX.Message)

@@ -22,29 +22,29 @@ Partial Class FormIntegraNewConta
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormIntegraNewConta))
-        Me.ButtonAceptar = New System.Windows.Forms.Button
-        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker
-        Me.DataGridHoteles = New System.Windows.Forms.DataGrid
-        Me.TextBoxRutaFicheros = New System.Windows.Forms.TextBox
-        Me.CheckBoxDebug = New System.Windows.Forms.CheckBox
-        Me.ProgressBar1 = New System.Windows.Forms.ProgressBar
-        Me.TextBoxDebug = New System.Windows.Forms.TextBox
-        Me.ListBoxDebug = New System.Windows.Forms.ListBox
-        Me.ButtonImprimir = New System.Windows.Forms.Button
-        Me.ButtonConvertir = New System.Windows.Forms.Button
-        Me.ButtonGrants = New System.Windows.Forms.Button
-        Me.ButtonImprimir2 = New System.Windows.Forms.Button
-        Me.CheckBoxOtrosCreditos = New System.Windows.Forms.CheckBox
-        Me.CheckBoxOtrosDebitos = New System.Windows.Forms.CheckBox
-        Me.DataGrid2 = New System.Windows.Forms.DataGrid
-        Me.ButtonImprimirSaldos = New System.Windows.Forms.Button
-        Me.ButtonFechasPosiblesNewConta = New System.Windows.Forms.Button
-        Me.ListBoxFechasPosibles = New System.Windows.Forms.ListBox
-        Me.CheckBoxTrataAnulacionesdelDia = New System.Windows.Forms.CheckBox
-        Me.ListBoxDebug2 = New System.Windows.Forms.ListBox
-        Me.CheckBoxMultiCobros = New System.Windows.Forms.CheckBox
+        Me.ButtonAceptar = New System.Windows.Forms.Button()
+        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
+        Me.DataGridHoteles = New System.Windows.Forms.DataGrid()
+        Me.TextBoxRutaFicheros = New System.Windows.Forms.TextBox()
+        Me.CheckBoxDebug = New System.Windows.Forms.CheckBox()
+        Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
+        Me.TextBoxDebug = New System.Windows.Forms.TextBox()
+        Me.ListBoxDebug = New System.Windows.Forms.ListBox()
+        Me.ButtonImprimir = New System.Windows.Forms.Button()
+        Me.ButtonConvertir = New System.Windows.Forms.Button()
+        Me.ButtonGrants = New System.Windows.Forms.Button()
+        Me.ButtonImprimir2 = New System.Windows.Forms.Button()
+        Me.CheckBoxOtrosCreditos = New System.Windows.Forms.CheckBox()
+        Me.CheckBoxOtrosDebitos = New System.Windows.Forms.CheckBox()
+        Me.DataGrid2 = New System.Windows.Forms.DataGrid()
+        Me.ButtonImprimirSaldos = New System.Windows.Forms.Button()
+        Me.ButtonFechasPosiblesNewConta = New System.Windows.Forms.Button()
+        Me.ListBoxFechasPosibles = New System.Windows.Forms.ListBox()
+        Me.CheckBoxTrataAnulacionesdelDia = New System.Windows.Forms.CheckBox()
+        Me.ListBoxDebug2 = New System.Windows.Forms.ListBox()
+        Me.CheckBoxMultiCobros = New System.Windows.Forms.CheckBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         CType(Me.DataGridHoteles, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DataGrid2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -52,13 +52,16 @@ Partial Class FormIntegraNewConta
         '
         'ButtonAceptar
         '
+        Me.ButtonAceptar.BackColor = System.Drawing.Color.Teal
+        Me.ButtonAceptar.ForeColor = System.Drawing.Color.White
         Me.ButtonAceptar.Image = CType(resources.GetObject("ButtonAceptar.Image"), System.Drawing.Image)
         Me.ButtonAceptar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.ButtonAceptar.Location = New System.Drawing.Point(170, 7)
         Me.ButtonAceptar.Name = "ButtonAceptar"
-        Me.ButtonAceptar.Size = New System.Drawing.Size(80, 23)
+        Me.ButtonAceptar.Size = New System.Drawing.Size(98, 35)
         Me.ButtonAceptar.TabIndex = 13
-        Me.ButtonAceptar.Text = "&Aceptar"
+        Me.ButtonAceptar.Text = "&Procesar"
+        Me.ButtonAceptar.UseVisualStyleBackColor = False
         '
         'DateTimePicker1
         '
@@ -73,7 +76,7 @@ Partial Class FormIntegraNewConta
         'DataGridHoteles
         '
         Me.DataGridHoteles.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridHoteles.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.DataGridHoteles.DataMember = ""
         Me.DataGridHoteles.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -110,7 +113,7 @@ Partial Class FormIntegraNewConta
         'ProgressBar1
         '
         Me.ProgressBar1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ProgressBar1.ForeColor = System.Drawing.Color.SteelBlue
         Me.ProgressBar1.Location = New System.Drawing.Point(12, 166)
         Me.ProgressBar1.Name = "ProgressBar1"
@@ -120,7 +123,7 @@ Partial Class FormIntegraNewConta
         'TextBoxDebug
         '
         Me.TextBoxDebug.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBoxDebug.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBoxDebug.Location = New System.Drawing.Point(8, 416)
         Me.TextBoxDebug.Name = "TextBoxDebug"
@@ -130,7 +133,7 @@ Partial Class FormIntegraNewConta
         'ListBoxDebug
         '
         Me.ListBoxDebug.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ListBoxDebug.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.ListBoxDebug.FormattingEnabled = True
         Me.ListBoxDebug.HorizontalExtent = 3000
@@ -210,8 +213,8 @@ Partial Class FormIntegraNewConta
         'DataGrid2
         '
         Me.DataGrid2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGrid2.DataMember = ""
         Me.DataGrid2.Font = New System.Drawing.Font("Verdana", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.DataGrid2.HeaderForeColor = System.Drawing.SystemColors.ControlText
@@ -237,9 +240,9 @@ Partial Class FormIntegraNewConta
         '
         Me.ButtonFechasPosiblesNewConta.Image = Global.Menu.My.Resources.ResourceFondos.clear
         Me.ButtonFechasPosiblesNewConta.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ButtonFechasPosiblesNewConta.Location = New System.Drawing.Point(269, 3)
+        Me.ButtonFechasPosiblesNewConta.Location = New System.Drawing.Point(274, 3)
         Me.ButtonFechasPosiblesNewConta.Name = "ButtonFechasPosiblesNewConta"
-        Me.ButtonFechasPosiblesNewConta.Size = New System.Drawing.Size(60, 39)
+        Me.ButtonFechasPosiblesNewConta.Size = New System.Drawing.Size(55, 39)
         Me.ButtonFechasPosiblesNewConta.TabIndex = 28
         Me.ButtonFechasPosiblesNewConta.Text = "    ?"
         '
@@ -267,8 +270,8 @@ Partial Class FormIntegraNewConta
         Me.CheckBoxTrataAnulacionesdelDia.Size = New System.Drawing.Size(115, 17)
         Me.CheckBoxTrataAnulacionesdelDia.TabIndex = 30
         Me.CheckBoxTrataAnulacionesdelDia.Text = "Tratar Anulaciones"
-        Me.ToolTip1.SetToolTip(Me.CheckBoxTrataAnulacionesdelDia, "Indica si se desea dar tratamiento a los Recibos Emitidos y Anulados en el mismo " & _
-                "Día")
+        Me.ToolTip1.SetToolTip(Me.CheckBoxTrataAnulacionesdelDia, "Indica si se desea dar tratamiento a los Recibos Emitidos y Anulados en el mismo " &
+        "Día")
         Me.CheckBoxTrataAnulacionesdelDia.UseVisualStyleBackColor = True
         '
         'ListBoxDebug2
@@ -297,8 +300,8 @@ Partial Class FormIntegraNewConta
         Me.CheckBoxMultiCobros.Size = New System.Drawing.Size(176, 17)
         Me.CheckBoxMultiCobros.TabIndex = 32
         Me.CheckBoxMultiCobros.Text = "Gestión de Recibos Multicobros"
-        Me.ToolTip1.SetToolTip(Me.CheckBoxMultiCobros, "En Caso de recibos con más de un Cobro y más de un Documento " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Se usa la asociaci" & _
-                "ón Cobro/Documento hecha por el software")
+        Me.ToolTip1.SetToolTip(Me.CheckBoxMultiCobros, "En Caso de recibos con más de un Cobro y más de un Documento " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Se usa la asociaci" &
+        "ón Cobro/Documento hecha por el software")
         Me.CheckBoxMultiCobros.UseVisualStyleBackColor = True
         '
         'ToolTip1

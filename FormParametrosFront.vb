@@ -293,6 +293,7 @@ Public Class FormParametrosFront
     Friend WithEvents CheckBoxNewContaTrataFactAnul As CheckBox
     Friend WithEvents CheckBoxNewContaTrataFactNeg2 As CheckBox
     Friend WithEvents CheckBoxNewContaTrataFactNeg As CheckBox
+    Friend WithEvents CheckBoxNewContaContabilizarAsientoPagosRecibidos As CheckBox
     Dim SQL As String
 
 #Region " Código generado por el Diseñador de Windows Forms "
@@ -466,6 +467,11 @@ Public Class FormParametrosFront
         Me.TextBoxDebug = New System.Windows.Forms.TextBox()
         Me.Label28 = New System.Windows.Forms.Label()
         Me.TabPage7 = New System.Windows.Forms.TabPage()
+        Me.CheckBoxNewContaContabilizarAsientoPagosRecibidos = New System.Windows.Forms.CheckBox()
+        Me.CheckBoxNewContaTrataFactAnul2 = New System.Windows.Forms.CheckBox()
+        Me.CheckBoxNewContaTrataFactAnul = New System.Windows.Forms.CheckBox()
+        Me.CheckBoxNewContaTrataFactNeg2 = New System.Windows.Forms.CheckBox()
+        Me.CheckBoxNewContaTrataFactNeg = New System.Windows.Forms.CheckBox()
         Me.TextBoxUsuarioNewHotel = New System.Windows.Forms.TextBox()
         Me.Label131 = New System.Windows.Forms.Label()
         Me.CheckBoxNewContaTrataAnulados = New System.Windows.Forms.CheckBox()
@@ -747,10 +753,6 @@ Public Class FormParametrosFront
         Me.TextBoxEmpCod = New System.Windows.Forms.TextBox()
         Me.Label78 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.CheckBoxNewContaTrataFactNeg = New System.Windows.Forms.CheckBox()
-        Me.CheckBoxNewContaTrataFactNeg2 = New System.Windows.Forms.CheckBox()
-        Me.CheckBoxNewContaTrataFactAnul2 = New System.Windows.Forms.CheckBox()
-        Me.CheckBoxNewContaTrataFactAnul = New System.Windows.Forms.CheckBox()
         Me.GroupBox1.SuspendLayout()
         Me.TabControlOpciones.SuspendLayout()
         Me.TabPageGeneral.SuspendLayout()
@@ -1419,6 +1421,7 @@ Public Class FormParametrosFront
         '
         'TabPage7
         '
+        Me.TabPage7.Controls.Add(Me.CheckBoxNewContaContabilizarAsientoPagosRecibidos)
         Me.TabPage7.Controls.Add(Me.CheckBoxNewContaTrataFactAnul2)
         Me.TabPage7.Controls.Add(Me.CheckBoxNewContaTrataFactAnul)
         Me.TabPage7.Controls.Add(Me.CheckBoxNewContaTrataFactNeg2)
@@ -1439,12 +1442,62 @@ Public Class FormParametrosFront
         Me.TabPage7.Text = "NewConta Cuentas por Cobrar"
         Me.TabPage7.UseVisualStyleBackColor = True
         '
+        'CheckBoxNewContaContabilizarAsientoPagosRecibidos
+        '
+        Me.CheckBoxNewContaContabilizarAsientoPagosRecibidos.AutoSize = True
+        Me.CheckBoxNewContaContabilizarAsientoPagosRecibidos.Location = New System.Drawing.Point(459, 22)
+        Me.CheckBoxNewContaContabilizarAsientoPagosRecibidos.Name = "CheckBoxNewContaContabilizarAsientoPagosRecibidos"
+        Me.CheckBoxNewContaContabilizarAsientoPagosRecibidos.Size = New System.Drawing.Size(195, 17)
+        Me.CheckBoxNewContaContabilizarAsientoPagosRecibidos.TabIndex = 40
+        Me.CheckBoxNewContaContabilizarAsientoPagosRecibidos.Text = "Generar Asiento ""Pagos Recibidos"""
+        Me.CheckBoxNewContaContabilizarAsientoPagosRecibidos.UseVisualStyleBackColor = True
+        '
+        'CheckBoxNewContaTrataFactAnul2
+        '
+        Me.CheckBoxNewContaTrataFactAnul2.AutoSize = True
+        Me.CheckBoxNewContaTrataFactAnul2.Location = New System.Drawing.Point(459, 194)
+        Me.CheckBoxNewContaTrataFactAnul2.Name = "CheckBoxNewContaTrataFactAnul2"
+        Me.CheckBoxNewContaTrataFactAnul2.Size = New System.Drawing.Size(318, 17)
+        Me.CheckBoxNewContaTrataFactAnul2.TabIndex = 39
+        Me.CheckBoxNewContaTrataFactAnul2.Text = "Tratar Regularizaciones Automáticas ""Facturas de Anulación"""
+        Me.CheckBoxNewContaTrataFactAnul2.UseVisualStyleBackColor = True
+        '
+        'CheckBoxNewContaTrataFactAnul
+        '
+        Me.CheckBoxNewContaTrataFactAnul.AutoSize = True
+        Me.CheckBoxNewContaTrataFactAnul.Location = New System.Drawing.Point(459, 171)
+        Me.CheckBoxNewContaTrataFactAnul.Name = "CheckBoxNewContaTrataFactAnul"
+        Me.CheckBoxNewContaTrataFactAnul.Size = New System.Drawing.Size(236, 17)
+        Me.CheckBoxNewContaTrataFactAnul.TabIndex = 38
+        Me.CheckBoxNewContaTrataFactAnul.Text = "Tratar ""Facturas de Anulación"" Como Pagos"
+        Me.CheckBoxNewContaTrataFactAnul.UseVisualStyleBackColor = True
+        '
+        'CheckBoxNewContaTrataFactNeg2
+        '
+        Me.CheckBoxNewContaTrataFactNeg2.AutoSize = True
+        Me.CheckBoxNewContaTrataFactNeg2.Location = New System.Drawing.Point(459, 107)
+        Me.CheckBoxNewContaTrataFactNeg2.Name = "CheckBoxNewContaTrataFactNeg2"
+        Me.CheckBoxNewContaTrataFactNeg2.Size = New System.Drawing.Size(393, 17)
+        Me.CheckBoxNewContaTrataFactNeg2.TabIndex = 37
+        Me.CheckBoxNewContaTrataFactNeg2.Text = "Tratar Regularizaciones Realizadas con Facturas Negativas (Serie de Crédito)"
+        Me.CheckBoxNewContaTrataFactNeg2.UseVisualStyleBackColor = True
+        '
+        'CheckBoxNewContaTrataFactNeg
+        '
+        Me.CheckBoxNewContaTrataFactNeg.AutoSize = True
+        Me.CheckBoxNewContaTrataFactNeg.Location = New System.Drawing.Point(459, 84)
+        Me.CheckBoxNewContaTrataFactNeg.Name = "CheckBoxNewContaTrataFactNeg"
+        Me.CheckBoxNewContaTrataFactNeg.Size = New System.Drawing.Size(306, 17)
+        Me.CheckBoxNewContaTrataFactNeg.TabIndex = 36
+        Me.CheckBoxNewContaTrataFactNeg.Text = "Tratar ""Facturas Negativas (Serie de Crédito)"" Como Pagos"
+        Me.CheckBoxNewContaTrataFactNeg.UseVisualStyleBackColor = True
+        '
         'TextBoxUsuarioNewHotel
         '
         Me.TextBoxUsuarioNewHotel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBoxUsuarioNewHotel.Location = New System.Drawing.Point(185, 235)
         Me.TextBoxUsuarioNewHotel.Name = "TextBoxUsuarioNewHotel"
-        Me.TextBoxUsuarioNewHotel.Size = New System.Drawing.Size(112, 20)
+        Me.TextBoxUsuarioNewHotel.Size = New System.Drawing.Size(152, 20)
         Me.TextBoxUsuarioNewHotel.TabIndex = 35
         '
         'Label131
@@ -1453,7 +1506,7 @@ Public Class FormParametrosFront
         Me.Label131.Name = "Label131"
         Me.Label131.Size = New System.Drawing.Size(161, 66)
         Me.Label131.TabIndex = 34
-        Me.Label131.Text = "Usuario DB NewHotel" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Solo si Ambas Bds están en Misma Bd !!"
+        Me.Label131.Text = "Usuario DB NewHotel" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Solo si Ambas Bds están en el Mismo Servidor  !!"
         '
         'CheckBoxNewContaTrataAnulados
         '
@@ -4158,46 +4211,6 @@ Public Class FormParametrosFront
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'CheckBoxNewContaTrataFactNeg
-        '
-        Me.CheckBoxNewContaTrataFactNeg.AutoSize = True
-        Me.CheckBoxNewContaTrataFactNeg.Location = New System.Drawing.Point(448, 30)
-        Me.CheckBoxNewContaTrataFactNeg.Name = "CheckBoxNewContaTrataFactNeg"
-        Me.CheckBoxNewContaTrataFactNeg.Size = New System.Drawing.Size(306, 17)
-        Me.CheckBoxNewContaTrataFactNeg.TabIndex = 36
-        Me.CheckBoxNewContaTrataFactNeg.Text = "Tratar ""Facturas Negativas (Serie de Crédito)"" Como Pagos"
-        Me.CheckBoxNewContaTrataFactNeg.UseVisualStyleBackColor = True
-        '
-        'CheckBoxNewContaTrataFactNeg2
-        '
-        Me.CheckBoxNewContaTrataFactNeg2.AutoSize = True
-        Me.CheckBoxNewContaTrataFactNeg2.Location = New System.Drawing.Point(448, 53)
-        Me.CheckBoxNewContaTrataFactNeg2.Name = "CheckBoxNewContaTrataFactNeg2"
-        Me.CheckBoxNewContaTrataFactNeg2.Size = New System.Drawing.Size(393, 17)
-        Me.CheckBoxNewContaTrataFactNeg2.TabIndex = 37
-        Me.CheckBoxNewContaTrataFactNeg2.Text = "Tratar Regularizaciones Realizadas con Facturas Negativas (Serie de Crédito)"
-        Me.CheckBoxNewContaTrataFactNeg2.UseVisualStyleBackColor = True
-        '
-        'CheckBoxNewContaTrataFactAnul2
-        '
-        Me.CheckBoxNewContaTrataFactAnul2.AutoSize = True
-        Me.CheckBoxNewContaTrataFactAnul2.Location = New System.Drawing.Point(448, 140)
-        Me.CheckBoxNewContaTrataFactAnul2.Name = "CheckBoxNewContaTrataFactAnul2"
-        Me.CheckBoxNewContaTrataFactAnul2.Size = New System.Drawing.Size(318, 17)
-        Me.CheckBoxNewContaTrataFactAnul2.TabIndex = 39
-        Me.CheckBoxNewContaTrataFactAnul2.Text = "Tratar Regularizaciones Automáticas ""Facturas de Anulación"""
-        Me.CheckBoxNewContaTrataFactAnul2.UseVisualStyleBackColor = True
-        '
-        'CheckBoxNewContaTrataFactAnul
-        '
-        Me.CheckBoxNewContaTrataFactAnul.AutoSize = True
-        Me.CheckBoxNewContaTrataFactAnul.Location = New System.Drawing.Point(448, 117)
-        Me.CheckBoxNewContaTrataFactAnul.Name = "CheckBoxNewContaTrataFactAnul"
-        Me.CheckBoxNewContaTrataFactAnul.Size = New System.Drawing.Size(236, 17)
-        Me.CheckBoxNewContaTrataFactAnul.TabIndex = 38
-        Me.CheckBoxNewContaTrataFactAnul.Text = "Tratar ""Facturas de Anulación"" Como Pagos"
-        Me.CheckBoxNewContaTrataFactAnul.UseVisualStyleBackColor = True
-        '
         'FormParametrosFront
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -5057,7 +5070,7 @@ Public Class FormParametrosFront
         Try
             SQL = "SELECT  PARA_ORIGENCUENTAS,NVL(PARA_ESTABLECIMIENTO,'<Ninguno>') AS PARA_ESTABLECIMIENTO ,PARA_TRATA_ANULACIONES,PARA_CFBCOTMOV_COD,PARA_CFBCOTMOV_COD2,PARA_FPAGO_COD,PARA_FPAGO_COD2  "
             SQL += " ,PARA_BANCOS_COD,PARA_BANCOS_COD2,PARA_USER_NEWHOTEL "
-            SQL += ",PARA_USA_FACT_NEG,PARA_USA_FACT_NEG2,PARA_USA_FACT_ANUL,PARA_USA_FACT_ANUL2"
+            SQL += ",PARA_USA_FACT_NEG,PARA_USA_FACT_NEG2,PARA_USA_FACT_ANUL,PARA_USA_FACT_ANUL2,PARA_USA_PAGOS "
             SQL += "  FROM TC_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"
             SQL += " AND PARA_EMP_NUM = " & Me.mParaEmpNum
@@ -5156,6 +5169,12 @@ Public Class FormParametrosFront
                     Me.CheckBoxNewContaTrataFactAnul2.Checked = False
                 Else
                     Me.CheckBoxNewContaTrataFactAnul2.Checked = True
+                End If
+
+                If Me.DbLee.mDbLector.Item("PARA_USA_PAGOS") = "0" Then
+                    Me.CheckBoxNewContaContabilizarAsientoPagosRecibidos.Checked = False
+                Else
+                    Me.CheckBoxNewContaContabilizarAsientoPagosRecibidos.Checked = True
                 End If
 
             End While
@@ -5722,6 +5741,12 @@ Public Class FormParametrosFront
                 SQL += ", PARA_USA_FACT_NEG2 = 0"
             End If
 
+
+            If Me.CheckBoxNewContaContabilizarAsientoPagosRecibidos.Checked Then
+                SQL += " , PARA_USA_PAGOS = 1"
+            Else
+                SQL += ", PARA_USA_PAGOS = 0"
+            End If
             SQL += " ,PARA_ESTABLECIMIENTO = '" & Me.TextBoxNewContaEstablecimientoNewConta.Text & "'"
 
             SQL += " WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
@@ -6325,4 +6350,6 @@ Public Class FormParametrosFront
             MsgBox(ex.Message)
         End Try
     End Sub
+
+
 End Class
