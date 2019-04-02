@@ -26,6 +26,8 @@ Partial Class FormParametrosAlmacen
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPageGenerales = New System.Windows.Forms.TabPage()
+        Me.TextBoxCtaPuntoVerde = New System.Windows.Forms.TextBox()
+        Me.Label32 = New System.Windows.Forms.Label()
         Me.TextBoxCtaRoturas = New System.Windows.Forms.TextBox()
         Me.Label31 = New System.Windows.Forms.Label()
         Me.TextBoxCtaAlbaranesPdtesFormalizar = New System.Windows.Forms.TextBox()
@@ -96,8 +98,8 @@ Partial Class FormParametrosAlmacen
         Me.Label78 = New System.Windows.Forms.Label()
         Me.TextBoxEmpNum = New System.Windows.Forms.TextBox()
         Me.Label77 = New System.Windows.Forms.Label()
-        Me.TextBoxCtaPuntoVerde = New System.Windows.Forms.TextBox()
-        Me.Label32 = New System.Windows.Forms.Label()
+        Me.TextBoxCtaAjusteDecimal = New System.Windows.Forms.TextBox()
+        Me.Label33 = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPageGenerales.SuspendLayout()
@@ -135,6 +137,8 @@ Partial Class FormParametrosAlmacen
         '
         'TabPageGenerales
         '
+        Me.TabPageGenerales.Controls.Add(Me.TextBoxCtaAjusteDecimal)
+        Me.TabPageGenerales.Controls.Add(Me.Label33)
         Me.TabPageGenerales.Controls.Add(Me.TextBoxCtaPuntoVerde)
         Me.TabPageGenerales.Controls.Add(Me.Label32)
         Me.TabPageGenerales.Controls.Add(Me.TextBoxCtaRoturas)
@@ -163,10 +167,28 @@ Partial Class FormParametrosAlmacen
         Me.TabPageGenerales.Text = "Generales"
         Me.TabPageGenerales.UseVisualStyleBackColor = True
         '
+        'TextBoxCtaPuntoVerde
+        '
+        Me.TextBoxCtaPuntoVerde.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxCtaPuntoVerde.Location = New System.Drawing.Point(150, 186)
+        Me.TextBoxCtaPuntoVerde.MaxLength = 15
+        Me.TextBoxCtaPuntoVerde.Name = "TextBoxCtaPuntoVerde"
+        Me.TextBoxCtaPuntoVerde.Size = New System.Drawing.Size(164, 20)
+        Me.TextBoxCtaPuntoVerde.TabIndex = 29
+        '
+        'Label32
+        '
+        Me.Label32.AutoSize = True
+        Me.Label32.Location = New System.Drawing.Point(12, 193)
+        Me.Label32.Name = "Label32"
+        Me.Label32.Size = New System.Drawing.Size(88, 13)
+        Me.Label32.TabIndex = 28
+        Me.Label32.Text = "Cta. Punto Verde"
+        '
         'TextBoxCtaRoturas
         '
         Me.TextBoxCtaRoturas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxCtaRoturas.Location = New System.Drawing.Point(150, 123)
+        Me.TextBoxCtaRoturas.Location = New System.Drawing.Point(150, 158)
         Me.TextBoxCtaRoturas.MaxLength = 15
         Me.TextBoxCtaRoturas.Name = "TextBoxCtaRoturas"
         Me.TextBoxCtaRoturas.Size = New System.Drawing.Size(164, 20)
@@ -175,7 +197,7 @@ Partial Class FormParametrosAlmacen
         'Label31
         '
         Me.Label31.AutoSize = True
-        Me.Label31.Location = New System.Drawing.Point(14, 125)
+        Me.Label31.Location = New System.Drawing.Point(14, 165)
         Me.Label31.Name = "Label31"
         Me.Label31.Size = New System.Drawing.Size(66, 13)
         Me.Label31.TabIndex = 26
@@ -852,23 +874,23 @@ Partial Class FormParametrosAlmacen
         Me.Label77.TabIndex = 36
         Me.Label77.Text = "Hotel Nùmero"
         '
-        'TextBoxCtaPuntoVerde
+        'TextBoxCtaAjusteDecimal
         '
-        Me.TextBoxCtaPuntoVerde.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxCtaPuntoVerde.Location = New System.Drawing.Point(150, 152)
-        Me.TextBoxCtaPuntoVerde.MaxLength = 15
-        Me.TextBoxCtaPuntoVerde.Name = "TextBoxCtaPuntoVerde"
-        Me.TextBoxCtaPuntoVerde.Size = New System.Drawing.Size(164, 20)
-        Me.TextBoxCtaPuntoVerde.TabIndex = 29
+        Me.TextBoxCtaAjusteDecimal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxCtaAjusteDecimal.Location = New System.Drawing.Point(150, 214)
+        Me.TextBoxCtaAjusteDecimal.MaxLength = 15
+        Me.TextBoxCtaAjusteDecimal.Name = "TextBoxCtaAjusteDecimal"
+        Me.TextBoxCtaAjusteDecimal.Size = New System.Drawing.Size(164, 20)
+        Me.TextBoxCtaAjusteDecimal.TabIndex = 31
         '
-        'Label32
+        'Label33
         '
-        Me.Label32.AutoSize = True
-        Me.Label32.Location = New System.Drawing.Point(14, 159)
-        Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(88, 13)
-        Me.Label32.TabIndex = 28
-        Me.Label32.Text = "Cta. Punto Verde"
+        Me.Label33.AutoSize = True
+        Me.Label33.Location = New System.Drawing.Point(14, 221)
+        Me.Label33.Name = "Label33"
+        Me.Label33.Size = New System.Drawing.Size(77, 13)
+        Me.Label33.TabIndex = 30
+        Me.Label33.Text = "Ajuste Decimal"
         '
         'FormParametrosAlmacen
         '
@@ -978,4 +1000,6 @@ Partial Class FormParametrosAlmacen
     Friend WithEvents TextBoxNewPagaCtaPuente As TextBox
     Friend WithEvents TextBoxCtaPuntoVerde As TextBox
     Friend WithEvents Label32 As Label
+    Friend WithEvents TextBoxCtaAjusteDecimal As TextBox
+    Friend WithEvents Label33 As Label
 End Class

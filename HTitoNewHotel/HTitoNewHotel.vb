@@ -8502,6 +8502,7 @@ Public Class HTitoNewHotel
             Return "?"
         End Try
     End Function
+#Region "RECIBOS"
 
     Private Sub GrabaRecibo(vReciCodi As Integer, vReciAnci As Integer, vSeccion As String, vRecivalo As Double, vReciSaldo As Double, vReseCodi As Integer, vReseAnci As Integer, vCcexCodi As String)
         Try
@@ -8886,5 +8887,7 @@ Public Class HTitoNewHotel
             MsgBox(ex.Message)
         End Try
     End Sub
+#End Region
+
 #End Region
 End Class

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="HTitoNewHotelEnviar.HTitoNewHotelEnviar">
+    <Position X="0.5" Y="0.5" Width="3.25" />
+    <NestedTypes>
+      <Enum Name="HTitoNewHotelEnviar.HTitoNewHotelEnviar.mEnumTipoEnvio" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>HTitoNewHotelEnviar.vb</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="HTitoNewHotelEnviar.HTitoNewHotelEnviar.mEnumAccionMaestro" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>HTitoNewHotelEnviar.vb</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AgQWHAVIIAcgNHLiIMwcgCiZgBQgBEKXwgIGpAEIlKE=</HashCode>
+      <FileName>HTitoNewHotelEnviar.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

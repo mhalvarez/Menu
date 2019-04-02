@@ -89,6 +89,7 @@ Public Class ContanetNewConta
     Private mParaFActNeg2 As Integer
 
     Private mParaContaBilizaPagos As Integer
+    Private mParaTextosFijos As Integer
 
 
 
@@ -512,6 +513,7 @@ Public Class ContanetNewConta
 
             SQL = "SELECT  NVL(PARA_ORIGENCUENTAS,0) AS PARA_ORIGENCUENTAS,NVL(PARA_CFATODIARI_COD,'?') AS  DIARIO,PARA_TRATA_ANULACIONES,NVL(PARA_USER_NEWHOTEL,'RMC') AS PARA_USER_NEWHOTEL "
             SQL += ",NVL(PARA_USA_FACT_NEG,0) AS PARA_USA_FACT_NEG ,NVL(PARA_USA_FACT_NEG2,0) AS PARA_USA_FACT_NEG2,NVL(PARA_USA_FACT_ANUL,0) AS PARA_USA_FACT_ANUL ,NVL(PARA_USA_FACT_ANUL2,0) AS PARA_USA_FACT_ANUL2 ,PARA_USA_PAGOS "
+            SQL += ",NVL(PARA_TEXTOS_FIJOS,0) AS  PARA_TEXTOS_FIJOS "
             SQL += "  FROM TC_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
             SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
@@ -529,6 +531,8 @@ Public Class ContanetNewConta
                 Me.mParaFActNeg = CInt(Me.DbLeeCentral.mDbLector.Item("PARA_USA_FACT_NEG"))
                 Me.mParaFActNeg2 = CInt(Me.DbLeeCentral.mDbLector.Item("PARA_USA_FACT_NEG2"))
                 Me.mParaContaBilizaPagos = CInt(Me.DbLeeCentral.mDbLector.Item("PARA_USA_PAGOS"))
+
+                Me.mParaTextosFijos = CInt(Me.DbLeeCentral.mDbLector.Item("PARA_TEXTOS_FIJOS"))
 
             Else
                 Me.mOrigenCuentasNewConta = 0
@@ -1614,7 +1618,7 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
             SQL += "         TRUNC (VNCO_MOCO.MOCO_DAVA) DAVA, VNCO_MOCO.MOCO_VAOR, "
             SQL += "         VNCO_MOCO.MOCO_CAMB, VNCO_MOCO.MOCO_DEBI, VNCO_MOCO.MOCO_CRED AS TOTAL, "
             SQL += "         VNCO_MOCO.MOCO_ANUL, NVL(VNCO_MOCO.TACO_NOME,' ') AS TACO_NOME, VNCO_MOCO.MOCO_RECI, "
-            SQL += "         VNCO_MOCO.MOCO_CODI, NVL(VNCO_MOCO.MOCO_DESC,' ') AS MOCO_DESC, VNCO_MOCO.MOCO_EXTE, "
+            SQL += "         VNCO_MOCO.MOCO_CODI, VNCO_MOCO.MOCO_DESC, VNCO_MOCO.MOCO_EXTE, "
             SQL += "         VNCO_MOCO.MOCO_OBSE, VNCO_MOCO.DIFE_RATE, VNCO_MOCO.MOCO_DIFE, "
             SQL += "         ABS (VNCO_MOCO.MOCO_VADE) MOCO_VADE, VNCO_MOCO.PACO_PAAS, "
             SQL += "         VNCO_MOCO.TACO_ORIG, VNCO_MOCO.MOCO_DATR,VNCO_MOCO.MOCO_DAVA, VNCO_MOCO.HOTE_CODI, "
@@ -1685,13 +1689,27 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                 DocDeb = ""
                 DescDeb = ""
 
-                If CStr(Me.DbNewConta.mDbLector("TIMO_CODI")) = mCodigoNotasCredito Then
-                    Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("MOCO_DESC"))
-                ElseIf CStr(Me.DbNewConta.mDbLector("MOCO_DESC")).Length = 1 Then
-                    Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("MOLI_DESC"))
+
+
+                If Me.mParaTextosFijos = 1 Then
+                    If CStr(Me.DbNewConta.mDbLector("TIMO_CODI")) = mCodigoNotasCredito Then
+                        Me.mtextoApunte = StrConv(CStr(Me.DbNewConta.mDbLector("MOCO_DESC")), VbStrConv.ProperCase)
+                    Else
+                        Me.mtextoApunte = "(" & Mid(StrConv(CStr(Me.DbNewConta.mDbLector("MOLI_DESC")), VbStrConv.ProperCase), 1, 8) & ")  " & StrConv(CStr(Me.DbNewConta.mDbLector("TACO_NOME")), VbStrConv.ProperCase)
+                    End If
+
                 Else
-                    Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("MOLI_DESC")) & "," & CStr(Me.DbNewConta.mDbLector("MOCO_DESC"))
+                    If CStr(Me.DbNewConta.mDbLector("TIMO_CODI")) = mCodigoNotasCredito Then
+                        Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("MOCO_DESC"))
+                    ElseIf IsDBNull(Me.DbNewConta.mDbLector("MOCO_DESC")) = True Then
+                        Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("MOLI_DESC"))
+                    Else
+                        Me.mtextoApunte = "(" & CStr(Me.DbNewConta.mDbLector("MOLI_DESC")) & ") ," & CStr(Me.DbNewConta.mDbLector("MOCO_DESC"))
+                    End If
                 End If
+
+
+
 
 
                 Recibo = BuscaReciboDeCobro(CStr(Me.DbNewConta.mDbLector("TACO_CODI")), CInt(Me.DbNewConta.mDbLector("MOCO_CODI")))
@@ -1714,7 +1732,7 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
             SQL += "         TRUNC (VNCO_MOCO.MOCO_DAVA) DAVA, VNCO_MOCO.MOCO_VAOR, "
             SQL += "         VNCO_MOCO.MOCO_CAMB, VNCO_MOCO.MOCO_DEBI, VNCO_MOCO.MOCO_CRED AS TOTAL, "
             SQL += "         VNCO_MOCO.MOCO_ANUL, NVL(VNCO_MOCO.TACO_NOME,' ') AS TACO_NOME , VNCO_MOCO.MOCO_RECI, "
-            SQL += "         VNCO_MOCO.MOCO_CODI, NVL(VNCO_MOCO.MOCO_DESC,' ') AS MOCO_DESC, VNCO_MOCO.MOCO_EXTE, "
+            SQL += "         VNCO_MOCO.MOCO_CODI, VNCO_MOCO.MOCO_DESC , VNCO_MOCO.MOCO_EXTE, "
             SQL += "         VNCO_MOCO.MOCO_OBSE, VNCO_MOCO.DIFE_RATE, VNCO_MOCO.MOCO_DIFE, "
             SQL += "         ABS (VNCO_MOCO.MOCO_VADE) MOCO_VADE, VNCO_MOCO.PACO_PAAS, "
             SQL += "         VNCO_MOCO.TACO_ORIG, VNCO_MOCO.MOCO_DATR,VNCO_MOCO.MOCO_DAVA ,VNCO_MOCO.HOTE_CODI, "
@@ -1774,12 +1792,21 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                 DescDeb = ""
 
 
-                If CStr(Me.DbNewConta.mDbLector("TIMO_CODI")) = mCodigoNotasCredito Then
-                    Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("MOCO_DESC"))
-                ElseIf CStr(Me.DbNewConta.mDbLector("MOCO_DESC")).Length = 1 Then
-                    Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("MOLI_DESC"))
+                If Me.mParaTextosFijos = 1 Then
+                    If CStr(Me.DbNewConta.mDbLector("TIMO_CODI")) = mCodigoNotasCredito Then
+                        Me.mtextoApunte = StrConv(CStr(Me.DbNewConta.mDbLector("MOCO_DESC")), VbStrConv.ProperCase)
+                    Else
+                        Me.mtextoApunte = "(" & Mid(StrConv(CStr(Me.DbNewConta.mDbLector("MOLI_DESC")), VbStrConv.ProperCase), 1, 8) & ")  " & StrConv(CStr(Me.DbNewConta.mDbLector("TACO_NOME")), VbStrConv.ProperCase)
+                    End If
+
                 Else
-                    Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("MOLI_DESC")) & "," & CStr(Me.DbNewConta.mDbLector("MOCO_DESC"))
+                    If CStr(Me.DbNewConta.mDbLector("TIMO_CODI")) = mCodigoNotasCredito Then
+                        Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("MOCO_DESC"))
+                    ElseIf IsDBNull(Me.DbNewConta.mDbLector("MOCO_DESC")) = True Then
+                        Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("MOLI_DESC"))
+                    Else
+                        Me.mtextoApunte = "(" & CStr(Me.DbNewConta.mDbLector("MOLI_DESC")) & ") ," & CStr(Me.DbNewConta.mDbLector("MOCO_DESC"))
+                    End If
                 End If
 
 
@@ -4324,6 +4351,7 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
 
             SQL += "        , MOCO.MOCO_DAVA AS DAVADEB "
             SQL += "        , MOC1.MOCO_DAVA AS DAVACRE "
+            SQL += "        , MOC1.MOCO_DESC  "
             SQL += "  FROM TNCO_MORE, "
             SQL += "       TNCO_MOCO MOCO, "
             SQL += "       TNCO_MOCO MOC1, "
@@ -4382,6 +4410,25 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                 Cuenta = BuscaCuentaPagosAnticipadosNewHotel(CType(Me.DbNewConta.mDbLector("CODIGO"), String))
 
 
+
+
+                If Me.mParaTextosFijos = 1 Then
+                    If CStr(Me.DbNewConta.mDbLector("TIMO_CRED")) = mCodigoNotasCredito Then
+                        Me.mtextoApunte = StrConv(CStr(Me.DbNewConta.mDbLector("DESC_CRED")), VbStrConv.ProperCase)
+                    Else
+                        Me.mtextoApunte = "(" & Mid(StrConv(CStr(Me.DbNewConta.mDbLector("MOLI_DESC")), VbStrConv.ProperCase), 1, 8) & ")  " & StrConv(CStr(Me.DbNewConta.mDbLector("NOMBRE")), VbStrConv.ProperCase)
+                    End If
+                Else
+                    If CStr(Me.DbNewConta.mDbLector("TIMO_CRED")) = mCodigoNotasCredito Then
+                        Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("DESC_CRED"))
+                    ElseIf IsDBNull(Me.DbNewConta.mDbLector("MOC1.MOCO_DESC")) = True Then
+                        Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("MOLI_DESC"))
+                    Else
+                        Me.mtextoApunte = "(" & CStr(Me.DbNewConta.mDbLector("MOLI_DESC")) & ") ," & CStr(Me.DbNewConta.mDbLector("MOC1.MOCO_DESC"))
+                    End If
+                End If
+
+
                 If CType(Me.DbNewConta.mDbLector("TIPOPAGO"), String) = "0" Then
                     '  TipoAsiento = 334
                     TipoAsiento = 333
@@ -4405,8 +4452,8 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
 
                 If Total <> 0 Then
                     Me.mTipoAsiento = "DEBE"
-                    Me.InsertaOracleLopez("AC", TipoAsiento, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("NOMBRE"), String), "SI", AuxiliarTipoMovimiento, "  Paga a : " & CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), CStr(Me.DbNewConta.mDbLector("MOCO_CRED")), "", CDate(Format(CDate(Me.DbNewConta.mDbLector("MORE_DARE")), "dd/MM/yyyy")), Recibo)
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, " " & CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), Total)
+                    Me.InsertaOracleLopez("AC", TipoAsiento, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, Me.mtextoApunte, Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("NOMBRE"), String), "SI", AuxiliarTipoMovimiento, "  Paga a : " & CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), CStr(Me.DbNewConta.mDbLector("MOCO_CRED")), "", CDate(Format(CDate(Me.DbNewConta.mDbLector("MORE_DARE")), "dd/MM/yyyy")), Recibo)
+                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, " " & Me.mtextoApunte, Total)
                 End If
             End While
             Me.DbNewConta.mDbLector.Close()
@@ -4590,6 +4637,7 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
 
             SQL += "        , MOCO.MOCO_DAVA AS DAVADEB "
             SQL += "        , MOC1.MOCO_DAVA AS DAVACRE "
+            SQL += "        , MOC1.MOCO_DESC  "
 
             SQL += "  FROM TNCO_MORE, "
             SQL += "       TNCO_MOCO MOCO, "
@@ -4648,7 +4696,21 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
 
                 Cuenta = BuscaCuentaPagosAnticipadosNewHotel(CType(Me.DbNewConta.mDbLector("CODIGO"), String))
 
-
+                If Me.mParaTextosFijos = 1 Then
+                    If CStr(Me.DbNewConta.mDbLector("TIMO_CRED")) = mCodigoNotasCredito Then
+                        Me.mtextoApunte = StrConv(CStr(Me.DbNewConta.mDbLector("DESC_CRED")), VbStrConv.ProperCase)
+                    Else
+                        Me.mtextoApunte = "(" & Mid(StrConv(CStr(Me.DbNewConta.mDbLector("MOLI_DESC")), VbStrConv.ProperCase), 1, 8) & ")  " & StrConv(CStr(Me.DbNewConta.mDbLector("NOMBRE")), VbStrConv.ProperCase)
+                    End If
+                Else
+                    If CStr(Me.DbNewConta.mDbLector("TIMO_CRED")) = mCodigoNotasCredito Then
+                        Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("DESC_CRED"))
+                    ElseIf IsDBNull(Me.DbNewConta.mDbLector("MOC1.MOCO_DESC")) = True Then
+                        Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("MOLI_DESC"))
+                    Else
+                        Me.mtextoApunte = "(" & CStr(Me.DbNewConta.mDbLector("MOLI_DESC")) & ") ," & CStr(Me.DbNewConta.mDbLector("MOC1.MOCO_DESC"))
+                    End If
+                End If
 
                 If CType(Me.DbNewConta.mDbLector("TIPOPAGO"), String) = "0" Then
                     '  TipoAsiento = 778
@@ -4674,8 +4736,8 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
 
                 If Total <> 0 Then
                     Me.mTipoAsiento = "DEBE"
-                    Me.InsertaOracleLopez("AC", TipoAsiento, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("NOMBRE"), String), "SI", AuxiliarTipoMovimiento, " Paga a : " & CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), CStr(Me.DbNewConta.mDbLector("MOCO_CRED")), "", CDate(Format(CDate(Me.DbNewConta.mDbLector("MORE_DARE")), "dd/MM/yyyy")), Recibo)
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, " " & CType(Me.DbNewConta.mDbLector("DESC_CRED"), String), Total)
+                    Me.InsertaOracleLopez("AC", TipoAsiento, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, Me.mtextoApunte, Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("NOMBRE"), String), "SI", AuxiliarTipoMovimiento, " Paga a : " & CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), CStr(Me.DbNewConta.mDbLector("MOCO_CRED")), "", CDate(Format(CDate(Me.DbNewConta.mDbLector("MORE_DARE")), "dd/MM/yyyy")), Recibo)
+                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, " " & Me.mtextoApunte, Total)
                 End If
             End While
             Me.DbNewConta.mDbLector.Close()
@@ -4934,13 +4996,21 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
 
 
 
-            ' compone 5 y 6 digito cuenta de cliente 
-            '    Cuenta = Mid(Cuenta, 1, 4) & Me.mCta56DigitoCuentaClientes & Mid(Cuenta, 5, 6)
-
             If IsNothing(Cuenta) = False Then
                 Return Cuenta
             Else
-                Return "?"
+                ' INTENTA BUSCAR EN CUENTAS NO ALOJADO 
+                SQL = "SELECT CCEX_DEAN FROM TNHT_CCEX WHERE  "
+                SQL += " OPER_NECO = '" & vTacoCodi & "'"
+                Cuenta = Me.DbLeeNewHotel.EjecutaSqlScalar(SQL)
+
+                If IsNothing(Cuenta) = False Then
+                    If Cuenta.Length > 0 Then
+                        Return Cuenta
+                    End If
+                Else
+                    Return "?"
+                End If
             End If
 
 
@@ -5213,7 +5283,6 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
 
 
 
-
         Try
 
 
@@ -5266,17 +5335,24 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
             End If
 
 
-            ' compone 5 y 6 digito cuenta de cliente 
-            ' Cuenta = Mid(Cuenta, 1, 4) & Me.mCta56DigitoCuentaClientes & Mid(Cuenta, 5, 6)
 
 
             If IsNothing(Cuenta) = False Then
                 Return Cuenta
             Else
-                Return "?"
+                ' INTENTA BUSCAR EN CUENTAS NO ALOJADO 
+                SQL = "SELECT CCEX_NCON FROM TNHT_CCEX WHERE  "
+                SQL += " OPER_NECO = '" & vTacoCodi & "'"
+                Cuenta = Me.DbLeeNewHotel.EjecutaSqlScalar(SQL)
+
+                If IsNothing(Cuenta) = False Then
+                    If Cuenta.Length > 0 Then
+                        Return Cuenta
+                    End If
+                Else
+                    Return "?"
+                End If
             End If
-
-
 
 
         Catch ex As Exception

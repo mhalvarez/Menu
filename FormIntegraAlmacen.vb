@@ -58,6 +58,7 @@ Public Class FormIntegraAlmacen
     Private mTotalDebe As String
     Private mTotalHaber As String
 
+
     Private Enum mEnumTipoEnvio
         FrontOffice
         MaestroClientesNewhotel
@@ -1195,7 +1196,6 @@ Public Class FormIntegraAlmacen
             Me.mTotalDebe = Me.DbLee.EjecutaSqlScalar(SQL)
 
             SQL = "SELECT SUM(NVL(ASNT_HABER,0)) AS ASNT_HABER FROM TS_ASNT WHERE " & Me.CampoFecha & "  = '" & Me.DateTimePicker1.Value & "'"
-
             SQL += " AND TS_ASNT.ASNT_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
             SQL += " AND TS_ASNT.ASNT_EMP_COD = '" & Me.mEmpCod & "'"
             SQL += " AND TS_ASNT.ASNT_EMP_NUM = " & Me.mEmpNum
@@ -1679,6 +1679,10 @@ Public Class FormIntegraAlmacen
             SQL += " AND HOTEL_EMP_COD = '" & Me.mEmpCod & "'"
             SQL += " AND HOTEL_EMP_NUM = " & Me.mEmpNum
             Me.mStrConexionNewPaga = Me.DbLee.EjecutaSqlScalar(SQL)
+
+
+
+
 
 
         Catch ex As Exception

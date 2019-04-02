@@ -100,6 +100,7 @@ Public Class IntegraNewStockTito
     Private SQL As String
     Private Linea As Integer
     Private Filegraba As StreamWriter
+    Private FileEstaOk As Boolean
     Private DbLeeCentral As C_DATOS.C_DatosOledb
     Private DbLeeHotel As C_DATOS.C_DatosOledb
     Private DbLeeNewPaga As C_DATOS.C_DatosOledb
@@ -359,7 +360,9 @@ Public Class IntegraNewStockTito
         Try
             Filegraba = New StreamWriter(vPath, False, System.Text.Encoding.ASCII)
             Filegraba.WriteLine("")
+            Me.FileEstaOk = True
         Catch ex As Exception
+            Me.FileEstaOk = False
             MsgBox(ex.Message)
         End Try
     End Sub
@@ -435,15 +438,12 @@ Public Class IntegraNewStockTito
     Public Sub Procesar()
         Try
 
-            If Me.ControlCentrosdeCosto > 0 Then
+            If Me.ControlCentrosdeCosto > 0 Or FileEstaOk = False Then
                 MsgBox("Existen Departamentos sin Centro de Costo en NewStock", MsgBoxStyle.Information, "Atención")
                 Me.CerrarFichero()
                 Me.CierraConexiones()
                 Exit Sub
             End If
-
-
-
 
 
 

@@ -206,6 +206,7 @@
             SQL += "      ,NVL(PARA_CUENTAPUENTE_AGRUPA,0) AS PARA_CUENTAPUENTE_AGRUPA"
 
             SQL += "      ,NVL(PARA_CTA_PUNTOVERDE,'<Ninguno>')  AS PARA_CTA_PUNTOVERDE"
+            SQL += "      ,NVL(PARA_CTA6,'<Ninguno>')  AS PARA_CTA6"
 
             SQL += "  FROM TS_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"
@@ -312,6 +313,7 @@
 
 
                 Me.TextBoxCtaPuntoVerde.Text = Me.DbLee.mDbLector.Item("PARA_CTA_PUNTOVERDE")
+                Me.TextBoxCtaAjusteDecimal.Text = Me.DbLee.mDbLector.Item("PARA_CTA6")
 
             Else
                 MsgBox("Atención NO existen Registros de Parámeros TS_PARA para Mostrar", MsgBoxStyle.Critical, "Atención")
@@ -442,6 +444,7 @@
 
 
             SQL += " ,PARA_CTA_PUNTOVERDE='" & Me.TextBoxCtaPuntoVerde.Text.Replace("<Ninguno>", "") & "'"
+            SQL += " ,PARA_CTA6='" & Me.TextBoxCtaAjusteDecimal.Text.Replace("<Ninguno>", "") & "'"
 
             SQL += " WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"

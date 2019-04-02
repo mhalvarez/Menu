@@ -397,7 +397,7 @@
   </binding>
   <service name="Clientes_Service">
     <port name="Clientes_Port" binding="tns:Clientes_Binding">
-      <address location="http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%20TURIST.%20MORASOL/Page/Clientes" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <address location="http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%20PROCONTURSA/Page/Clientes" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
     </port>
   </service>
 </definitions>

@@ -57,8 +57,8 @@ Namespace My
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.WebServiceUrl),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%20TURIST.%20MORASOL/Page/P"& _ 
-            "roduccionDpto")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%20PROCONTURSA/Page/ProduccionDpt"& _ 
+            "o")>  _
         Public ReadOnly Property HTitoNewHotelEnviar_WebReferenceTiToProduccion_ProduccionDpto_Service() As String
             Get
                 Return CType(Me("HTitoNewHotelEnviar_WebReferenceTiToProduccion_ProduccionDpto_Service"),String)
@@ -79,8 +79,8 @@ Namespace My
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.WebServiceUrl),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%20TURIST.%20MORASOL/Page/F"& _ 
-            "acturacionEmitidaCargo")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%20PROCONTURSA/Page/FacturacionEm"& _ 
+            "itidaCargo")>  _
         Public ReadOnly Property HTitoNewHotelEnviar_WebReferenceTiToFacturacion_FacturacionEmitidaCargo_Service() As String
             Get
                 Return CType(Me("HTitoNewHotelEnviar_WebReferenceTiToFacturacion_FacturacionEmitidaCargo_Service"),String)
@@ -90,8 +90,8 @@ Namespace My
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.WebServiceUrl),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%20TURIST.%20MORASOL/Page/P"& _ 
-            "agosCobrosCajaBanco")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%20PROCONTURSA/Page/PagosCobrosCa"& _ 
+            "jaBanco")>  _
         Public ReadOnly Property HTitoNewHotelEnviar_WebReferenceTiToPagosCobros_PagosCobrosCajaBanco_Service() As String
             Get
                 Return CType(Me("HTitoNewHotelEnviar_WebReferenceTiToPagosCobros_PagosCobrosCajaBanco_Service"),String)
@@ -101,8 +101,8 @@ Namespace My
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.WebServiceUrl),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%20TURIST.%20MORASOL/Page/C"& _ 
-            "onstitucionAnticipos")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%20PROCONTURSA/Page/ConstitucionA"& _ 
+            "nticipos")>  _
         Public ReadOnly Property HTitoNewHotelEnviar_WebReferenceTiToAnticiposRecibidos_ConstitucionAnticipos_Service() As String
             Get
                 Return CType(Me("HTitoNewHotelEnviar_WebReferenceTiToAnticiposRecibidos_ConstitucionAnticipos_Serv"& _ 
@@ -124,11 +124,21 @@ Namespace My
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.WebServiceUrl),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%20TURIST.%20MORASOL/Page/C"& _ 
-            "lientes")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%20PROCONTURSA/Page/Clientes")>  _
         Public ReadOnly Property HTitoNewHotelEnviar_WebReferenceClientesNewHotel_Clientes_Service() As String
             Get
                 Return CType(Me("HTitoNewHotelEnviar_WebReferenceClientesNewHotel_Clientes_Service"),String)
+            End Get
+        End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.WebServiceUrl),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%20PROCONTURSA/Page/StockAlmacene"& _ 
+            "s")>  _
+        Public ReadOnly Property HTitoNewHotelEnviar_WebReferenceTitoAlbaranes2_StockAlmacenes_Service() As String
+            Get
+                Return CType(Me("HTitoNewHotelEnviar_WebReferenceTitoAlbaranes2_StockAlmacenes_Service"),String)
             End Get
         End Property
     End Class

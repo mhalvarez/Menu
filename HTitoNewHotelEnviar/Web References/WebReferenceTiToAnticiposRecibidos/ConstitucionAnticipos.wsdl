@@ -414,7 +414,7 @@
   </binding>
   <service name="ConstitucionAnticipos_Service">
     <port name="ConstitucionAnticipos_Port" binding="tns:ConstitucionAnticipos_Binding">
-      <address location="http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%20TURIST.%20MORASOL/Page/ConstitucionAnticipos" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <address location="http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%20PROCONTURSA/Page/ConstitucionAnticipos" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
     </port>
   </service>
 </definitions>

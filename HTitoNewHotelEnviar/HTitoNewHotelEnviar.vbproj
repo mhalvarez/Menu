@@ -111,6 +111,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\WebReferenceTitoAlbaranes2\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\WebReferenceTitoAlbaranes\Reference.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -152,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -169,6 +175,14 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.vb</LastGenOutput>
     </None>
+    <None Include="Web References\WebReferenceTitoAlbaranes2\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\WebReferenceTitoAlbaranes2\StockAlmacenes.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebReferenceTitoAlbaranes2\StockAlmacenes.wsdl" />
     <None Include="Web References\WebReferenceTitoAlbaranes\GestionNewHotel.wsdl" />
     <None Include="Web References\WebReferenceTitoAlbaranes\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
@@ -219,10 +233,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%2520TURIST.%2520MORASOL/Codeunit/GestionNewHotel">
+    <WebReferenceUrl Include="http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%2520PROCONTURSA/Codeunit/Gestión_New_Hotel">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebReferenceTitoAlbaranes\</RelPath>
-      <UpdateFromURL>http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%2520TURIST.%2520MORASOL/Codeunit/GestionNewHotel</UpdateFromURL>
+      <UpdateFromURL>http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%2520PROCONTURSA/Codeunit/Gestión_New_Hotel</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -230,10 +244,21 @@
       <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>HTitoNewHotelEnviar_WebReferenceTitoAlbaranes_GestionNewHotel</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%2520TURIST.%2520MORASOL/Page/AplicacionAnticiposFactura">
+    <WebReferenceUrl Include="http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%2520PROCONTURSA/Page/StockAlmacenes">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebReferenceTitoAlbaranes2\</RelPath>
+      <UpdateFromURL>http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%2520PROCONTURSA/Page/StockAlmacenes</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>HTitoNewHotelEnviar_WebReferenceTitoAlbaranes2_StockAlmacenes_Service</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%2520PROCONTURSA/Page/WS_Apl_Anticipo_Fact_NEWHOTEL">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebReferenceTiToAnticiposFacturados\</RelPath>
-      <UpdateFromURL>http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%2520TURIST.%2520MORASOL/Page/AplicacionAnticiposFactura</UpdateFromURL>
+      <UpdateFromURL>http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%2520PROCONTURSA/Page/WS_Apl_Anticipo_Fact_NEWHOTEL</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -241,10 +266,10 @@
       <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>HTitoNewHotelEnviar_WebReferenceTiToAnticipos_AplicacionAnticiposFactura_Service</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%2520TURIST.%2520MORASOL/Page/Clientes">
+    <WebReferenceUrl Include="http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%2520PROCONTURSA/Page/Clientes">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebReferenceClientesNewHotel\</RelPath>
-      <UpdateFromURL>http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%2520TURIST.%2520MORASOL/Page/Clientes</UpdateFromURL>
+      <UpdateFromURL>http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%2520PROCONTURSA/Page/Clientes</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -252,10 +277,10 @@
       <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>HTitoNewHotelEnviar_WebReferenceClientesNewHotel_Clientes_Service</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%2520TURIST.%2520MORASOL/Page/ConstitucionAnticipos">
+    <WebReferenceUrl Include="http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%2520PROCONTURSA/Page/ConstitucionAnticipos">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebReferenceTiToAnticiposRecibidos\</RelPath>
-      <UpdateFromURL>http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%2520TURIST.%2520MORASOL/Page/ConstitucionAnticipos</UpdateFromURL>
+      <UpdateFromURL>http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%2520PROCONTURSA/Page/ConstitucionAnticipos</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -263,10 +288,10 @@
       <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>HTitoNewHotelEnviar_WebReferenceTiToAnticiposRecibidos_ConstitucionAnticipos_Service</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%2520TURIST.%2520MORASOL/Page/FacturacionEmitidaCargo">
+    <WebReferenceUrl Include="http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%2520PROCONTURSA/Page/FacturacionEmitidaCargo">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebReferenceTiToFacturacion\</RelPath>
-      <UpdateFromURL>http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%2520TURIST.%2520MORASOL/Page/FacturacionEmitidaCargo</UpdateFromURL>
+      <UpdateFromURL>http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%2520PROCONTURSA/Page/FacturacionEmitidaCargo</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -274,10 +299,10 @@
       <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>HTitoNewHotelEnviar_WebReferenceTiToFacturacion_FacturacionEmitidaCargo_Service</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%2520TURIST.%2520MORASOL/Page/PagosCobrosCajaBanco">
+    <WebReferenceUrl Include="http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%2520PROCONTURSA/Page/PagosCobrosCajaBanco">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebReferenceTiToPagosCobros\</RelPath>
-      <UpdateFromURL>http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%2520TURIST.%2520MORASOL/Page/PagosCobrosCajaBanco</UpdateFromURL>
+      <UpdateFromURL>http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%2520PROCONTURSA/Page/PagosCobrosCajaBanco</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -285,10 +310,10 @@
       <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>HTitoNewHotelEnviar_WebReferenceTiToPagosCobros_PagosCobrosCajaBanco_Service</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%2520TURIST.%2520MORASOL/Page/ProduccionDpto">
+    <WebReferenceUrl Include="http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%2520PROCONTURSA/Page/ProduccionDpto">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebReferenceTiToProduccion\</RelPath>
-      <UpdateFromURL>http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%2520TURIST.%2520MORASOL/Page/ProduccionDpto</UpdateFromURL>
+      <UpdateFromURL>http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%2520PROCONTURSA/Page/ProduccionDpto</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

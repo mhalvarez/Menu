@@ -24,6 +24,12 @@
           <xsd:enumeration value="IC_Partner" />
         </xsd:restriction>
       </xsd:simpleType>
+      <xsd:simpleType name="Withholding_type">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Guarantee" />
+          <xsd:enumeration value="Personal_Tax" />
+        </xsd:restriction>
+      </xsd:simpleType>
       <xsd:simpleType name="Source_Type">
         <xsd:restriction base="xsd:string">
           <xsd:enumeration value="_blank_" />
@@ -31,6 +37,28 @@
           <xsd:enumeration value="Vendor" />
           <xsd:enumeration value="Bank_Account" />
           <xsd:enumeration value="Fixed_Asset" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="Bal_Account_Type">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="G_L_Account" />
+          <xsd:enumeration value="Customer" />
+          <xsd:enumeration value="Vendor" />
+          <xsd:enumeration value="Bank_Account" />
+          <xsd:enumeration value="Fixed_Asset" />
+          <xsd:enumeration value="IC_Partner" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="Applies_to_Doc_Type">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="_blank_" />
+          <xsd:enumeration value="Payment" />
+          <xsd:enumeration value="Invoice" />
+          <xsd:enumeration value="Credit_Memo" />
+          <xsd:enumeration value="Finance_Charge_Memo" />
+          <xsd:enumeration value="Reminder" />
+          <xsd:enumeration value="Refund" />
+          <xsd:enumeration value="Bill" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="FacturacionEmitidaCargo">
@@ -46,6 +74,9 @@
           <xsd:element minOccurs="0" maxOccurs="1" name="Account_Type" type="tns:Account_Type" />
           <xsd:element minOccurs="0" maxOccurs="1" name="Account_No" type="xsd:string" />
           <xsd:element minOccurs="0" maxOccurs="1" name="Description" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Withholding_type" type="tns:Withholding_type" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Withholding_Tax_Group" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Tax_Base" type="xsd:decimal" />
           <xsd:element minOccurs="0" maxOccurs="1" name="Debit_Amount" type="xsd:decimal" />
           <xsd:element minOccurs="0" maxOccurs="1" name="Credit_Amount" type="xsd:decimal" />
           <xsd:element minOccurs="0" maxOccurs="1" name="Shortcut_Dimension_1_Code" type="xsd:string" />
@@ -58,6 +89,10 @@
           <xsd:element minOccurs="0" maxOccurs="1" name="VAT_Bus_Posting_Group" type="xsd:string" />
           <xsd:element minOccurs="0" maxOccurs="1" name="Source_Type" type="tns:Source_Type" />
           <xsd:element minOccurs="0" maxOccurs="1" name="Source_No" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Bal_Account_Type" type="tns:Bal_Account_Type" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Bal_Account_No" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Applies_to_Doc_Type" type="tns:Applies_to_Doc_Type" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Applies_to_Doc_No" type="xsd:string" />
         </xsd:sequence>
       </xsd:complexType>
       <xsd:complexType name="FacturacionEmitidaCargo_List">
@@ -77,6 +112,9 @@
           <xsd:enumeration value="Account_Type" />
           <xsd:enumeration value="Account_No" />
           <xsd:enumeration value="Description" />
+          <xsd:enumeration value="Withholding_type" />
+          <xsd:enumeration value="Withholding_Tax_Group" />
+          <xsd:enumeration value="Tax_Base" />
           <xsd:enumeration value="Debit_Amount" />
           <xsd:enumeration value="Credit_Amount" />
           <xsd:enumeration value="Shortcut_Dimension_1_Code" />
@@ -89,6 +127,10 @@
           <xsd:enumeration value="VAT_Bus_Posting_Group" />
           <xsd:enumeration value="Source_Type" />
           <xsd:enumeration value="Source_No" />
+          <xsd:enumeration value="Bal_Account_Type" />
+          <xsd:enumeration value="Bal_Account_No" />
+          <xsd:enumeration value="Applies_to_Doc_Type" />
+          <xsd:enumeration value="Applies_to_Doc_No" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="FacturacionEmitidaCargo_Filter">
@@ -440,7 +482,7 @@
   </binding>
   <service name="FacturacionEmitidaCargo_Service">
     <port name="FacturacionEmitidaCargo_Port" binding="tns:FacturacionEmitidaCargo_Binding">
-      <address location="http://25.86.114.247:7047/DynamicsNAV/WS/EXPLOTACIONES%20TURIST.%20MORASOL/Page/FacturacionEmitidaCargo" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <address location="http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%20PROCONTURSA/Page/FacturacionEmitidaCargo" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
     </port>
   </service>
 </definitions>

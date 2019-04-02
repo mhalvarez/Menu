@@ -21,14 +21,14 @@ Imports System.Xml.Serialization
 '
 'Microsoft.VSDesigner generó automáticamente este código fuente, versión=4.0.30319.42000.
 '
-Namespace WebReferenceTiToAnticiposRecibidos
+Namespace WebReferenceTitoAlbaranes2
     
     '''<remarks/>
     <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3190.0"),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
-     System.Web.Services.WebServiceBindingAttribute(Name:="ConstitucionAnticipos_Binding", [Namespace]:="urn:microsoft-dynamics-schemas/page/constitucionanticipos")>  _
-    Partial Public Class ConstitucionAnticipos_Service
+     System.Web.Services.WebServiceBindingAttribute(Name:="StockAlmacenes_Binding", [Namespace]:="urn:microsoft-dynamics-schemas/page/stockalmacenes")>  _
+    Partial Public Class StockAlmacenes_Service
         Inherits System.Web.Services.Protocols.SoapHttpClientProtocol
         
         Private ReadOperationCompleted As System.Threading.SendOrPostCallback
@@ -56,7 +56,7 @@ Namespace WebReferenceTiToAnticiposRecibidos
         '''<remarks/>
         Public Sub New()
             MyBase.New
-            Me.Url = Global.HTitoNewHotelEnviar.My.MySettings.Default.HTitoNewHotelEnviar_WebReferenceTiToAnticiposRecibidos_ConstitucionAnticipos_Service
+            Me.Url = Global.HTitoNewHotelEnviar.My.MySettings.Default.HTitoNewHotelEnviar_WebReferenceTitoAlbaranes2_StockAlmacenes_Service
             If (Me.IsLocalFileSystemWebService(Me.Url) = true) Then
                 Me.UseDefaultCredentials = true
                 Me.useDefaultCredentialsSetExplicitly = false
@@ -120,10 +120,10 @@ Namespace WebReferenceTiToAnticiposRecibidos
         Public Event DeleteCompleted As DeleteCompletedEventHandler
         
         '''<remarks/>
-        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/page/constitucionanticipos:Read", RequestNamespace:="urn:microsoft-dynamics-schemas/page/constitucionanticipos", ResponseElementName:="Read_Result", ResponseNamespace:="urn:microsoft-dynamics-schemas/page/constitucionanticipos", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
-        Public Function Read(ByVal Journal_Template_Name As String, ByVal Journal_Batch_Name As String, ByVal Line_No As Integer) As <System.Xml.Serialization.XmlElementAttribute("ConstitucionAnticipos")> ConstitucionAnticipos
+        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/page/stockalmacenes:Read", RequestNamespace:="urn:microsoft-dynamics-schemas/page/stockalmacenes", ResponseElementName:="Read_Result", ResponseNamespace:="urn:microsoft-dynamics-schemas/page/stockalmacenes", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
+        Public Function Read(ByVal Journal_Template_Name As String, ByVal Journal_Batch_Name As String, ByVal Line_No As Integer) As <System.Xml.Serialization.XmlElementAttribute("StockAlmacenes")> StockAlmacenes
             Dim results() As Object = Me.Invoke("Read", New Object() {Journal_Template_Name, Journal_Batch_Name, Line_No})
-            Return CType(results(0),ConstitucionAnticipos)
+            Return CType(results(0),StockAlmacenes)
         End Function
         
         '''<remarks/>
@@ -147,10 +147,10 @@ Namespace WebReferenceTiToAnticiposRecibidos
         End Sub
         
         '''<remarks/>
-        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/page/constitucionanticipos:ReadByRecId", RequestNamespace:="urn:microsoft-dynamics-schemas/page/constitucionanticipos", ResponseElementName:="ReadByRecId_Result", ResponseNamespace:="urn:microsoft-dynamics-schemas/page/constitucionanticipos", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
-        Public Function ReadByRecId(ByVal recId As String) As <System.Xml.Serialization.XmlElementAttribute("ConstitucionAnticipos")> ConstitucionAnticipos
+        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/page/stockalmacenes:ReadByRecId", RequestNamespace:="urn:microsoft-dynamics-schemas/page/stockalmacenes", ResponseElementName:="ReadByRecId_Result", ResponseNamespace:="urn:microsoft-dynamics-schemas/page/stockalmacenes", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
+        Public Function ReadByRecId(ByVal recId As String) As <System.Xml.Serialization.XmlElementAttribute("StockAlmacenes")> StockAlmacenes
             Dim results() As Object = Me.Invoke("ReadByRecId", New Object() {recId})
-            Return CType(results(0),ConstitucionAnticipos)
+            Return CType(results(0),StockAlmacenes)
         End Function
         
         '''<remarks/>
@@ -174,19 +174,19 @@ Namespace WebReferenceTiToAnticiposRecibidos
         End Sub
         
         '''<remarks/>
-        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/page/constitucionanticipos:ReadMultiple", RequestNamespace:="urn:microsoft-dynamics-schemas/page/constitucionanticipos", ResponseElementName:="ReadMultiple_Result", ResponseNamespace:="urn:microsoft-dynamics-schemas/page/constitucionanticipos", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
-        Public Function ReadMultiple(<System.Xml.Serialization.XmlElementAttribute("filter")> ByVal filter() As ConstitucionAnticipos_Filter, ByVal bookmarkKey As String, ByVal setSize As Integer) As <System.Xml.Serialization.XmlArrayAttribute("ReadMultiple_Result"), System.Xml.Serialization.XmlArrayItemAttribute(IsNullable:=false)> ConstitucionAnticipos()
+        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/page/stockalmacenes:ReadMultiple", RequestNamespace:="urn:microsoft-dynamics-schemas/page/stockalmacenes", ResponseElementName:="ReadMultiple_Result", ResponseNamespace:="urn:microsoft-dynamics-schemas/page/stockalmacenes", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
+        Public Function ReadMultiple(<System.Xml.Serialization.XmlElementAttribute("filter")> ByVal filter() As StockAlmacenes_Filter, ByVal bookmarkKey As String, ByVal setSize As Integer) As <System.Xml.Serialization.XmlArrayAttribute("ReadMultiple_Result"), System.Xml.Serialization.XmlArrayItemAttribute(IsNullable:=false)> StockAlmacenes()
             Dim results() As Object = Me.Invoke("ReadMultiple", New Object() {filter, bookmarkKey, setSize})
-            Return CType(results(0),ConstitucionAnticipos())
+            Return CType(results(0),StockAlmacenes())
         End Function
         
         '''<remarks/>
-        Public Overloads Sub ReadMultipleAsync(ByVal filter() As ConstitucionAnticipos_Filter, ByVal bookmarkKey As String, ByVal setSize As Integer)
+        Public Overloads Sub ReadMultipleAsync(ByVal filter() As StockAlmacenes_Filter, ByVal bookmarkKey As String, ByVal setSize As Integer)
             Me.ReadMultipleAsync(filter, bookmarkKey, setSize, Nothing)
         End Sub
         
         '''<remarks/>
-        Public Overloads Sub ReadMultipleAsync(ByVal filter() As ConstitucionAnticipos_Filter, ByVal bookmarkKey As String, ByVal setSize As Integer, ByVal userState As Object)
+        Public Overloads Sub ReadMultipleAsync(ByVal filter() As StockAlmacenes_Filter, ByVal bookmarkKey As String, ByVal setSize As Integer, ByVal userState As Object)
             If (Me.ReadMultipleOperationCompleted Is Nothing) Then
                 Me.ReadMultipleOperationCompleted = AddressOf Me.OnReadMultipleOperationCompleted
             End If
@@ -201,7 +201,7 @@ Namespace WebReferenceTiToAnticiposRecibidos
         End Sub
         
         '''<remarks/>
-        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/page/constitucionanticipos:IsUpdated", RequestNamespace:="urn:microsoft-dynamics-schemas/page/constitucionanticipos", ResponseElementName:="IsUpdated_Result", ResponseNamespace:="urn:microsoft-dynamics-schemas/page/constitucionanticipos", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
+        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/page/stockalmacenes:IsUpdated", RequestNamespace:="urn:microsoft-dynamics-schemas/page/stockalmacenes", ResponseElementName:="IsUpdated_Result", ResponseNamespace:="urn:microsoft-dynamics-schemas/page/stockalmacenes", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
         Public Function IsUpdated(ByVal Key As String) As <System.Xml.Serialization.XmlElementAttribute("IsUpdated_Result")> Boolean
             Dim results() As Object = Me.Invoke("IsUpdated", New Object() {Key})
             Return CType(results(0),Boolean)
@@ -228,7 +228,7 @@ Namespace WebReferenceTiToAnticiposRecibidos
         End Sub
         
         '''<remarks/>
-        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/page/constitucionanticipos:GetRecIdFromKey", RequestNamespace:="urn:microsoft-dynamics-schemas/page/constitucionanticipos", ResponseElementName:="GetRecIdFromKey_Result", ResponseNamespace:="urn:microsoft-dynamics-schemas/page/constitucionanticipos", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
+        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/page/stockalmacenes:GetRecIdFromKey", RequestNamespace:="urn:microsoft-dynamics-schemas/page/stockalmacenes", ResponseElementName:="GetRecIdFromKey_Result", ResponseNamespace:="urn:microsoft-dynamics-schemas/page/stockalmacenes", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
         Public Function GetRecIdFromKey(ByVal Key As String) As <System.Xml.Serialization.XmlElementAttribute("GetRecIdFromKey_Result")> String
             Dim results() As Object = Me.Invoke("GetRecIdFromKey", New Object() {Key})
             Return CType(results(0),String)
@@ -255,23 +255,23 @@ Namespace WebReferenceTiToAnticiposRecibidos
         End Sub
         
         '''<remarks/>
-        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/page/constitucionanticipos:Create", RequestNamespace:="urn:microsoft-dynamics-schemas/page/constitucionanticipos", ResponseElementName:="Create_Result", ResponseNamespace:="urn:microsoft-dynamics-schemas/page/constitucionanticipos", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
-        Public Sub Create(ByRef ConstitucionAnticipos As ConstitucionAnticipos)
-            Dim results() As Object = Me.Invoke("Create", New Object() {ConstitucionAnticipos})
-            ConstitucionAnticipos = CType(results(0),ConstitucionAnticipos)
+        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/page/stockalmacenes:Create", RequestNamespace:="urn:microsoft-dynamics-schemas/page/stockalmacenes", ResponseElementName:="Create_Result", ResponseNamespace:="urn:microsoft-dynamics-schemas/page/stockalmacenes", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
+        Public Sub Create(ByRef StockAlmacenes As StockAlmacenes)
+            Dim results() As Object = Me.Invoke("Create", New Object() {StockAlmacenes})
+            StockAlmacenes = CType(results(0),StockAlmacenes)
         End Sub
         
         '''<remarks/>
-        Public Overloads Sub CreateAsync(ByVal ConstitucionAnticipos As ConstitucionAnticipos)
-            Me.CreateAsync(ConstitucionAnticipos, Nothing)
+        Public Overloads Sub CreateAsync(ByVal StockAlmacenes As StockAlmacenes)
+            Me.CreateAsync(StockAlmacenes, Nothing)
         End Sub
         
         '''<remarks/>
-        Public Overloads Sub CreateAsync(ByVal ConstitucionAnticipos As ConstitucionAnticipos, ByVal userState As Object)
+        Public Overloads Sub CreateAsync(ByVal StockAlmacenes As StockAlmacenes, ByVal userState As Object)
             If (Me.CreateOperationCompleted Is Nothing) Then
                 Me.CreateOperationCompleted = AddressOf Me.OnCreateOperationCompleted
             End If
-            Me.InvokeAsync("Create", New Object() {ConstitucionAnticipos}, Me.CreateOperationCompleted, userState)
+            Me.InvokeAsync("Create", New Object() {StockAlmacenes}, Me.CreateOperationCompleted, userState)
         End Sub
         
         Private Sub OnCreateOperationCompleted(ByVal arg As Object)
@@ -282,23 +282,23 @@ Namespace WebReferenceTiToAnticiposRecibidos
         End Sub
         
         '''<remarks/>
-        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/page/constitucionanticipos:CreateMultiple", RequestNamespace:="urn:microsoft-dynamics-schemas/page/constitucionanticipos", ResponseElementName:="CreateMultiple_Result", ResponseNamespace:="urn:microsoft-dynamics-schemas/page/constitucionanticipos", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
-        Public Sub CreateMultiple(<System.Xml.Serialization.XmlArrayItemAttribute(IsNullable:=false)> ByRef ConstitucionAnticipos_List() As ConstitucionAnticipos)
-            Dim results() As Object = Me.Invoke("CreateMultiple", New Object() {ConstitucionAnticipos_List})
-            ConstitucionAnticipos_List = CType(results(0),ConstitucionAnticipos())
+        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/page/stockalmacenes:CreateMultiple", RequestNamespace:="urn:microsoft-dynamics-schemas/page/stockalmacenes", ResponseElementName:="CreateMultiple_Result", ResponseNamespace:="urn:microsoft-dynamics-schemas/page/stockalmacenes", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
+        Public Sub CreateMultiple(<System.Xml.Serialization.XmlArrayItemAttribute(IsNullable:=false)> ByRef StockAlmacenes_List() As StockAlmacenes)
+            Dim results() As Object = Me.Invoke("CreateMultiple", New Object() {StockAlmacenes_List})
+            StockAlmacenes_List = CType(results(0),StockAlmacenes())
         End Sub
         
         '''<remarks/>
-        Public Overloads Sub CreateMultipleAsync(ByVal ConstitucionAnticipos_List() As ConstitucionAnticipos)
-            Me.CreateMultipleAsync(ConstitucionAnticipos_List, Nothing)
+        Public Overloads Sub CreateMultipleAsync(ByVal StockAlmacenes_List() As StockAlmacenes)
+            Me.CreateMultipleAsync(StockAlmacenes_List, Nothing)
         End Sub
         
         '''<remarks/>
-        Public Overloads Sub CreateMultipleAsync(ByVal ConstitucionAnticipos_List() As ConstitucionAnticipos, ByVal userState As Object)
+        Public Overloads Sub CreateMultipleAsync(ByVal StockAlmacenes_List() As StockAlmacenes, ByVal userState As Object)
             If (Me.CreateMultipleOperationCompleted Is Nothing) Then
                 Me.CreateMultipleOperationCompleted = AddressOf Me.OnCreateMultipleOperationCompleted
             End If
-            Me.InvokeAsync("CreateMultiple", New Object() {ConstitucionAnticipos_List}, Me.CreateMultipleOperationCompleted, userState)
+            Me.InvokeAsync("CreateMultiple", New Object() {StockAlmacenes_List}, Me.CreateMultipleOperationCompleted, userState)
         End Sub
         
         Private Sub OnCreateMultipleOperationCompleted(ByVal arg As Object)
@@ -309,23 +309,23 @@ Namespace WebReferenceTiToAnticiposRecibidos
         End Sub
         
         '''<remarks/>
-        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/page/constitucionanticipos:Update", RequestNamespace:="urn:microsoft-dynamics-schemas/page/constitucionanticipos", ResponseElementName:="Update_Result", ResponseNamespace:="urn:microsoft-dynamics-schemas/page/constitucionanticipos", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
-        Public Sub Update(ByRef ConstitucionAnticipos As ConstitucionAnticipos)
-            Dim results() As Object = Me.Invoke("Update", New Object() {ConstitucionAnticipos})
-            ConstitucionAnticipos = CType(results(0),ConstitucionAnticipos)
+        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/page/stockalmacenes:Update", RequestNamespace:="urn:microsoft-dynamics-schemas/page/stockalmacenes", ResponseElementName:="Update_Result", ResponseNamespace:="urn:microsoft-dynamics-schemas/page/stockalmacenes", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
+        Public Sub Update(ByRef StockAlmacenes As StockAlmacenes)
+            Dim results() As Object = Me.Invoke("Update", New Object() {StockAlmacenes})
+            StockAlmacenes = CType(results(0),StockAlmacenes)
         End Sub
         
         '''<remarks/>
-        Public Overloads Sub UpdateAsync(ByVal ConstitucionAnticipos As ConstitucionAnticipos)
-            Me.UpdateAsync(ConstitucionAnticipos, Nothing)
+        Public Overloads Sub UpdateAsync(ByVal StockAlmacenes As StockAlmacenes)
+            Me.UpdateAsync(StockAlmacenes, Nothing)
         End Sub
         
         '''<remarks/>
-        Public Overloads Sub UpdateAsync(ByVal ConstitucionAnticipos As ConstitucionAnticipos, ByVal userState As Object)
+        Public Overloads Sub UpdateAsync(ByVal StockAlmacenes As StockAlmacenes, ByVal userState As Object)
             If (Me.UpdateOperationCompleted Is Nothing) Then
                 Me.UpdateOperationCompleted = AddressOf Me.OnUpdateOperationCompleted
             End If
-            Me.InvokeAsync("Update", New Object() {ConstitucionAnticipos}, Me.UpdateOperationCompleted, userState)
+            Me.InvokeAsync("Update", New Object() {StockAlmacenes}, Me.UpdateOperationCompleted, userState)
         End Sub
         
         Private Sub OnUpdateOperationCompleted(ByVal arg As Object)
@@ -336,23 +336,23 @@ Namespace WebReferenceTiToAnticiposRecibidos
         End Sub
         
         '''<remarks/>
-        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/page/constitucionanticipos:UpdateMultiple", RequestNamespace:="urn:microsoft-dynamics-schemas/page/constitucionanticipos", ResponseElementName:="UpdateMultiple_Result", ResponseNamespace:="urn:microsoft-dynamics-schemas/page/constitucionanticipos", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
-        Public Sub UpdateMultiple(<System.Xml.Serialization.XmlArrayItemAttribute(IsNullable:=false)> ByRef ConstitucionAnticipos_List() As ConstitucionAnticipos)
-            Dim results() As Object = Me.Invoke("UpdateMultiple", New Object() {ConstitucionAnticipos_List})
-            ConstitucionAnticipos_List = CType(results(0),ConstitucionAnticipos())
+        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/page/stockalmacenes:UpdateMultiple", RequestNamespace:="urn:microsoft-dynamics-schemas/page/stockalmacenes", ResponseElementName:="UpdateMultiple_Result", ResponseNamespace:="urn:microsoft-dynamics-schemas/page/stockalmacenes", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
+        Public Sub UpdateMultiple(<System.Xml.Serialization.XmlArrayItemAttribute(IsNullable:=false)> ByRef StockAlmacenes_List() As StockAlmacenes)
+            Dim results() As Object = Me.Invoke("UpdateMultiple", New Object() {StockAlmacenes_List})
+            StockAlmacenes_List = CType(results(0),StockAlmacenes())
         End Sub
         
         '''<remarks/>
-        Public Overloads Sub UpdateMultipleAsync(ByVal ConstitucionAnticipos_List() As ConstitucionAnticipos)
-            Me.UpdateMultipleAsync(ConstitucionAnticipos_List, Nothing)
+        Public Overloads Sub UpdateMultipleAsync(ByVal StockAlmacenes_List() As StockAlmacenes)
+            Me.UpdateMultipleAsync(StockAlmacenes_List, Nothing)
         End Sub
         
         '''<remarks/>
-        Public Overloads Sub UpdateMultipleAsync(ByVal ConstitucionAnticipos_List() As ConstitucionAnticipos, ByVal userState As Object)
+        Public Overloads Sub UpdateMultipleAsync(ByVal StockAlmacenes_List() As StockAlmacenes, ByVal userState As Object)
             If (Me.UpdateMultipleOperationCompleted Is Nothing) Then
                 Me.UpdateMultipleOperationCompleted = AddressOf Me.OnUpdateMultipleOperationCompleted
             End If
-            Me.InvokeAsync("UpdateMultiple", New Object() {ConstitucionAnticipos_List}, Me.UpdateMultipleOperationCompleted, userState)
+            Me.InvokeAsync("UpdateMultiple", New Object() {StockAlmacenes_List}, Me.UpdateMultipleOperationCompleted, userState)
         End Sub
         
         Private Sub OnUpdateMultipleOperationCompleted(ByVal arg As Object)
@@ -363,7 +363,7 @@ Namespace WebReferenceTiToAnticiposRecibidos
         End Sub
         
         '''<remarks/>
-        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/page/constitucionanticipos:Delete", RequestNamespace:="urn:microsoft-dynamics-schemas/page/constitucionanticipos", ResponseElementName:="Delete_Result", ResponseNamespace:="urn:microsoft-dynamics-schemas/page/constitucionanticipos", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
+        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/page/stockalmacenes:Delete", RequestNamespace:="urn:microsoft-dynamics-schemas/page/stockalmacenes", ResponseElementName:="Delete_Result", ResponseNamespace:="urn:microsoft-dynamics-schemas/page/stockalmacenes", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
         Public Function Delete(ByVal Key As String) As <System.Xml.Serialization.XmlElementAttribute("Delete_Result")> Boolean
             Dim results() As Object = Me.Invoke("Delete", New Object() {Key})
             Return CType(results(0),Boolean)
@@ -413,8 +413,8 @@ Namespace WebReferenceTiToAnticiposRecibidos
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
-     System.Xml.Serialization.XmlTypeAttribute([Namespace]:="urn:microsoft-dynamics-schemas/page/constitucionanticipos")>  _
-    Partial Public Class ConstitucionAnticipos
+     System.Xml.Serialization.XmlTypeAttribute([Namespace]:="urn:microsoft-dynamics-schemas/page/stockalmacenes")>  _
+    Partial Public Class StockAlmacenes
         
         Private keyField As String
         
@@ -426,10 +426,6 @@ Namespace WebReferenceTiToAnticiposRecibidos
         
         Private line_NoFieldSpecified As Boolean
         
-        Private document_SubtypeField As Document_Subtype
-        
-        Private document_SubtypeFieldSpecified As Boolean
-        
         Private document_NoField As String
         
         Private posting_DateField As Date
@@ -440,21 +436,29 @@ Namespace WebReferenceTiToAnticiposRecibidos
         
         Private document_DateFieldSpecified As Boolean
         
-        Private account_TypeField As Account_Type
+        Private entry_TypeField As Entry_Type
         
-        Private account_TypeFieldSpecified As Boolean
+        Private entry_TypeFieldSpecified As Boolean
         
-        Private account_NoField As String
+        Private item_NoField As String
         
         Private descriptionField As String
         
-        Private debit_AmountField As Decimal
+        Private location_CodeField As String
         
-        Private debit_AmountFieldSpecified As Boolean
+        Private quantityField As Decimal
         
-        Private credit_AmountField As Decimal
+        Private quantityFieldSpecified As Boolean
         
-        Private credit_AmountFieldSpecified As Boolean
+        Private unit_of_Measure_CodeField As String
+        
+        Private unit_AmountField As Decimal
+        
+        Private unit_AmountFieldSpecified As Boolean
+        
+        Private unit_CostField As Decimal
+        
+        Private unit_CostFieldSpecified As Boolean
         
         Private shortcut_Dimension_1_CodeField As String
         
@@ -462,7 +466,7 @@ Namespace WebReferenceTiToAnticiposRecibidos
         
         Private shortcutDimCode3Field As String
         
-        Private external_Document_NoField As String
+        Private gen_Prod_Posting_GroupField As String
         
         '''<remarks/>
         Public Property Key() As String
@@ -512,27 +516,6 @@ Namespace WebReferenceTiToAnticiposRecibidos
             End Get
             Set
                 Me.line_NoFieldSpecified = value
-            End Set
-        End Property
-        
-        '''<remarks/>
-        Public Property Document_Subtype() As Document_Subtype
-            Get
-                Return Me.document_SubtypeField
-            End Get
-            Set
-                Me.document_SubtypeField = value
-            End Set
-        End Property
-        
-        '''<remarks/>
-        <System.Xml.Serialization.XmlIgnoreAttribute()>  _
-        Public Property Document_SubtypeSpecified() As Boolean
-            Get
-                Return Me.document_SubtypeFieldSpecified
-            End Get
-            Set
-                Me.document_SubtypeFieldSpecified = value
             End Set
         End Property
         
@@ -591,33 +574,33 @@ Namespace WebReferenceTiToAnticiposRecibidos
         End Property
         
         '''<remarks/>
-        Public Property Account_Type() As Account_Type
+        Public Property Entry_Type() As Entry_Type
             Get
-                Return Me.account_TypeField
+                Return Me.entry_TypeField
             End Get
             Set
-                Me.account_TypeField = value
+                Me.entry_TypeField = value
             End Set
         End Property
         
         '''<remarks/>
         <System.Xml.Serialization.XmlIgnoreAttribute()>  _
-        Public Property Account_TypeSpecified() As Boolean
+        Public Property Entry_TypeSpecified() As Boolean
             Get
-                Return Me.account_TypeFieldSpecified
+                Return Me.entry_TypeFieldSpecified
             End Get
             Set
-                Me.account_TypeFieldSpecified = value
+                Me.entry_TypeFieldSpecified = value
             End Set
         End Property
         
         '''<remarks/>
-        Public Property Account_No() As String
+        Public Property Item_No() As String
             Get
-                Return Me.account_NoField
+                Return Me.item_NoField
             End Get
             Set
-                Me.account_NoField = value
+                Me.item_NoField = value
             End Set
         End Property
         
@@ -632,44 +615,85 @@ Namespace WebReferenceTiToAnticiposRecibidos
         End Property
         
         '''<remarks/>
-        Public Property Debit_Amount() As Decimal
+        Public Property Location_Code() As String
             Get
-                Return Me.debit_AmountField
+                Return Me.location_CodeField
             End Get
             Set
-                Me.debit_AmountField = value
+                Me.location_CodeField = value
+            End Set
+        End Property
+        
+        '''<remarks/>
+        Public Property Quantity() As Decimal
+            Get
+                Return Me.quantityField
+            End Get
+            Set
+                Me.quantityField = value
             End Set
         End Property
         
         '''<remarks/>
         <System.Xml.Serialization.XmlIgnoreAttribute()>  _
-        Public Property Debit_AmountSpecified() As Boolean
+        Public Property QuantitySpecified() As Boolean
             Get
-                Return Me.debit_AmountFieldSpecified
+                Return Me.quantityFieldSpecified
             End Get
             Set
-                Me.debit_AmountFieldSpecified = value
+                Me.quantityFieldSpecified = value
             End Set
         End Property
         
         '''<remarks/>
-        Public Property Credit_Amount() As Decimal
+        Public Property Unit_of_Measure_Code() As String
             Get
-                Return Me.credit_AmountField
+                Return Me.unit_of_Measure_CodeField
             End Get
             Set
-                Me.credit_AmountField = value
+                Me.unit_of_Measure_CodeField = value
+            End Set
+        End Property
+        
+        '''<remarks/>
+        Public Property Unit_Amount() As Decimal
+            Get
+                Return Me.unit_AmountField
+            End Get
+            Set
+                Me.unit_AmountField = value
             End Set
         End Property
         
         '''<remarks/>
         <System.Xml.Serialization.XmlIgnoreAttribute()>  _
-        Public Property Credit_AmountSpecified() As Boolean
+        Public Property Unit_AmountSpecified() As Boolean
             Get
-                Return Me.credit_AmountFieldSpecified
+                Return Me.unit_AmountFieldSpecified
             End Get
             Set
-                Me.credit_AmountFieldSpecified = value
+                Me.unit_AmountFieldSpecified = value
+            End Set
+        End Property
+        
+        '''<remarks/>
+        Public Property Unit_Cost() As Decimal
+            Get
+                Return Me.unit_CostField
+            End Get
+            Set
+                Me.unit_CostField = value
+            End Set
+        End Property
+        
+        '''<remarks/>
+        <System.Xml.Serialization.XmlIgnoreAttribute()>  _
+        Public Property Unit_CostSpecified() As Boolean
+            Get
+                Return Me.unit_CostFieldSpecified
+            End Get
+            Set
+                Me.unit_CostFieldSpecified = value
             End Set
         End Property
         
@@ -705,12 +729,12 @@ Namespace WebReferenceTiToAnticiposRecibidos
         End Property
         
         '''<remarks/>
-        Public Property External_Document_No() As String
+        Public Property Gen_Prod_Posting_Group() As String
             Get
-                Return Me.external_Document_NoField
+                Return Me.gen_Prod_Posting_GroupField
             End Get
             Set
-                Me.external_Document_NoField = value
+                Me.gen_Prod_Posting_GroupField = value
             End Set
         End Property
     End Class
@@ -718,42 +742,38 @@ Namespace WebReferenceTiToAnticiposRecibidos
     '''<remarks/>
     <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3190.0"),  _
      System.SerializableAttribute(),  _
-     System.Xml.Serialization.XmlTypeAttribute([Namespace]:="urn:microsoft-dynamics-schemas/page/constitucionanticipos")>  _
-    Public Enum Document_Subtype
+     System.Xml.Serialization.XmlTypeAttribute([Namespace]:="urn:microsoft-dynamics-schemas/page/stockalmacenes")>  _
+    Public Enum Entry_Type
+        
+        '''<remarks/>
+        Purchase
+        
+        '''<remarks/>
+        Sale
+        
+        '''<remarks/>
+        Positive_Adjmt
+        
+        '''<remarks/>
+        Negative_Adjmt
+        
+        '''<remarks/>
+        Transfer
+        
+        '''<remarks/>
+        Consumption
+        
+        '''<remarks/>
+        Output
         
         '''<remarks/>
         _blank_
         
         '''<remarks/>
-        Advance
+        Assembly_Consumption
         
         '''<remarks/>
-        Deposit
-    End Enum
-    
-    '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3190.0"),  _
-     System.SerializableAttribute(),  _
-     System.Xml.Serialization.XmlTypeAttribute([Namespace]:="urn:microsoft-dynamics-schemas/page/constitucionanticipos")>  _
-    Public Enum Account_Type
-        
-        '''<remarks/>
-        G_L_Account
-        
-        '''<remarks/>
-        Customer
-        
-        '''<remarks/>
-        Vendor
-        
-        '''<remarks/>
-        Bank_Account
-        
-        '''<remarks/>
-        Fixed_Asset
-        
-        '''<remarks/>
-        IC_Partner
+        Assembly_Output
     End Enum
     
     '''<remarks/>
@@ -761,15 +781,15 @@ Namespace WebReferenceTiToAnticiposRecibidos
      System.SerializableAttribute(),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
-     System.Xml.Serialization.XmlTypeAttribute([Namespace]:="urn:microsoft-dynamics-schemas/page/constitucionanticipos")>  _
-    Partial Public Class ConstitucionAnticipos_Filter
+     System.Xml.Serialization.XmlTypeAttribute([Namespace]:="urn:microsoft-dynamics-schemas/page/stockalmacenes")>  _
+    Partial Public Class StockAlmacenes_Filter
         
-        Private fieldField As ConstitucionAnticipos_Fields
+        Private fieldField As StockAlmacenes_Fields
         
         Private criteriaField As String
         
         '''<remarks/>
-        Public Property Field() As ConstitucionAnticipos_Fields
+        Public Property Field() As StockAlmacenes_Fields
             Get
                 Return Me.fieldField
             End Get
@@ -792,8 +812,8 @@ Namespace WebReferenceTiToAnticiposRecibidos
     '''<remarks/>
     <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3190.0"),  _
      System.SerializableAttribute(),  _
-     System.Xml.Serialization.XmlTypeAttribute([Namespace]:="urn:microsoft-dynamics-schemas/page/constitucionanticipos")>  _
-    Public Enum ConstitucionAnticipos_Fields
+     System.Xml.Serialization.XmlTypeAttribute([Namespace]:="urn:microsoft-dynamics-schemas/page/stockalmacenes")>  _
+    Public Enum StockAlmacenes_Fields
         
         '''<remarks/>
         Journal_Template_Name
@@ -805,9 +825,6 @@ Namespace WebReferenceTiToAnticiposRecibidos
         Line_No
         
         '''<remarks/>
-        Document_Subtype
-        
-        '''<remarks/>
         Document_No
         
         '''<remarks/>
@@ -817,19 +834,28 @@ Namespace WebReferenceTiToAnticiposRecibidos
         Document_Date
         
         '''<remarks/>
-        Account_Type
+        Entry_Type
         
         '''<remarks/>
-        Account_No
+        Item_No
         
         '''<remarks/>
         Description
         
         '''<remarks/>
-        Debit_Amount
+        Location_Code
         
         '''<remarks/>
-        Credit_Amount
+        Quantity
+        
+        '''<remarks/>
+        Unit_of_Measure_Code
+        
+        '''<remarks/>
+        Unit_Amount
+        
+        '''<remarks/>
+        Unit_Cost
         
         '''<remarks/>
         Shortcut_Dimension_1_Code
@@ -841,7 +867,7 @@ Namespace WebReferenceTiToAnticiposRecibidos
         ShortcutDimCode_x005B_3_x005D_
         
         '''<remarks/>
-        External_Document_No
+        Gen_Prod_Posting_Group
     End Enum
     
     '''<remarks/>
@@ -863,10 +889,10 @@ Namespace WebReferenceTiToAnticiposRecibidos
         End Sub
         
         '''<remarks/>
-        Public ReadOnly Property Result() As ConstitucionAnticipos
+        Public ReadOnly Property Result() As StockAlmacenes
             Get
                 Me.RaiseExceptionIfNecessary
-                Return CType(Me.results(0),ConstitucionAnticipos)
+                Return CType(Me.results(0),StockAlmacenes)
             End Get
         End Property
     End Class
@@ -890,10 +916,10 @@ Namespace WebReferenceTiToAnticiposRecibidos
         End Sub
         
         '''<remarks/>
-        Public ReadOnly Property Result() As ConstitucionAnticipos
+        Public ReadOnly Property Result() As StockAlmacenes
             Get
                 Me.RaiseExceptionIfNecessary
-                Return CType(Me.results(0),ConstitucionAnticipos)
+                Return CType(Me.results(0),StockAlmacenes)
             End Get
         End Property
     End Class
@@ -917,10 +943,10 @@ Namespace WebReferenceTiToAnticiposRecibidos
         End Sub
         
         '''<remarks/>
-        Public ReadOnly Property Result() As ConstitucionAnticipos()
+        Public ReadOnly Property Result() As StockAlmacenes()
             Get
                 Me.RaiseExceptionIfNecessary
-                Return CType(Me.results(0),ConstitucionAnticipos())
+                Return CType(Me.results(0),StockAlmacenes())
             End Get
         End Property
     End Class
@@ -998,10 +1024,10 @@ Namespace WebReferenceTiToAnticiposRecibidos
         End Sub
         
         '''<remarks/>
-        Public ReadOnly Property ConstitucionAnticipos() As ConstitucionAnticipos
+        Public ReadOnly Property StockAlmacenes() As StockAlmacenes
             Get
                 Me.RaiseExceptionIfNecessary
-                Return CType(Me.results(0),ConstitucionAnticipos)
+                Return CType(Me.results(0),StockAlmacenes)
             End Get
         End Property
     End Class
@@ -1025,10 +1051,10 @@ Namespace WebReferenceTiToAnticiposRecibidos
         End Sub
         
         '''<remarks/>
-        Public ReadOnly Property ConstitucionAnticipos_List() As ConstitucionAnticipos()
+        Public ReadOnly Property StockAlmacenes_List() As StockAlmacenes()
             Get
                 Me.RaiseExceptionIfNecessary
-                Return CType(Me.results(0),ConstitucionAnticipos())
+                Return CType(Me.results(0),StockAlmacenes())
             End Get
         End Property
     End Class
@@ -1052,10 +1078,10 @@ Namespace WebReferenceTiToAnticiposRecibidos
         End Sub
         
         '''<remarks/>
-        Public ReadOnly Property ConstitucionAnticipos() As ConstitucionAnticipos
+        Public ReadOnly Property StockAlmacenes() As StockAlmacenes
             Get
                 Me.RaiseExceptionIfNecessary
-                Return CType(Me.results(0),ConstitucionAnticipos)
+                Return CType(Me.results(0),StockAlmacenes)
             End Get
         End Property
     End Class
@@ -1079,10 +1105,10 @@ Namespace WebReferenceTiToAnticiposRecibidos
         End Sub
         
         '''<remarks/>
-        Public ReadOnly Property ConstitucionAnticipos_List() As ConstitucionAnticipos()
+        Public ReadOnly Property StockAlmacenes_List() As StockAlmacenes()
             Get
                 Me.RaiseExceptionIfNecessary
-                Return CType(Me.results(0),ConstitucionAnticipos())
+                Return CType(Me.results(0),StockAlmacenes())
             End Get
         End Property
     End Class

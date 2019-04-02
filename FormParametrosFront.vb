@@ -294,6 +294,7 @@ Public Class FormParametrosFront
     Friend WithEvents CheckBoxNewContaTrataFactNeg2 As CheckBox
     Friend WithEvents CheckBoxNewContaTrataFactNeg As CheckBox
     Friend WithEvents CheckBoxNewContaContabilizarAsientoPagosRecibidos As CheckBox
+    Friend WithEvents CheckBoxNewContaTextosFijos As CheckBox
     Dim SQL As String
 
 #Region " Código generado por el Diseñador de Windows Forms "
@@ -753,6 +754,7 @@ Public Class FormParametrosFront
         Me.TextBoxEmpCod = New System.Windows.Forms.TextBox()
         Me.Label78 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.CheckBoxNewContaTextosFijos = New System.Windows.Forms.CheckBox()
         Me.GroupBox1.SuspendLayout()
         Me.TabControlOpciones.SuspendLayout()
         Me.TabPageGeneral.SuspendLayout()
@@ -1421,6 +1423,7 @@ Public Class FormParametrosFront
         '
         'TabPage7
         '
+        Me.TabPage7.Controls.Add(Me.CheckBoxNewContaTextosFijos)
         Me.TabPage7.Controls.Add(Me.CheckBoxNewContaContabilizarAsientoPagosRecibidos)
         Me.TabPage7.Controls.Add(Me.CheckBoxNewContaTrataFactAnul2)
         Me.TabPage7.Controls.Add(Me.CheckBoxNewContaTrataFactAnul)
@@ -1455,7 +1458,7 @@ Public Class FormParametrosFront
         'CheckBoxNewContaTrataFactAnul2
         '
         Me.CheckBoxNewContaTrataFactAnul2.AutoSize = True
-        Me.CheckBoxNewContaTrataFactAnul2.Location = New System.Drawing.Point(459, 194)
+        Me.CheckBoxNewContaTrataFactAnul2.Location = New System.Drawing.Point(459, 174)
         Me.CheckBoxNewContaTrataFactAnul2.Name = "CheckBoxNewContaTrataFactAnul2"
         Me.CheckBoxNewContaTrataFactAnul2.Size = New System.Drawing.Size(318, 17)
         Me.CheckBoxNewContaTrataFactAnul2.TabIndex = 39
@@ -1465,7 +1468,7 @@ Public Class FormParametrosFront
         'CheckBoxNewContaTrataFactAnul
         '
         Me.CheckBoxNewContaTrataFactAnul.AutoSize = True
-        Me.CheckBoxNewContaTrataFactAnul.Location = New System.Drawing.Point(459, 171)
+        Me.CheckBoxNewContaTrataFactAnul.Location = New System.Drawing.Point(459, 151)
         Me.CheckBoxNewContaTrataFactAnul.Name = "CheckBoxNewContaTrataFactAnul"
         Me.CheckBoxNewContaTrataFactAnul.Size = New System.Drawing.Size(236, 17)
         Me.CheckBoxNewContaTrataFactAnul.TabIndex = 38
@@ -4211,6 +4214,16 @@ Public Class FormParametrosFront
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'CheckBoxNewContaTextosFijos
+        '
+        Me.CheckBoxNewContaTextosFijos.AutoSize = True
+        Me.CheckBoxNewContaTextosFijos.Location = New System.Drawing.Point(459, 238)
+        Me.CheckBoxNewContaTextosFijos.Name = "CheckBoxNewContaTextosFijos"
+        Me.CheckBoxNewContaTextosFijos.Size = New System.Drawing.Size(204, 17)
+        Me.CheckBoxNewContaTextosFijos.TabIndex = 41
+        Me.CheckBoxNewContaTextosFijos.Text = "Montar Textos Fijos Asiento de Pagos"
+        Me.CheckBoxNewContaTextosFijos.UseVisualStyleBackColor = True
+        '
         'FormParametrosFront
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -5070,7 +5083,7 @@ Public Class FormParametrosFront
         Try
             SQL = "SELECT  PARA_ORIGENCUENTAS,NVL(PARA_ESTABLECIMIENTO,'<Ninguno>') AS PARA_ESTABLECIMIENTO ,PARA_TRATA_ANULACIONES,PARA_CFBCOTMOV_COD,PARA_CFBCOTMOV_COD2,PARA_FPAGO_COD,PARA_FPAGO_COD2  "
             SQL += " ,PARA_BANCOS_COD,PARA_BANCOS_COD2,PARA_USER_NEWHOTEL "
-            SQL += ",PARA_USA_FACT_NEG,PARA_USA_FACT_NEG2,PARA_USA_FACT_ANUL,PARA_USA_FACT_ANUL2,PARA_USA_PAGOS "
+            SQL += ",PARA_USA_FACT_NEG,PARA_USA_FACT_NEG2,PARA_USA_FACT_ANUL,PARA_USA_FACT_ANUL2,PARA_USA_PAGOS,PARA_TEXTOS_FIJOS "
             SQL += "  FROM TC_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"
             SQL += " AND PARA_EMP_NUM = " & Me.mParaEmpNum
@@ -5175,6 +5188,13 @@ Public Class FormParametrosFront
                     Me.CheckBoxNewContaContabilizarAsientoPagosRecibidos.Checked = False
                 Else
                     Me.CheckBoxNewContaContabilizarAsientoPagosRecibidos.Checked = True
+                End If
+
+
+                If Me.DbLee.mDbLector.Item("PARA_TEXTOS_FIJOS") = "0" Then
+                    Me.CheckBoxNewContaTextosFijos.Checked = False
+                Else
+                    Me.CheckBoxNewContaTextosFijos.Checked = True
                 End If
 
             End While
@@ -5747,6 +5767,13 @@ Public Class FormParametrosFront
             Else
                 SQL += ", PARA_USA_PAGOS = 0"
             End If
+
+            If Me.CheckBoxNewContaTextosFijos.Checked Then
+                SQL += " , PARA_TEXTOS_FIJOS = 1"
+            Else
+                SQL += ", PARA_TEXTOS_FIJOS = 0"
+            End If
+
             SQL += " ,PARA_ESTABLECIMIENTO = '" & Me.TextBoxNewContaEstablecimientoNewConta.Text & "'"
 
             SQL += " WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"

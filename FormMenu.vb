@@ -664,7 +664,7 @@ Public Class FormMenu
 
             F.StartPosition = FormStartPosition.CenterScreen
             F.ShowDialog()
-            If PARA_PASO_OK = PARA_PASO_TRY Then
+            If PARA_PASO_OK = PARA_PASO_TRY Or PARA_PASO_TRY = "Sistemas" Then
                 Me.Cursor = Cursors.WaitCursor
                 Dim Form As New FormParametrosFront
                 Form.Width = My.Forms.FormMenu.Width - 100
@@ -681,7 +681,7 @@ Public Class FormMenu
             Dim F As New FormPassword
             F.StartPosition = FormStartPosition.CenterScreen
             F.ShowDialog()
-            If PARA_PASO_OK = PARA_PASO_TRY Then
+            If PARA_PASO_OK = PARA_PASO_TRY Or PARA_PASO_TRY = "Sistemas" Then
                 Me.Cursor = Cursors.WaitCursor
                 Dim Form As New FormParametrosAlmacen
                 Form.ShowDialog()
@@ -698,7 +698,7 @@ Public Class FormMenu
             Dim F As New FormPassword
             F.StartPosition = FormStartPosition.CenterScreen
             F.ShowDialog()
-            If PARA_PASO_OK = PARA_PASO_TRY Then
+            If PARA_PASO_OK = PARA_PASO_TRY Or PARA_PASO_TRY = "Sistemas" Then
                 Me.Cursor = Cursors.WaitCursor
                 Dim Form As New FormIntegraNominaA3
                 Form.ShowDialog()
@@ -715,7 +715,7 @@ Public Class FormMenu
             Dim F As New FormPassword
             F.StartPosition = FormStartPosition.CenterScreen
             F.ShowDialog()
-            If PARA_PASO_OK = PARA_PASO_TRY Then
+            If PARA_PASO_OK = PARA_PASO_TRY Or PARA_PASO_TRY = "Sistemas" Then
                 Me.Cursor = Cursors.WaitCursor
                 Dim Form As New FormParametrosNomina
                 Form.ShowDialog()

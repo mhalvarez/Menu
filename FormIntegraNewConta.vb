@@ -130,6 +130,99 @@ Public Class FormIntegraNewConta
         End Try
 
     End Sub
+    Private Sub ConfGridAsiento()
+
+        Try
+            Dim ts2 As New DataGridTableStyle
+
+            ts2.MappingName = "ASIENTO"
+
+            Dim TextCol1 As New DataGridTextBoxColumn
+            TextCol1.MappingName = "F_VALOR"
+            TextCol1.HeaderText = "F. vALOR"
+            TextCol1.Width = 75
+            ts2.GridColumnStyles.Add(TextCol1)
+
+
+            Dim TextCol2 As New DataGridTextBoxColumn
+            TextCol2.MappingName = "CUENTA"
+            TextCol2.HeaderText = "Código Empresa"
+            TextCol2.Width = 75
+            ts2.GridColumnStyles.Add(TextCol2)
+
+
+            Dim TextCol3 As New DataGridTextBoxColumn
+            TextCol3.MappingName = "TIPO"
+            TextCol3.HeaderText = "Tipo"
+            TextCol3.Width = 75
+            ts2.GridColumnStyles.Add(TextCol3)
+
+            Dim TextCol4 As New DataGridTextBoxColumn
+            TextCol4.MappingName = "CONCEPTO"
+            TextCol4.HeaderText = "Concepto"
+            TextCol4.Width = 200
+            ts2.GridColumnStyles.Add(TextCol4)
+
+            Dim TextCol5 As New DataGridTextBoxColumn
+            TextCol5.MappingName = "DEBE"
+            TextCol5.HeaderText = "Debe"
+            TextCol5.Width = 100
+            ts2.GridColumnStyles.Add(TextCol5)
+
+
+            Dim TextCol6 As New DataGridTextBoxColumn
+            TextCol6.MappingName = "HABER"
+            TextCol6.HeaderText = "Haber"
+            TextCol6.Width = 100
+            ts2.GridColumnStyles.Add(TextCol6)
+
+            Dim TextCol7 As New DataGridTextBoxColumn
+            TextCol7.MappingName = "OBSERVACION"
+            TextCol7.HeaderText = "Observación"
+            TextCol7.Width = 200
+            ts2.GridColumnStyles.Add(TextCol7)
+
+            Dim TextCol8 As New DataGridTextBoxColumn
+            TextCol8.MappingName = "CIF"
+            TextCol8.HeaderText = "Cif"
+            TextCol8.Width = 100
+            ts2.GridColumnStyles.Add(TextCol8)
+
+            Dim TextCol9 As New DataGridTextBoxColumn
+            TextCol9.MappingName = "AUX1"
+            TextCol9.HeaderText = "Aux1"
+            TextCol9.Width = 100
+            ts2.GridColumnStyles.Add(TextCol9)
+
+
+            Dim TextCol10 As New DataGridTextBoxColumn
+            TextCol10.MappingName = "AUX2"
+            TextCol10.HeaderText = "Aux2"
+            TextCol10.Width = 100
+            ts2.GridColumnStyles.Add(TextCol10)
+
+
+            Dim TextCol11 As New DataGridTextBoxColumn
+            TextCol11.MappingName = "REFERENCIA"
+            TextCol11.HeaderText = "Referencia"
+            TextCol11.Width = 100
+            ts2.GridColumnStyles.Add(TextCol11)
+
+
+            Dim TextCol12 As New DataGridTextBoxColumn
+            TextCol12.MappingName = "REFERENCIA2"
+            TextCol12.HeaderText = "Referencia2"
+            TextCol12.Width = 100
+            ts2.GridColumnStyles.Add(TextCol12)
+
+            Me.DataGrid2.TableStyles.Clear()
+            Me.DataGrid2.TableStyles.Add(ts2)
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+
+    End Sub
     Private Sub ConfGriHoteles()
 
         Try
@@ -212,15 +305,12 @@ Public Class FormIntegraNewConta
             Me.DataGridHoteles.TableStyles.Clear()
             Me.DataGridHoteles.TableStyles.Add(ts1)
 
-
-
-
-
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
 
     End Sub
+
 
     Private Sub ButtonAceptar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonAceptar.Click
         Try
@@ -367,7 +457,7 @@ Public Class FormIntegraNewConta
           
             Me.DataGrid2.DataSource = Me.DbCentral.TraerDataset(SQL, "ASIENTO")
             Me.DataGrid2.DataMember = "ASIENTO"
-            ' Me.ConfGrid()
+            Me.ConfGridAsiento()
 
 
             Me.Cursor = Cursors.Default
