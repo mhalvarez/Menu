@@ -58,7 +58,7 @@ Public Class ContaNetNewHotel
     Private mProgress As System.Windows.Forms.ProgressBar
 
     Private mForm As System.Windows.Forms.Form
-    Private mTrataDebitoTpvnoFacturado As Boolean = False
+    Private mExcluyeDebitoTpvnoFacturado As Boolean = False
 
     Private mParaFilePath As String
     Private mParaFechaRegistroAc As String
@@ -209,7 +209,7 @@ Public Class ContaNetNewHotel
         Me.mStrConexionCentral = vStrConexionCentral
         Me.mStrConexionSpyro = vStrConexionSpyro
         Me.mFecha = vFecha
-        Me.mTrataDebitoTpvnoFacturado = vTrataDebitoNoFacturadoTpv
+        Me.mExcluyeDebitoTpvnoFacturado = vTrataDebitoNoFacturadoTpv
 
         Me.mTextDebug = vConrolDebug
 
@@ -3956,7 +3956,7 @@ Public Class ContaNetNewHotel
             'SQL = SQL & " AND TNHT_MOVI.MOVI_DEAN ='0'"
 
 
-            If Me.mTrataDebitoTpvnoFacturado = True Then
+            If Me.mExcluyeDebitoTpvnoFacturado = True Then
                 ' EXCLUYE CIERRE DE CONTADO DE TPV
                 SQL += " AND TNHT_MOVI.UTIL_CODI <> 'POS'"
                 ' EXCLUYE CIERRE DE CONTADO DE GOLF
@@ -4074,7 +4074,7 @@ Public Class ContaNetNewHotel
         'SQL = SQL & " AND TNHT_MOVI.MOVI_DEAN ='0'"
 
 
-        If Me.mTrataDebitoTpvnoFacturado = True Then
+        If Me.mExcluyeDebitoTpvnoFacturado = True Then
             ' EXCLUYE CIERRE DE CONTADO DE TPV
             SQL += " AND TNHT_MOVI.UTIL_CODI <> 'POS'"
             ' EXCLUYE CIERRE DE CONTADO DE GOLF
@@ -4179,7 +4179,7 @@ Public Class ContaNetNewHotel
         ' excluir depositos anticipados 
         'SQL = SQL & " AND TNHT_MOVI.MOVI_DEAN ='0'"
 
-        If Me.mTrataDebitoTpvnoFacturado = True Then
+        If Me.mExcluyeDebitoTpvnoFacturado = True Then
             ' EXCLUYE CIERRE DE CONTADO DE TPV
             SQL += " AND TNHT_MOVI.UTIL_CODI <> 'POS'"
             ' EXCLUYE CIERRE DE CONTADO DE GOLF
@@ -4288,7 +4288,7 @@ Public Class ContaNetNewHotel
         'SQL = SQL & " AND TNHT_MOVI.MOVI_DEAN ='0'"
 
 
-        If Me.mTrataDebitoTpvnoFacturado = True Then
+        If Me.mExcluyeDebitoTpvnoFacturado = True Then
             ' EXCLUYE CIERRE DE CONTADO DE TPV
             SQL += " AND TNHT_MOVI.UTIL_CODI <> 'POS'"
             ' EXCLUYE CIERRE DE CONTADO DE GOLF
@@ -4385,7 +4385,7 @@ Public Class ContaNetNewHotel
             'SQL = SQL & " AND TNHT_MOVI.MOVI_DEAN ='0'"
 
 
-            If Me.mTrataDebitoTpvnoFacturado = True Then
+            If Me.mExcluyeDebitoTpvnoFacturado = True Then
                 ' EXCLUYE CIERRE DE CONTADO DE TPV
                 SQL += " AND TNHT_MOVI.UTIL_CODI <> 'POS'"
                 ' EXCLUYE CIERRE DE CONTADO DE GOLF
@@ -6637,7 +6637,7 @@ Public Class ContaNetNewHotel
         End If
 
 
-        If Me.mTrataDebitoTpvnoFacturado = True Then
+        If Me.mExcluyeDebitoTpvnoFacturado = True Then
             ' EXCLUYE CIERRE DE CONTADO DE TPV
             SQL += "AND TNHT_MOVI.UTIL_CODI <> 'POS'"
             ' EXCLUYE CIERRE DE CONTADO DE GOLF

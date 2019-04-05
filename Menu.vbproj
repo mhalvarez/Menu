@@ -203,7 +203,7 @@
     </Reference>
     <Reference Include="NewHotel, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>NewHotel\bin\x86\Release\NewHotel.dll</HintPath>
+      <HintPath>NewHotel\bin\x86\Debug\NewHotel.dll</HintPath>
     </Reference>
     <Reference Include="Ptropical, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>

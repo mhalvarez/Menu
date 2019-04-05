@@ -2441,7 +2441,7 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                 If Total <> 0 Then
                     Me.mTipoAsiento = "DEBE"
                     Me.InsertaOracle("AC", 222, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", Me.mFecha, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String))
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, " " & CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), Total)
+                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), Total)
                 End If
             End While
             Me.DbNewConta.mDbLector.Close()
@@ -2599,7 +2599,7 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                 If Total <> 0 Then
                     Me.mTipoAsiento = "DEBE"
                     Me.InsertaOracle("AC", 222, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", Me.mFecha, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String))
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, " " & CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), Total)
+                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), Total)
                 End If
             End While
             Me.DbNewConta.mDbLector.Close()
@@ -3463,7 +3463,7 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
 
                     Me.mTipoAsiento = "DEBE"
                     Me.InsertaOracle("AC", 777, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, Me.mtextoApunte, Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("MOCO_DOCU"), String), "SI", DatosdeCredito4, "", DocCred, DocDeb, DescCred, DescDeb, CStr(Me.DbNewConta.mDbLector("RECIBO")), CStr(Me.DbNewConta.mDbLector("RECO_DAEM")), FecAnul, CType(Me.DbNewConta.mDbLector("TOTALF"), Double), DatosdeCredito5, Multicobro, CDate(Format(CDate(Me.DbNewConta.mDbLector("MOCO_DAVA")), "dd/MM/yyyy")))
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, " " & Me.mtextoApunte, Total)
+                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, Me.mtextoApunte, Total)
                 End If
             End While
             Me.DbNewConta.mDbLector.Close()
@@ -4168,7 +4168,7 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                 If Total <> 0 Then
                     Me.mTipoAsiento = "DEBE"
                     Me.InsertaOracle("AC", 555, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, "*** " & CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("TACO_CODI"), String) & " " & CType(Me.DbNewConta.mDbLector("TACO_NOME"), String), "SI", Me.mFecha, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String))
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, " " & CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), Total)
+                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, CType(Me.DbNewConta.mDbLector("MOLI_DESC"), String), Total)
                 End If
             End While
             Me.DbNewConta.mDbLector.Close()
@@ -4421,10 +4421,10 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                 Else
                     If CStr(Me.DbNewConta.mDbLector("TIMO_CRED")) = mCodigoNotasCredito Then
                         Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("DESC_CRED"))
-                    ElseIf IsDBNull(Me.DbNewConta.mDbLector("MOC1.MOCO_DESC")) = True Then
+                    ElseIf IsDBNull(Me.DbNewConta.mDbLector("MOCO_DESC")) = True Then
                         Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("MOLI_DESC"))
                     Else
-                        Me.mtextoApunte = "(" & CStr(Me.DbNewConta.mDbLector("MOLI_DESC")) & ") ," & CStr(Me.DbNewConta.mDbLector("MOC1.MOCO_DESC"))
+                        Me.mtextoApunte = "(" & CStr(Me.DbNewConta.mDbLector("MOLI_DESC")) & ") ," & CStr(Me.DbNewConta.mDbLector("MOCO_DESC"))
                     End If
                 End If
 
@@ -4453,7 +4453,7 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                 If Total <> 0 Then
                     Me.mTipoAsiento = "DEBE"
                     Me.InsertaOracleLopez("AC", TipoAsiento, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, Me.mtextoApunte, Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("NOMBRE"), String), "SI", AuxiliarTipoMovimiento, "  Paga a : " & CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), CStr(Me.DbNewConta.mDbLector("MOCO_CRED")), "", CDate(Format(CDate(Me.DbNewConta.mDbLector("MORE_DARE")), "dd/MM/yyyy")), Recibo)
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, " " & Me.mtextoApunte, Total)
+                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, Me.mtextoApunte, Total)
                 End If
             End While
             Me.DbNewConta.mDbLector.Close()
@@ -4705,10 +4705,10 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                 Else
                     If CStr(Me.DbNewConta.mDbLector("TIMO_CRED")) = mCodigoNotasCredito Then
                         Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("DESC_CRED"))
-                    ElseIf IsDBNull(Me.DbNewConta.mDbLector("MOC1.MOCO_DESC")) = True Then
+                    ElseIf IsDBNull(Me.DbNewConta.mDbLector("MOCO_DESC")) = True Then
                         Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("MOLI_DESC"))
                     Else
-                        Me.mtextoApunte = "(" & CStr(Me.DbNewConta.mDbLector("MOLI_DESC")) & ") ," & CStr(Me.DbNewConta.mDbLector("MOC1.MOCO_DESC"))
+                        Me.mtextoApunte = "(" & CStr(Me.DbNewConta.mDbLector("MOLI_DESC")) & ") ," & CStr(Me.DbNewConta.mDbLector("MOCO_DESC"))
                     End If
                 End If
 
@@ -4737,7 +4737,7 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                 If Total <> 0 Then
                     Me.mTipoAsiento = "DEBE"
                     Me.InsertaOracleLopez("AC", TipoAsiento, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, Me.mtextoApunte, Total, "NO", CType(Me.DbNewConta.mDbLector("NIF"), String), CType(Me.DbNewConta.mDbLector("CODIGO"), String) & " " & CType(Me.DbNewConta.mDbLector("NOMBRE"), String), "SI", AuxiliarTipoMovimiento, " Paga a : " & CType(Me.DbNewConta.mDbLector("DESC_DEBI"), String), CStr(Me.DbNewConta.mDbLector("MOCO_CRED")), "", CDate(Format(CDate(Me.DbNewConta.mDbLector("MORE_DARE")), "dd/MM/yyyy")), Recibo)
-                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, " " & Me.mtextoApunte, Total)
+                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Cuenta, Me.mIndicadorDebe, Me.mtextoApunte, Total)
                 End If
             End While
             Me.DbNewConta.mDbLector.Close()
