@@ -1325,7 +1325,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
             '-------------------------------------------------------------------------------------------------
             Me.Filegraba.WriteLine(vTipo.PadRight(2, CChar(" ")) &
             vCif.PadRight(20, CChar(" ")) &
-             vTitular.PadRight(40, CChar(" ")) &
+             Mid(vTitular, 1, 40).PadRight(40, CChar(" ")) &
              " ".PadRight(80, CChar(" ")) &
              " ".PadRight(6, CChar(" ")) &
              vPais.PadRight(4, CChar(" ")) &
@@ -2669,12 +2669,18 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
             Me.mResultCdbl = Me.mTotalAlbaranesFactura + Me.mTotalImpuestosFactura
 
             If Me.mResultCdbl <> Total Then
+                Linea = Linea + 1
                 If Me.mResultCdbl < Total Then
-                    Linea = Linea + 1
                     AjusteRedondeo = Math.Round(Total - Me.mResultCdbl, 2, MidpointRounding.ToEven)
                     Me.mTipoAsiento = "DEBE"
                     Me.InsertaOracle("AC", 6, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.mCtaAjusteDecimal, Me.mIndicadorDebe, "Ajuste por Diferencia Factura/Albaranes", AjusteRedondeo, "NO", CType(Me.DbLeeHotel.mDbLector("DOCU"), String), CStr(Me.DbLeeHotel.mDbLector("NMOVI")) & "/" & CStr(Me.DbLeeHotel.mDbLector("MOVG_ANCI")))
                     Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Me.mCtaAjusteDecimal, Me.mIndicadorDebe, "Ajuste por Diferencia Factura/Albaranes", AjusteRedondeo)
+                Else
+                    AjusteRedondeo = Math.Round(Me.mResultCdbl - Total, 2, MidpointRounding.ToEven)
+                    Me.mTipoAsiento = "HABER"
+                    Me.InsertaOracle("AC", 6, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Me.mCtaAjusteDecimal, Me.mIndicadorHaber, "Ajuste por Diferencia Factura/Albaranes", AjusteRedondeo, "NO", CType(Me.DbLeeHotel.mDbLector("DOCU"), String), CStr(Me.DbLeeHotel.mDbLector("NMOVI")) & "/" & CStr(Me.DbLeeHotel.mDbLector("MOVG_ANCI")))
+                    Me.GeneraFileAC("AC", Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), Me.mCtaAjusteDecimal, Me.mIndicadorHaber, "Ajuste por Diferencia Factura/Albaranes", AjusteRedondeo)
+
                 End If
             End If
 

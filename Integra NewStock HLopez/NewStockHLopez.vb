@@ -2462,7 +2462,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
             '-------------------------------------------------------------------------------------------------
             Me.Filegraba.WriteLine(vTipo.PadRight(2, CChar(" ")) &
             vCif.PadRight(20, CChar(" ")) &
-             vTitular.PadRight(40, CChar(" ")) &
+            Mid(vTitular, 1, 40).PadRight(40, CChar(" ")) &
              " ".PadRight(80, CChar(" ")) &
              " ".PadRight(6, CChar(" ")) &
              vPais.PadRight(4, CChar(" ")) &

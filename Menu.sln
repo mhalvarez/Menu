@@ -125,11 +125,6 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Integracion NewPaga", "INTE
 		{9E539DC1-50AC-4BCA-B89F-8A85ABA3416F} = {9E539DC1-50AC-4BCA-B89F-8A85ABA3416F}
 	EndProjectSection
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "IntegraNewStockTito", "IntegraNewStockTito\IntegraNewStockTito.vbproj", "{F3B9EC4D-2E42-4E36-AC22-E5E83FD0EFE6}"
-	ProjectSection(ProjectDependencies) = postProject
-		{9E539DC1-50AC-4BCA-B89F-8A85ABA3416F} = {9E539DC1-50AC-4BCA-B89F-8A85ABA3416F}
-	EndProjectSection
-EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "NewHotel", "NewHotel\NewHotel.vbproj", "{F9432DDC-E786-44E2-BE57-2EFEF31D6E60}"
 	ProjectSection(ProjectDependencies) = postProject
 		{9E539DC1-50AC-4BCA-B89F-8A85ABA3416F} = {9E539DC1-50AC-4BCA-B89F-8A85ABA3416F}
@@ -187,6 +182,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ContanetNewConta", "Contane
 	ProjectSection(ProjectDependencies) = postProject
 		{9E539DC1-50AC-4BCA-B89F-8A85ABA3416F} = {9E539DC1-50AC-4BCA-B89F-8A85ABA3416F}
 	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "HTitoNewStock", "HtitoNewStock\HTitoNewStock.vbproj", "{F3B9EC4D-2E42-4E36-AC22-E5E83FD0EFE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -340,14 +337,6 @@ Global
 		{DCAE9213-8C2C-4B8A-A5F1-E8558789BFFD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DCAE9213-8C2C-4B8A-A5F1-E8558789BFFD}.Release|x86.ActiveCfg = Release|x86
 		{DCAE9213-8C2C-4B8A-A5F1-E8558789BFFD}.Release|x86.Build.0 = Release|x86
-		{F3B9EC4D-2E42-4E36-AC22-E5E83FD0EFE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F3B9EC4D-2E42-4E36-AC22-E5E83FD0EFE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F3B9EC4D-2E42-4E36-AC22-E5E83FD0EFE6}.Debug|x86.ActiveCfg = Debug|x86
-		{F3B9EC4D-2E42-4E36-AC22-E5E83FD0EFE6}.Debug|x86.Build.0 = Debug|x86
-		{F3B9EC4D-2E42-4E36-AC22-E5E83FD0EFE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F3B9EC4D-2E42-4E36-AC22-E5E83FD0EFE6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F3B9EC4D-2E42-4E36-AC22-E5E83FD0EFE6}.Release|x86.ActiveCfg = Release|x86
-		{F3B9EC4D-2E42-4E36-AC22-E5E83FD0EFE6}.Release|x86.Build.0 = Release|x86
 		{F9432DDC-E786-44E2-BE57-2EFEF31D6E60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F9432DDC-E786-44E2-BE57-2EFEF31D6E60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9432DDC-E786-44E2-BE57-2EFEF31D6E60}.Debug|x86.ActiveCfg = Debug|x86
@@ -428,6 +417,14 @@ Global
 		{6CE853D8-0D5F-40CD-80BA-B0E8E1E5606D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6CE853D8-0D5F-40CD-80BA-B0E8E1E5606D}.Release|x86.ActiveCfg = Release|x86
 		{6CE853D8-0D5F-40CD-80BA-B0E8E1E5606D}.Release|x86.Build.0 = Release|x86
+		{F3B9EC4D-2E42-4E36-AC22-E5E83FD0EFE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3B9EC4D-2E42-4E36-AC22-E5E83FD0EFE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3B9EC4D-2E42-4E36-AC22-E5E83FD0EFE6}.Debug|x86.ActiveCfg = Debug|x86
+		{F3B9EC4D-2E42-4E36-AC22-E5E83FD0EFE6}.Debug|x86.Build.0 = Debug|x86
+		{F3B9EC4D-2E42-4E36-AC22-E5E83FD0EFE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3B9EC4D-2E42-4E36-AC22-E5E83FD0EFE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3B9EC4D-2E42-4E36-AC22-E5E83FD0EFE6}.Release|x86.ActiveCfg = Release|x86
+		{F3B9EC4D-2E42-4E36-AC22-E5E83FD0EFE6}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

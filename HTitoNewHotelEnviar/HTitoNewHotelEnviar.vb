@@ -135,15 +135,17 @@ Public Class HTitoNewHotelEnviar
     Private WebServiceClientesDatos As WebReferenceClientesNewHotel.Clientes
     Private WebServiceClientesDatosControl As WebReferenceClientesNewHotel.Clientes
 
-    'ALBARANES
+    'NewStock Albaranes / Facturas
 
-    Private WebServiceAlbaranesBase As WebReferenceTitoAlbaranes.GestionNewHotel
-    Private WebServiceAlbaranesLineasBaseList As WebReferenceTitoAlbaranes.GestionNewHotel()
-    Private WebServiceAlbaranesLineas() As WebReferenceTitoAlbaranes.GestionNewHotel
-
-
+    Private WebServiceNewStockAlbaranesBase As WebReferenceTitoNewStockAlbaranes.GestionNewHotel
+    Private WebServiceANewStockAlbaranesLineasBaseList As WebReferenceTitoNewStockAlbaranes.GestionNewHotel()
+    Private WebServiceNewStockAlbaranesLineas() As WebReferenceTitoNewStockAlbaranes.GestionNewHotel
 
 
+    ' NewStock Traspasos , Inventarios
+    Private WebServiceNewStockMovimientos As WebReferenceTitoNewStockMovimientos.StockAlmacenes_Service
+    Private WebServiceNewStockMovimientosBaseList As WebReferenceTitoNewStockMovimientos.StockAlmacenes()
+    Private NewStockMovimientosLineas() As WebReferenceTitoNewStockMovimientos.StockAlmacenes
 
 
 #Region "Constructor"
@@ -240,15 +242,27 @@ Public Class HTitoNewHotelEnviar
 
                 If vTipoDeEnvio = mEnumTipoEnvio.NewStock Then
                     '*************************************************************************************************
-                    '' Enviar Albaranes y Facturas Ditrectas
-                    Me.WebServiceAlbaranesBase = New WebReferenceTitoAlbaranes.GestionNewHotel
+                    '' Enviar Traspasos y Movimientos Internos
+                    Me.WebServiceNewStockMovimientos = New WebReferenceTitoNewStockMovimientos.StockAlmacenes_Service
                     ' URL
-                    Me.WebServiceAlbaranesBase.Url = Me.mParaWebServiceLocation & Me.mParaWebServiceName & "/Codeunit/GestionNewHotel"
+                    Me.WebServiceNewStockMovimientos.Url = Me.mParaWebServiceLocation & Me.mParaWebServiceName & "/Page/StockAlmacenes"
                     ' TimeOut
-                    Me.WebServiceAlbaranesBase.Timeout = Me.mParaTimeOut
+                    Me.WebServiceNewStockMovimientos.Timeout = Me.mParaTimeOut
                     ' Credenciales
-                    Me.WebServiceAlbaranesBase.Credentials = New System.Net.NetworkCredential(Me.mParaDomainUser, Me.mParaDomainPwd, Me.mParaDomainName)
-                    Me.ProcesarAlbaranes()
+                    Me.WebServiceNewStockMovimientos.Credentials = New System.Net.NetworkCredential(Me.mParaDomainUser, Me.mParaDomainPwd, Me.mParaDomainName)
+                    Me.ProcesarNewStockAlbaranes()
+                    '*************************************************************************************************
+
+                    '*************************************************************************************************
+                    '' Enviar Albaranes
+                    Me.WebServiceNewStockAlbaranesBase = New WebReferenceTitoNewStockAlbaranes.GestionNewHotel
+                    ' URL
+                    Me.WebServiceNewStockAlbaranesBase.Url = Me.mParaWebServiceLocation & Me.mParaWebServiceName & "/Codeunit/Gestión_New_Hotel"
+                    ' TimeOut
+                    Me.WebServiceNewStockAlbaranesBase.Timeout = Me.mParaTimeOut
+                    ' Credenciales
+                    Me.WebServiceNewStockAlbaranesBase.Credentials = New System.Net.NetworkCredential(Me.mParaDomainUser, Me.mParaDomainPwd, Me.mParaDomainName)
+                    Me.ProcesarNewStockAlbaranes()
                     '*************************************************************************************************
                 End If
 
@@ -699,14 +713,14 @@ Public Class HTitoNewHotelEnviar
 
             If IsNothing(WebServiceProduccionLinea) = False Then
 
-                If Me.WebServiceEnviar(1, 0, "", 0) = True Then
+                If Me.WebServiceEnviarNewhotel(1, 0, "", 0) = True Then
                     ' destruye el web wervice
                     Me.WebServiceProduccionBase = Nothing
                     If Me.mDebugFileEstaOk Then
                         Me.mDebugFile.WriteLine(Now & " Produccion = Nothing")
                     End If
                     ' Gestion de Error
-                    Me.WebServiveTrataenvios(1, "OK", 1, "", "WEBPRODUCCION", 0, "")
+                    Me.WebServiveTrataenviosNewHotel(1, "OK", 1, "", "WEBPRODUCCION", 0, "")
                     Me.mDebugFile.WriteLine(Now & " Produccion = " & "Ok")
 
                 Else
@@ -716,7 +730,7 @@ Public Class HTitoNewHotelEnviar
                         Me.mDebugFile.WriteLine(Now & " Produccion = Nothing")
                     End If
                     ' Gestion de Error
-                    Me.WebServiveTrataenvios(0, Me.mWebServiceError, 1, "", "WEBPRODUCCION", 0, "")
+                    Me.WebServiveTrataenviosNewHotel(0, Me.mWebServiceError, 1, "", "WEBPRODUCCION", 0, "")
                     Me.mDebugFile.WriteLine(Now & " Produccion = " & Me.mWebServiceError)
                 End If
 
@@ -736,7 +750,7 @@ Public Class HTitoNewHotelEnviar
                 Me.mDebugFile.WriteLine(Now & " Produccion = Nothing")
             End If
             ' Gestion de Error
-            Me.WebServiveTrataenvios(0, Me.mWebServiceError, 1, "", "WEBPRODUCCION", 0, "")
+            Me.WebServiveTrataenviosNewHotel(0, Me.mWebServiceError, 1, "", "WEBPRODUCCION", 0, "")
             Me.mDebugFile.WriteLine(Now & " Produccion = " & Me.mWebServiceError)
         End Try
     End Sub
@@ -923,14 +937,14 @@ Public Class HTitoNewHotelEnviar
 
             If IsNothing(Me.WebServiceAnticiposLinea) = False Then
 
-                If Me.WebServiceEnviar(2, 0, "", 0) = True Then
+                If Me.WebServiceEnviarNewhotel(2, 0, "", 0) = True Then
                     ' destruye el web wervice
                     Me.WebServiceAnticiposBase = Nothing
                     If Me.mDebugFileEstaOk Then
                         Me.mDebugFile.WriteLine(Now & " Anticipos = Nothing")
                     End If
                     ' Gestion de Error
-                    Me.WebServiveTrataenvios(1, "OK", 2, "", "WEBANTICIPOS", 0, "")
+                    Me.WebServiveTrataenviosNewHotel(1, "OK", 2, "", "WEBANTICIPOS", 0, "")
                     Me.mDebugFile.WriteLine(Now & " Anticipos = " & "Ok")
 
                 Else
@@ -940,7 +954,7 @@ Public Class HTitoNewHotelEnviar
                         Me.mDebugFile.WriteLine(Now & " Anticipos = Nothing")
                     End If
                     ' Gestion de Error
-                    Me.WebServiveTrataenvios(0, Me.mWebServiceError, 2, "", "WEBANTICIPOS", 0, "")
+                    Me.WebServiveTrataenviosNewHotel(0, Me.mWebServiceError, 2, "", "WEBANTICIPOS", 0, "")
                     Me.mDebugFile.WriteLine(Now & " Anticipos = " & Me.mWebServiceError)
                 End If
 
@@ -958,7 +972,7 @@ Public Class HTitoNewHotelEnviar
                 Me.mDebugFile.WriteLine(Now & " Anticipos = Nothing")
             End If
             ' Gestion de Error
-            Me.WebServiveTrataenvios(0, ex.Message, 2, "", "WEBANTICIPOS", 0, "")
+            Me.WebServiveTrataenviosNewHotel(0, ex.Message, 2, "", "WEBANTICIPOS", 0, "")
             Me.mDebugFile.WriteLine(Now & " Anticipos = " & ex.Message)
         End Try
     End Sub
@@ -1167,14 +1181,14 @@ Public Class HTitoNewHotelEnviar
             ' LLAMADA AL WEB SERVICE
 
             If IsNothing(Me.WebServiceAnticiposAplicadosLinea) = False Then
-                If Me.WebServiceEnviar(350, 0, "", 0) = True Then
+                If Me.WebServiceEnviarNewhotel(350, 0, "", 0) = True Then
                     ' destruye el web wervice
                     Me.WebServiceAnticiposAplicadosBase = Nothing
                     If Me.mDebugFileEstaOk Then
                         Me.mDebugFile.WriteLine(Now & " Anticipos Aplicados = Nothing")
                     End If
                     ' Gestion de Error
-                    Me.WebServiveTrataenvios(1, "OK", 350, "", "WEBANTICIPOS FACTURADOS", 0, "")
+                    Me.WebServiveTrataenviosNewHotel(1, "OK", 350, "", "WEBANTICIPOS FACTURADOS", 0, "")
                     Me.mDebugFile.WriteLine(Now & " Anticipos Aplicados = " & "Ok")
 
                 Else
@@ -1184,7 +1198,7 @@ Public Class HTitoNewHotelEnviar
                         Me.mDebugFile.WriteLine(Now & " Anticipos Aplicados = Nothing")
                     End If
                     ' Gestion de Error
-                    Me.WebServiveTrataenvios(0, Me.mWebServiceError, 350, "", "WEBANTICIPOS FACTURADOS", 0, "")
+                    Me.WebServiveTrataenviosNewHotel(0, Me.mWebServiceError, 350, "", "WEBANTICIPOS FACTURADOS", 0, "")
                     Me.mDebugFile.WriteLine(Now & " Anticipos Aplicados = " & Me.mWebServiceError)
                 End If
             End If
@@ -1195,7 +1209,7 @@ Public Class HTitoNewHotelEnviar
                 Me.mDebugFile.WriteLine(Now & " Anticipos Aplicados = Nothing")
             End If
             ' Gestion de Error
-            Me.WebServiveTrataenvios(0, ex.Message, 350, "", "WEBANTICIPOS FACTURADOS", 0, "")
+            Me.WebServiveTrataenviosNewHotel(0, ex.Message, 350, "", "WEBANTICIPOS FACTURADOS", 0, "")
             Me.mDebugFile.WriteLine(Now & " Anticipos Aplicados = " & ex.Message)
         End Try
     End Sub
@@ -1274,7 +1288,7 @@ Public Class HTitoNewHotelEnviar
 
                     ' LLAMADA AL WEB SERVICE
 
-                    If Me.WebServiceEnviar(ControlAsiento, 0, "", 0) = True Then
+                    If Me.WebServiceEnviarNewhotel(ControlAsiento, 0, "", 0) = True Then
 
                         ' destruye el web wervice
                         '  Me.WebServiceFacturacionBase = Nothing
@@ -1285,7 +1299,7 @@ Public Class HTitoNewHotelEnviar
 
                         ' Gestion de Error
 
-                        Me.WebServiveTrataenvios(1, "OK", ControlAsiento, "", "WEBFACTURAS", ControlFactura, ControlSerie)
+                        Me.WebServiveTrataenviosNewHotel(1, "OK", ControlAsiento, "", "WEBFACTURAS", ControlFactura, ControlSerie)
                         Me.mDebugFile.WriteLine(Now & " Facturación = " & "Ok")
 
                     Else
@@ -1296,7 +1310,7 @@ Public Class HTitoNewHotelEnviar
                             Me.mDebugFile.WriteLine(Now & " Facturación = Nothing")
                         End If
                         ' Gestion de Error
-                        Me.WebServiveTrataenvios(0, Me.mWebServiceError, ControlAsiento, "", "WEBFACTURAS", ControlFactura, ControlSerie)
+                        Me.WebServiveTrataenviosNewHotel(0, Me.mWebServiceError, ControlAsiento, "", "WEBFACTURAS", ControlFactura, ControlSerie)
                         Me.mDebugFile.WriteLine(Now & " Facturación = " & Me.mWebServiceError)
 
                     End If
@@ -1526,7 +1540,7 @@ Public Class HTitoNewHotelEnviar
 
             If IsNothing(Me.WebServiceFacturacionLineas) = False Then
 
-                If Me.WebServiceEnviar(ControlAsiento, 0, "", 0) = True Then
+                If Me.WebServiceEnviarNewhotel(ControlAsiento, 0, "", 0) = True Then
 
                     ' destruye el web wervice
                     '  Me.WebServiceFacturacionBase = Nothing
@@ -1537,7 +1551,7 @@ Public Class HTitoNewHotelEnviar
 
                     ' Gestion de Error
 
-                    Me.WebServiveTrataenvios(1, "OK", ControlAsiento, "", "WEBFACTURAS", ControlFactura, ControlSerie)
+                    Me.WebServiveTrataenviosNewHotel(1, "OK", ControlAsiento, "", "WEBFACTURAS", ControlFactura, ControlSerie)
                     Me.mDebugFile.WriteLine(Now & " Facturación = " & "Ok")
 
                 Else
@@ -1548,7 +1562,7 @@ Public Class HTitoNewHotelEnviar
                         Me.mDebugFile.WriteLine(Now & " Facturación = Nothing")
                     End If
                     ' Gestion de Error
-                    Me.WebServiveTrataenvios(0, Me.mWebServiceError, ControlAsiento, "", "WEBFACTURAS", ControlFactura, ControlSerie)
+                    Me.WebServiveTrataenviosNewHotel(0, Me.mWebServiceError, ControlAsiento, "", "WEBFACTURAS", ControlFactura, ControlSerie)
                     Me.mDebugFile.WriteLine(Now & " Facturación = " & Me.mWebServiceError)
 
                 End If
@@ -1571,7 +1585,7 @@ Public Class HTitoNewHotelEnviar
                 Me.mDebugFile.WriteLine(Now & " Facturación = Nothing")
             End If
             ' Gestion de Error
-            Me.WebServiveTrataenvios(0, ex.Message, ControlAsiento, "", "WEBFACTURAS", CInt(Me.DbLeeCentral.mDbLector.Item("NUMERO")), CStr(Me.DbLeeCentral.mDbLector.Item("SERIE")))
+            Me.WebServiveTrataenviosNewHotel(0, ex.Message, ControlAsiento, "", "WEBFACTURAS", CInt(Me.DbLeeCentral.mDbLector.Item("NUMERO")), CStr(Me.DbLeeCentral.mDbLector.Item("SERIE")))
             Me.mDebugFile.WriteLine(Now & " Facturación = " & ex.Message)
 
 
@@ -1795,14 +1809,14 @@ Public Class HTitoNewHotelEnviar
             ' LLAMADA AL WEB SERVICE
 
             If IsNothing(Me.WebServiceCobrosLinea) = False Then
-                If Me.WebServiceEnviar(35, 0, "", 0) = True Then
+                If Me.WebServiceEnviarNewhotel(35, 0, "", 0) = True Then
                     ' destruye el web wervice
                     Me.WebServiceCobrosBase = Nothing
                     If Me.mDebugFileEstaOk Then
                         Me.mDebugFile.WriteLine(Now & " Cobros = Nothing")
                     End If
                     ' Gestion de Error
-                    Me.WebServiveTrataenvios(1, "OK", 0, "", "WEBCOBROS", 0, "")
+                    Me.WebServiveTrataenviosNewHotel(1, "OK", 0, "", "WEBCOBROS", 0, "")
                     Me.mDebugFile.WriteLine(Now & " Cobros = " & "Ok")
 
                 Else
@@ -1812,7 +1826,7 @@ Public Class HTitoNewHotelEnviar
                         Me.mDebugFile.WriteLine(Now & " Cobros = Nothing")
                     End If
                     ' Gestion de Error
-                    Me.WebServiveTrataenvios(0, Me.mWebServiceError, 0, "", "WEBCOBROS", 0, "")
+                    Me.WebServiveTrataenviosNewHotel(0, Me.mWebServiceError, 0, "", "WEBCOBROS", 0, "")
                     Me.mDebugFile.WriteLine(Now & " Cobros = " & Me.mWebServiceError)
                 End If
             End If
@@ -1829,13 +1843,13 @@ Public Class HTitoNewHotelEnviar
                 Me.mDebugFile.WriteLine(Now & " Cobros = Nothing")
             End If
             ' Gestion de Error
-            Me.WebServiveTrataenvios(0, Me.mWebServiceError, 0, "", "WEBCOBROS", 0, "")
+            Me.WebServiveTrataenviosNewHotel(0, Me.mWebServiceError, 0, "", "WEBCOBROS", 0, "")
             Me.mDebugFile.WriteLine(Now & " Produccion = " & Me.mWebServiceError)
         End Try
     End Sub
 
 
-    Private Sub ProcesarAlbaranes()
+    Private Sub ProcesarNewStockAlbaranes()
         Dim Primerregistro As Boolean = True
 
         Dim ControlSerie As String = ""
@@ -1847,28 +1861,23 @@ Public Class HTitoNewHotelEnviar
             SQL = "SELECT  ASNT_F_ATOCAB As FECHA, NVL(ASNT_CFCTA_COD,' ') AS CUENTA,NVL(ASNT_AMPCPTO,' ') AS CONCEPTO,"
             SQL += "NVL(ASNT_DEBE,'0')  AS DEBE,NVL(ASNT_HABER,'0')  AS HABER"
             SQL += ", ASNT_MORA_DIMENNATURALEZA, ASNT_MORA_DIMENDPTO, ASNT_MORA_DIMENACCESO "
-            SQL += ",ASNT_FACTURA_NUMERO AS NUMERO "
-            SQL += ",ASNT_FACTURA_SERIE  AS SERIE "
-            SQL += ", NVL(ASNT_MORA_RESERVA,'?') AS  ASNT_MORA_RESERVA"
-            'SQL += ", ROWID "
-            SQL += ",ASNT_MORA_TIPODOC "
-            SQL += ",ASNT_MORA_TIPOMOV "
-            SQL += ",ASNT_MORA_FAC_IVANEGOCIO, ASNT_MORA_FAC_IVAPRODUCTO, ASNT_MORA_FAC_NEGOCIO,ASNT_MORA_FAC_PRODUCTO"
+            SQL += ",ASNT_DOCU AS DOCUMENTO "
 
-            ' 20180118
-            SQL += ",ASNT_CFATOCAB_REFER AS ASIENTO,ASNT_MORA_COD_PROCEDENCIA "
+            SQL += ", NVL(ASNT_MORA_DOCEXTERNO,'?') AS  ASNT_MORA_DOCEXTERNO"
+            'SQL += ", ROWID "
+
             '
-            SQL += " FROM TH_ASNT "
+            SQL += " FROM TS_ASNT "
             SQL += " WHERE ASNT_F_VALOR = '" & Format(Me.mFecha, "dd/MM/yyyy") & "'"
             SQL += " AND TH_ASNT.ASNT_EMPGRUPO_COD = '" & Me.mEmpgrupo_Cod & "'"
             SQL += " AND TH_ASNT.ASNT_EMP_COD = '" & Me.mEmp_Cod & "'"
             SQL += " AND TH_ASNT.ASNT_EMP_NUM = " & Me.mEmp_Num
-            '    SQL += " AND  ASNT_CFATOCAB_REFER = 3"
-            SQL += " AND  ASNT_WEBSERVICE_NAME  = 'WEBFACTURAS'"
+            SQL += " AND  ASNT_CFATOCAB_REFER IN(1,3)"
+            '    SQL += " AND  ASNT_WEBSERVICE_NAME  = 'WEBFACTURAS'"
             ' SOLO SIN PROCESAR
             SQL += " AND ASNT_AX_STATUS =  0 "
             '  SQL += " ORDER BY ASNT_CFATOCAB_REFER,ASNT_LINEA"
-            SQL += " ORDER BY ASNT_CFATOCAB_REFER, ASNT_FACTURA_SERIE,ASNT_FACTURA_NUMERO,ASNT_LINEA"
+            SQL += " ORDER BY ASNT_CFATOCAB_REFER, ASNT_MORA_DOCEXTERNO,ASNT_LINEA"
 
 
 
@@ -1880,8 +1889,8 @@ Public Class HTitoNewHotelEnviar
                 If Primerregistro = True Then
                     Primerregistro = False
                     Ind = 0
-                    ReDim Me.WebServiceFacturacionLineas(Ind)
-                    Me.WebServiceFacturacionLineas(Ind) = New WebReferenceTiToFacturacion.FacturacionEmitidaCargo
+                    ReDim Me.WebServiceNewStockAlbaranesLineas(Ind)
+                    Me.WebServiceNewStockAlbaranesLineas(Ind) = New WebReferenceTitoNewStockAlbaranes.GestionNewHotel
 
                     ControlSerie = CStr(Me.DbLeeCentral.mDbLector.Item("SERIE"))
                     ControlFactura = CInt(Me.DbLeeCentral.mDbLector.Item("NUMERO"))
@@ -1891,9 +1900,9 @@ Public Class HTitoNewHotelEnviar
 
                     If IsDBNull(Me.DbLeeCentral.mDbLector.Item("SERIE")) = False And CStr(Me.DbLeeCentral.mDbLector.Item("SERIE")) = ControlSerie And CInt(Me.DbLeeCentral.mDbLector.Item("NUMERO")) = ControlFactura Then
                         '                ' añade un elemento a array de lineas / Objeto
-                        ReDim Preserve Me.WebServiceFacturacionLineas(UBound(Me.WebServiceFacturacionLineas) + 1)
-                        Ind = UBound(Me.WebServiceFacturacionLineas)
-                        Me.WebServiceFacturacionLineas(Ind) = New WebReferenceTiToFacturacion.FacturacionEmitidaCargo
+                        ReDim Preserve Me.WebServiceNewStockAlbaranesLineas(UBound(Me.WebServiceNewStockAlbaranesLineas) + 1)
+                        Ind = UBound(Me.WebServiceNewStockAlbaranesLineas)
+                        Me.WebServiceNewStockAlbaranesLineas(Ind) = New WebReferenceTitoNewStockAlbaranes.GestionNewHotel
                     End If
 
                 End If
@@ -1909,37 +1918,37 @@ Public Class HTitoNewHotelEnviar
 
                     ' LLAMADA AL WEB SERVICE
 
-                    If Me.WebServiceEnviar(ControlAsiento, 0, "", 0) = True Then
+                    If Me.WebServiceEnviarNewhotel(ControlAsiento, 0, "", 0) = True Then
 
                         ' destruye el web wervice
                         '  Me.WebServiceFacturacionBase = Nothing
-                        Me.WebServiceFacturacionLineasBaseList = Nothing
+                        Me.WebServiceNewStockMovimientosBaseList = Nothing
                         If Me.mDebugFileEstaOk Then
                             Me.mDebugFile.WriteLine(Now & " Facturación = Nothing")
                         End If
 
                         ' Gestion de Error
 
-                        Me.WebServiveTrataenvios(1, "OK", ControlAsiento, "", "WEBFACTURAS", ControlFactura, ControlSerie)
+                        Me.WebServiveTrataenviosNewHotel(1, "OK", ControlAsiento, "", "WEBFACTURAS", ControlFactura, ControlSerie)
                         Me.mDebugFile.WriteLine(Now & " Facturación = " & "Ok")
 
                     Else
                         ' destruye el web wervice
                         ' Me.WebServiceFacturacionBase = Nothing
-                        Me.WebServiceFacturacionLineasBaseList = Nothing
+                        Me.WebServiceNewStockMovimientosBaseList = Nothing
                         If Me.mDebugFileEstaOk Then
                             Me.mDebugFile.WriteLine(Now & " Facturación = Nothing")
                         End If
                         ' Gestion de Error
-                        Me.WebServiveTrataenvios(0, Me.mWebServiceError, ControlAsiento, "", "WEBFACTURAS", ControlFactura, ControlSerie)
+                        Me.WebServiveTrataenviosNewHotel(0, Me.mWebServiceError, ControlAsiento, "", "WEBFACTURAS", ControlFactura, ControlSerie)
                         Me.mDebugFile.WriteLine(Now & " Facturación = " & Me.mWebServiceError)
 
                     End If
 
 
                     Ind = 0
-                    ReDim Me.WebServiceFacturacionLineas(Ind)
-                    Me.WebServiceFacturacionLineas(Ind) = New WebReferenceTiToFacturacion.FacturacionEmitidaCargo
+                    ReDim Me.WebServiceNewStockAlbaranesLineas(Ind)
+                    Me.WebServiceNewStockAlbaranesLineas(Ind) = New WebReferenceTitoNewStockAlbaranes.GestionNewHotel
 
                     ControlSerie = CStr(Me.DbLeeCentral.mDbLector.Item("SERIE"))
                     ControlFactura = CInt(Me.DbLeeCentral.mDbLector.Item("NUMERO"))
@@ -1952,40 +1961,40 @@ Public Class HTitoNewHotelEnviar
                 ' journal template
 
                 If Me.mParaJournalTemplate.Length > 0 Then
-                    Me.WebServiceFacturacionLineas(Ind).Journal_Template_Name = Me.mParaJournalTemplate
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).Journal_Template_Name = Me.mParaJournalTemplate
                 End If
 
 
                 ' journal batch NO USAR ES READONLY
 
                 'If Me.mParaJournalBatch.Length > 0 Then
-                'Me.WebServiceFacturacionLineas(Ind).Journal_Batch_Name = Me.mParaJournalBatch
+                'Me.WebServiceNewStockAlbaranesLineas(Ind).Journal_Batch_Name = Me.mParaJournalBatch
                 'End If
 
-                '   Me.WebServiceFacturacionLineas(Ind).Line_No = Ind + 1
-                Me.WebServiceFacturacionLineas(Ind).Line_No = Ind
+                '   Me.WebServiceNewStockAlbaranesLineas(Ind).Line_No = Ind + 1
+                Me.WebServiceNewStockAlbaranesLineas(Ind).Line_No = Ind
 
 
 
 
                 ' Numero de Documento
                 If Me.DbLeeCentral.mDbLector.Item("NUMERO") > 0 Then
-                    Me.WebServiceFacturacionLineas(Ind).Document_No = CStr(Me.DbLeeCentral.mDbLector.Item("NUMERO")) & "/" & CStr(Me.DbLeeCentral.mDbLector.Item("SERIE"))
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).Document_No = CStr(Me.DbLeeCentral.mDbLector.Item("NUMERO")) & "/" & CStr(Me.DbLeeCentral.mDbLector.Item("SERIE"))
 
                 Else '
                     ' es el apunte de mano corriente
-                    Me.WebServiceFacturacionLineas(Ind).Document_No = ""
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).Document_No = ""
                 End If
 
 
                 ' Fecha de documento
-                Me.WebServiceFacturacionLineas(Ind).Document_Date = CDate(Format(Me.mFecha, "dd/MM/yyyy"))
-                Me.WebServiceFacturacionLineas(Ind).Document_DateSpecified = True
+                Me.WebServiceNewStockAlbaranesLineas(Ind).Document_Date = CDate(Format(Me.mFecha, "dd/MM/yyyy"))
+                Me.WebServiceNewStockAlbaranesLineas(Ind).Document_DateSpecified = True
 
                 ' Fecha de envio
-                ' Me.WebServiceFacturacionLineas(Ind).Posting_Date = CDate(Format(Now, "dd/MM/yyyy"))
-                Me.WebServiceFacturacionLineas(Ind).Posting_Date = CDate(Format(Me.mFecha, "dd/MM/yyyy"))
-                Me.WebServiceFacturacionLineas(Ind).Posting_DateSpecified = True
+                ' Me.WebServiceNewStockAlbaranesLineas(Ind).Posting_Date = CDate(Format(Now, "dd/MM/yyyy"))
+                Me.WebServiceNewStockAlbaranesLineas(Ind).Posting_Date = CDate(Format(Me.mFecha, "dd/MM/yyyy"))
+                Me.WebServiceNewStockAlbaranesLineas(Ind).Posting_DateSpecified = True
 
 
 
@@ -1994,19 +2003,19 @@ Public Class HTitoNewHotelEnviar
                 If IsDBNull(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_TIPODOC")) = False Then
                     If CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_TIPODOC")) = Me.mParaTDocFactura Then
                         ' factura
-                        Me.WebServiceFacturacionLineas(Ind).Document_Type = WebReferenceTiToFacturacion.Document_Type.Invoice
-                        Me.WebServiceFacturacionLineas(Ind).Document_TypeSpecified = True
+                        Me.WebServiceNewStockAlbaranesLineas(Ind).Document_Type = WebReferenceTiToFacturacion.Document_Type.Invoice
+                        Me.WebServiceNewStockAlbaranesLineas(Ind).Document_TypeSpecified = True
                         ' abono = Factura Negativa y Notas de Abono
                     ElseIf CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_TIPODOC")) = Me.mParaTDocAbono Then
-                        Me.WebServiceFacturacionLineas(Ind).Document_Type = WebReferenceTiToFacturacion.Document_Type.Credit_Memo
-                        Me.WebServiceFacturacionLineas(Ind).Document_TypeSpecified = True
+                        Me.WebServiceNewStockAlbaranesLineas(Ind).Document_Type = WebReferenceTiToFacturacion.Document_Type.Credit_Memo
+                        Me.WebServiceNewStockAlbaranesLineas(Ind).Document_TypeSpecified = True
                     Else
-                        Me.WebServiceFacturacionLineas(Ind).Document_Type = WebReferenceTiToFacturacion.Document_Type._blank_
-                        Me.WebServiceFacturacionLineas(Ind).Document_TypeSpecified = True
+                        Me.WebServiceNewStockAlbaranesLineas(Ind).Document_Type = WebReferenceTiToFacturacion.Document_Type._blank_
+                        Me.WebServiceNewStockAlbaranesLineas(Ind).Document_TypeSpecified = True
                     End If
                 Else
-                    Me.WebServiceFacturacionLineas(Ind).Document_Type = WebReferenceTiToFacturacion.Document_Type._blank_
-                    Me.WebServiceFacturacionLineas(Ind).Document_TypeSpecified = True
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).Document_Type = WebReferenceTiToFacturacion.Document_Type._blank_
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).Document_TypeSpecified = True
 
                 End If
 
@@ -2017,21 +2026,21 @@ Public Class HTitoNewHotelEnviar
                 If IsDBNull(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_TIPOMOV")) = False Then
                     If CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_TIPOMOV")) = Me.mParaTMovCliente Then
                         ' CLIENTE
-                        Me.WebServiceFacturacionLineas(Ind).Account_Type = WebReferenceTiToFacturacion.Account_Type.Customer
-                        Me.WebServiceFacturacionLineas(Ind).Account_TypeSpecified = True
+                        Me.WebServiceNewStockAlbaranesLineas(Ind).Account_Type = WebReferenceTiToFacturacion.Account_Type.Customer
+                        Me.WebServiceNewStockAlbaranesLineas(Ind).Account_TypeSpecified = True
 
                     ElseIf CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_TIPOMOV")) = Me.mParaTMovCuenta Then
                         ' CUENTA
-                        Me.WebServiceFacturacionLineas(Ind).Account_Type = WebReferenceTiToFacturacion.Account_Type.G_L_Account
-                        Me.WebServiceFacturacionLineas(Ind).Account_TypeSpecified = True
+                        Me.WebServiceNewStockAlbaranesLineas(Ind).Account_Type = WebReferenceTiToFacturacion.Account_Type.G_L_Account
+                        Me.WebServiceNewStockAlbaranesLineas(Ind).Account_TypeSpecified = True
                     Else
                         ' OTRO
-                        Me.WebServiceFacturacionLineas(Ind).Account_TypeSpecified = False
+                        Me.WebServiceNewStockAlbaranesLineas(Ind).Account_TypeSpecified = False
 
                     End If
                 Else
                     ' OTRO
-                    Me.WebServiceFacturacionLineas(Ind).Account_TypeSpecified = False
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).Account_TypeSpecified = False
                 End If
 
 
@@ -2040,31 +2049,31 @@ Public Class HTitoNewHotelEnviar
 
 
                 If IsDBNull(Me.DbLeeCentral.mDbLector.Item("CUENTA")) = False Then
-                    Me.WebServiceFacturacionLineas(Ind).Account_No = CStr(Me.DbLeeCentral.mDbLector.Item("CUENTA"))
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).Account_No = CStr(Me.DbLeeCentral.mDbLector.Item("CUENTA"))
                 Else
-                    Me.WebServiceFacturacionLineas(Ind).Account_No = "?"
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).Account_No = "?"
                 End If
 
 
 
 
                 ' Concepto
-                Me.WebServiceFacturacionLineas(Ind).Description = CStr(Me.DbLeeCentral.mDbLector.Item("CONCEPTO"))
+                Me.WebServiceNewStockAlbaranesLineas(Ind).Description = CStr(Me.DbLeeCentral.mDbLector.Item("CONCEPTO"))
 
 
                 ' Importes
                 If CStr(Me.DbLeeCentral.mDbLector.Item("DEBE")) <> "0" Then
-                    Me.WebServiceFacturacionLineas(Ind).Debit_Amount = CDec(Me.DbLeeCentral.mDbLector.Item("DEBE"))
-                    Me.WebServiceFacturacionLineas(Ind).Debit_AmountSpecified = True
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).Debit_Amount = CDec(Me.DbLeeCentral.mDbLector.Item("DEBE"))
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).Debit_AmountSpecified = True
 
-                    Me.WebServiceFacturacionLineas(Ind).Credit_Amount = CDec("0")
-                    Me.WebServiceFacturacionLineas(Ind).Credit_AmountSpecified = True
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).Credit_Amount = CDec("0")
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).Credit_AmountSpecified = True
                 Else
-                    Me.WebServiceFacturacionLineas(Ind).Credit_Amount = CDec(Me.DbLeeCentral.mDbLector.Item("HABER"))
-                    Me.WebServiceFacturacionLineas(Ind).Credit_AmountSpecified = True
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).Credit_Amount = CDec(Me.DbLeeCentral.mDbLector.Item("HABER"))
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).Credit_AmountSpecified = True
 
-                    Me.WebServiceFacturacionLineas(Ind).Debit_Amount = CDec("0")
-                    Me.WebServiceFacturacionLineas(Ind).Debit_AmountSpecified = True
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).Debit_Amount = CDec("0")
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).Debit_AmountSpecified = True
 
                 End If
 
@@ -2072,11 +2081,11 @@ Public Class HTitoNewHotelEnviar
                 If IsDBNull(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_DIMENNATURALEZA")) = False Then
 
                     If Me.mParaEquivNat = 1 Then
-                        Me.WebServiceFacturacionLineas(Ind).Shortcut_Dimension_1_Code = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_DIMENNATURALEZA"))
+                        Me.WebServiceNewStockAlbaranesLineas(Ind).Shortcut_Dimension_1_Code = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_DIMENNATURALEZA"))
                     ElseIf Me.mParaEquivNat = 2 Then
-                        Me.WebServiceFacturacionLineas(Ind).Shortcut_Dimension_2_Code = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_DIMENNATURALEZA"))
+                        Me.WebServiceNewStockAlbaranesLineas(Ind).Shortcut_Dimension_2_Code = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_DIMENNATURALEZA"))
                     ElseIf Me.mParaEquivNat = 3 Then
-                        Me.WebServiceFacturacionLineas(Ind).ShortcutDimCode3 = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_DIMENNATURALEZA"))
+                        Me.WebServiceNewStockAlbaranesLineas(Ind).ShortcutDimCode3 = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_DIMENNATURALEZA"))
                     End If
                 End If
 
@@ -2084,29 +2093,29 @@ Public Class HTitoNewHotelEnviar
                 If IsDBNull(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_DIMENDPTO")) = False Then
 
                     If Me.mParaEquivDep = 1 Then
-                        Me.WebServiceFacturacionLineas(Ind).Shortcut_Dimension_1_Code = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_DIMENDPTO"))
+                        Me.WebServiceNewStockAlbaranesLineas(Ind).Shortcut_Dimension_1_Code = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_DIMENDPTO"))
                     ElseIf Me.mParaEquivDep = 2 Then
-                        Me.WebServiceFacturacionLineas(Ind).Shortcut_Dimension_2_Code = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_DIMENDPTO"))
+                        Me.WebServiceNewStockAlbaranesLineas(Ind).Shortcut_Dimension_2_Code = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_DIMENDPTO"))
                     ElseIf Me.mParaEquivDep = 3 Then
-                        Me.WebServiceFacturacionLineas(Ind).ShortcutDimCode3 = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_DIMENDPTO"))
+                        Me.WebServiceNewStockAlbaranesLineas(Ind).ShortcutDimCode3 = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_DIMENDPTO"))
                     End If
                 End If
 
                 ' Dimension Acceso Hotel
 
                 If Me.mParaEquivHot = 1 Then
-                    Me.WebServiceFacturacionLineas(Ind).Shortcut_Dimension_1_Code = Me.mParaDimensionHotel
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).Shortcut_Dimension_1_Code = Me.mParaDimensionHotel
                 ElseIf Me.mParaEquivHot = 2 Then
-                    Me.WebServiceFacturacionLineas(Ind).Shortcut_Dimension_2_Code = Me.mParaDimensionHotel
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).Shortcut_Dimension_2_Code = Me.mParaDimensionHotel
                 ElseIf Me.mParaEquivHot = 3 Then
-                    Me.WebServiceFacturacionLineas(Ind).ShortcutDimCode3 = Me.mParaDimensionHotel
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).ShortcutDimCode3 = Me.mParaDimensionHotel
                 End If
 
 
                 ' Documento Externo 
 
                 If IsDBNull(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_RESERVA")) = False Then
-                    Me.WebServiceFacturacionLineas(Ind).External_Document_No = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_RESERVA"))
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).External_Document_No = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_RESERVA"))
                 End If
 
 
@@ -2116,36 +2125,36 @@ Public Class HTitoNewHotelEnviar
 
                 '  De los parametros Generales
                 If IsDBNull(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_FAC_IVANEGOCIO")) = False Then
-                    Me.WebServiceFacturacionLineas(Ind).VAT_Bus_Posting_Group = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_FAC_IVANEGOCIO"))
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).VAT_Bus_Posting_Group = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_FAC_IVANEGOCIO"))
                 End If
 
 
                 If IsDBNull(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_FAC_NEGOCIO")) = False Then
-                    Me.WebServiceFacturacionLineas(Ind).Gen_Bus_Posting_Group = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_FAC_NEGOCIO"))
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).Gen_Bus_Posting_Group = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_FAC_NEGOCIO"))
                 End If
 
                 ' De Newhotel Tasas
 
                 If IsDBNull(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_FAC_IVAPRODUCTO")) = False Then
-                    Me.WebServiceFacturacionLineas(Ind).VAT_Prod_Posting_Group = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_FAC_IVAPRODUCTO"))
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).VAT_Prod_Posting_Group = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_FAC_IVAPRODUCTO"))
                 End If
 
                 If IsDBNull(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_FAC_PRODUCTO")) = False Then
-                    Me.WebServiceFacturacionLineas(Ind).Gen_Prod_Posting_Group = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_FAC_PRODUCTO"))
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).Gen_Prod_Posting_Group = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_FAC_PRODUCTO"))
                 End If
 
 
 
 
                 ' source type (Tipo de procedencia) 
-                Me.WebServiceFacturacionLineas(Ind).Source_Type = WebReferenceTiToFacturacion.Source_Type.Customer
+                Me.WebServiceNewStockAlbaranesLineas(Ind).Source_Type = WebReferenceTiToFacturacion.Source_Type.Customer
 
                 ' source type (Codigo  de procedencia)  
 
                 If CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_COD_PROCEDENCIA")) = Me.mParaTMovCuenta Then
-                    Me.WebServiceFacturacionLineas(Ind).Source_No = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_COD_PROCEDENCIA"))
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).Source_No = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_COD_PROCEDENCIA"))
                 Else
-                    Me.WebServiceFacturacionLineas(Ind).Source_No = ""
+                    Me.WebServiceNewStockAlbaranesLineas(Ind).Source_No = ""
                 End If
 
 
@@ -2159,38 +2168,38 @@ Public Class HTitoNewHotelEnviar
 
             ' LLAMADA AL WEB SERVICE
 
-            If IsNothing(Me.WebServiceFacturacionLineas) = False Then
+            If IsNothing(Me.WebServiceNewStockAlbaranesLineas) = False Then
 
-                If Me.WebServiceEnviar(ControlAsiento, 0, "", 0) = True Then
+                If Me.WebServiceEnviarNewhotel(ControlAsiento, 0, "", 0) = True Then
 
                     ' destruye el web wervice
                     '  Me.WebServiceFacturacionBase = Nothing
-                    Me.WebServiceFacturacionLineasBaseList = Nothing
+                    Me.WebServiceNewStockMovimientosBaseList = Nothing
                     If Me.mDebugFileEstaOk Then
                         Me.mDebugFile.WriteLine(Now & " Facturación = Nothing")
                     End If
 
                     ' Gestion de Error
 
-                    Me.WebServiveTrataenvios(1, "OK", ControlAsiento, "", "WEBFACTURAS", ControlFactura, ControlSerie)
+                    Me.WebServiveTrataenviosNewHotel(1, "OK", ControlAsiento, "", "WEBFACTURAS", ControlFactura, ControlSerie)
                     Me.mDebugFile.WriteLine(Now & " Facturación = " & "Ok")
 
                 Else
                     ' destruye el web wervice
                     ' Me.WebServiceFacturacionBase = Nothing
-                    Me.WebServiceFacturacionLineasBaseList = Nothing
+                    Me.WebServiceNewStockMovimientosBaseList = Nothing
                     If Me.mDebugFileEstaOk Then
                         Me.mDebugFile.WriteLine(Now & " Facturación = Nothing")
                     End If
                     ' Gestion de Error
-                    Me.WebServiveTrataenvios(0, Me.mWebServiceError, ControlAsiento, "", "WEBFACTURAS", ControlFactura, ControlSerie)
+                    Me.WebServiveTrataenviosNewHotel(0, Me.mWebServiceError, ControlAsiento, "", "WEBFACTURAS", ControlFactura, ControlSerie)
                     Me.mDebugFile.WriteLine(Now & " Facturación = " & Me.mWebServiceError)
 
                 End If
                 Me.DbLeeCentral.mDbLector.Close()
 
                 ' destruye el web wervice BASE 
-                Me.WebServiceFacturacionLineasBase = Nothing
+                Me.WebServiceNewStockMovimientosBaseList = Nothing
 
             End If
 
@@ -2198,15 +2207,15 @@ Public Class HTitoNewHotelEnviar
         Catch ex As Exception
 
             ' destruye el web wervice
-            If IsNothing(Me.WebServiceFacturacionLineasBase) = False Then
-                Me.WebServiceFacturacionLineasBase = Nothing
+            If IsNothing(Me.WebServiceNewStockMovimientosBaseList) = False Then
+                Me.WebServiceNewStockMovimientosBaseList = Nothing
             End If
 
             If Me.mDebugFileEstaOk Then
                 Me.mDebugFile.WriteLine(Now & " Facturación = Nothing")
             End If
             ' Gestion de Error
-            Me.WebServiveTrataenvios(0, ex.Message, ControlAsiento, "", "WEBFACTURAS", CInt(Me.DbLeeCentral.mDbLector.Item("NUMERO")), CStr(Me.DbLeeCentral.mDbLector.Item("SERIE")))
+            Me.WebServiveTrataenviosNewHotel(0, ex.Message, ControlAsiento, "", "WEBFACTURAS", CInt(Me.DbLeeCentral.mDbLector.Item("NUMERO")), CStr(Me.DbLeeCentral.mDbLector.Item("SERIE")))
             Me.mDebugFile.WriteLine(Now & " Facturación = " & ex.Message)
 
 
@@ -2486,7 +2495,7 @@ Public Class HTitoNewHotelEnviar
 
 
                         If IsNothing(Me.WebServiceClientesBase) = False Then
-                            If Me.WebServiceEnviar(9001, CInt(Me.DbLeeCentral.mDbLector.Item("TIPO")), CStr(Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY")), CInt(Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))) = True Then
+                            If Me.WebServiceEnviarNewhotel(9001, CInt(Me.DbLeeCentral.mDbLector.Item("TIPO")), CStr(Me.DbLeeCentral.mDbLector.Item("TRANS_PKEY")), CInt(Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))) = True Then
 
                                 ' Gestion de Error
                                 Me.WebServiveTrataenviosClientes(1, "OK", Me.DbLeeCentral.mDbLector.Item("TRANS_CODI"))
@@ -2563,7 +2572,7 @@ Public Class HTitoNewHotelEnviar
 
 #End Region
 #Region "GESTION DE ERRORES"
-    Private Function WebServiceEnviar(vAsiento As Integer, vAccionMaestro As Integer, vKey As String, vTransCodi As Integer) As Boolean
+    Private Function WebServiceEnviarNewhotel(vAsiento As Integer, vAccionMaestro As Integer, vKey As String, vTransCodi As Integer) As Boolean
         Try
             Me.mWebServiceError = ""
             Me.mUrl = ""
@@ -2743,14 +2752,14 @@ Public Class HTitoNewHotelEnviar
         End Try
     End Function
 
-    Private Sub WebServiveTrataenvios(ByVal vStatus As Integer, ByVal vMessage As String, vAsiento As Integer, vRowid As String, vWebServiceName As String, vFacturaNumero As Integer, vFacturaSerie As String)
+    Private Sub WebServiveTrataenviosNewHotel(ByVal vStatus As Integer, ByVal vMessage As String, vAsiento As Integer, vRowid As String, vWebServiceName As String, vFacturaNumero As Integer, vFacturaSerie As String)
         Try
 
             Me.mAuxInteger = Me.mAuxInteger + 1
 
             SQL = "UPDATE TH_ASNT Set ASNT_AX_STATUS = " & vStatus
             SQL += " , ASNT_ERR_MESSAGE = " & "'[" & Me.mAuxInteger & "] ' || "
-                            SQL += "TO_CHAR(SYSDATE, 'DD/MM/YYYY HH24:MI:SS') || ' '|| '" & Mid(vMessage, 1, 4000).Replace("'", "''").Trim & "'"
+            SQL += "TO_CHAR(SYSDATE, 'DD/MM/YYYY HH24:MI:SS') || ' '|| '" & Mid(vMessage, 1, 4000).Replace("'", "''").Trim & "'"
 
             SQL += "  WHERE ASNT_F_ATOCAB = '" & Format(Me.mFecha, "dd/MM/yyyy") & "'"
             SQL += " AND TH_ASNT.ASNT_EMPGRUPO_COD = '" & Me.mEmpgrupo_Cod & "'"
@@ -2808,8 +2817,69 @@ Public Class HTitoNewHotelEnviar
         End Try
     End Sub
 
+    Private Function WebServiceEnviarNewStock(vAsiento As Integer, vAccionMaestro As Integer, vKey As String, vTransCodi As Integer) As Boolean
+        Try
+            Me.mWebServiceError = ""
+            Me.mUrl = ""
+            If vAsiento = 1 Then
+                ' Albaranes
+                Me.mUrl = Me.WebServiceNewStockMovimientos.Url
+                Me.WebServiceNewStockMovimientosBaseList = Me.NewStockMovimientosLineas
+                Me.WebServiceNewStockMovimientos.CreateMultiple(Me.WebServiceNewStockMovimientosBaseList)
+                Return True
+            End If
 
 
+
+            ' asiento no reconocido 
+            Return False
+
+        Catch ex As Exception
+            Me.mWebServiceError = ex.Message
+            Return False
+        End Try
+    End Function
+    Private Sub WebServiveTrataenviosNewStock(ByVal vStatus As Integer, ByVal vMessage As String, vAsiento As Integer, vRowid As String, vWebServiceName As String, vFacturaNumero As Integer, vFacturaSerie As String)
+        Try
+
+            Me.mAuxInteger = Me.mAuxInteger + 1
+
+            SQL = "UPDATE TS_ASNT Set ASNT_AX_STATUS = " & vStatus
+            SQL += " , ASNT_ERR_MESSAGE = " & "'[" & Me.mAuxInteger & "] ' || "
+            SQL += "TO_CHAR(SYSDATE, 'DD/MM/YYYY HH24:MI:SS') || ' '|| '" & Mid(vMessage, 1, 4000).Replace("'", "''").Trim & "'"
+
+            SQL += "  WHERE ASNT_F_ATOCAB = '" & Format(Me.mFecha, "dd/MM/yyyy") & "'"
+            SQL += " AND TS_ASNT.ASNT_EMPGRUPO_COD = '" & Me.mEmpgrupo_Cod & "'"
+            SQL += " AND TS_ASNT.ASNT_EMP_COD = '" & Me.mEmp_Cod & "'"
+            SQL += " AND TS_ASNT.ASNT_EMP_NUM = " & Me.mEmp_Num
+
+            If vAsiento > 0 And vAsiento < 350 Then
+                SQL += " AND  ASNT_CFATOCAB_REFER = " & vAsiento
+            End If
+
+
+            SQL += " AND  ASNT_WEBSERVICE_NAME = '" & vWebServiceName & "'"
+
+
+            If vRowid.Length > 0 Then
+                SQL += " AND  ROWID = '" & vRowid & "'"
+            End If
+
+            If vFacturaSerie.Length > 0 Then
+                SQL += " AND  ASNT_FACTURA_NUMERO = " & vFacturaNumero
+                SQL += " AND  ASNT_FACTURA_SERIE = " & "'" & vFacturaSerie & "'"
+            End If
+
+            ' SOLO MARCA LOS NO ENVIADOS
+            SQL += " AND ASNT_AX_STATUS = 0 "
+
+            Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+            Me.mDebugFile.WriteLine(Now & " " & SQL)
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
     Private Sub WriteToFile(text As String)
 
         Dim path As String = "C:\ServiceLog" & Format(Now.ToString("yyyy-MM-dd")) & ".txt"

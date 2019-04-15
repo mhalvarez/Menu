@@ -1079,7 +1079,7 @@ Public Class FormIntegraAlmacen
                     Me.TextBoxDebug.Text = "Preparando Objeto y Abriendo Conexiones ..."
                     Me.TextBoxDebug.Update()
                     Me.Cursor = Cursors.AppStarting
-                    INTEGRA = New IntegraNewStockTito.IntegraNewStockTito(CStr(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 0)),
+                    INTEGRA = New HTitoNewStock.HTitoNewStock(CStr(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 0)),
                     CStr(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 1)),
                     MyIni.IniGet(Application.StartupPath & "\Menu.ini", "DATABASE", "STRING"),
                     CStr(Me.DataGrid1.Item(Me.DataGrid1.CurrentRowIndex, 3)), Me.DateTimePicker1.Value, "A" _

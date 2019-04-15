@@ -1,5 +1,5 @@
 ﻿Imports System.IO
-Public Class IntegraNewStockTito
+Public Class HTitoNewStock
     Private mDebug As Boolean = False
     Private mCondensarAsiento As Boolean = False
     Private mStrConexionHotel As String
@@ -2241,7 +2241,7 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
                 Return Me.DbLeeHotelAux.EjecutaSqlScalar2(SQL)
             Else
                 Return "0"
-        End If
+            End If
         Catch ex As Exception
             Return "0"
         End Try

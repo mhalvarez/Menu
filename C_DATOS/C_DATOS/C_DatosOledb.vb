@@ -226,20 +226,19 @@ Public Class C_DatosOledb
     End Sub
     Public Function EjecutaSqlScalar(ByVal vSql As String) As String
         Try
-            Dim vResult As String
+
             Me.InicializaError()
             mDbComando = New OleDb.OleDbCommand(vSql, mDbconexion)
             mDbComando.CommandType = CommandType.Text
-            mDbComando.Transaction = mDbTrans
+            '      mDbComando.Transaction = mDbTrans
 
 
-            vResult = CType(mDbComando.ExecuteScalar, String)
-            If IsDBNull(vResult) = False Then
-                Return vResult
+            If IsDBNull(mDbComando.ExecuteScalar) = False Then
+                Return CType(mDbComando.ExecuteScalar, String)
             Else
+                ' ES NULO
                 Return ""
             End If
-
 
         Catch ex As OleDb.OleDbException
             If mMostrarStrError Then
@@ -247,6 +246,7 @@ Public Class C_DatosOledb
             End If
 
             Me.StrError = ex.Message
+            '  ES NOTHING
             Return "0"
         Finally
             mDbComando.Dispose()

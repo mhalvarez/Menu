@@ -17,7 +17,7 @@ Imports System.Runtime.InteropServices
 <Assembly: CLSCompliant(True)> 
 
 'El siguiente GUID sirve como identificador de la biblioteca de tipos si este proyecto se expone a COM
-<Assembly: Guid("11E4AC43-16B3-4C53-A088-4D12D70CC0E1")> 
+<Assembly: Guid("11E4AC43-16B3-4C53-A088-4D12D70CC0E1")>
 
 ' La información de versión de un ensamblado consta de los siguientes cuatro valores:
 '
@@ -29,4 +29,5 @@ Imports System.Runtime.InteropServices
 ' Puede especificar todos los valores o usar los valores predeterminados (número de versión de compilación y de revisión) 
 ' usando el símbolo '*' como se muestra a continuación:
 
-<Assembly: AssemblyVersion("1.0.*")> 
+<Assembly: AssemblyVersion("1.0.*")>
+<Assembly: ComVisible(False)>

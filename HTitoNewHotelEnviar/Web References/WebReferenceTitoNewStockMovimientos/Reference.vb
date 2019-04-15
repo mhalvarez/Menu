@@ -21,7 +21,7 @@ Imports System.Xml.Serialization
 '
 'Microsoft.VSDesigner generó automáticamente este código fuente, versión=4.0.30319.42000.
 '
-Namespace WebReferenceTitoAlbaranes2
+Namespace WebReferenceTitoNewStockMovimientos
     
     '''<remarks/>
     <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3190.0"),  _

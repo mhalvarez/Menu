@@ -21,10 +21,10 @@ Imports System.Xml.Serialization
 '
 'Microsoft.VSDesigner generó automáticamente este código fuente, versión=4.0.30319.42000.
 '
-Namespace WebReferenceTitoAlbaranes
+Namespace WebReferenceTitoNewStockAlbaranes
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0"),  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3190.0"),  _
      System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.ComponentModel.DesignerCategoryAttribute("code"),  _
      System.Web.Services.WebServiceBindingAttribute(Name:="GestionNewHotel_Binding", [Namespace]:="urn:microsoft-dynamics-schemas/codeunit/GestionNewHotel")>  _
@@ -178,6 +178,6 @@ Namespace WebReferenceTitoAlbaranes
     End Class
     
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")>  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3190.0")>  _
     Public Delegate Sub CrearAlbCompraCompletedEventHandler(ByVal sender As Object, ByVal e As System.ComponentModel.AsyncCompletedEventArgs)
 End Namespace

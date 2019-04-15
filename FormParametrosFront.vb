@@ -295,6 +295,7 @@ Public Class FormParametrosFront
     Friend WithEvents CheckBoxNewContaTrataFactNeg As CheckBox
     Friend WithEvents CheckBoxNewContaContabilizarAsientoPagosRecibidos As CheckBox
     Friend WithEvents CheckBoxNewContaTextosFijos As CheckBox
+    Friend WithEvents CheckBoxTpvAgrupaTikets As CheckBox
     Dim SQL As String
 
 #Region " Código generado por el Diseñador de Windows Forms "
@@ -468,6 +469,7 @@ Public Class FormParametrosFront
         Me.TextBoxDebug = New System.Windows.Forms.TextBox()
         Me.Label28 = New System.Windows.Forms.Label()
         Me.TabPage7 = New System.Windows.Forms.TabPage()
+        Me.CheckBoxNewContaTextosFijos = New System.Windows.Forms.CheckBox()
         Me.CheckBoxNewContaContabilizarAsientoPagosRecibidos = New System.Windows.Forms.CheckBox()
         Me.CheckBoxNewContaTrataFactAnul2 = New System.Windows.Forms.CheckBox()
         Me.CheckBoxNewContaTrataFactAnul = New System.Windows.Forms.CheckBox()
@@ -754,7 +756,7 @@ Public Class FormParametrosFront
         Me.TextBoxEmpCod = New System.Windows.Forms.TextBox()
         Me.Label78 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.CheckBoxNewContaTextosFijos = New System.Windows.Forms.CheckBox()
+        Me.CheckBoxTpvAgrupaTikets = New System.Windows.Forms.CheckBox()
         Me.GroupBox1.SuspendLayout()
         Me.TabControlOpciones.SuspendLayout()
         Me.TabPageGeneral.SuspendLayout()
@@ -828,6 +830,7 @@ Public Class FormParametrosFront
         '
         'TabPageGeneral
         '
+        Me.TabPageGeneral.Controls.Add(Me.CheckBoxTpvAgrupaTikets)
         Me.TabPageGeneral.Controls.Add(Me.GroupBox5)
         Me.TabPageGeneral.Controls.Add(Me.TextBoxParaPaso)
         Me.TabPageGeneral.Controls.Add(Me.Label91)
@@ -887,7 +890,7 @@ Public Class FormParametrosFront
         Me.GroupBox5.Controls.Add(Me.CheckBoxInterfazNewHotel)
         Me.GroupBox5.Location = New System.Drawing.Point(320, 232)
         Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(367, 193)
+        Me.GroupBox5.Size = New System.Drawing.Size(367, 119)
         Me.GroupBox5.TabIndex = 43
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Interfaces "
@@ -1444,6 +1447,16 @@ Public Class FormParametrosFront
         Me.TabPage7.TabIndex = 9
         Me.TabPage7.Text = "NewConta Cuentas por Cobrar"
         Me.TabPage7.UseVisualStyleBackColor = True
+        '
+        'CheckBoxNewContaTextosFijos
+        '
+        Me.CheckBoxNewContaTextosFijos.AutoSize = True
+        Me.CheckBoxNewContaTextosFijos.Location = New System.Drawing.Point(459, 238)
+        Me.CheckBoxNewContaTextosFijos.Name = "CheckBoxNewContaTextosFijos"
+        Me.CheckBoxNewContaTextosFijos.Size = New System.Drawing.Size(204, 17)
+        Me.CheckBoxNewContaTextosFijos.TabIndex = 41
+        Me.CheckBoxNewContaTextosFijos.Text = "Montar Textos Fijos Asiento de Pagos"
+        Me.CheckBoxNewContaTextosFijos.UseVisualStyleBackColor = True
         '
         'CheckBoxNewContaContabilizarAsientoPagosRecibidos
         '
@@ -4214,15 +4227,15 @@ Public Class FormParametrosFront
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'CheckBoxNewContaTextosFijos
+        'CheckBoxTpvAgrupaTikets
         '
-        Me.CheckBoxNewContaTextosFijos.AutoSize = True
-        Me.CheckBoxNewContaTextosFijos.Location = New System.Drawing.Point(459, 238)
-        Me.CheckBoxNewContaTextosFijos.Name = "CheckBoxNewContaTextosFijos"
-        Me.CheckBoxNewContaTextosFijos.Size = New System.Drawing.Size(204, 17)
-        Me.CheckBoxNewContaTextosFijos.TabIndex = 41
-        Me.CheckBoxNewContaTextosFijos.Text = "Montar Textos Fijos Asiento de Pagos"
-        Me.CheckBoxNewContaTextosFijos.UseVisualStyleBackColor = True
+        Me.CheckBoxTpvAgrupaTikets.AutoSize = True
+        Me.CheckBoxTpvAgrupaTikets.Location = New System.Drawing.Point(331, 112)
+        Me.CheckBoxTpvAgrupaTikets.Name = "CheckBoxTpvAgrupaTikets"
+        Me.CheckBoxTpvAgrupaTikets.Size = New System.Drawing.Size(157, 17)
+        Me.CheckBoxTpvAgrupaTikets.TabIndex = 44
+        Me.CheckBoxTpvAgrupaTikets.Text = "Agrupa Tikets Contado Tpv"
+        Me.CheckBoxTpvAgrupaTikets.UseVisualStyleBackColor = True
         '
         'FormParametrosFront
         '
@@ -4583,6 +4596,7 @@ Public Class FormParametrosFront
             SQL += ",NVL(PARA_CCEX_TPV,'<Ninguno>') AS PARA_CCEX_TPV   "
 
             SQL += ",NVL(PARA_SPYRO_TIKETSV,8) AS PARA_SPYRO_TIKETSV "
+            SQL += ",NVL(PARA_AGRUPA_TPV,0) AS PARA_AGRUPA_TPV "
 
             SQL += "  FROM TH_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"
@@ -4931,6 +4945,13 @@ Public Class FormParametrosFront
 
 
                 Me.NumericUpDownSpyroLongitudTiketsRs.Value = CInt(Me.DbLee.mDbLector.Item("PARA_SPYRO_TIKETSV"))
+
+
+                If Me.DbLee.mDbLector.Item("PARA_AGRUPA_TPV") = "1" Then
+                    Me.CheckBoxTpvAgrupaTikets.Checked = True
+                Else
+                    Me.CheckBoxTpvAgrupaTikets.Checked = False
+                End If
 
                 'trata de conectar con newgolf' 
                 Try
@@ -5598,6 +5619,14 @@ Public Class FormParametrosFront
             SQL += ",PARA_CCEX_TPV ='" & Me.TextBoxNewHotelCCexTpv.Text.Replace("<Ninguno>", "") & "'"
 
             SQL += ",PARA_SPYRO_TIKETSV =" & Me.NumericUpDownSpyroLongitudTiketsRs.Value
+
+
+
+            If Me.CheckBoxTpvAgrupaTikets.Checked Then
+                SQL += ",PARA_AGRUPA_TPV = 1 "
+            Else
+                SQL += ",PARA_AGRUPA_TPV = 0 "
+            End If
 
             SQL += " WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"

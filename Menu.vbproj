@@ -136,9 +136,9 @@
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
     <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
     <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
-    <Reference Include="C_DATOS, Version=1.0.6604.28241, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="C_DATOS, Version=1.0.7038.25203, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C_DATOS\C_DATOS\bin\x86\Release\C_DATOS.dll</HintPath>
+      <HintPath>NewHotel\bin\x86\Release\C_DATOS.dll</HintPath>
     </Reference>
     <Reference Include="Ereza, Version=1.0.6604.28243, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -165,6 +165,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>HTitoNewHotelEnviar\bin\x86\Debug\HTitoNewHotelEnviar.dll</HintPath>
     </Reference>
+    <Reference Include="HTitoNewStock, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>HtitoNewStock\bin\x86\Debug\HTitoNewStock.dll</HintPath>
+    </Reference>
     <Reference Include="Integra NewStock HLopez, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Integra NewStock HLopez\bin\x86\Debug\Integra NewStock HLopez.dll</HintPath>
@@ -188,10 +192,6 @@
     <Reference Include="Integracion, Version=1.0.6604.28243, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>INTEGRACION\Integracion\bin\x86\Release\Integracion.dll</HintPath>
-    </Reference>
-    <Reference Include="IntegraNewStockTito, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>IntegraNewStockTito\bin\x86\Debug\IntegraNewStockTito.dll</HintPath>
     </Reference>
     <Reference Include="itextsharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca">
       <SpecificVersion>False</SpecificVersion>

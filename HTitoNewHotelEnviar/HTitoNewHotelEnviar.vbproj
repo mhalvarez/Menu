@@ -111,12 +111,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
-    <Compile Include="Web References\WebReferenceTitoAlbaranes2\Reference.vb">
+    <Compile Include="Web References\WebReferenceTitoNewStockMovimientos\Reference.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
-    <Compile Include="Web References\WebReferenceTitoAlbaranes\Reference.vb">
+    <Compile Include="Web References\WebReferenceTitoNewStockAlbaranes\Reference.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -175,16 +175,16 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.vb</LastGenOutput>
     </None>
-    <None Include="Web References\WebReferenceTitoAlbaranes2\Reference.map">
+    <None Include="Web References\WebReferenceTitoNewStockMovimientos\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.vb</LastGenOutput>
     </None>
-    <None Include="Web References\WebReferenceTitoAlbaranes2\StockAlmacenes.datasource">
+    <None Include="Web References\WebReferenceTitoNewStockMovimientos\StockAlmacenes.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\WebReferenceTitoAlbaranes2\StockAlmacenes.wsdl" />
-    <None Include="Web References\WebReferenceTitoAlbaranes\GestionNewHotel.wsdl" />
-    <None Include="Web References\WebReferenceTitoAlbaranes\Reference.map">
+    <None Include="Web References\WebReferenceTitoNewStockMovimientos\StockAlmacenes.wsdl" />
+    <None Include="Web References\WebReferenceTitoNewStockAlbaranes\GestionNewHotel.wsdl" />
+    <None Include="Web References\WebReferenceTitoNewStockAlbaranes\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.vb</LastGenOutput>
     </None>
@@ -212,6 +212,9 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.vb</LastGenOutput>
     </None>
+    <None Include="Web References\WebReferenceTitoNewStockMovimientos\StockAlmacenes1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\WebReferenceTiToPagosCobros\PagosCobrosCajaBanco.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
@@ -235,7 +238,7 @@
   <ItemGroup>
     <WebReferenceUrl Include="http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%2520PROCONTURSA/Codeunit/Gestión_New_Hotel">
       <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\WebReferenceTitoAlbaranes\</RelPath>
+      <RelPath>Web References\WebReferenceTitoNewStockAlbaranes\</RelPath>
       <UpdateFromURL>http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%2520PROCONTURSA/Codeunit/Gestión_New_Hotel</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
@@ -246,7 +249,7 @@
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%2520PROCONTURSA/Page/StockAlmacenes">
       <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\WebReferenceTitoAlbaranes2\</RelPath>
+      <RelPath>Web References\WebReferenceTitoNewStockMovimientos\</RelPath>
       <UpdateFromURL>http://25.86.114.247:7047/DynamicsNAV/WS/Pruebas%2520PROCONTURSA/Page/StockAlmacenes</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
