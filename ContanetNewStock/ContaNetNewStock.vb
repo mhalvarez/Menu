@@ -1581,21 +1581,12 @@ ByVal vCfcta_Cod As String, ByVal vCfcptos_Cod As String, ByVal vAmpcpto As Stri
 
         While Me.DbLeeHotelAux.mDbLector.Read
 
-
-
-
-
-
             Linea = Linea + 1
             ' Localiza el Almacen del Asiento Anterior 
             SQL = "SELECT ALMA_COEX AS CUENTA "
             SQL += " FROM TNST_ALMA "
             SQL += " WHERE "
             SQL += " ALMA_CODI = " & CInt(Me.DbLeeHotelAux.mDbLector("ALMACODI"))
-
-
-
-
 
             Me.mResult = Me.DbLeeHotelAux3.EjecutaSqlScalar(SQL)
 

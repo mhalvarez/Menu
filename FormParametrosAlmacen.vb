@@ -139,25 +139,49 @@
     End Sub
     Private Sub LimpiarControles()
         Dim C As Control
+        Dim C2 As Control
+
         For Each C In Me.Controls
             If TypeOf C Is TextBox Then
                 C.Text = ""
                 C.Update()
             End If
+
+            If TypeOf C Is Button Then
+                DirectCast(C, Button).FlatStyle = FlatStyle.Flat
+            End If
+            If TypeOf C Is CheckBox Then
+                DirectCast(C, CheckBox).FlatStyle = FlatStyle.Flat
+            End If
+            If TypeOf C Is RadioButton Then
+                DirectCast(C, RadioButton).FlatStyle = FlatStyle.Flat
+            End If
         Next
 
-        For Each C In Me.TabControl1.Controls
-            If TypeOf C Is TextBox Then
-                C.Text = ""
-                C.Update()
-            End If
+
+        For Each C In Me.TabControl1.TabPages
+            For Each C2 In C.Controls
+                If TypeOf C2 Is TextBox Then
+                    C2.Text = ""
+                    C2.Update()
+                End If
+
+                If TypeOf C2 Is Button Then
+                    DirectCast(C2, Button).FlatStyle = FlatStyle.Flat
+                End If
+                If TypeOf C2 Is CheckBox Then
+                    DirectCast(C2, CheckBox).FlatStyle = FlatStyle.Flat
+                End If
+                If TypeOf C2 Is RadioButton Then
+                    DirectCast(C2, RadioButton).FlatStyle = FlatStyle.Flat
+                End If
+            Next
         Next
-        For Each C In Me.TabPageHotelesLopez.Controls
-            If TypeOf C Is TextBox Then
-                C.Text = ""
-                C.Update()
-            End If
-        Next
+
+
+
+
+
     End Sub
 
     Private Sub MostrarDatosParametros()
@@ -207,6 +231,9 @@
 
             SQL += "      ,NVL(PARA_CTA_PUNTOVERDE,'<Ninguno>')  AS PARA_CTA_PUNTOVERDE"
             SQL += "      ,NVL(PARA_CTA6,'<Ninguno>')  AS PARA_CTA6"
+
+
+            SQL += "      ,NVL(PARA_MORA_TIPO_AGRUP,1) AS PARA_MORA_TIPO_AGRUP"
 
             SQL += "  FROM TS_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"
@@ -315,9 +342,21 @@
                 Me.TextBoxCtaPuntoVerde.Text = Me.DbLee.mDbLector.Item("PARA_CTA_PUNTOVERDE")
                 Me.TextBoxCtaAjusteDecimal.Text = Me.DbLee.mDbLector.Item("PARA_CTA6")
 
+
+                If CInt(Me.DbLee.mDbLector.Item("PARA_MORA_TIPO_AGRUP")) = 1 Then
+                    Me.RadioButtonTitoAgrupaGrupo.Checked = True
+                ElseIf CInt(Me.DbLee.mDbLector.Item("PARA_MORA_TIPO_AGRUP")) = 2 Then
+                    Me.RadioButtonTitoAgrupaFamilia.Checked = True
+                ElseIf CInt(Me.DbLee.mDbLector.Item("PARA_MORA_TIPO_AGRUP")) = 3 Then
+                    Me.RadioButtonTitoAgrupaProducto.Checked = True
+                Else
+                    Me.RadioButtonTitoAgrupaGrupo.Checked = True
+                End If
+
             Else
-                MsgBox("Atención NO existen Registros de Parámeros TS_PARA para Mostrar", MsgBoxStyle.Critical, "Atención")
-                Me.Close()
+                Me.LimpiarControles()
+                '     MsgBox("Atención NO existen Registros de Parámeros TS_PARA para Mostrar", MsgBoxStyle.Critical, "Atención")
+                '     Me.Close()
 
             End If
 
@@ -443,8 +482,22 @@
             End If
 
 
+
             SQL += " ,PARA_CTA_PUNTOVERDE='" & Me.TextBoxCtaPuntoVerde.Text.Replace("<Ninguno>", "") & "'"
             SQL += " ,PARA_CTA6='" & Me.TextBoxCtaAjusteDecimal.Text.Replace("<Ninguno>", "") & "'"
+
+
+
+            If Me.RadioButtonTitoAgrupaGrupo.Checked Then
+                SQL += ",PARA_MORA_TIPO_AGRUP = 1"
+            ElseIf Me.RadioButtonTitoAgrupaFamilia.Checked Then
+                SQL += ",PARA_MORA_TIPO_AGRUP = 2"
+            ElseIf Me.RadioButtonTitoAgrupaProducto.Checked Then
+                SQL += ",PARA_MORA_TIPO_AGRUP = 3"
+            Else
+                SQL += ",PARA_MORA_TIPO_AGRUP = 1"
+            End If
+
 
             SQL += " WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"
@@ -563,5 +616,39 @@
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
+    End Sub
+
+    Private Sub RadioButtonTitoAgrupaGrupo_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButtonTitoAgrupaGrupo.CheckedChanged
+        Try
+            If Me.RadioButtonTitoAgrupaGrupo.Checked Then
+                Me.RadioButtonTitoAgrupaFamilia.Checked = False
+                Me.RadioButtonTitoAgrupaProducto.Checked = False
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub RadioButtonTitoAgrupaFamilia_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButtonTitoAgrupaFamilia.CheckedChanged
+        Try
+            If Me.RadioButtonTitoAgrupaFamilia.Checked Then
+                Me.RadioButtonTitoAgrupaGrupo.Checked = False
+                Me.RadioButtonTitoAgrupaProducto.Checked = False
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub RadioButtonTitoAgrupaProducto_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButtonTitoAgrupaProducto.CheckedChanged
+        Try
+            If Me.RadioButtonTitoAgrupaProducto.Checked Then
+                Me.RadioButtonTitoAgrupaGrupo.Checked = False
+                Me.RadioButtonTitoAgrupaFamilia.Checked = False
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+
     End Sub
 End Class

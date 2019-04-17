@@ -26,6 +26,8 @@ Partial Class FormParametrosAlmacen
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPageGenerales = New System.Windows.Forms.TabPage()
+        Me.TextBoxCtaAjusteDecimal = New System.Windows.Forms.TextBox()
+        Me.Label33 = New System.Windows.Forms.Label()
         Me.TextBoxCtaPuntoVerde = New System.Windows.Forms.TextBox()
         Me.Label32 = New System.Windows.Forms.Label()
         Me.TextBoxCtaRoturas = New System.Windows.Forms.TextBox()
@@ -98,8 +100,11 @@ Partial Class FormParametrosAlmacen
         Me.Label78 = New System.Windows.Forms.Label()
         Me.TextBoxEmpNum = New System.Windows.Forms.TextBox()
         Me.Label77 = New System.Windows.Forms.Label()
-        Me.TextBoxCtaAjusteDecimal = New System.Windows.Forms.TextBox()
-        Me.Label33 = New System.Windows.Forms.Label()
+        Me.TabPageHotelesTito = New System.Windows.Forms.TabPage()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.RadioButtonTitoAgrupaGrupo = New System.Windows.Forms.RadioButton()
+        Me.RadioButtonTitoAgrupaFamilia = New System.Windows.Forms.RadioButton()
+        Me.RadioButtonTitoAgrupaProducto = New System.Windows.Forms.RadioButton()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPageGenerales.SuspendLayout()
@@ -107,6 +112,8 @@ Partial Class FormParametrosAlmacen
         Me.GroupBoxSeriesdefactura.SuspendLayout()
         Me.TabPageSantaMonica.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
+        Me.TabPageHotelesTito.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
         Me.SuspendLayout()
         '
         'GroupBox1
@@ -117,7 +124,7 @@ Partial Class FormParametrosAlmacen
         Me.GroupBox1.Controls.Add(Me.TabControl1)
         Me.GroupBox1.Location = New System.Drawing.Point(19, 48)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(754, 474)
+        Me.GroupBox1.Size = New System.Drawing.Size(863, 474)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         '
@@ -129,10 +136,11 @@ Partial Class FormParametrosAlmacen
         Me.TabControl1.Controls.Add(Me.TabPageGenerales)
         Me.TabControl1.Controls.Add(Me.TabPageHotelesLopez)
         Me.TabControl1.Controls.Add(Me.TabPageSantaMonica)
+        Me.TabControl1.Controls.Add(Me.TabPageHotelesTito)
         Me.TabControl1.Location = New System.Drawing.Point(15, 19)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(733, 437)
+        Me.TabControl1.Size = New System.Drawing.Size(842, 437)
         Me.TabControl1.TabIndex = 0
         '
         'TabPageGenerales
@@ -162,10 +170,28 @@ Partial Class FormParametrosAlmacen
         Me.TabPageGenerales.Location = New System.Drawing.Point(4, 22)
         Me.TabPageGenerales.Name = "TabPageGenerales"
         Me.TabPageGenerales.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPageGenerales.Size = New System.Drawing.Size(725, 411)
+        Me.TabPageGenerales.Size = New System.Drawing.Size(834, 411)
         Me.TabPageGenerales.TabIndex = 0
         Me.TabPageGenerales.Text = "Generales"
         Me.TabPageGenerales.UseVisualStyleBackColor = True
+        '
+        'TextBoxCtaAjusteDecimal
+        '
+        Me.TextBoxCtaAjusteDecimal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxCtaAjusteDecimal.Location = New System.Drawing.Point(150, 214)
+        Me.TextBoxCtaAjusteDecimal.MaxLength = 15
+        Me.TextBoxCtaAjusteDecimal.Name = "TextBoxCtaAjusteDecimal"
+        Me.TextBoxCtaAjusteDecimal.Size = New System.Drawing.Size(164, 20)
+        Me.TextBoxCtaAjusteDecimal.TabIndex = 31
+        '
+        'Label33
+        '
+        Me.Label33.AutoSize = True
+        Me.Label33.Location = New System.Drawing.Point(14, 221)
+        Me.Label33.Name = "Label33"
+        Me.Label33.Size = New System.Drawing.Size(77, 13)
+        Me.Label33.TabIndex = 30
+        Me.Label33.Text = "Ajuste Decimal"
         '
         'TextBoxCtaPuntoVerde
         '
@@ -327,7 +353,7 @@ Partial Class FormParametrosAlmacen
         '
         Me.CheckBoxSoloFacturas.AutoSize = True
         Me.CheckBoxSoloFacturas.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.CheckBoxSoloFacturas.Location = New System.Drawing.Point(594, 48)
+        Me.CheckBoxSoloFacturas.Location = New System.Drawing.Point(459, 56)
         Me.CheckBoxSoloFacturas.Name = "CheckBoxSoloFacturas"
         Me.CheckBoxSoloFacturas.Size = New System.Drawing.Size(88, 17)
         Me.CheckBoxSoloFacturas.TabIndex = 2
@@ -347,7 +373,7 @@ Partial Class FormParametrosAlmacen
         '
         Me.CheckBoxUsaNewPaga.AutoSize = True
         Me.CheckBoxUsaNewPaga.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.CheckBoxUsaNewPaga.Location = New System.Drawing.Point(594, 16)
+        Me.CheckBoxUsaNewPaga.Location = New System.Drawing.Point(459, 24)
         Me.CheckBoxUsaNewPaga.Name = "CheckBoxUsaNewPaga"
         Me.CheckBoxUsaNewPaga.Size = New System.Drawing.Size(92, 17)
         Me.CheckBoxUsaNewPaga.TabIndex = 0
@@ -775,7 +801,7 @@ Partial Class FormParametrosAlmacen
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox2.Controls.Add(Me.ButtonAceptar)
         Me.GroupBox2.Controls.Add(Me.ButtonCancelar)
-        Me.GroupBox2.Location = New System.Drawing.Point(779, 48)
+        Me.GroupBox2.Location = New System.Drawing.Point(888, 48)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(108, 474)
         Me.GroupBox2.TabIndex = 1
@@ -807,7 +833,7 @@ Partial Class FormParametrosAlmacen
         Me.ComboBoxEmpCod.DropDownWidth = 250
         Me.ComboBoxEmpCod.Location = New System.Drawing.Point(272, 9)
         Me.ComboBoxEmpCod.Name = "ComboBoxEmpCod"
-        Me.ComboBoxEmpCod.Size = New System.Drawing.Size(208, 21)
+        Me.ComboBoxEmpCod.Size = New System.Drawing.Size(317, 21)
         Me.ComboBoxEmpCod.TabIndex = 9
         '
         'Label11
@@ -839,7 +865,7 @@ Partial Class FormParametrosAlmacen
         Me.TextBoxEmpCod.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBoxEmpCod.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBoxEmpCod.Enabled = False
-        Me.TextBoxEmpCod.Location = New System.Drawing.Point(562, 11)
+        Me.TextBoxEmpCod.Location = New System.Drawing.Point(671, 11)
         Me.TextBoxEmpCod.Name = "TextBoxEmpCod"
         Me.TextBoxEmpCod.Size = New System.Drawing.Size(32, 20)
         Me.TextBoxEmpCod.TabIndex = 39
@@ -848,7 +874,7 @@ Partial Class FormParametrosAlmacen
         '
         Me.Label78.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label78.AutoSize = True
-        Me.Label78.Location = New System.Drawing.Point(500, 9)
+        Me.Label78.Location = New System.Drawing.Point(609, 9)
         Me.Label78.Name = "Label78"
         Me.Label78.Size = New System.Drawing.Size(56, 13)
         Me.Label78.TabIndex = 38
@@ -859,7 +885,7 @@ Partial Class FormParametrosAlmacen
         Me.TextBoxEmpNum.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBoxEmpNum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBoxEmpNum.Enabled = False
-        Me.TextBoxEmpNum.Location = New System.Drawing.Point(688, 11)
+        Me.TextBoxEmpNum.Location = New System.Drawing.Point(797, 11)
         Me.TextBoxEmpNum.Name = "TextBoxEmpNum"
         Me.TextBoxEmpNum.Size = New System.Drawing.Size(46, 20)
         Me.TextBoxEmpNum.TabIndex = 37
@@ -868,35 +894,75 @@ Partial Class FormParametrosAlmacen
         '
         Me.Label77.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label77.AutoSize = True
-        Me.Label77.Location = New System.Drawing.Point(610, 9)
+        Me.Label77.Location = New System.Drawing.Point(719, 9)
         Me.Label77.Name = "Label77"
         Me.Label77.Size = New System.Drawing.Size(72, 13)
         Me.Label77.TabIndex = 36
         Me.Label77.Text = "Hotel Nùmero"
         '
-        'TextBoxCtaAjusteDecimal
+        'TabPageHotelesTito
         '
-        Me.TextBoxCtaAjusteDecimal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxCtaAjusteDecimal.Location = New System.Drawing.Point(150, 214)
-        Me.TextBoxCtaAjusteDecimal.MaxLength = 15
-        Me.TextBoxCtaAjusteDecimal.Name = "TextBoxCtaAjusteDecimal"
-        Me.TextBoxCtaAjusteDecimal.Size = New System.Drawing.Size(164, 20)
-        Me.TextBoxCtaAjusteDecimal.TabIndex = 31
+        Me.TabPageHotelesTito.Controls.Add(Me.GroupBox3)
+        Me.TabPageHotelesTito.Location = New System.Drawing.Point(4, 22)
+        Me.TabPageHotelesTito.Name = "TabPageHotelesTito"
+        Me.TabPageHotelesTito.Size = New System.Drawing.Size(834, 411)
+        Me.TabPageHotelesTito.TabIndex = 3
+        Me.TabPageHotelesTito.Text = "Grupo Hermanos T"
+        Me.TabPageHotelesTito.UseVisualStyleBackColor = True
         '
-        'Label33
+        'GroupBox3
         '
-        Me.Label33.AutoSize = True
-        Me.Label33.Location = New System.Drawing.Point(14, 221)
-        Me.Label33.Name = "Label33"
-        Me.Label33.Size = New System.Drawing.Size(77, 13)
-        Me.Label33.TabIndex = 30
-        Me.Label33.Text = "Ajuste Decimal"
+        Me.GroupBox3.Controls.Add(Me.RadioButtonTitoAgrupaProducto)
+        Me.GroupBox3.Controls.Add(Me.RadioButtonTitoAgrupaFamilia)
+        Me.GroupBox3.Controls.Add(Me.RadioButtonTitoAgrupaGrupo)
+        Me.GroupBox3.Location = New System.Drawing.Point(15, 19)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(481, 63)
+        Me.GroupBox3.TabIndex = 0
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "Agrupar Líneas de Documentos Por :"
+        '
+        'RadioButtonTitoAgrupaGrupo
+        '
+        Me.RadioButtonTitoAgrupaGrupo.AutoSize = True
+        Me.RadioButtonTitoAgrupaGrupo.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.RadioButtonTitoAgrupaGrupo.Location = New System.Drawing.Point(6, 25)
+        Me.RadioButtonTitoAgrupaGrupo.Name = "RadioButtonTitoAgrupaGrupo"
+        Me.RadioButtonTitoAgrupaGrupo.Size = New System.Drawing.Size(72, 17)
+        Me.RadioButtonTitoAgrupaGrupo.TabIndex = 0
+        Me.RadioButtonTitoAgrupaGrupo.TabStop = True
+        Me.RadioButtonTitoAgrupaGrupo.Text = "Por Grupo"
+        Me.RadioButtonTitoAgrupaGrupo.UseVisualStyleBackColor = True
+        '
+        'RadioButtonTitoAgrupaFamilia
+        '
+        Me.RadioButtonTitoAgrupaFamilia.AutoSize = True
+        Me.RadioButtonTitoAgrupaFamilia.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.RadioButtonTitoAgrupaFamilia.Location = New System.Drawing.Point(119, 25)
+        Me.RadioButtonTitoAgrupaFamilia.Name = "RadioButtonTitoAgrupaFamilia"
+        Me.RadioButtonTitoAgrupaFamilia.Size = New System.Drawing.Size(75, 17)
+        Me.RadioButtonTitoAgrupaFamilia.TabIndex = 1
+        Me.RadioButtonTitoAgrupaFamilia.TabStop = True
+        Me.RadioButtonTitoAgrupaFamilia.Text = "Por Familia"
+        Me.RadioButtonTitoAgrupaFamilia.UseVisualStyleBackColor = True
+        '
+        'RadioButtonTitoAgrupaProducto
+        '
+        Me.RadioButtonTitoAgrupaProducto.AutoSize = True
+        Me.RadioButtonTitoAgrupaProducto.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.RadioButtonTitoAgrupaProducto.Location = New System.Drawing.Point(235, 25)
+        Me.RadioButtonTitoAgrupaProducto.Name = "RadioButtonTitoAgrupaProducto"
+        Me.RadioButtonTitoAgrupaProducto.Size = New System.Drawing.Size(80, 17)
+        Me.RadioButtonTitoAgrupaProducto.TabIndex = 2
+        Me.RadioButtonTitoAgrupaProducto.TabStop = True
+        Me.RadioButtonTitoAgrupaProducto.Text = "Por Artículo"
+        Me.RadioButtonTitoAgrupaProducto.UseVisualStyleBackColor = True
         '
         'FormParametrosAlmacen
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(899, 573)
+        Me.ClientSize = New System.Drawing.Size(1008, 573)
         Me.Controls.Add(Me.TextBoxEmpCod)
         Me.Controls.Add(Me.Label78)
         Me.Controls.Add(Me.TextBoxEmpNum)
@@ -921,6 +987,9 @@ Partial Class FormParametrosAlmacen
         Me.TabPageSantaMonica.ResumeLayout(False)
         Me.TabPageSantaMonica.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
+        Me.TabPageHotelesTito.ResumeLayout(False)
+        Me.GroupBox3.ResumeLayout(False)
+        Me.GroupBox3.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1002,4 +1071,9 @@ Partial Class FormParametrosAlmacen
     Friend WithEvents Label32 As Label
     Friend WithEvents TextBoxCtaAjusteDecimal As TextBox
     Friend WithEvents Label33 As Label
+    Friend WithEvents TabPageHotelesTito As TabPage
+    Friend WithEvents GroupBox3 As GroupBox
+    Friend WithEvents RadioButtonTitoAgrupaProducto As RadioButton
+    Friend WithEvents RadioButtonTitoAgrupaFamilia As RadioButton
+    Friend WithEvents RadioButtonTitoAgrupaGrupo As RadioButton
 End Class

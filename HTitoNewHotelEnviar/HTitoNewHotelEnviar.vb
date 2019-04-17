@@ -142,6 +142,8 @@ Public Class HTitoNewHotelEnviar
     Private WebServiceNewStockAlbaranesLineas() As WebReferenceTitoNewStockAlbaranes.GestionNewHotel
 
 
+
+
     ' NewStock Traspasos , Inventarios
     Private WebServiceNewStockMovimientos As WebReferenceTitoNewStockMovimientos.StockAlmacenes_Service
     Private WebServiceNewStockMovimientosBaseList As WebReferenceTitoNewStockMovimientos.StockAlmacenes()
@@ -1958,205 +1960,20 @@ Public Class HTitoNewHotelEnviar
                 End If
 
 
-                ' journal template
-
-                If Me.mParaJournalTemplate.Length > 0 Then
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).Journal_Template_Name = Me.mParaJournalTemplate
-                End If
-
-
-                ' journal batch NO USAR ES READONLY
-
-                'If Me.mParaJournalBatch.Length > 0 Then
-                'Me.WebServiceNewStockAlbaranesLineas(Ind).Journal_Batch_Name = Me.mParaJournalBatch
-                'End If
-
-                '   Me.WebServiceNewStockAlbaranesLineas(Ind).Line_No = Ind + 1
-                Me.WebServiceNewStockAlbaranesLineas(Ind).Line_No = Ind
-
+                '
 
 
 
                 ' Numero de Documento
                 If Me.DbLeeCentral.mDbLector.Item("NUMERO") > 0 Then
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).Document_No = CStr(Me.DbLeeCentral.mDbLector.Item("NUMERO")) & "/" & CStr(Me.DbLeeCentral.mDbLector.Item("SERIE"))
+                    '          Me.WebServiceNewStockAlbaranesLineas(Ind).Document_No = CStr(Me.DbLeeCentral.mDbLector.Item("NUMERO")) & "/" & CStr(Me.DbLeeCentral.mDbLector.Item("SERIE"))
 
                 Else '
                     ' es el apunte de mano corriente
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).Document_No = ""
+                    '          Me.WebServiceNewStockAlbaranesLineas(Ind).Document_No = ""
                 End If
 
-
-                ' Fecha de documento
-                Me.WebServiceNewStockAlbaranesLineas(Ind).Document_Date = CDate(Format(Me.mFecha, "dd/MM/yyyy"))
-                Me.WebServiceNewStockAlbaranesLineas(Ind).Document_DateSpecified = True
-
-                ' Fecha de envio
-                ' Me.WebServiceNewStockAlbaranesLineas(Ind).Posting_Date = CDate(Format(Now, "dd/MM/yyyy"))
-                Me.WebServiceNewStockAlbaranesLineas(Ind).Posting_Date = CDate(Format(Me.mFecha, "dd/MM/yyyy"))
-                Me.WebServiceNewStockAlbaranesLineas(Ind).Posting_DateSpecified = True
-
-
-
-                ' Tipo de Documento (Factura/Abono)
-
-                If IsDBNull(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_TIPODOC")) = False Then
-                    If CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_TIPODOC")) = Me.mParaTDocFactura Then
-                        ' factura
-                        Me.WebServiceNewStockAlbaranesLineas(Ind).Document_Type = WebReferenceTiToFacturacion.Document_Type.Invoice
-                        Me.WebServiceNewStockAlbaranesLineas(Ind).Document_TypeSpecified = True
-                        ' abono = Factura Negativa y Notas de Abono
-                    ElseIf CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_TIPODOC")) = Me.mParaTDocAbono Then
-                        Me.WebServiceNewStockAlbaranesLineas(Ind).Document_Type = WebReferenceTiToFacturacion.Document_Type.Credit_Memo
-                        Me.WebServiceNewStockAlbaranesLineas(Ind).Document_TypeSpecified = True
-                    Else
-                        Me.WebServiceNewStockAlbaranesLineas(Ind).Document_Type = WebReferenceTiToFacturacion.Document_Type._blank_
-                        Me.WebServiceNewStockAlbaranesLineas(Ind).Document_TypeSpecified = True
-                    End If
-                Else
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).Document_Type = WebReferenceTiToFacturacion.Document_Type._blank_
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).Document_TypeSpecified = True
-
-                End If
-
-
-
-
-                ' Tipo de Movimiento(Cuenta / Cliente)
-                If IsDBNull(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_TIPOMOV")) = False Then
-                    If CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_TIPOMOV")) = Me.mParaTMovCliente Then
-                        ' CLIENTE
-                        Me.WebServiceNewStockAlbaranesLineas(Ind).Account_Type = WebReferenceTiToFacturacion.Account_Type.Customer
-                        Me.WebServiceNewStockAlbaranesLineas(Ind).Account_TypeSpecified = True
-
-                    ElseIf CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_TIPOMOV")) = Me.mParaTMovCuenta Then
-                        ' CUENTA
-                        Me.WebServiceNewStockAlbaranesLineas(Ind).Account_Type = WebReferenceTiToFacturacion.Account_Type.G_L_Account
-                        Me.WebServiceNewStockAlbaranesLineas(Ind).Account_TypeSpecified = True
-                    Else
-                        ' OTRO
-                        Me.WebServiceNewStockAlbaranesLineas(Ind).Account_TypeSpecified = False
-
-                    End If
-                Else
-                    ' OTRO
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).Account_TypeSpecified = False
-                End If
-
-
-
-                ' Cuenta
-
-
-                If IsDBNull(Me.DbLeeCentral.mDbLector.Item("CUENTA")) = False Then
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).Account_No = CStr(Me.DbLeeCentral.mDbLector.Item("CUENTA"))
-                Else
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).Account_No = "?"
-                End If
-
-
-
-
-                ' Concepto
-                Me.WebServiceNewStockAlbaranesLineas(Ind).Description = CStr(Me.DbLeeCentral.mDbLector.Item("CONCEPTO"))
-
-
-                ' Importes
-                If CStr(Me.DbLeeCentral.mDbLector.Item("DEBE")) <> "0" Then
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).Debit_Amount = CDec(Me.DbLeeCentral.mDbLector.Item("DEBE"))
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).Debit_AmountSpecified = True
-
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).Credit_Amount = CDec("0")
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).Credit_AmountSpecified = True
-                Else
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).Credit_Amount = CDec(Me.DbLeeCentral.mDbLector.Item("HABER"))
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).Credit_AmountSpecified = True
-
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).Debit_Amount = CDec("0")
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).Debit_AmountSpecified = True
-
-                End If
-
-                ' Dimension Naturaleza
-                If IsDBNull(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_DIMENNATURALEZA")) = False Then
-
-                    If Me.mParaEquivNat = 1 Then
-                        Me.WebServiceNewStockAlbaranesLineas(Ind).Shortcut_Dimension_1_Code = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_DIMENNATURALEZA"))
-                    ElseIf Me.mParaEquivNat = 2 Then
-                        Me.WebServiceNewStockAlbaranesLineas(Ind).Shortcut_Dimension_2_Code = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_DIMENNATURALEZA"))
-                    ElseIf Me.mParaEquivNat = 3 Then
-                        Me.WebServiceNewStockAlbaranesLineas(Ind).ShortcutDimCode3 = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_DIMENNATURALEZA"))
-                    End If
-                End If
-
-                ' Dimension Departamento
-                If IsDBNull(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_DIMENDPTO")) = False Then
-
-                    If Me.mParaEquivDep = 1 Then
-                        Me.WebServiceNewStockAlbaranesLineas(Ind).Shortcut_Dimension_1_Code = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_DIMENDPTO"))
-                    ElseIf Me.mParaEquivDep = 2 Then
-                        Me.WebServiceNewStockAlbaranesLineas(Ind).Shortcut_Dimension_2_Code = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_DIMENDPTO"))
-                    ElseIf Me.mParaEquivDep = 3 Then
-                        Me.WebServiceNewStockAlbaranesLineas(Ind).ShortcutDimCode3 = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_DIMENDPTO"))
-                    End If
-                End If
-
-                ' Dimension Acceso Hotel
-
-                If Me.mParaEquivHot = 1 Then
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).Shortcut_Dimension_1_Code = Me.mParaDimensionHotel
-                ElseIf Me.mParaEquivHot = 2 Then
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).Shortcut_Dimension_2_Code = Me.mParaDimensionHotel
-                ElseIf Me.mParaEquivHot = 3 Then
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).ShortcutDimCode3 = Me.mParaDimensionHotel
-                End If
-
-
-                ' Documento Externo 
-
-                If IsDBNull(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_RESERVA")) = False Then
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).External_Document_No = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_RESERVA"))
-                End If
-
-
-
-                'IMPUESTOS
-                ' PDTE: FALTA SABER QUE CAMPO DEL WEB SERVICE ES IVA NEGOCIO = CANARIAS
-
-                '  De los parametros Generales
-                If IsDBNull(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_FAC_IVANEGOCIO")) = False Then
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).VAT_Bus_Posting_Group = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_FAC_IVANEGOCIO"))
-                End If
-
-
-                If IsDBNull(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_FAC_NEGOCIO")) = False Then
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).Gen_Bus_Posting_Group = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_FAC_NEGOCIO"))
-                End If
-
-                ' De Newhotel Tasas
-
-                If IsDBNull(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_FAC_IVAPRODUCTO")) = False Then
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).VAT_Prod_Posting_Group = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_FAC_IVAPRODUCTO"))
-                End If
-
-                If IsDBNull(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_FAC_PRODUCTO")) = False Then
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).Gen_Prod_Posting_Group = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_FAC_PRODUCTO"))
-                End If
-
-
-
-
-                ' source type (Tipo de procedencia) 
-                Me.WebServiceNewStockAlbaranesLineas(Ind).Source_Type = WebReferenceTiToFacturacion.Source_Type.Customer
-
-                ' source type (Codigo  de procedencia)  
-
-                If CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_COD_PROCEDENCIA")) = Me.mParaTMovCuenta Then
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).Source_No = CStr(Me.DbLeeCentral.mDbLector.Item("ASNT_MORA_COD_PROCEDENCIA"))
-                Else
-                    Me.WebServiceNewStockAlbaranesLineas(Ind).Source_No = ""
-                End If
-
+                '
 
 
 
