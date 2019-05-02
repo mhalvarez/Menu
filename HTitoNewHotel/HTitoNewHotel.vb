@@ -152,6 +152,7 @@ Public Class HTitoNewHotel
     Private DbLeeHotelAux As C_DATOS.C_DatosOledb
     Private DbLeeHotelAux2 As C_DATOS.C_DatosOledb
     Private DbGrabaCentral As C_DATOS.C_DatosOledb
+    Private DbGrabaCentral2 As C_DATOS.C_DatosOledb
     Private DbSpyro As C_DATOS.C_DatosOledb
 
     Private NEWHOTEL As NewHotel.NewHotelData
@@ -474,6 +475,10 @@ Public Class HTitoNewHotel
             Me.DbGrabaCentral = New C_DATOS.C_DatosOledb(Me.mStrConexionCentral)
             Me.DbGrabaCentral.AbrirConexion()
             Me.DbGrabaCentral.EjecutaSqlCommit("ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY'")
+
+            Me.DbGrabaCentral2 = New C_DATOS.C_DatosOledb(Me.mStrConexionCentral)
+            Me.DbGrabaCentral2.AbrirConexion()
+            Me.DbGrabaCentral2.EjecutaSqlCommit("ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY'")
 
             Me.DbLeeHotel = New C_DATOS.C_DatosOledb(Me.mStrConexionHotel)
             Me.DbLeeHotel.AbrirConexion()
@@ -1083,7 +1088,7 @@ Public Class HTitoNewHotel
             SQL += Linea & ",'"
             SQL += vCfcta_Cod & "','"
             SQL += vCfcptos_Cod & "','"
-            SQL += Mid(Me.mMovimientoNegativo & vAmpcpto, 1, 40).Replace("'", ",") & "',"
+            SQL += Mid(Me.mMovimientoNegativo & vAmpcpto, 1, 150).Replace("'", ",") & "',"
             SQL += vImonep & ","
             SQL += "'N','"
             SQL += Format(Me.mFecha, "dd/MM/yyyy") & "','"
@@ -1307,7 +1312,7 @@ Public Class HTitoNewHotel
             SQL += Linea & ",'"
             SQL += vCfcta_Cod & "','"
             SQL += vCfcptos_Cod & "','"
-            SQL += Mid(Me.mMovimientoNegativo & vAmpcpto, 1, 40).Replace("'", ",") & "',"
+            SQL += Mid(Me.mMovimientoNegativo & vAmpcpto, 1, 150).Replace("'", ",") & "',"
             SQL += vImonep & ","
             SQL += "'N','"
             SQL += Format(Me.mFecha, "dd/MM/yyyy") & "','"
@@ -1532,7 +1537,7 @@ Public Class HTitoNewHotel
             SQL += Linea & ",'"
             SQL += vCfcta_Cod & "','"
             SQL += vCfcptos_Cod & "','"
-            SQL += Mid(Me.mMovimientoNegativo & vAmpcpto, 1, 40).Replace("'", ",") & "',"
+            SQL += Mid(Me.mMovimientoNegativo & vAmpcpto, 1, 150).Replace("'", ",") & "',"
             SQL += vImonep & ","
             SQL += "'N','"
             SQL += Format(Me.mFecha, "dd/MM/yyyy") & "','"
@@ -1722,7 +1727,7 @@ Public Class HTitoNewHotel
             SQL += Linea & ",'"
             SQL += vCfcta_Cod & "','"
             SQL += vCfcptos_Cod & "','"
-            SQL += Mid(Me.mMovimientoNegativo & vAmpcpto, 1, 40).Replace("'", ",") & "',"
+            SQL += Mid(Me.mMovimientoNegativo & vAmpcpto, 1, 150).Replace("'", ",") & "',"
             SQL += vImonep & ","
             SQL += "'N','"
             SQL += Format(Me.mFecha, "dd/MM/yyyy") & "','"
@@ -2613,6 +2618,7 @@ Public Class HTitoNewHotel
         Try
             Me.DbLeeCentral.CerrarConexion()
             Me.DbGrabaCentral.CerrarConexion()
+            Me.DbGrabaCentral2.CerrarConexion()
             Me.DbLeeHotel.CerrarConexion()
             Me.DbLeeHotelAux.CerrarConexion()
             Me.DbLeeHotelAux2.CerrarConexion()
@@ -2783,12 +2789,12 @@ Public Class HTitoNewHotel
                     Cuenta = CType(Me.DbLeeHotel.mDbLector("CUENTA"), String)
                     '    TipoDoc = Me.mParaMoraTDocDeposito
                     TipoDoc = ""
-                    Texto = " Depósito Recibido "
+                    Texto = "(Depósito) " & Me.DbLeeHotel.mDbLector("MOVI_DESC")
                 Else
                     Cuenta = CType(Me.DbLeeHotel.mDbLector("CUENTA"), String)
                     '   TipoDoc = Me.mParaMoraTDocAnticipo
                     TipoDoc = ""
-                    Texto = " Anticipo Recibido "
+                    Texto = "(Anticipo) " & Me.DbLeeHotel.mDbLector("MOVI_DESC")
                 End If
 
                 If IsDBNull(Me.DbLeeHotel.mDbLector("RECI_COBR")) Then
@@ -2816,10 +2822,10 @@ Public Class HTitoNewHotel
 
                     If IsDBNull(Me.DbLeeHotel.mDbLector("RECI_COBR")) Then
                         ' esta anulado
-                        Me.InsertaOracleMorasol("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & Texto & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Me.mVisaCfbcotmov, "", Me.mVisaComprobante, Recibo, Me.mParaMoraTMovBanco, "", "", Me.mParaMoraDimenHotel, Reserva, DocALiquidar, "", "WEBANTICIPOS FACTURADOS")
+                        Me.InsertaOracleMorasol("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, Texto, Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Me.mVisaCfbcotmov, "", Me.mVisaComprobante, Recibo, Me.mParaMoraTMovBanco, "", "", Me.mParaMoraDimenHotel, Reserva, DocALiquidar, "", "WEBANTICIPOS FACTURADOS")
 
                     Else
-                        Me.InsertaOracleMorasol("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & Texto & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Me.mVisaCfbcotmov, "", Me.mVisaComprobante, Recibo, Me.mParaMoraTMovBanco, "", "", Me.mParaMoraDimenHotel, Reserva, DocALiquidar, "", "WEBANTICIPOS")
+                        Me.InsertaOracleMorasol("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, Texto, Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Me.mVisaCfbcotmov, "", Me.mVisaComprobante, Recibo, Me.mParaMoraTMovBanco, "", "", Me.mParaMoraDimenHotel, Reserva, DocALiquidar, "", "WEBANTICIPOS")
 
                     End If
 
@@ -2892,12 +2898,12 @@ Public Class HTitoNewHotel
                 Cuenta = CType(Me.DbLeeHotel.mDbLector("CUENTA"), String)
                 '    TipoDoc = Me.mParaMoraTDocDeposito
                 TipoDoc = ""
-                Texto = " Depósito Recibido "
+                Texto = "(Depósito) " & Me.DbLeeHotel.mDbLector("MOVI_DESC")
             Else
                 Cuenta = CType(Me.DbLeeHotel.mDbLector("CUENTA"), String)
                 '   TipoDoc = Me.mParaMoraTDocAnticipo
                 TipoDoc = ""
-                Texto = " Anticipo Recibido "
+                Texto = "(Anticipo) " & Me.DbLeeHotel.mDbLector("MOVI_DESC")
             End If
 
             If IsDBNull(Me.DbLeeHotel.mDbLector("RECI_COBR")) Then
@@ -2926,9 +2932,9 @@ Public Class HTitoNewHotel
 
                 If IsDBNull(Me.DbLeeHotel.mDbLector("RECI_COBR")) Then
                     ' esta anulado 
-                    Me.InsertaOracleMorasol("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TIPO"), String) & Texto & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Recibo, Me.mParaMoraTMovBanco, "", "", Me.mParaMoraDimenHotel, Reserva, DocALiquidar, "", "WEBANTICIPOS FACTURADOS")
+                    Me.InsertaOracleMorasol("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, Texto, Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Recibo, Me.mParaMoraTMovBanco, "", "", Me.mParaMoraDimenHotel, Reserva, DocALiquidar, "", "WEBANTICIPOS FACTURADOS")
                 Else
-                    Me.InsertaOracleMorasol("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TIPO"), String) & Texto & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Recibo, Me.mParaMoraTMovBanco, "", "", Me.mParaMoraDimenHotel, Reserva, DocALiquidar, "", "WEBANTICIPOS")
+                    Me.InsertaOracleMorasol("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, Texto, Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Recibo, Me.mParaMoraTMovBanco, "", "", Me.mParaMoraDimenHotel, Reserva, DocALiquidar, "", "WEBANTICIPOS")
                 End If
 
             End If
@@ -2996,12 +3002,12 @@ Public Class HTitoNewHotel
                 Cuenta = Me.mParaCta4b & Me.mParaSufijoDepositos
                 '   TipoDoc = Me.mParaMoraTDocDeposito
                 TipoDoc = ""
-                Texto = "Depósito Recibido "
+                Texto = "(Depósito) " & Me.DbLeeHotel.mDbLector("MOVI_DESC")
             Else
                 Cuenta = Me.mCtaPagosACuenta & Me.mParaSufijoAnticipos
                 '    TipoDoc = Me.mParaMoraTDocAnticipo
                 TipoDoc = ""
-                Texto = "Anticipo Recibido "
+                Texto = "(Anticipo) " & Me.DbLeeHotel.mDbLector("MOVI_DESC")
             End If
 
             If IsDBNull(Me.DbLeeHotel.mDbLector("RECI_COBR")) Then
@@ -3057,9 +3063,9 @@ Public Class HTitoNewHotel
                 Me.mTipoAsiento = "HABER"
                 If IsDBNull(Me.DbLeeHotel.mDbLector("RECI_COBR")) Then
                     ' esta anulado 
-                    Me.InsertaOracleMorasol("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, Texto & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Recibo, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, DocALiquidar, TipoDoc, "WEBANTICIPOS FACTURADOS")
+                    Me.InsertaOracleMorasol("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, Texto, Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Recibo, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, DocALiquidar, TipoDoc, "WEBANTICIPOS FACTURADOS")
                 Else
-                    Me.InsertaOracleMorasol("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, Texto & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Recibo, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, DocALiquidar, TipoDoc, "WEBANTICIPOS")
+                    Me.InsertaOracleMorasol("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, Texto, Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Recibo, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, DocALiquidar, TipoDoc, "WEBANTICIPOS")
                 End If
 
             End If
@@ -3141,12 +3147,12 @@ Public Class HTitoNewHotel
                 Cuenta = Me.mParaCta4b & Me.mParaSufijoDepositos
                 '   TipoDoc = Me.mParaMoraTDocDeposito
                 TipoDoc = ""
-                Texto = "Depósito Recibido "
+                Texto = "(Depósito) " & Me.DbLeeHotel.mDbLector("MOVI_DESC")
             Else
                 Cuenta = Me.mCtaPagosACuenta & Me.mParaSufijoAnticipos
                 '   TipoDoc = Me.mParaMoraTDocAnticipo
                 TipoDoc = ""
-                Texto = "Anticipo Recibido "
+                Texto = "(Anticipo) " & Me.DbLeeHotel.mDbLector("MOVI_DESC")
             End If
 
             If IsDBNull(Me.DbLeeHotel.mDbLector("RECI_COBR")) Then
@@ -3198,9 +3204,9 @@ Public Class HTitoNewHotel
                 Me.mTipoAsiento = "HABER"
                 If IsDBNull(Me.DbLeeHotel.mDbLector("RECI_COBR")) Then
                     ' esta anulado
-                    Me.InsertaOracleMorasol("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, Texto & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Recibo, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, DocALiquidar, TipoDoc, "WEBANTICIPOS FACTURADOS")
+                    Me.InsertaOracleMorasol("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, Texto, Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Recibo, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, DocALiquidar, TipoDoc, "WEBANTICIPOS FACTURADOS")
                 Else
-                    Me.InsertaOracleMorasol("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, Texto & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Recibo, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, DocALiquidar, TipoDoc, "WEBANTICIPOS")
+                    Me.InsertaOracleMorasol("AC", 2, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, Texto, Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Recibo, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, DocALiquidar, TipoDoc, "WEBANTICIPOS")
 
                 End If
             End If
@@ -6017,7 +6023,7 @@ Public Class HTitoNewHotel
 
 
                     '' sale ha hacer las patas del 22 
-                    Me.ActualizaReciboPorDevolucionEnRecibo(CInt(Me.DbLeeHotel.mDbLector("NUMERO")) & "/" & CStr(Me.DbLeeHotel.mDbLector("SERIE")), ReseCodi, ReseAnci, CcexCodi, "", ImporteDevuelto, Cuenta, "Devolución En Fact.", TipoDoc, 22, "WEBANTICIPOS FACTURADOS")
+                    Me.ActualizaReciboPorDevolucionEnRecibo("", ReseCodi, ReseAnci, CcexCodi, "", ImporteDevuelto, Cuenta, "Devolución En Fact.", TipoDoc, 22, CInt(Me.DbLeeHotel.mDbLector("NUMERO")) & "/" & CStr(Me.DbLeeHotel.mDbLector("SERIE")), "WEBANTICIPOS FACTURADOS")
 
                 End If
 
@@ -6109,10 +6115,10 @@ Public Class HTitoNewHotel
                     End If
 
                     If FaanCodi.Length = 0 Then
-                        ActualizaReciboPorEmisionEnFactura(ReseCodi, ReseAnci, CcexCodi, AnticiposUsados, "Saldo de Anticipo/Dep", 35, CInt(Me.DbLeeHotel.mDbLector("NUMERO")), CStr(Me.DbLeeHotel.mDbLector("SERIE")))
+                        ActualizaReciboPorEmisionEnFactura(ReseCodi, ReseAnci, CcexCodi, AnticiposUsados, "Valor de Anticipo/Dep Facrurado", 35, CInt(Me.DbLeeHotel.mDbLector("NUMERO")), CStr(Me.DbLeeHotel.mDbLector("SERIE")))
 
                     Else
-                        ActualizaReciboPorEmisionEnFacturaAnulada(ReseCodi, ReseAnci, CcexCodi, AnticiposUsados, "Saldo de Anticipo/Dep", 35, CInt(Me.DbLeeHotel.mDbLector("NUMERO")), CStr(Me.DbLeeHotel.mDbLector("SERIE")), Me.DbLeeHotel.mDbLector("FAAN_CODI"), Me.DbLeeHotel.mDbLector("FAAN_SEFA"))
+                        ActualizaReciboPorEmisionEnFacturaAnulada(ReseCodi, ReseAnci, CcexCodi, AnticiposUsados, "Valor de Anticipo/Dep Facrurado", 35, CInt(Me.DbLeeHotel.mDbLector("NUMERO")), CStr(Me.DbLeeHotel.mDbLector("SERIE")), Me.DbLeeHotel.mDbLector("FAAN_CODI"), Me.DbLeeHotel.mDbLector("FAAN_SEFA"))
 
                     End If
 
@@ -6538,9 +6544,10 @@ Public Class HTitoNewHotel
             Dim Reserva As String
             Dim Recibo As String
 
+            Dim Texto As String
+
             Dim DocALiquidar As String
 
-            ' SQL = "SELECT SUM(TNHT_MOVI.MOVI_VDEB)TOTAL,TNHT_CACR.CACR_DESC TARJETA,NVL(TNHT_CACR.CACR_CTBA,'0') CUENTA,NVL(SECC_CODI,'?') AS SECC_CODI"
             SQL = "SELECT TNHT_MOVI.MOVI_VDEB TOTAL,TNHT_CACR.CACR_DESC TARJETA,NVL(TNHT_CACR.CACR_CTBA,'0') CUENTA,NVL(SECC_CODI,'?') AS SECC_CODI"
 
             SQL += ",SUBSTR(FNHT_MOVI_RECI(TNHT_MOVI.MOVI_CODI,TNHT_MOVI.MOVI_DARE,TNHT_MOVI.MOVI_TIMO),1,20) RECI_COBR "
@@ -6553,20 +6560,15 @@ Public Class HTitoNewHotel
             SQL = SQL & " FROM " & Me.mStrHayHistorico & " TNHT_MOVI,TNHT_CACR,TNHT_RESE WHERE TNHT_MOVI.CACR_CODI = TNHT_CACR.CACR_CODI"
             SQL = SQL & " AND TNHT_MOVI.RESE_CODI = TNHT_RESE.RESE_CODI(+) "
             SQL = SQL & " AND TNHT_MOVI.RESE_ANCI = TNHT_RESE.RESE_ANCI(+)"
-            'SQL = SQL & " AND TNHT_MOVI.TIRE_CODI = 5"
             SQL = SQL & " AND TNHT_MOVI.TIRE_CODI IN(4,5) "
             SQL = SQL & " AND TNHT_MOVI.MOVI_DATR = " & "'" & Me.mFecha & "'"
             SQL = SQL & " AND TNHT_MOVI.MOVI_VDEB <> 0"
 
-            ' excluir depositos anticipados 
-            'SQL = SQL & " AND TNHT_MOVI.MOVI_DEAN ='0'"
 
             If Me.mUsaTnhtMoviAuto = True Then
                 SQL = SQL & " AND TNHT_MOVI.MOVI_AUTO = '0' "
             End If
             '
-            '   SQL = SQL & " GROUP BY TNHT_MOVI.CACR_CODI,TNHT_CACR.CACR_DESC,TNHT_CACR.CACR_CTBA,SECC_CODI"
-            '   SQL += ",SUBSTR(FNHT_MOVI_RECI(TNHT_MOVI.MOVI_CODI,TNHT_MOVI.MOVI_DARE,TNHT_MOVI.MOVI_TIMO),1,20) ,TNHT_MOVI.RESE_CODI , TNHT_MOVI.RESE_ANCI,MOVI_DESC"
 
             SQL += "  ORDER BY RECI_COBR "
 
@@ -6579,10 +6581,12 @@ Public Class HTitoNewHotel
                     Cuenta = CType(Me.DbLeeHotel.mDbLector("CUENTA"), String)
                     '   TipoDoc = Me.mParaMoraTDocDeposito
                     TipoDoc = ""
+                    Texto = "(Depósito) " & Me.DbLeeHotel.mDbLector("MOVI_DESC")
                 Else
                     Cuenta = CType(Me.DbLeeHotel.mDbLector("CUENTA"), String)
                     '   TipoDoc = Me.mParaMoraTDocAnticipo
                     TipoDoc = ""
+                    Texto = "(Anticipo) " & Me.DbLeeHotel.mDbLector("MOVI_DESC")
                 End If
 
                 If IsDBNull(Me.DbLeeHotel.mDbLector("RECI_COBR")) Then
@@ -6607,8 +6611,7 @@ Public Class HTitoNewHotel
                 Total = CType(Me.DbLeeHotel.mDbLector("TOTAL"), Double)
                 Me.mTipoAsiento = "DEBE"
                 ' 20181207
-                ' Me.InsertaOracleMorasol("AC", 21, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Me.mVisaCfbcotmov, "", Me.mVisaComprobante, Recibo, Me.mParaMoraTMovBanco, "", "", Me.mParaMoraDimenHotel, Reserva, DocALiquidar, "", "WEBCOBROS")
-                Me.InsertaOracleMorasol("AC", 21, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TARJETA"), String) & " " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Me.mVisaCfbcotmov, "", Me.mVisaComprobante, Recibo, Me.mParaMoraTMovBanco, "", "", Me.mParaMoraDimenHotel, Reserva, DocALiquidar, "", "WEBANTICIPOS FACTURADOS")
+                Me.InsertaOracleMorasol("AC", 21, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, Texto, Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Me.mVisaCfbcotmov, "", Me.mVisaComprobante, Recibo, Me.mParaMoraTMovBanco, "", "", Me.mParaMoraDimenHotel, Reserva, DocALiquidar, "", "WEBANTICIPOS FACTURADOS")
 
 
 
@@ -6628,11 +6631,12 @@ Public Class HTitoNewHotel
 
         Dim Reserva As String
         Dim Recibo As String
+
+        Dim Texto As String
         Dim DocALiquidar As String
 
 
 
-        '   SQL = "SELECT SUM(TNHT_MOVI.MOVI_VDEB)TOTAL,TNHT_FORE.FORE_DESC TIPO,NVL(TNHT_FORE.FORE_CTB1,'0') CUENTA,NVL(SECC_CODI,'?') AS SECC_CODI "
         SQL = "SELECT TNHT_MOVI.MOVI_VDEB TOTAL,TNHT_FORE.FORE_DESC TIPO,NVL(TNHT_FORE.FORE_CTB1,'0') CUENTA,NVL(SECC_CODI,'?') AS SECC_CODI "
 
         SQL += ",SUBSTR(FNHT_MOVI_RECI(TNHT_MOVI.MOVI_CODI,TNHT_MOVI.MOVI_DARE,TNHT_MOVI.MOVI_TIMO),1,20) RECI_COBR "
@@ -6649,7 +6653,6 @@ Public Class HTitoNewHotel
         SQL = SQL & " TNHT_MOVI.FORE_CODI = TNHT_FORE.FORE_CODI "
         SQL = SQL & " AND TNHT_MOVI.RESE_CODI = TNHT_RESE.RESE_CODI(+) "
         SQL = SQL & " AND TNHT_MOVI.RESE_ANCI = TNHT_RESE.RESE_ANCI(+) "
-        'SQL = SQL & " AND TNHT_MOVI.TIRE_CODI = 5"
         SQL = SQL & " AND TNHT_MOVI.TIRE_CODI IN(4,5) "
 
 
@@ -6658,15 +6661,9 @@ Public Class HTitoNewHotel
         SQL = SQL & " AND TNHT_MOVI.MOVI_DATR = " & "'" & Me.mFecha & "'"
         SQL = SQL & " AND TNHT_MOVI.MOVI_VDEB <> 0"
 
-        ' excluir depositos anticipados 
-        'SQL = SQL & " AND TNHT_MOVI.MOVI_DEAN ='0'"
-
         If Me.mUsaTnhtMoviAuto = True Then
             SQL = SQL & " AND TNHT_MOVI.MOVI_AUTO = '0' "
         End If
-
-        '  SQL = SQL & " GROUP BY TNHT_MOVI.TIRE_CODI,TNHT_MOVI.FORE_CODI,TNHT_FORE.FORE_DESC,TNHT_FORE.FORE_CTB1,SECC_CODI"
-        '   SQL += ",SUBSTR(FNHT_MOVI_RECI(TNHT_MOVI.MOVI_CODI,TNHT_MOVI.MOVI_DARE,TNHT_MOVI.MOVI_TIMO),1,20) ,TNHT_MOVI.RESE_CODI , TNHT_MOVI.RESE_ANCI,MOVI_DESC"
 
         SQL += "  ORDER BY RECI_COBR "
 
@@ -6677,10 +6674,12 @@ Public Class HTitoNewHotel
                 Cuenta = CType(Me.DbLeeHotel.mDbLector("CUENTA"), String)
                 'TipoDoc = Me.mParaMoraTDocDeposito
                 TipoDoc = ""
+                Texto = "(Depósito) " & Me.DbLeeHotel.mDbLector("MOVI_DESC")
             Else
                 Cuenta = CType(Me.DbLeeHotel.mDbLector("CUENTA"), String)
                 ' TipoDoc = Me.mParaMoraTDocAnticipo
                 TipoDoc = ""
+                Texto = "(Anticipo) " & Me.DbLeeHotel.mDbLector("MOVI_DESC")
             End If
 
             If IsDBNull(Me.DbLeeHotel.mDbLector("RECI_COBR")) Then
@@ -6709,8 +6708,7 @@ Public Class HTitoNewHotel
             Total = CType(Me.DbLeeHotel.mDbLector("TOTAL"), Double)
             Me.mTipoAsiento = "DEBE"
             ' 20181207
-            ' Me.InsertaOracleMorasol("AC", 21, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TIPO"), String) & " " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Recibo, Me.mParaMoraTMovBanco, "", "", Me.mParaMoraDimenHotel, Reserva, DocALiquidar, "", "WEBCOBROS")
-            Me.InsertaOracleMorasol("AC", 21, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, CType(Me.DbLeeHotel.mDbLector("TIPO"), String) & " " & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Recibo, Me.mParaMoraTMovBanco, "", "", Me.mParaMoraDimenHotel, Reserva, DocALiquidar, "", "WEBANTICIPOS FACTURADOS")
+            Me.InsertaOracleMorasol("AC", 21, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, Texto, Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Recibo, Me.mParaMoraTMovBanco, "", "", Me.mParaMoraDimenHotel, Reserva, DocALiquidar, "", "WEBANTICIPOS FACTURADOS")
 
 
 
@@ -6724,6 +6722,9 @@ Public Class HTitoNewHotel
 
         Dim Reserva As String
         Dim Recibo As String
+
+
+        Dim Texto As String
 
         Dim DocLiquidar As String
 
@@ -6751,14 +6752,11 @@ Public Class HTitoNewHotel
         SQL += " TNHT_CACR,TNHT_RESE WHERE TNHT_MOVI.CACR_CODI = TNHT_CACR.CACR_CODI"
         SQL += " And TNHT_MOVI.RESE_CODI = TNHT_RESE.RESE_CODI(+) "
         SQL += " And TNHT_MOVI.RESE_ANCI = TNHT_RESE.RESE_ANCI(+) "
-        'SQL = SQL & " And TNHT_MOVI.TIRE_CODI = 5"
         SQL += " And TNHT_MOVI.TIRE_CODI IN(4,5) "
 
         SQL += " And TNHT_MOVI.MOVI_DATR = " & "'" & Me.mFecha & "'"
         SQL += " AND TNHT_MOVI.MOVI_VDEB <> 0"
 
-        ' excluir depositos anticipados 
-        'SQL = SQL & " AND TNHT_MOVI.MOVI_DEAN ='0'"
 
         If Me.mUsaTnhtMoviAuto = True Then
             SQL += " AND TNHT_MOVI.MOVI_AUTO = '0' "
@@ -6773,10 +6771,12 @@ Public Class HTitoNewHotel
                 Cuenta = Me.mParaCta4b & Me.mParaSufijoDepositos
                 '    TipoDoc = Me.mParaMoraTDocDeposito
                 TipoDoc = ""
+                Texto = "(Depósito) " & Me.DbLeeHotel.mDbLector("MOVI_DESC")
             Else
                 Cuenta = Me.mCtaPagosACuenta & Me.mParaSufijoAnticipos
                 '   TipoDoc = Me.mParaMoraTDocAnticipo
                 TipoDoc = ""
+                Texto = "(Anticipo) " & Me.DbLeeHotel.mDbLector("MOVI_DESC")
             End If
 
             If IsDBNull(Me.DbLeeHotel.mDbLector("RECI_COBR")) Then
@@ -6795,9 +6795,6 @@ Public Class HTitoNewHotel
                 Reserva = CStr(Me.DbLeeHotel.mDbLector("RESERVA"))
             End If
 
-            ' obsolteo debajo pdte probar
-
-            '  DocLiquidar = Me.LocaLizareciboDeRecepcionDeDeposito(CInt(Me.DbLeeHotel.mDbLector("RESE_CODI")), CInt(Me.DbLeeHotel.mDbLector("RESE_ANCI")), CStr(Me.DbLeeHotel.mDbLector("SECC_CODI")), CDbl(Me.DbLeeHotel.mDbLector("TOTAL")) * -1, Me.mFecha, Recibo)
 
 
             If IsDBNull(Me.DbLeeHotel.mDbLector("RESE_CODI")) = False Then
@@ -6830,16 +6827,14 @@ Public Class HTitoNewHotel
                 Total = CType(Me.DbLeeHotel.mDbLector("TOTAL"), Double)
                 Me.mTipoAsiento = "HABER"
                 '20181207
-                ' Me.InsertaOracleMorasol("AC", 21, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, "" & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Recibo, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, DocLiquidar, TipoDoc, "WEBCOBROS")
-                Me.InsertaOracleMorasol("AC", 21, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, "" & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Recibo, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, DocLiquidar, TipoDoc, "WEBANTICIPOS FACTURADOS")
+                Me.InsertaOracleMorasol("AC", 21, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, Texto, Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Recibo, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, DocLiquidar, TipoDoc, "WEBANTICIPOS FACTURADOS")
 
 
             Else
                 Recibo = CStr(Me.DbLeeHotel.mDbLector("RECI_COBR")).Trim
                 Me.mAuxStr = ""
                 '20180809
-                ' Me.ActualizaReciboPorDevolucionEnRecibo(Recibo, ReseCodi, ReseAnci, CcexCodi, CStr(Me.DbLeeHotel.mDbLector("SECC_CODI")), CDbl(Me.DbLeeHotel.mDbLector("TOTAL")) * -1, Cuenta, CStr(Me.DbLeeHotel.mDbLector("MOVI_DESC")), TipoDoc, 21)
-                Me.ActualizaReciboPorDevolucionEnRecibo(Recibo, ReseCodi, ReseAnci, CcexCodi, CStr(Me.DbLeeHotel.mDbLector("SECC_CODI")), CDbl(Me.DbLeeHotel.mDbLector("TOTAL")) * -1, Cuenta, CStr(Me.DbLeeHotel.mDbLector("MOVI_DESC")), TipoDoc, 21, "WEBANTICIPOS FACTURADOS")
+                Me.ActualizaReciboPorDevolucionEnRecibo(Recibo, ReseCodi, ReseAnci, CcexCodi, CStr(Me.DbLeeHotel.mDbLector("SECC_CODI")), CDbl(Me.DbLeeHotel.mDbLector("TOTAL")) * -1, Cuenta, Texto, TipoDoc, 21, "", "WEBANTICIPOS FACTURADOS")
 
             End If
 
@@ -6858,6 +6853,8 @@ Public Class HTitoNewHotel
         Dim Reserva As String
         Dim Recibo As String
 
+
+        Dim Texto As String
         Dim DocLiquidar As String
 
         Dim ReseCodi As Integer
@@ -6882,7 +6879,6 @@ Public Class HTitoNewHotel
         SQL = SQL & " TNHT_MOVI.FORE_CODI = TNHT_FORE.FORE_CODI "
         SQL = SQL & " And TNHT_MOVI.RESE_CODI = TNHT_RESE.RESE_CODI(+) "
         SQL = SQL & " And TNHT_MOVI.RESE_ANCI = TNHT_RESE.RESE_ANCI(+) "
-        'SQL = SQL & " And TNHT_MOVI.TIRE_CODI = 5"
         SQL = SQL & " And TNHT_MOVI.TIRE_CODI IN(4,5) "
 
 
@@ -6890,8 +6886,6 @@ Public Class HTitoNewHotel
         SQL = SQL & " And TNHT_MOVI.MOVI_DATR = " & "'" & Me.mFecha & "'"
         SQL = SQL & " AND TNHT_MOVI.MOVI_VDEB <> 0"
 
-        ' excluir depositos anticipados 
-        'SQL = SQL & " AND TNHT_MOVI.MOVI_DEAN ='0'"
 
         If Me.mUsaTnhtMoviAuto = True Then
             SQL = SQL & " AND TNHT_MOVI.MOVI_AUTO = '0' "
@@ -6908,10 +6902,12 @@ Public Class HTitoNewHotel
                 Cuenta = Me.mParaCta4b & Me.mParaSufijoDepositos
                 '    TipoDoc = Me.mParaMoraTDocDeposito
                 TipoDoc = ""
+                Texto = "(Depósito) " & Me.DbLeeHotel.mDbLector("MOVI_DESC")
             Else
                 Cuenta = Me.mCtaPagosACuenta & Me.mParaSufijoAnticipos
                 '     TipoDoc = Me.mParaMoraTDocAnticipo
                 TipoDoc = ""
+                Texto = "(Anticipo) " & Me.DbLeeHotel.mDbLector("MOVI_DESC")
             End If
 
 
@@ -6920,10 +6916,6 @@ Public Class HTitoNewHotel
             Else
                 Reserva = CStr(Me.DbLeeHotel.mDbLector("RESERVA"))
             End If
-
-
-            ' obsolteo linea de  debajo pdte probar
-            '   DocLiquidar = Me.LocaLizareciboDeRecepcionDeDeposito(CInt(Me.DbLeeHotel.mDbLector("RESE_CODI")), CInt(Me.DbLeeHotel.mDbLector("RESE_ANCI")), CStr(Me.DbLeeHotel.mDbLector("SECC_CODI")), CDbl(Me.DbLeeHotel.mDbLector("TOTAL")) * -1, Me.mFecha, Recibo)
 
 
             If IsDBNull(Me.DbLeeHotel.mDbLector("RESE_CODI")) = False Then
@@ -6954,16 +6946,14 @@ Public Class HTitoNewHotel
                 Total = CType(Me.DbLeeHotel.mDbLector("TOTAL"), Double)
                 Me.mTipoAsiento = "HABER"
                 '20181207
-                '  Me.InsertaOracleMorasol("AC", 21, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, "" & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Recibo, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, DocLiquidar, TipoDoc, "WEBCOBROS")
-                Me.InsertaOracleMorasol("AC", 21, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, "" & CType(Me.DbLeeHotel.mDbLector("MOVI_DESC"), String), Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Recibo, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, DocLiquidar, TipoDoc, "WEBANTICIPOS FACTURADOS")
+                Me.InsertaOracleMorasol("AC", 21, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorHaber, Texto, Total, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, CType(Me.DbLeeHotel.mDbLector("SECC_CODI"), String), Recibo, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, DocLiquidar, TipoDoc, "WEBANTICIPOS FACTURADOS")
 
             Else
                 Recibo = CStr(Me.DbLeeHotel.mDbLector("RECI_COBR")).Trim
                 Me.mAuxStr = ""
                 DocLiquidar = ""
                 '20180809
-                '   Me.ActualizaReciboPorDevolucionEnRecibo(Recibo, ReseCodi, ReseAnci, CcexCodi, CStr(Me.DbLeeHotel.mDbLector("SECC_CODI")), CDbl(Me.DbLeeHotel.mDbLector("TOTAL")) * -1, Cuenta, CStr(Me.DbLeeHotel.mDbLector("MOVI_DESC")), TipoDoc, 21)
-                Me.ActualizaReciboPorDevolucionEnRecibo(Recibo, ReseCodi, ReseAnci, CcexCodi, CStr(Me.DbLeeHotel.mDbLector("SECC_CODI")), CDbl(Me.DbLeeHotel.mDbLector("TOTAL")) * -1, Cuenta, CStr(Me.DbLeeHotel.mDbLector("MOVI_DESC")), TipoDoc, 21, "WEBANTICIPOS FACTURADOS")
+                Me.ActualizaReciboPorDevolucionEnRecibo(Recibo, ReseCodi, ReseAnci, CcexCodi, CStr(Me.DbLeeHotel.mDbLector("SECC_CODI")), CDbl(Me.DbLeeHotel.mDbLector("TOTAL")) * -1, Cuenta, Texto, TipoDoc, 21, "", "WEBANTICIPOS FACTURADOS")
 
             End If
 
@@ -8049,7 +8039,7 @@ Public Class HTitoNewHotel
 
 
 
-                'Me.FacturasContadoCancelaciondeAnticipos()
+
 
                 Me.mTextDebug.Text = "Calculando Saldo de Anticipos Facturas de Salida (contado)"
                 Me.mTextDebug.Update()
@@ -8060,14 +8050,8 @@ Public Class HTitoNewHotel
                     ' test
                     '  Me.FacturasContadoCancelaciondeAnticipos()
                 Else
-                    'original abajo hasta 02/08/2018
-                    '   Me.SaldoAnticiposFacturasPorSeccion()
-                    '    Me.SaldoAnticiposFacturasPorSeccionDetallado()
-                    ' TRABAJANDO ABAJO PARA LIQUIDAR ANTICIPO A ANTICIPO Y NO POR EL TOTAL DEL SALDO
                     Me.SaldoAnticiposFacturasPorSeccionHTito()
-                    ' test
 
-                    ' Me.FacturasCancelaciondeAnticipos()
                 End If
 
 
@@ -8521,25 +8505,42 @@ Public Class HTitoNewHotel
 
     Private Sub GrabaRecibo(vReciCodi As Integer, vReciAnci As Integer, vSeccion As String, vRecivalo As Double, vReciSaldo As Double, vReseCodi As Integer, vReseAnci As Integer, vCcexCodi As String)
         Try
-            SQL = "SELECT NVL(COUNT(*),0) AS CONTROL  FROM TH_RECI WHERE RECI_CODI = " & vReciCodi
-            SQL += " AND RECI_ANCI = " & vReciAnci
+
+            Me.DbGrabaCentral.IniciaTransaccion()
+
+            SQL = "SELECT NVL(COUNT(*),0) AS CONTROL  FROM TH_RECI "
+
+            SQL += " WHERE  EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+            SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND EMP_NUM = " & Me.mEmpNum
+
+            SQL += " AND RECI_CODI = " & vReciCodi
+            SQL += " And RECI_ANCI = " & vReciAnci
 
 
-            If Me.DbGrabaCentral.EjecutaSqlScalar(SQL) = "1" Then
+            If Me.DbLeeCentral.EjecutaSqlScalar(SQL) = "1" Then
                 SQL = "DELETE  TH_RECI "
-                SQL += " WHERE RECI_CODI = " & vReciCodi
+                SQL += " WHERE  EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+                SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += " AND EMP_NUM = " & Me.mEmpNum
+                SQL += " AND  RECI_CODI = " & vReciCodi
                 SQL += " AND  RECI_ANCI = " & vReciAnci
-                Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+                Me.DbGrabaCentral.EjecutaSql(SQL)
 
                 SQL = "DELETE  TH_RECI_MOVI "
-                SQL += " WHERE RECI_CODI = " & vReciCodi
+
+                SQL += " WHERE  EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+                SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += " AND EMP_NUM = " & Me.mEmpNum
+                SQL += " AND  RECI_CODI = " & vReciCodi
                 SQL += " AND  RECI_ANCI = " & vReciAnci
-                Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+                Me.DbGrabaCentral.EjecutaSql(SQL)
             End If
 
 
-            SQL = "INSERT INTO TH_RECI (RECI_CODI,RECI_ANCI,RECI_DATR,SECC_CODI,RECI_VALO,RECI_SALDO,RESE_CODI,RESE_ANCI,CCEX_CODI) VALUES"
-            SQL += "(" & vReciCodi
+            SQL = "INSERT INTO TH_RECI (EMPGRUPO_COD,EMP_COD,EMP_NUM,RECI_CODI,RECI_ANCI,RECI_DATR,SECC_CODI,RECI_VALO,RECI_SALDO,RESE_CODI,RESE_ANCI,CCEX_CODI) VALUES"
+            SQL += "(" & "'" & Me.mEmpGrupoCod & "','" & Me.mEmpCod & "'," & Me.mEmpNum
+            SQL += "," & vReciCodi
             SQL += "," & vReciAnci
             SQL += ",'" & Format(Me.mFecha, "dd/MM/yyyy") & "'"
 
@@ -8555,11 +8556,12 @@ Public Class HTitoNewHotel
 
 
 
-            Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
-
+            Me.DbGrabaCentral.EjecutaSql(SQL)
+            Me.DbGrabaCentral.ConfirmaTransaccion()
 
 
         Catch ex As Exception
+            Me.DbGrabaCentral.CancelaTransaccion()
             MsgBox(ex.Message)
         End Try
     End Sub
@@ -8569,15 +8571,24 @@ Public Class HTitoNewHotel
     ''' </summary>
     Private Sub InicializaRecibos()
         Try
-            SQL = "SELECT RECI_CODI,RECI_ANCI,RECI_KEY,RECI_IMPO FROM TH_RECI_MOVI WHERE RECI_DATM = '" & Format(Me.mFecha, "dd/MM/yyyy") & "'"
+            SQL = "SELECT RECI_CODI,RECI_ANCI,RECI_KEY,RECI_IMPO FROM TH_RECI_MOVI "
+            SQL += " WHERE  EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+            SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND EMP_NUM = " & Me.mEmpNum
+
+            SQL += " AND  RECI_DATM = '" & Format(Me.mFecha, "dd/MM/yyyy") & "'"
 
             Me.DbLeeCentral.TraerLector(SQL)
 
             Me.DbGrabaCentral.IniciaTransaccion()
 
             While Me.DbLeeCentral.mDbLector.Read
-                SQL = "UPDATE TH_RECI SET RECI_SALDO = RECI_SALDO + " & Me.DbLeeCentral.mDbLector.Item("RECI_IMPO")
-                SQL += " WHERE RECI_CODI = " & Me.DbLeeCentral.mDbLector.Item("RECI_CODI")
+                SQL = "UPDATE TH_RECI SET RECI_SALDO = RECI_SALDO + " & Math.Abs(CDec(Me.DbLeeCentral.mDbLector.Item("RECI_IMPO")))
+
+                SQL += " WHERE  EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+                SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += " AND EMP_NUM = " & Me.mEmpNum
+                SQL += " AND RECI_CODI = " & Me.DbLeeCentral.mDbLector.Item("RECI_CODI")
                 SQL += " AND RECI_ANCI = " & Me.DbLeeCentral.mDbLector.Item("RECI_ANCI")
                 Me.DbGrabaCentral.EjecutaSql(SQL)
                 If Me.DbGrabaCentral.StrError <> "" Then
@@ -8587,7 +8598,10 @@ Public Class HTitoNewHotel
                 End If
 
                 SQL = "DELETE TH_RECI_MOVI "
-                SQL += " WHERE RECI_CODI = " & Me.DbLeeCentral.mDbLector.Item("RECI_CODI")
+                SQL += " WHERE  EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+                SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += " AND EMP_NUM = " & Me.mEmpNum
+                SQL += " AND RECI_CODI = " & Me.DbLeeCentral.mDbLector.Item("RECI_CODI")
                 SQL += " AND RECI_ANCI = " & Me.DbLeeCentral.mDbLector.Item("RECI_ANCI")
                 SQL += " AND RECI_KEY = " & Me.DbLeeCentral.mDbLector.Item("RECI_KEY")
                 Me.DbGrabaCentral.EjecutaSql(SQL)
@@ -8602,15 +8616,13 @@ Public Class HTitoNewHotel
 
 
 
-
-
-
         Catch ex As Exception
+            Me.DbGrabaCentral.CancelaTransaccion()
             MsgBox(ex.Message)
         End Try
     End Sub
 
-    Private Sub ActualizaReciboPorDevolucionEnRecibo(vRecibo As String, vReseCodi As Integer, vReseAnci As Integer, vCcexCodi As String, vSeccion As String, vSaldar As Double, vCuenta As String, vDesc As String, vTipoDoc As String, vTipoAsiento As Integer, vWebServiceName As String)
+    Private Sub ActualizaReciboPorDevolucionEnRecibo(vRecibo As String, vReseCodi As Integer, vReseAnci As Integer, vCcexCodi As String, vSeccion As String, vSaldar As Double, vCuenta As String, vDesc As String, vTipoDoc As String, vTipoAsiento As Integer, vFactura As String, vWebServiceName As String)
         Try
             '' ojo aqui hay quwe leer recibos de la tabla auxiliar y no de newhote ???
 
@@ -8619,12 +8631,32 @@ Public Class HTitoNewHotel
             Dim SaldoSeccion As Double
 
             Dim DocAliquidar As String
-            Dim Recibo() As String = vRecibo.Split("/")
+            Dim Recibo() As String
+            Dim Factura() As String
+
+            Dim Texto As String = ""
+
+
+            If vRecibo.Length > 0 Then
+                Recibo = vRecibo.Split("/")
+            Else
+                Recibo = "/".Split("/")
+            End If
+
+
+            If vFactura.Length > 0 Then
+                Factura = vFactura.Split("/")
+            Else
+                Factura = "/".Split("/")
+            End If
 
             '' Al venir para hacer una devolución con Recibo se intenta hacer refetrencia a recibos de la misma seccion que la devolucion
 
             SQL = "SELECT SUM(RECI_SALDO)  FROM TH_RECI "
-            SQL += " WHERE RECI_SALDO > 0 "
+            SQL += " WHERE  EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+            SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND EMP_NUM = " & Me.mEmpNum
+            SQL += " AND RECI_SALDO > 0 "
             SQL += " AND SECC_CODI = '" & vSeccion & "'"
 
 
@@ -8644,7 +8676,10 @@ Public Class HTitoNewHotel
 
             If SaldoSeccion >= vSaldar Then
                 SQL = "SELECT RECI_CODI,RECI_ANCI,RECI_SALDO AS SALDO,SECC_CODI FROM TH_RECI "
-                SQL += " WHERE RECI_SALDO > 0 "
+                SQL += " WHERE  EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+                SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += " AND EMP_NUM = " & Me.mEmpNum
+                SQL += " AND RECI_SALDO > 0 "
                 SQL += " AND SECC_CODI = '" & vSeccion & "'"
 
                 If vCcexCodi.Length = 0 = True Then
@@ -8657,7 +8692,11 @@ Public Class HTitoNewHotel
 
             Else
                 SQL = "SELECT RECI_CODI,RECI_ANCI,RECI_SALDO AS SALDO,SECC_CODI FROM TH_RECI "
-                SQL += " WHERE RECI_SALDO > 0 "
+
+                SQL += " WHERE  EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+                SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += " AND EMP_NUM = " & Me.mEmpNum
+                SQL += " AND RECI_SALDO > 0 "
 
                 If vCcexCodi.Length = 0 = True Then
                     SQL += "     AND TH_RECI.RESE_CODI = " & vReseCodi
@@ -8671,7 +8710,7 @@ Public Class HTitoNewHotel
 
 
 
-
+            Me.DbGrabaCentral2.IniciaTransaccion()
 
 
             Me.DbLeeCentral.TraerLector(SQL)
@@ -8698,46 +8737,58 @@ Public Class HTitoNewHotel
                 ' Actualiza saldo de Recibo recepcion
 
                 SQL = "UPDATE  TH_RECI SET RECI_SALDO = " & SaldoDelRecibo
-                SQL += " WHERE RECI_CODI = " & CInt(Me.DbLeeCentral.mDbLector("RECI_CODI"))
-                SQL += " AND  RECI_ANCI = " & CInt(Me.DbLeeCentral.mDbLector("RECI_ANCI"))
+                SQL += " WHERE  EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+                SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += " AND EMP_NUM = " & Me.mEmpNum
+                SQL += " AND RECI_CODI = " & CInt(Me.DbLeeCentral.mDbLector("RECI_CODI"))
+                SQL += " AND RECI_ANCI = " & CInt(Me.DbLeeCentral.mDbLector("RECI_ANCI"))
 
-                Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+                Me.DbGrabaCentral2.EjecutaSql(SQL)
 
 
 
                 SQL = "SELECT NVL(MAX(RECI_KEY),0) + 1 FROM TH_RECI_MOVI "
-                SQL += "     WHERE RECI_CODI = " & CInt(Me.DbLeeCentral.mDbLector("RECI_CODI"))
+                SQL += " WHERE  EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+                SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += " AND EMP_NUM = " & Me.mEmpNum
+                SQL += "     AND RECI_CODI = " & CInt(Me.DbLeeCentral.mDbLector("RECI_CODI"))
                 SQL += "     AND RECI_ANCI = " & CInt(Me.DbLeeCentral.mDbLector("RECI_ANCI"))
 
 
 
                 Me.mAuxCint = CInt(Me.DbLeeCentral.EjecutaSqlScalar(SQL))
 
-                SQL = "INSERT INTO TH_RECI_MOVI (RECI_CODI,RECI_ANCI,RECI_KEY,RECI_DATM,RECI_IMPO,RECI_CODI2,RECI_ANCI2) VALUES"
-                SQL += "(" & CInt(Me.DbLeeCentral.mDbLector("RECI_CODI"))
+                SQL = "INSERT INTO TH_RECI_MOVI ( EMPGRUPO_COD,EMP_COD,EMP_NUM,RECI_CODI,RECI_ANCI,RECI_KEY,RECI_DATM,RECI_IMPO,RECI_CODI2,RECI_ANCI2,FACT_CODI,SEFA_CODI,RECI_OBSE) VALUES"
+                SQL += "(" & "'" & Me.mEmpGrupoCod & "','" & Me.mEmpCod & "'," & Me.mEmpNum
+                SQL += "," & CInt(Me.DbLeeCentral.mDbLector("RECI_CODI"))
                 SQL += "," & CInt(Me.DbLeeCentral.mDbLector("RECI_ANCI"))
 
                 SQL += "," & Me.mAuxCint
                 SQL += ",'" & Format(Me.mFecha, "dd/MM/yyyy") & "'"
 
-                SQL += "," & ValorApunte
-                SQL += "," & Recibo(0) & "," & Recibo(1) & ")"
+                SQL += "," & ValorApunte * -1
 
-                Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+                If vRecibo.Length > 0 Then
+                    SQL += "," & Recibo(0) & "," & Recibo(1)
+                Else
+                    SQL += "," & CInt(Me.DbLeeCentral.mDbLector("RECI_CODI")) & "," & CInt(Me.DbLeeCentral.mDbLector("RECI_ANCI"))
+                End If
 
 
-                ' si la cuenta viene nula es porque viene ha hacer un apunte de devolucion automatica del que NO TENEMOS LA SECCION
-                'If vCuenta = "" Then
-                'If Me.mParaDistingeAnticiposDeDepositos = True And CStr(Me.DbLeeCentral.mDbLector("SECC_CODI")) = Me.mParaSecc_DepNh Then
-                'vCuenta = Me.mParaCta4b & Me.mParaSufijoDepositos
-                ''    TipoDoc = Me.mParaMoraTDocDeposito
-                'Else
-                'vCuenta = Me.mCtaPagosACuenta & Me.mParaSufijoAnticipos
-                '   TipoDoc = Me.mParaMoraTDocAnticipo
-                'End If
-                'End If
+                If vFactura.Length > 0 Then
+                    SQL += "," & Factura(0) & ",'" & Factura(1)
+                Else
+                    SQL += "," & "NULL" & ",'" & "NULL"
+                End If
 
-                ' la cuenta la determiona siempre la seccion del recibo en el que se encuentra saldo saldo
+
+                SQL += "','" & "Recibo De Devolución" & "')"
+
+                Me.DbGrabaCentral2.EjecutaSql(SQL)
+
+
+
+                ' la cuenta la determiona siempre la seccion del recibo en el que se encuentra saldo
 
                 If Me.mParaDistingeAnticiposDeDepositos = True And CStr(Me.DbLeeCentral.mDbLector("SECC_CODI")) = Me.mParaSecc_DepNh Then
                     vCuenta = Me.mParaCta4b & Me.mParaSufijoDepositos
@@ -8747,11 +8798,15 @@ Public Class HTitoNewHotel
                     '   TipoDoc = Me.mParaMoraTDocAnticipo
                 End If
 
+
+                If vSeccion.Length = 0 Then
+                    vSeccion = CStr(Me.DbLeeCentral.mDbLector("SECC_CODI"))
+                End If
+
                 DocAliquidar = CStr(Me.DbLeeCentral.mDbLector("RECI_CODI")) & "/" & CStr(Me.DbLeeCentral.mDbLector("RECI_ANCI"))
 
                 Me.mTipoAsiento = "HABER"
                 '20181207
-                '     Me.InsertaOracleMorasol("AC", vTipoAsiento, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, vCuenta, Me.mIndicadorHaber, "" & vDesc, ValorApunte * -1, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, vSeccion, vRecibo, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, vReseCodi & "/" & vReseAnci, DocAliquidar, vTipoDoc, "WEBCOBROS")
                 Me.InsertaOracleMorasol("AC", vTipoAsiento, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, vCuenta, Me.mIndicadorHaber, "" & vDesc, ValorApunte * -1, "NO", "", Me.mAuxStr, "SI", "", Me.Multidiario, vSeccion, vRecibo, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, vReseCodi & "/" & vReseAnci, DocAliquidar, vTipoDoc, vWebServiceName)
 
                 If vSaldar = 0 Then
@@ -8759,9 +8814,12 @@ Public Class HTitoNewHotel
                 End If
 
             End While
+            Me.DbGrabaCentral2.ConfirmaTransaccion()
             Me.DbLeeCentral.mDbLector.Close()
 
+
         Catch ex As Exception
+            Me.DbGrabaCentral2.CancelaTransaccion()
             MsgBox(ex.Message)
         End Try
     End Sub
@@ -8779,6 +8837,8 @@ Public Class HTitoNewHotel
             Dim Cuenta As String
             Dim TipoDoc As String
 
+            Dim Texto As String
+
             Dim GetNewHotel As New NewHotel.NewHotelData(Me.mStrConexionHotel, Me.mStrConexionCentral, Me.mEmpGrupoCod, Me.mEmpCod)
 
 
@@ -8786,7 +8846,10 @@ Public Class HTitoNewHotel
 
 
             SQL = "SELECT RECI_CODI, RECI_ANCI, RECI_SALDO AS SALDO , SECC_CODI FROM TH_RECI "
-            SQL += " WHERE RECI_SALDO > 0 "
+            SQL += " WHERE  EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+            SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND EMP_NUM = " & Me.mEmpNum
+            SQL += " AND RECI_SALDO > 0 "
 
             If vCcexCodi.Length = 0 = True Then
                 SQL += "     AND TH_RECI.RESE_CODI = " & vReseCodi
@@ -8800,6 +8863,8 @@ Public Class HTitoNewHotel
             SQL += " ORDER BY RECI_ANCI, RECI_CODI"
 
 
+
+            Me.DbGrabaCentral2.IniciaTransaccion()
 
             Me.DbLeeCentral.TraerLector(SQL)
             While Me.DbLeeCentral.mDbLector.Read
@@ -8825,32 +8890,39 @@ Public Class HTitoNewHotel
                 ' Actualiza saldo de Recibo recepcion
 
                 SQL = "UPDATE  TH_RECI SET RECI_SALDO = " & SaldoDelRecibo
-                SQL += " WHERE RECI_CODI = " & CInt(Me.DbLeeCentral.mDbLector("RECI_CODI"))
-                SQL += " AND  RECI_ANCI = " & CInt(Me.DbLeeCentral.mDbLector("RECI_ANCI"))
+                SQL += " WHERE  EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+                SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += " AND EMP_NUM = " & Me.mEmpNum
+                SQL += " AND RECI_CODI = " & CInt(Me.DbLeeCentral.mDbLector("RECI_CODI"))
+                SQL += " AND RECI_ANCI = " & CInt(Me.DbLeeCentral.mDbLector("RECI_ANCI"))
 
-                Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+                Me.DbGrabaCentral2.EjecutaSql(SQL)
 
 
 
                 SQL = "SELECT NVL(MAX(RECI_KEY),0) + 1 FROM TH_RECI_MOVI "
-                SQL += "     WHERE RECI_CODI = " & CInt(Me.DbLeeCentral.mDbLector("RECI_CODI"))
+                SQL += " WHERE  EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+                SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += " AND EMP_NUM = " & Me.mEmpNum
+                SQL += "     AND RECI_CODI = " & CInt(Me.DbLeeCentral.mDbLector("RECI_CODI"))
                 SQL += "     AND RECI_ANCI = " & CInt(Me.DbLeeCentral.mDbLector("RECI_ANCI"))
 
 
 
                 Me.mAuxCint = CInt(Me.DbLeeCentral.EjecutaSqlScalar(SQL))
 
-                SQL = "INSERT INTO TH_RECI_MOVI (RECI_CODI,RECI_ANCI,RECI_KEY,RECI_DATM,RECI_IMPO,FACT_CODI,SEFA_CODI) VALUES"
-                SQL += "(" & CInt(Me.DbLeeCentral.mDbLector("RECI_CODI"))
+                SQL = "INSERT INTO TH_RECI_MOVI ( EMPGRUPO_COD,EMP_COD,EMP_NUM,RECI_CODI,RECI_ANCI,RECI_KEY,RECI_DATM,RECI_IMPO,FACT_CODI,SEFA_CODI,RECI_OBSE) VALUES"
+                SQL += "(" & "'" & Me.mEmpGrupoCod & "','" & Me.mEmpCod & "'," & Me.mEmpNum
+                SQL += "," & CInt(Me.DbLeeCentral.mDbLector("RECI_CODI"))
                 SQL += "," & CInt(Me.DbLeeCentral.mDbLector("RECI_ANCI"))
 
                 SQL += "," & Me.mAuxCint
                 SQL += ",'" & Format(Me.mFecha, "dd/MM/yyyy") & "'"
 
-                SQL += "," & ValorApunte
-                SQL += "," & vFNumero & ",'" & vFSerie & "')"
+                SQL += "," & ValorApunte * -1
+                SQL += "," & vFNumero & ",'" & vFSerie & "','" & "Recibo Facturado" & "')"
 
-                Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+                Me.DbGrabaCentral2.EjecutaSql(SQL)
 
 
 
@@ -8872,8 +8944,19 @@ Public Class HTitoNewHotel
 
                 DocLiquidar = CInt(Me.DbLeeCentral.mDbLector("RECI_CODI")) & "/" & CInt(Me.DbLeeCentral.mDbLector("RECI_ANCI"))
 
+
+
+
+                If Me.mParaDistingeAnticiposDeDepositos = True And CStr(Me.DbLeeCentral.mDbLector("SECC_CODI")) = Me.mParaSecc_DepNh Then
+                    Texto = "(Depósito)  " & DocLiquidar & " Facturado"
+                Else
+                    Texto = "(Anticipo)  " & DocLiquidar & " Facturado"
+                End If
+
+
+
                 Me.mTipoAsiento = "DEBE"
-                Me.InsertaOracleMorasol("AC", 35, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, "Saldo de " & GetNewHotel.DevuelveNombreSeccion(Me.DbLeeCentral.mDbLector("SECC_CODI")) & " al Facturar " & vFNumero & "/" & vFSerie, ValorApunte, "NO", "", "", "SI", "", CStr(vFNumero), vFSerie, CStr(vFNumero) & "/" & vFSerie, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, DocLiquidar, TipoDoc, "WEBANTICIPOS FACTURADOS")
+                Me.InsertaOracleMorasol("AC", 36, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, Texto, ValorApunte, "NO", "", "", "SI", "", CStr(vFNumero), vFSerie, CStr(vFNumero) & "/" & vFSerie, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, DocLiquidar, TipoDoc, "WEBANTICIPOS FACTURADOS")
 
 
                 Linea = Linea + 1
@@ -8882,7 +8965,7 @@ Public Class HTitoNewHotel
                 CuentaCliente = GetNewHotel.DevuelveCuentaContabledeFactura(vFNumero, vFSerie)
                 DocLiquidar = vFNumero & "/" & vFSerie
                 Me.mTipoAsiento = "HABER"
-                Me.InsertaOracleMorasol("AC", 35, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CuentaCliente, Me.mIndicadorHaber, "Saldo de " & GetNewHotel.DevuelveNombreSeccion(Me.DbLeeCentral.mDbLector("SECC_CODI")) & " al Facturar " & vFNumero & "/" & vFSerie, ValorApunte, "NO", "", "", "SI", "", CStr(vFNumero), vFSerie, CStr(vFNumero) & "/" & vFSerie, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, DocLiquidar, TipoDoc, "WEBANTICIPOS FACTURADOS")
+                Me.InsertaOracleMorasol("AC", 36, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CuentaCliente, Me.mIndicadorHaber, Texto, ValorApunte, "NO", "", "", "SI", "", CStr(vFNumero), vFSerie, CStr(vFNumero) & "/" & vFSerie, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, DocLiquidar, TipoDoc, "WEBANTICIPOS FACTURADOS")
 
 
 
@@ -8891,11 +8974,13 @@ Public Class HTitoNewHotel
                 End If
 
             End While
+            Me.DbGrabaCentral2.ConfirmaTransaccion()
             Me.DbLeeCentral.mDbLector.Close()
 
             GetNewHotel.CerrarConexiones()
 
         Catch ex As Exception
+            Me.DbGrabaCentral2.CancelaTransaccion()
             MsgBox(ex.Message)
         End Try
     End Sub
@@ -8903,8 +8988,7 @@ Public Class HTitoNewHotel
         Try
             '' ojo aqui hay quwe leer recibos de la tabla auxiliar y no de newhote ???
 
-            Dim SaldoDelRecibo As Double
-            Dim ValorApunte As Double
+
 
             Dim CuentaCliente As String
             Dim DocLiquidar As String
@@ -8913,21 +8997,35 @@ Public Class HTitoNewHotel
             Dim Cuenta As String
             Dim TipoDoc As String
 
+            Dim Texto As String
+
             Dim GetNewHotel As New NewHotel.NewHotelData(Me.mStrConexionHotel, Me.mStrConexionCentral, Me.mEmpGrupoCod, Me.mEmpCod)
 
 
+            SQL = "SELECT "
+            SQL += "    TH_RECI.RECI_CODI, "
+            SQL += "    TH_RECI.RECI_ANCI, "
+            SQL += "    TH_RECI.SECC_CODI "
+            SQL += "FROM "
+            SQL += "    TH_RECI,TH_RECI_MOVI "
+            SQL += "    WHERE   "
+            SQL += "TH_RECI.EMPGRUPO_COD = TH_RECI_MOVI.EMPGRUPO_COD "
+            SQL += "      AND TH_RECI.EMP_COD = TH_RECI_MOVI.EMP_COD "
+            SQL += "      AND TH_RECI.EMP_NUM = TH_RECI_MOVI.EMP_NUM "
+            SQL += "      AND TH_RECI.RECI_CODI = TH_RECI_MOVI.RECI_CODI "
+            SQL += "      AND TH_RECI.RECI_ANCI = TH_RECI_MOVI.RECI_ANCI "
 
+            SQL += " AND TH_RECI.EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+            SQL += " AND TH_RECI.EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND TH_RECI.EMP_NUM = " & Me.mEmpNum
 
-
-            SQL = "SELECT TH_RECI.RECI_CODI,TH_RECI.RECI_ANCI,SECC_CODI,RECI_IMPO "
-            SQL += " FROM TH_RECI_MOVI,TH_RECI  "
-            SQL += " WHERE TH_RECI_MOVI.RECI_CODI = TH_RECI.RECI_CODI "
-            SQL += " AND TH_RECI_MOVI.RECI_ANCI = TH_RECI.RECI_ANCI "
             SQL += " AND FACT_CODI = " & vFanNumero
-            SQL += " AND  SEFA_CODI = " & "'" & vFanSerie & "'"
+            SQL += " AND SEFA_CODI = " & "'" & vFanSerie & "'"
 
 
 
+
+            Me.DbGrabaCentral2.IniciaTransaccion()
 
             Me.DbLeeCentral.TraerLector(SQL)
             While Me.DbLeeCentral.mDbLector.Read
@@ -8938,32 +9036,40 @@ Public Class HTitoNewHotel
                 ' Actualiza saldo de Recibo recepcion
 
                 SQL = "UPDATE  TH_RECI SET RECI_SALDO = RECI_SALDO + " & vSaldar * -1
-                SQL += " WHERE RECI_CODI = " & CInt(Me.DbLeeCentral.mDbLector("RECI_CODI"))
-                SQL += " AND  RECI_ANCI = " & CInt(Me.DbLeeCentral.mDbLector("RECI_ANCI"))
 
-                Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+                SQL += " WHERE  EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+                SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += " AND EMP_NUM = " & Me.mEmpNum
+                SQL += " AND RECI_CODI = " & CInt(Me.DbLeeCentral.mDbLector("RECI_CODI"))
+                SQL += " AND RECI_ANCI = " & CInt(Me.DbLeeCentral.mDbLector("RECI_ANCI"))
+
+                Me.DbGrabaCentral2.EjecutaSql(SQL)
 
 
 
                 SQL = "SELECT NVL(MAX(RECI_KEY),0) + 1 FROM TH_RECI_MOVI "
-                SQL += "     WHERE RECI_CODI = " & CInt(Me.DbLeeCentral.mDbLector("RECI_CODI"))
+                SQL += " WHERE  EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+                SQL += " AND EMP_COD = '" & Me.mEmpCod & "'"
+                SQL += " AND EMP_NUM = " & Me.mEmpNum
+                SQL += "     AND RECI_CODI = " & CInt(Me.DbLeeCentral.mDbLector("RECI_CODI"))
                 SQL += "     AND RECI_ANCI = " & CInt(Me.DbLeeCentral.mDbLector("RECI_ANCI"))
 
 
 
                 Me.mAuxCint = CInt(Me.DbLeeCentral.EjecutaSqlScalar(SQL))
 
-                SQL = "INSERT INTO TH_RECI_MOVI (RECI_CODI,RECI_ANCI,RECI_KEY,RECI_DATM,RECI_IMPO,FACT_CODI,SEFA_CODI) VALUES"
-                SQL += "(" & CInt(Me.DbLeeCentral.mDbLector("RECI_CODI"))
+                SQL = "INSERT INTO TH_RECI_MOVI (EMPGRUPO_COD,EMP_COD,EMP_NUM,RECI_CODI,RECI_ANCI,RECI_KEY,RECI_DATM,RECI_IMPO,FACT_CODI,SEFA_CODI,RECI_OBSE) VALUES"
+                SQL += "(" & "'" & Me.mEmpGrupoCod & "','" & Me.mEmpCod & "'," & Me.mEmpNum
+                SQL += "," & CInt(Me.DbLeeCentral.mDbLector("RECI_CODI"))
                 SQL += "," & CInt(Me.DbLeeCentral.mDbLector("RECI_ANCI"))
 
                 SQL += "," & Me.mAuxCint
                 SQL += ",'" & Format(Me.mFecha, "dd/MM/yyyy") & "'"
 
-                SQL += "," & vSaldar
-                SQL += "," & vFNumero & ",'" & vFSerie & "')"
+                SQL += "," & vSaldar * -1
+                SQL += "," & vFNumero & ",'" & vFSerie & "','Retorno de Saldo por Factura Anulada'" & ")"
 
-                Me.DbGrabaCentral.EjecutaSqlCommit(SQL)
+                Me.DbGrabaCentral2.EjecutaSql(SQL)
 
 
 
@@ -8985,8 +9091,15 @@ Public Class HTitoNewHotel
 
                 DocLiquidar = CInt(Me.DbLeeCentral.mDbLector("RECI_CODI")) & "/" & CInt(Me.DbLeeCentral.mDbLector("RECI_ANCI"))
 
+
+                If Me.mParaDistingeAnticiposDeDepositos = True And CStr(Me.DbLeeCentral.mDbLector("SECC_CODI")) = Me.mParaSecc_DepNh Then
+                    Texto = "(Depósito)  " & DocLiquidar & " Facturado"
+                Else
+                    Texto = "(Anticipo)  " & DocLiquidar & " Facturado"
+                End If
+
                 Me.mTipoAsiento = "DEBE"
-                Me.InsertaOracleMorasol("AC", 35, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, "Saldo de " & GetNewHotel.DevuelveNombreSeccion(Me.DbLeeCentral.mDbLector("SECC_CODI")) & " al Facturar " & vFNumero & "/" & vFSerie, vSaldar, "NO", "", "", "SI", "", CStr(vFNumero), vFSerie, CStr(vFNumero) & "/" & vFSerie, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, DocLiquidar, TipoDoc, "WEBANTICIPOS FACTURADOS")
+                Me.InsertaOracleMorasol("AC", 36, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, Cuenta, Me.mIndicadorDebe, Texto, vSaldar, "NO", "", "", "SI", "", CStr(vFNumero), vFSerie, CStr(vFNumero) & "/" & vFSerie, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, DocLiquidar, TipoDoc, "WEBANTICIPOS FACTURADOS")
 
 
                 Linea = Linea + 1
@@ -8995,15 +9108,17 @@ Public Class HTitoNewHotel
                 CuentaCliente = GetNewHotel.DevuelveCuentaContabledeFactura(vFNumero, vFSerie)
                 DocLiquidar = vFNumero & "/" & vFSerie
                 Me.mTipoAsiento = "HABER"
-                Me.InsertaOracleMorasol("AC", 35, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CuentaCliente, Me.mIndicadorHaber, "Saldo de " & GetNewHotel.DevuelveNombreSeccion(Me.DbLeeCentral.mDbLector("SECC_CODI")) & " al Facturar " & vFNumero & "/" & vFSerie, vSaldar, "NO", "", "", "SI", "", CStr(vFNumero), vFSerie, CStr(vFNumero) & "/" & vFSerie, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, DocLiquidar, TipoDoc, "WEBANTICIPOS FACTURADOS")
+                Me.InsertaOracleMorasol("AC", 36, Me.mEmpGrupoCod, Me.mEmpCod, CType(Now.Year, String), 1, Linea, CuentaCliente, Me.mIndicadorHaber, Texto, vSaldar, "NO", "", "", "SI", "", CStr(vFNumero), vFSerie, CStr(vFNumero) & "/" & vFSerie, Me.mParaMoraTMovCliente, "", "", Me.mParaMoraDimenHotel, Reserva, DocLiquidar, TipoDoc, "WEBANTICIPOS FACTURADOS")
 
 
             End While
+            Me.DbGrabaCentral2.ConfirmaTransaccion()
             Me.DbLeeCentral.mDbLector.Close()
 
             GetNewHotel.CerrarConexiones()
 
         Catch ex As Exception
+            Me.DbGrabaCentral2.CancelaTransaccion()
             MsgBox(ex.Message)
         End Try
     End Sub

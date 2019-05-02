@@ -235,6 +235,14 @@
 
             SQL += "      ,NVL(PARA_MORA_TIPO_AGRUP,1) AS PARA_MORA_TIPO_AGRUP"
 
+            SQL += "      ,NVL(PARA_MORA_UDM,'<Ninguno>')  AS PARA_MORA_UDM"
+            SQL += "      ,NVL(PARA_MORA_PVERDE,'<Ninguno>')  AS PARA_MORA_PVERDE"
+
+
+            SQL += "      ,NVL(PARA_MORA_GRIVANEGOCIO,'<Ninguno>')  AS PARA_MORA_GRIVANEGOCIO"
+            SQL += "      ,NVL(PARA_MORA_GRCONTNEGOCIO,'<Ninguno>')  AS PARA_MORA_GRCONTNEGOCIO"
+
+
             SQL += "  FROM TS_PARA WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"
             SQL += " AND PARA_EMP_NUM = " & Me.mParaEmpNum
@@ -353,6 +361,12 @@
                     Me.RadioButtonTitoAgrupaGrupo.Checked = True
                 End If
 
+                Me.TextBoxTitoUnidadMedidaNavision.Text = Me.DbLee.mDbLector.Item("PARA_MORA_UDM")
+                Me.TextBoxTitoPuntoVerde.Text = Me.DbLee.mDbLector.Item("PARA_MORA_PVERDE")
+
+                Me.TextBoxTitoGrupoIvaNegocio.Text = Me.DbLee.mDbLector.Item("PARA_MORA_GRIVANEGOCIO")
+                Me.TextBoxTitoGrupoContableNegocio.Text = Me.DbLee.mDbLector.Item("PARA_MORA_GRCONTNEGOCIO")
+
             Else
                 Me.LimpiarControles()
                 '     MsgBox("Atención NO existen Registros de Parámeros TS_PARA para Mostrar", MsgBoxStyle.Critical, "Atención")
@@ -387,12 +401,12 @@
             SQL = "UPDATE TS_PARA "
             SQL += "SET "
 
-            SQL += " PARA_CTA_RAIZ4_GASTO='" & Me.TextBoxCtaRaiz4.Text.Replace("<Ninguno>", "") & "'"
-            SQL += ",PARA_CTA_RAIZ9_GASTO='" & Me.TextBoxCtaRaiz6.Text.Replace("<Ninguno>", "") & "'"
-            SQL += ",PARA_CTA_RAIZ4_ACTI='" & Me.TextBoxCtaActividad4.Text.Replace("<Ninguno>", "") & "'"
-            SQL += ",PARA_CTA_RAIZ9_ACTI='" & Me.TextBoxCtaActividad6.Text.Replace("<Ninguno>", "") & "'"
-            SQL += ",PARA_CTA_RAIZ4_CENTRO='" & Me.TextBoxCtaCentro4.Text.Replace("<Ninguno>", "") & "'"
-            SQL += ",PARA_CTA_RAIZ9_CENTRO='" & Me.TextBoxCtaCentro6.Text.Replace("<Ninguno>", "") & "'"
+            SQL += " PARA_CTA_RAIZ4_GASTO ='" & Me.TextBoxCtaRaiz4.Text.Replace("<Ninguno>", "") & "'"
+            SQL += ",PARA_CTA_RAIZ9_GASTO ='" & Me.TextBoxCtaRaiz6.Text.Replace("<Ninguno>", "") & "'"
+            SQL += ",PARA_CTA_RAIZ4_ACTI ='" & Me.TextBoxCtaActividad4.Text.Replace("<Ninguno>", "") & "'"
+            SQL += ",PARA_CTA_RAIZ9_ACTI ='" & Me.TextBoxCtaActividad6.Text.Replace("<Ninguno>", "") & "'"
+            SQL += ",PARA_CTA_RAIZ4_CENTRO ='" & Me.TextBoxCtaCentro4.Text.Replace("<Ninguno>", "") & "'"
+            SQL += ",PARA_CTA_RAIZ9_CENTRO ='" & Me.TextBoxCtaCentro6.Text.Replace("<Ninguno>", "") & "'"
 
 
             If CheckBoxUsaNewPaga.Checked Then
@@ -413,10 +427,10 @@
                 SQL += ",PARA_CUENTAS_NEWCENTRAL = 0"
             End If
 
-            SQL += ",PARA_DEBE_FAC='" & Me.TextBoxDebeFac.Text.Replace("<Ninguno>", "") & "'"
-            SQL += ",PARA_HABER_FAC='" & Me.TextBoxHaberFac.Text.Replace("<Ninguno>", "") & "'"
-            SQL += ",PARA_DEBE_ABONO='" & Me.TextBoxDebeAbonos.Text.Replace("<Ninguno>", "") & "'"
-            SQL += ",PARA_HABER_ABONO='" & Me.TextBoxHaberAbonos.Text.Replace("<Ninguno>", "") & "'"
+            SQL += ",PARA_DEBE_FAC ='" & Me.TextBoxDebeFac.Text.Replace("<Ninguno>", "") & "'"
+            SQL += ",PARA_HABER_FAC ='" & Me.TextBoxHaberFac.Text.Replace("<Ninguno>", "") & "'"
+            SQL += ",PARA_DEBE_ABONO ='" & Me.TextBoxDebeAbonos.Text.Replace("<Ninguno>", "") & "'"
+            SQL += ",PARA_HABER_ABONO ='" & Me.TextBoxHaberAbonos.Text.Replace("<Ninguno>", "") & "'"
 
             '   If Me.TextBoxHotelId.TextLength = 0 Then
             'SQL += ",PARA_HOTEL_AX = 0"
@@ -454,7 +468,7 @@
             End If
 
 
-            SQL += ",PARA_SPYRO_TIPO_ANALITICA='" & Me.TextBoxSpyroTipoAnalitica.Text.Replace("<Ninguno>", "") & "'"
+            SQL += ",PARA_SPYRO_TIPO_ANALITICA ='" & Me.TextBoxSpyroTipoAnalitica.Text.Replace("<Ninguno>", "") & "'"
 
 
             If Me.TextBoxSpyroTiposMovTransFerencia.TextLength > 0 Then
@@ -483,8 +497,8 @@
 
 
 
-            SQL += " ,PARA_CTA_PUNTOVERDE='" & Me.TextBoxCtaPuntoVerde.Text.Replace("<Ninguno>", "") & "'"
-            SQL += " ,PARA_CTA6='" & Me.TextBoxCtaAjusteDecimal.Text.Replace("<Ninguno>", "") & "'"
+            SQL += " ,PARA_CTA_PUNTOVERDE ='" & Me.TextBoxCtaPuntoVerde.Text.Replace("<Ninguno>", "") & "'"
+            SQL += " ,PARA_CTA6 ='" & Me.TextBoxCtaAjusteDecimal.Text.Replace("<Ninguno>", "") & "'"
 
 
 
@@ -498,6 +512,12 @@
                 SQL += ",PARA_MORA_TIPO_AGRUP = 1"
             End If
 
+
+            SQL += ",PARA_MORA_UDM ='" & Me.TextBoxTitoUnidadMedidaNavision.Text.Replace("<Ninguno>", "") & "'"
+            SQL += ",PARA_MORA_PVERDE ='" & Me.TextBoxTitoPuntoVerde.Text.Replace("<Ninguno>", "") & "'"
+
+            SQL += ",PARA_MORA_GRIVANEGOCIO ='" & Me.TextBoxTitoGrupoIvaNegocio.Text.Replace("<Ninguno>", "") & "'"
+            SQL += ",PARA_MORA_GRCONTNEGOCIO ='" & Me.TextBoxTitoGrupoContableNegocio.Text.Replace("<Ninguno>", "") & "'"
 
             SQL += " WHERE PARA_EMPGRUPO_COD = '" & Me.ComboBoxGrupoCod.Text & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.ComboBoxEmpCod.SelectedValue & "'"
@@ -623,6 +643,7 @@
             If Me.RadioButtonTitoAgrupaGrupo.Checked Then
                 Me.RadioButtonTitoAgrupaFamilia.Checked = False
                 Me.RadioButtonTitoAgrupaProducto.Checked = False
+                Me.TextBoxTitoUnidadMedidaNavision.Enabled = True
             End If
         Catch ex As Exception
             MsgBox(ex.Message)
@@ -634,6 +655,7 @@
             If Me.RadioButtonTitoAgrupaFamilia.Checked Then
                 Me.RadioButtonTitoAgrupaGrupo.Checked = False
                 Me.RadioButtonTitoAgrupaProducto.Checked = False
+                Me.TextBoxTitoUnidadMedidaNavision.Enabled = True
             End If
         Catch ex As Exception
             MsgBox(ex.Message)
@@ -645,6 +667,7 @@
             If Me.RadioButtonTitoAgrupaProducto.Checked Then
                 Me.RadioButtonTitoAgrupaGrupo.Checked = False
                 Me.RadioButtonTitoAgrupaFamilia.Checked = False
+                Me.TextBoxTitoUnidadMedidaNavision.Enabled = False
             End If
         Catch ex As Exception
             MsgBox(ex.Message)

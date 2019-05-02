@@ -35,6 +35,7 @@ Public Class IntegraAlmacen
     Private mTimo_Albaran As Integer
     Private mTimo_Albaran_Dev As Integer
     Private mTimo_Traspaso As Integer
+    Private mTimo_Traspaso_Dir As Integer
     Private mTimo_Factura_Directa As Integer
     Private mTimo_Factura_Directa_Dev As Integer
     Private mTimo_Factura_Al As Integer
@@ -116,6 +117,7 @@ Public Class IntegraAlmacen
     Private Enum mEnumTipoAsiento
         Albaranes = 1
         Traspasos = 2
+        TraspasosDirectos = 21
         Salidasgastos = 20
         FacturasDirectas = 3
         AlbaranesDev = 4
@@ -213,6 +215,7 @@ Public Class IntegraAlmacen
             SQL += "NVL(PARA_TIMO_ALBARAN,'0') ALBARAN,"
             SQL += "NVL(PARA_TIMO_ALBARAN_DEV,'0') ALBARANDEV,"
             SQL += "NVL(PARA_TIMO_TRASPASO,'0') TRASPASO,"
+            SQL += "NVL(PARA_TIMO_TRANSDIR,'0') TRASPASODIR,"
             SQL += "NVL(PARA_TIMO_FACTURA_DI,'0') FACTURAD,"
             SQL += "NVL(PARA_TIMO_FACTURA_DI_DEV,'0') FACTURADDEV,"
             SQL += "NVL(PARA_TIPO_FORMALIZA,'G') FORMALIZA,"
@@ -257,6 +260,7 @@ Public Class IntegraAlmacen
                 Me.mTimo_Albaran_Dev = CType(Me.DbLeeCentral.mDbLector.Item("ALBARANDEV"), Integer)
 
                 Me.mTimo_Traspaso = CType(Me.DbLeeCentral.mDbLector.Item("TRASPASO"), Integer)
+                Me.mTimo_Traspaso_Dir = CType(Me.DbLeeCentral.mDbLector.Item("TRASPASODIR"), Integer)
 
                 Me.mTimo_Factura_Directa = CType(Me.DbLeeCentral.mDbLector.Item("FACTURAD"), Integer)
                 Me.mTimo_Factura_Directa_Dev = CType(Me.DbLeeCentral.mDbLector.Item("FACTURADDEV"), Integer)
@@ -534,6 +538,20 @@ Public Class IntegraAlmacen
             Me.mTextDebug.Text = "Calculando Entradas por Traspaso"
             Me.mTextDebug.Update()
             Me.GestionGastosAnalitica(Me.mTimo_Traspaso, mEnumTipoAsiento.Traspasos, mEnumTipoDebeHaber.Debe, "Trasp. Entrada ", "", "1", 0, 0)
+
+
+            ' ---------------------------------------------------------------
+            ' Asiento de Traspasos Directos 21
+            '----------------------------------------------------------------
+
+            Me.mTextDebug.Text = "Calculando Salidas por Traspaso Dierectos"
+            Me.mTextDebug.Update()
+            Me.GestionGastosAnalitica(Me.mTimo_Traspaso_Dir, mEnumTipoAsiento.Traspasos, mEnumTipoDebeHaber.Haber, "Trasp Dir Salida ", "", "-1", 0, 0)
+
+
+            Me.mTextDebug.Text = "Calculando Entradas por Traspaso Dierectos"
+            Me.mTextDebug.Update()
+            Me.GestionGastosAnalitica(Me.mTimo_Traspaso_Dir, mEnumTipoAsiento.Traspasos, mEnumTipoDebeHaber.Debe, "Trasp Dir Entrada ", "", "1", 0, 0)
 
             '---------------------------------------------------------------
             ' Asiento de Salidas a Gasto 20

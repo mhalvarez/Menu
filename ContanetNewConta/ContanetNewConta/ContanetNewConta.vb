@@ -1695,7 +1695,7 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                     If CStr(Me.DbNewConta.mDbLector("TIMO_CODI")) = mCodigoNotasCredito Then
                         Me.mtextoApunte = StrConv(CStr(Me.DbNewConta.mDbLector("MOCO_DESC")), VbStrConv.ProperCase)
                     Else
-                        Me.mtextoApunte = "(" & Mid(StrConv(CStr(Me.DbNewConta.mDbLector("MOLI_DESC")), VbStrConv.ProperCase), 1, 8) & ")  " & StrConv(CStr(Me.DbNewConta.mDbLector("TACO_NOME")), VbStrConv.ProperCase)
+                        Me.mtextoApunte = Mid(StrConv(CStr(Me.DbNewConta.mDbLector("MOLI_DESC")), VbStrConv.ProperCase), 1, 8) & "  " & StrConv(CStr(Me.DbNewConta.mDbLector("TACO_NOME")), VbStrConv.ProperCase)
                     End If
 
                 Else
@@ -1704,7 +1704,7 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                     ElseIf IsDBNull(Me.DbNewConta.mDbLector("MOCO_DESC")) = True Then
                         Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("MOLI_DESC"))
                     Else
-                        Me.mtextoApunte = "(" & CStr(Me.DbNewConta.mDbLector("MOLI_DESC")) & ") ," & CStr(Me.DbNewConta.mDbLector("MOCO_DESC"))
+                        Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("MOLI_DESC")) & " ," & CStr(Me.DbNewConta.mDbLector("MOCO_DESC"))
                     End If
                 End If
 
@@ -1796,7 +1796,7 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                     If CStr(Me.DbNewConta.mDbLector("TIMO_CODI")) = mCodigoNotasCredito Then
                         Me.mtextoApunte = StrConv(CStr(Me.DbNewConta.mDbLector("MOCO_DESC")), VbStrConv.ProperCase)
                     Else
-                        Me.mtextoApunte = "(" & Mid(StrConv(CStr(Me.DbNewConta.mDbLector("MOLI_DESC")), VbStrConv.ProperCase), 1, 8) & ")  " & StrConv(CStr(Me.DbNewConta.mDbLector("TACO_NOME")), VbStrConv.ProperCase)
+                        Me.mtextoApunte = Mid(StrConv(CStr(Me.DbNewConta.mDbLector("MOLI_DESC")), VbStrConv.ProperCase), 1, 8) & "  " & StrConv(CStr(Me.DbNewConta.mDbLector("TACO_NOME")), VbStrConv.ProperCase)
                     End If
 
                 Else
@@ -1805,7 +1805,7 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                     ElseIf IsDBNull(Me.DbNewConta.mDbLector("MOCO_DESC")) = True Then
                         Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("MOLI_DESC"))
                     Else
-                        Me.mtextoApunte = "(" & CStr(Me.DbNewConta.mDbLector("MOLI_DESC")) & ") ," & CStr(Me.DbNewConta.mDbLector("MOCO_DESC"))
+                        Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("MOLI_DESC")) & " ," & CStr(Me.DbNewConta.mDbLector("MOCO_DESC"))
                     End If
                 End If
 
@@ -4416,7 +4416,7 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                     If CStr(Me.DbNewConta.mDbLector("TIMO_CRED")) = mCodigoNotasCredito Then
                         Me.mtextoApunte = StrConv(CStr(Me.DbNewConta.mDbLector("DESC_CRED")), VbStrConv.ProperCase)
                     Else
-                        Me.mtextoApunte = "(" & Mid(StrConv(CStr(Me.DbNewConta.mDbLector("MOLI_DESC")), VbStrConv.ProperCase), 1, 8) & ")  " & StrConv(CStr(Me.DbNewConta.mDbLector("NOMBRE")), VbStrConv.ProperCase)
+                        Me.mtextoApunte = Mid(StrConv(CStr(Me.DbNewConta.mDbLector("MOLI_DESC")), VbStrConv.ProperCase), 1, 8) & "  " & StrConv(CStr(Me.DbNewConta.mDbLector("NOMBRE")), VbStrConv.ProperCase)
                     End If
                 Else
                     If CStr(Me.DbNewConta.mDbLector("TIMO_CRED")) = mCodigoNotasCredito Then
@@ -4424,7 +4424,7 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                     ElseIf IsDBNull(Me.DbNewConta.mDbLector("MOCO_DESC")) = True Then
                         Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("MOLI_DESC"))
                     Else
-                        Me.mtextoApunte = "(" & CStr(Me.DbNewConta.mDbLector("MOLI_DESC")) & ") ," & CStr(Me.DbNewConta.mDbLector("MOCO_DESC"))
+                        Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("MOLI_DESC")) & " ," & CStr(Me.DbNewConta.mDbLector("MOCO_DESC"))
                     End If
                 End If
 
@@ -4700,7 +4700,7 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                     If CStr(Me.DbNewConta.mDbLector("TIMO_CRED")) = mCodigoNotasCredito Then
                         Me.mtextoApunte = StrConv(CStr(Me.DbNewConta.mDbLector("DESC_CRED")), VbStrConv.ProperCase)
                     Else
-                        Me.mtextoApunte = "(" & Mid(StrConv(CStr(Me.DbNewConta.mDbLector("MOLI_DESC")), VbStrConv.ProperCase), 1, 8) & ")  " & StrConv(CStr(Me.DbNewConta.mDbLector("NOMBRE")), VbStrConv.ProperCase)
+                        Me.mtextoApunte = Mid(StrConv(CStr(Me.DbNewConta.mDbLector("MOLI_DESC")), VbStrConv.ProperCase), 1, 8) & "  " & StrConv(CStr(Me.DbNewConta.mDbLector("NOMBRE")), VbStrConv.ProperCase)
                     End If
                 Else
                     If CStr(Me.DbNewConta.mDbLector("TIMO_CRED")) = mCodigoNotasCredito Then
@@ -4708,7 +4708,7 @@ ByVal vDocCre As String, ByVal vDocDeb As String, ByVal vDescCre As String, ByVa
                     ElseIf IsDBNull(Me.DbNewConta.mDbLector("MOCO_DESC")) = True Then
                         Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("MOLI_DESC"))
                     Else
-                        Me.mtextoApunte = "(" & CStr(Me.DbNewConta.mDbLector("MOLI_DESC")) & ") ," & CStr(Me.DbNewConta.mDbLector("MOCO_DESC"))
+                        Me.mtextoApunte = CStr(Me.DbNewConta.mDbLector("MOLI_DESC")) & " ," & CStr(Me.DbNewConta.mDbLector("MOCO_DESC"))
                     End If
                 End If
 

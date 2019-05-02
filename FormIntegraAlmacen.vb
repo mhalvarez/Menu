@@ -65,8 +65,10 @@ Public Class FormIntegraAlmacen
         MaestroArticulosNewStock
         MaestroAlmacenesNewStock
         NewStock
-
     End Enum
+
+    Private mParaGrIvaNegocio As String
+    Private mParaGrContableNegocio As String
 
 #Region " Código generado por el Diseñador de Windows Forms "
 
@@ -197,7 +199,7 @@ Public Class FormIntegraAlmacen
         'CheckBoxDebug
         '
         Me.CheckBoxDebug.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.CheckBoxDebug.Location = New System.Drawing.Point(616, 1)
+        Me.CheckBoxDebug.Location = New System.Drawing.Point(855, 1)
         Me.CheckBoxDebug.Name = "CheckBoxDebug"
         Me.CheckBoxDebug.Size = New System.Drawing.Size(64, 24)
         Me.CheckBoxDebug.TabIndex = 5
@@ -208,7 +210,7 @@ Public Class FormIntegraAlmacen
         Me.CheckBoxAnalitica.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.CheckBoxAnalitica.Checked = True
         Me.CheckBoxAnalitica.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBoxAnalitica.Location = New System.Drawing.Point(687, 2)
+        Me.CheckBoxAnalitica.Location = New System.Drawing.Point(926, 2)
         Me.CheckBoxAnalitica.Name = "CheckBoxAnalitica"
         Me.CheckBoxAnalitica.Size = New System.Drawing.Size(72, 24)
         Me.CheckBoxAnalitica.TabIndex = 13
@@ -225,7 +227,7 @@ Public Class FormIntegraAlmacen
         Me.DataGrid1.Location = New System.Drawing.Point(8, 32)
         Me.DataGrid1.Name = "DataGrid1"
         Me.DataGrid1.ReadOnly = True
-        Me.DataGrid1.Size = New System.Drawing.Size(583, 88)
+        Me.DataGrid1.Size = New System.Drawing.Size(822, 88)
         Me.DataGrid1.TabIndex = 14
         '
         'TabControlDebug
@@ -242,7 +244,7 @@ Public Class FormIntegraAlmacen
         Me.TabControlDebug.Location = New System.Drawing.Point(0, 128)
         Me.TabControlDebug.Name = "TabControlDebug"
         Me.TabControlDebug.SelectedIndex = 0
-        Me.TabControlDebug.Size = New System.Drawing.Size(856, 88)
+        Me.TabControlDebug.Size = New System.Drawing.Size(1095, 88)
         Me.TabControlDebug.TabIndex = 15
         '
         'TabPageAlbaranes
@@ -250,7 +252,7 @@ Public Class FormIntegraAlmacen
         Me.TabPageAlbaranes.Controls.Add(Me.GroupBox2)
         Me.TabPageAlbaranes.Location = New System.Drawing.Point(4, 22)
         Me.TabPageAlbaranes.Name = "TabPageAlbaranes"
-        Me.TabPageAlbaranes.Size = New System.Drawing.Size(848, 62)
+        Me.TabPageAlbaranes.Size = New System.Drawing.Size(1087, 62)
         Me.TabPageAlbaranes.TabIndex = 0
         Me.TabPageAlbaranes.Text = "Albaranes"
         Me.TabPageAlbaranes.UseVisualStyleBackColor = True
@@ -335,7 +337,7 @@ Public Class FormIntegraAlmacen
         '
         Me.TabPageTraspasos.Location = New System.Drawing.Point(4, 22)
         Me.TabPageTraspasos.Name = "TabPageTraspasos"
-        Me.TabPageTraspasos.Size = New System.Drawing.Size(848, 62)
+        Me.TabPageTraspasos.Size = New System.Drawing.Size(1087, 62)
         Me.TabPageTraspasos.TabIndex = 1
         Me.TabPageTraspasos.Text = "Traspasos"
         Me.TabPageTraspasos.UseVisualStyleBackColor = True
@@ -344,7 +346,7 @@ Public Class FormIntegraAlmacen
         '
         Me.TabPageFacturasDirectas.Location = New System.Drawing.Point(4, 22)
         Me.TabPageFacturasDirectas.Name = "TabPageFacturasDirectas"
-        Me.TabPageFacturasDirectas.Size = New System.Drawing.Size(848, 62)
+        Me.TabPageFacturasDirectas.Size = New System.Drawing.Size(1087, 62)
         Me.TabPageFacturasDirectas.TabIndex = 2
         Me.TabPageFacturasDirectas.Text = "Facturas Directas"
         Me.TabPageFacturasDirectas.UseVisualStyleBackColor = True
@@ -353,7 +355,7 @@ Public Class FormIntegraAlmacen
         '
         Me.TabPageFacturasAlbaran.Location = New System.Drawing.Point(4, 22)
         Me.TabPageFacturasAlbaran.Name = "TabPageFacturasAlbaran"
-        Me.TabPageFacturasAlbaran.Size = New System.Drawing.Size(848, 62)
+        Me.TabPageFacturasAlbaran.Size = New System.Drawing.Size(1087, 62)
         Me.TabPageFacturasAlbaran.TabIndex = 3
         Me.TabPageFacturasAlbaran.Text = "Facturas(Albaranes)"
         Me.TabPageFacturasAlbaran.UseVisualStyleBackColor = True
@@ -362,7 +364,7 @@ Public Class FormIntegraAlmacen
         '
         Me.TabPageDevoluciones.Location = New System.Drawing.Point(4, 22)
         Me.TabPageDevoluciones.Name = "TabPageDevoluciones"
-        Me.TabPageDevoluciones.Size = New System.Drawing.Size(848, 62)
+        Me.TabPageDevoluciones.Size = New System.Drawing.Size(1087, 62)
         Me.TabPageDevoluciones.TabIndex = 4
         Me.TabPageDevoluciones.Text = "Devoluciones"
         Me.TabPageDevoluciones.UseVisualStyleBackColor = True
@@ -374,7 +376,7 @@ Public Class FormIntegraAlmacen
         Me.TabPageSatocanIncidencias.Controls.Add(Me.ButtonImprimirErrores)
         Me.TabPageSatocanIncidencias.Location = New System.Drawing.Point(4, 22)
         Me.TabPageSatocanIncidencias.Name = "TabPageSatocanIncidencias"
-        Me.TabPageSatocanIncidencias.Size = New System.Drawing.Size(848, 62)
+        Me.TabPageSatocanIncidencias.Size = New System.Drawing.Size(1087, 62)
         Me.TabPageSatocanIncidencias.TabIndex = 5
         Me.TabPageSatocanIncidencias.Text = "Satocan Incidencias Reports"
         Me.TabPageSatocanIncidencias.UseVisualStyleBackColor = True
@@ -420,7 +422,7 @@ Public Class FormIntegraAlmacen
         Me.TabPagesSatocanUtils.Controls.Add(Me.ButtonSatocanObjects)
         Me.TabPagesSatocanUtils.Location = New System.Drawing.Point(4, 22)
         Me.TabPagesSatocanUtils.Name = "TabPagesSatocanUtils"
-        Me.TabPagesSatocanUtils.Size = New System.Drawing.Size(848, 62)
+        Me.TabPagesSatocanUtils.Size = New System.Drawing.Size(1087, 62)
         Me.TabPagesSatocanUtils.TabIndex = 6
         Me.TabPagesSatocanUtils.Text = "Satocan Utils"
         Me.TabPagesSatocanUtils.UseVisualStyleBackColor = True
@@ -497,7 +499,7 @@ Public Class FormIntegraAlmacen
         Me.DataGrid2.Location = New System.Drawing.Point(8, 222)
         Me.DataGrid2.Name = "DataGrid2"
         Me.DataGrid2.ReadOnly = True
-        Me.DataGrid2.Size = New System.Drawing.Size(751, 162)
+        Me.DataGrid2.Size = New System.Drawing.Size(990, 162)
         Me.DataGrid2.TabIndex = 16
         '
         'TextBoxDebug
@@ -506,11 +508,11 @@ Public Class FormIntegraAlmacen
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBoxDebug.BackColor = System.Drawing.Color.Teal
         Me.TextBoxDebug.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxDebug.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBoxDebug.Font = New System.Drawing.Font("Courier New", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBoxDebug.ForeColor = System.Drawing.Color.White
         Me.TextBoxDebug.Location = New System.Drawing.Point(8, 392)
         Me.TextBoxDebug.Name = "TextBoxDebug"
-        Me.TextBoxDebug.Size = New System.Drawing.Size(751, 21)
+        Me.TextBoxDebug.Size = New System.Drawing.Size(990, 21)
         Me.TextBoxDebug.TabIndex = 17
         '
         'Label5
@@ -518,7 +520,7 @@ Public Class FormIntegraAlmacen
         Me.Label5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label5.ForeColor = System.Drawing.Color.Maroon
-        Me.Label5.Location = New System.Drawing.Point(8, 416)
+        Me.Label5.Location = New System.Drawing.Point(8, 440)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(168, 23)
         Me.Label5.TabIndex = 18
@@ -531,9 +533,9 @@ Public Class FormIntegraAlmacen
         Me.ListBoxDebug.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.ListBoxDebug.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ListBoxDebug.ForeColor = System.Drawing.Color.SteelBlue
-        Me.ListBoxDebug.Location = New System.Drawing.Point(8, 440)
+        Me.ListBoxDebug.Location = New System.Drawing.Point(8, 467)
         Me.ListBoxDebug.Name = "ListBoxDebug"
-        Me.ListBoxDebug.Size = New System.Drawing.Size(751, 80)
+        Me.ListBoxDebug.Size = New System.Drawing.Size(990, 93)
         Me.ListBoxDebug.TabIndex = 20
         '
         'GroupBox1
@@ -541,7 +543,7 @@ Public Class FormIntegraAlmacen
         Me.GroupBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox1.Controls.Add(Me.RadioButtonFormalizaProveedor)
         Me.GroupBox1.Controls.Add(Me.RadioButtonFormalizaGenerico)
-        Me.GroupBox1.Location = New System.Drawing.Point(597, 24)
+        Me.GroupBox1.Location = New System.Drawing.Point(836, 24)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(251, 48)
         Me.GroupBox1.TabIndex = 23
@@ -567,7 +569,7 @@ Public Class FormIntegraAlmacen
         'ButtonInventarios
         '
         Me.ButtonInventarios.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ButtonInventarios.Location = New System.Drawing.Point(765, 284)
+        Me.ButtonInventarios.Location = New System.Drawing.Point(1004, 284)
         Me.ButtonInventarios.Name = "ButtonInventarios"
         Me.ButtonInventarios.Size = New System.Drawing.Size(91, 23)
         Me.ButtonInventarios.TabIndex = 24
@@ -577,7 +579,7 @@ Public Class FormIntegraAlmacen
         '
         Me.ButtonConvertir.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ButtonConvertir.Enabled = False
-        Me.ButtonConvertir.Location = New System.Drawing.Point(765, 313)
+        Me.ButtonConvertir.Location = New System.Drawing.Point(1004, 313)
         Me.ButtonConvertir.Name = "ButtonConvertir"
         Me.ButtonConvertir.Size = New System.Drawing.Size(91, 23)
         Me.ButtonConvertir.TabIndex = 28
@@ -586,7 +588,7 @@ Public Class FormIntegraAlmacen
         'Button1
         '
         Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button1.Location = New System.Drawing.Point(832, 338)
+        Me.Button1.Location = New System.Drawing.Point(1071, 338)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(24, 23)
         Me.Button1.TabIndex = 29
@@ -599,17 +601,18 @@ Public Class FormIntegraAlmacen
         Me.TextBoxRutaFicheros.BackColor = System.Drawing.Color.Maroon
         Me.TextBoxRutaFicheros.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBoxRutaFicheros.ForeColor = System.Drawing.Color.White
-        Me.TextBoxRutaFicheros.Location = New System.Drawing.Point(597, 102)
+        Me.TextBoxRutaFicheros.Location = New System.Drawing.Point(836, 102)
         Me.TextBoxRutaFicheros.Name = "TextBoxRutaFicheros"
         Me.TextBoxRutaFicheros.Size = New System.Drawing.Size(211, 20)
         Me.TextBoxRutaFicheros.TabIndex = 30
         '
         'ProgressBar1
         '
-        Me.ProgressBar1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ProgressBar1.Location = New System.Drawing.Point(631, 128)
+        Me.ProgressBar1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ProgressBar1.Location = New System.Drawing.Point(8, 419)
         Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(217, 16)
+        Me.ProgressBar1.Size = New System.Drawing.Size(990, 10)
         Me.ProgressBar1.TabIndex = 0
         '
         'CheckBoxMinimiza
@@ -617,7 +620,7 @@ Public Class FormIntegraAlmacen
         Me.CheckBoxMinimiza.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.CheckBoxMinimiza.Checked = True
         Me.CheckBoxMinimiza.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBoxMinimiza.Location = New System.Drawing.Point(776, 2)
+        Me.CheckBoxMinimiza.Location = New System.Drawing.Point(1015, 2)
         Me.CheckBoxMinimiza.Name = "CheckBoxMinimiza"
         Me.CheckBoxMinimiza.Size = New System.Drawing.Size(72, 24)
         Me.CheckBoxMinimiza.TabIndex = 47
@@ -626,7 +629,7 @@ Public Class FormIntegraAlmacen
         'ButtonUpdateFilePAth
         '
         Me.ButtonUpdateFilePAth.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ButtonUpdateFilePAth.Location = New System.Drawing.Point(814, 98)
+        Me.ButtonUpdateFilePAth.Location = New System.Drawing.Point(1053, 98)
         Me.ButtonUpdateFilePAth.Name = "ButtonUpdateFilePAth"
         Me.ButtonUpdateFilePAth.Size = New System.Drawing.Size(34, 23)
         Me.ButtonUpdateFilePAth.TabIndex = 48
@@ -638,7 +641,7 @@ Public Class FormIntegraAlmacen
         Me.ButtonResetPerfil.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ButtonResetPerfil.Image = CType(resources.GetObject("ButtonResetPerfil.Image"), System.Drawing.Image)
         Me.ButtonResetPerfil.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ButtonResetPerfil.Location = New System.Drawing.Point(764, 361)
+        Me.ButtonResetPerfil.Location = New System.Drawing.Point(1003, 361)
         Me.ButtonResetPerfil.Name = "ButtonResetPerfil"
         Me.ButtonResetPerfil.Size = New System.Drawing.Size(92, 23)
         Me.ButtonResetPerfil.TabIndex = 52
@@ -660,7 +663,7 @@ Public Class FormIntegraAlmacen
         Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button2.Image = CType(resources.GetObject("Button2.Image"), System.Drawing.Image)
         Me.Button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.Button2.Location = New System.Drawing.Point(765, 252)
+        Me.Button2.Location = New System.Drawing.Point(1004, 252)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(91, 24)
         Me.Button2.TabIndex = 50
@@ -682,7 +685,7 @@ Public Class FormIntegraAlmacen
         Me.ButtonIncidencias.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ButtonIncidencias.Image = CType(resources.GetObject("ButtonIncidencias.Image"), System.Drawing.Image)
         Me.ButtonIncidencias.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ButtonIncidencias.Location = New System.Drawing.Point(765, 440)
+        Me.ButtonIncidencias.Location = New System.Drawing.Point(1004, 467)
         Me.ButtonIncidencias.Name = "ButtonIncidencias"
         Me.ButtonIncidencias.Size = New System.Drawing.Size(91, 23)
         Me.ButtonIncidencias.TabIndex = 46
@@ -693,7 +696,7 @@ Public Class FormIntegraAlmacen
         Me.ButtonImprimir.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ButtonImprimir.Image = CType(resources.GetObject("ButtonImprimir.Image"), System.Drawing.Image)
         Me.ButtonImprimir.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ButtonImprimir.Location = New System.Drawing.Point(765, 222)
+        Me.ButtonImprimir.Location = New System.Drawing.Point(1004, 222)
         Me.ButtonImprimir.Name = "ButtonImprimir"
         Me.ButtonImprimir.Size = New System.Drawing.Size(91, 24)
         Me.ButtonImprimir.TabIndex = 21
@@ -703,7 +706,7 @@ Public Class FormIntegraAlmacen
         '
         Me.PictureBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(184, 416)
+        Me.PictureBox1.Location = New System.Drawing.Point(182, 439)
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.Size = New System.Drawing.Size(24, 24)
         Me.PictureBox1.TabIndex = 19
@@ -730,7 +733,7 @@ Public Class FormIntegraAlmacen
         '
         Me.AcceptButton = Me.ButtonAceptar
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(864, 604)
+        Me.ClientSize = New System.Drawing.Size(1103, 604)
         Me.Controls.Add(Me.ButtonResetPerfil)
         Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.Button2)
@@ -1667,12 +1670,25 @@ Public Class FormIntegraAlmacen
             End If
 
 
+            SQL = "SELECT NVL(PARA_MORA_GRIVANEGOCIO,'?') FROM TS_PARA "
+            SQL += " WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+            SQL += " AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
+            Me.mParaGrIvaNegocio = CStr(Me.DbLee.EjecutaSqlScalar(SQL))
+
+            SQL = "SELECT NVL(PARA_MORA_GRCONTNEGOCIO,'?') FROM TS_PARA "
+            SQL += " WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
+            SQL += " AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
+            SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
+            Me.mParaGrContableNegocio = CStr(Me.DbLee.EjecutaSqlScalar(SQL))
+
+
+
             SQL = "SELECT NVL(PARA_SOLO_FACTURAS,0) FROM TS_PARA "
             SQL += " WHERE PARA_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"
             SQL += " AND PARA_EMP_COD = '" & Me.mEmpCod & "'"
             SQL += " AND PARA_EMP_NUM = " & Me.mEmpNum
             Me.mParaSoloFacturas = CInt(Me.DbLee.EjecutaSqlScalar(SQL))
-
 
             SQL = "SELECT NVL(HOTEL_ODBC_NEWPAGA,'?') FROM TH_HOTEL "
             SQL += " WHERE HOTEL_EMPGRUPO_COD = '" & Me.mEmpGrupoCod & "'"

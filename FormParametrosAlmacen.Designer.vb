@@ -89,6 +89,15 @@ Partial Class FormParametrosAlmacen
         Me.Label30 = New System.Windows.Forms.Label()
         Me.TextBoxSpyroTipoAnalitica = New System.Windows.Forms.TextBox()
         Me.Label29 = New System.Windows.Forms.Label()
+        Me.TabPageHotelesTito = New System.Windows.Forms.TabPage()
+        Me.TextBoxTitoPuntoVerde = New System.Windows.Forms.TextBox()
+        Me.Label35 = New System.Windows.Forms.Label()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.TextBoxTitoUnidadMedidaNavision = New System.Windows.Forms.TextBox()
+        Me.Label34 = New System.Windows.Forms.Label()
+        Me.RadioButtonTitoAgrupaProducto = New System.Windows.Forms.RadioButton()
+        Me.RadioButtonTitoAgrupaFamilia = New System.Windows.Forms.RadioButton()
+        Me.RadioButtonTitoAgrupaGrupo = New System.Windows.Forms.RadioButton()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.ButtonAceptar = New System.Windows.Forms.Button()
         Me.ButtonCancelar = New System.Windows.Forms.Button()
@@ -100,20 +109,23 @@ Partial Class FormParametrosAlmacen
         Me.Label78 = New System.Windows.Forms.Label()
         Me.TextBoxEmpNum = New System.Windows.Forms.TextBox()
         Me.Label77 = New System.Windows.Forms.Label()
-        Me.TabPageHotelesTito = New System.Windows.Forms.TabPage()
-        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
-        Me.RadioButtonTitoAgrupaGrupo = New System.Windows.Forms.RadioButton()
-        Me.RadioButtonTitoAgrupaFamilia = New System.Windows.Forms.RadioButton()
-        Me.RadioButtonTitoAgrupaProducto = New System.Windows.Forms.RadioButton()
+        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.GroupBox5 = New System.Windows.Forms.GroupBox()
+        Me.Label36 = New System.Windows.Forms.Label()
+        Me.TextBoxTitoGrupoIvaNegocio = New System.Windows.Forms.TextBox()
+        Me.Label37 = New System.Windows.Forms.Label()
+        Me.TextBoxTitoGrupoContableNegocio = New System.Windows.Forms.TextBox()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPageGenerales.SuspendLayout()
         Me.TabPageHotelesLopez.SuspendLayout()
         Me.GroupBoxSeriesdefactura.SuspendLayout()
         Me.TabPageSantaMonica.SuspendLayout()
-        Me.GroupBox2.SuspendLayout()
         Me.TabPageHotelesTito.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
+        Me.GroupBox4.SuspendLayout()
+        Me.GroupBox5.SuspendLayout()
         Me.SuspendLayout()
         '
         'GroupBox1
@@ -407,7 +419,7 @@ Partial Class FormParametrosAlmacen
         Me.TabPageHotelesLopez.Location = New System.Drawing.Point(4, 22)
         Me.TabPageHotelesLopez.Name = "TabPageHotelesLopez"
         Me.TabPageHotelesLopez.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPageHotelesLopez.Size = New System.Drawing.Size(725, 411)
+        Me.TabPageHotelesLopez.Size = New System.Drawing.Size(834, 411)
         Me.TabPageHotelesLopez.TabIndex = 1
         Me.TabPageHotelesLopez.Text = "Hoteles Lopez"
         Me.TabPageHotelesLopez.UseVisualStyleBackColor = True
@@ -724,7 +736,7 @@ Partial Class FormParametrosAlmacen
         Me.TabPageSantaMonica.Controls.Add(Me.Label29)
         Me.TabPageSantaMonica.Location = New System.Drawing.Point(4, 22)
         Me.TabPageSantaMonica.Name = "TabPageSantaMonica"
-        Me.TabPageSantaMonica.Size = New System.Drawing.Size(725, 411)
+        Me.TabPageSantaMonica.Size = New System.Drawing.Size(834, 411)
         Me.TabPageSantaMonica.TabIndex = 2
         Me.TabPageSantaMonica.Text = "Santa Mónica"
         Me.TabPageSantaMonica.UseVisualStyleBackColor = True
@@ -794,6 +806,102 @@ Partial Class FormParametrosAlmacen
         Me.Label29.Size = New System.Drawing.Size(144, 13)
         Me.Label29.TabIndex = 0
         Me.Label29.Text = "Tipo Análisis  Analítica Spyro"
+        '
+        'TabPageHotelesTito
+        '
+        Me.TabPageHotelesTito.Controls.Add(Me.GroupBox5)
+        Me.TabPageHotelesTito.Controls.Add(Me.GroupBox4)
+        Me.TabPageHotelesTito.Controls.Add(Me.GroupBox3)
+        Me.TabPageHotelesTito.Location = New System.Drawing.Point(4, 22)
+        Me.TabPageHotelesTito.Name = "TabPageHotelesTito"
+        Me.TabPageHotelesTito.Size = New System.Drawing.Size(834, 411)
+        Me.TabPageHotelesTito.TabIndex = 3
+        Me.TabPageHotelesTito.Text = "Grupo Hermanos T"
+        Me.TabPageHotelesTito.UseVisualStyleBackColor = True
+        '
+        'TextBoxTitoPuntoVerde
+        '
+        Me.TextBoxTitoPuntoVerde.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxTitoPuntoVerde.Location = New System.Drawing.Point(247, 19)
+        Me.TextBoxTitoPuntoVerde.Name = "TextBoxTitoPuntoVerde"
+        Me.TextBoxTitoPuntoVerde.Size = New System.Drawing.Size(144, 20)
+        Me.TextBoxTitoPuntoVerde.TabIndex = 18
+        '
+        'Label35
+        '
+        Me.Label35.AutoSize = True
+        Me.Label35.Location = New System.Drawing.Point(10, 26)
+        Me.Label35.Name = "Label35"
+        Me.Label35.Size = New System.Drawing.Size(211, 13)
+        Me.Label35.TabIndex = 17
+        Me.Label35.Text = "Códido de Artículo ""Punto Verde"" Navision"
+        '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.TextBoxTitoUnidadMedidaNavision)
+        Me.GroupBox3.Controls.Add(Me.Label34)
+        Me.GroupBox3.Controls.Add(Me.RadioButtonTitoAgrupaProducto)
+        Me.GroupBox3.Controls.Add(Me.RadioButtonTitoAgrupaFamilia)
+        Me.GroupBox3.Controls.Add(Me.RadioButtonTitoAgrupaGrupo)
+        Me.GroupBox3.Location = New System.Drawing.Point(15, 19)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(477, 146)
+        Me.GroupBox3.TabIndex = 0
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "Agrupar Líneas de Documentos Por :"
+        '
+        'TextBoxTitoUnidadMedidaNavision
+        '
+        Me.TextBoxTitoUnidadMedidaNavision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxTitoUnidadMedidaNavision.Location = New System.Drawing.Point(247, 71)
+        Me.TextBoxTitoUnidadMedidaNavision.Name = "TextBoxTitoUnidadMedidaNavision"
+        Me.TextBoxTitoUnidadMedidaNavision.Size = New System.Drawing.Size(144, 20)
+        Me.TextBoxTitoUnidadMedidaNavision.TabIndex = 16
+        '
+        'Label34
+        '
+        Me.Label34.AutoSize = True
+        Me.Label34.Location = New System.Drawing.Point(24, 78)
+        Me.Label34.Name = "Label34"
+        Me.Label34.Size = New System.Drawing.Size(207, 13)
+        Me.Label34.TabIndex = 3
+        Me.Label34.Text = "Unidad de Medida Navision (Si se Agrupa)"
+        '
+        'RadioButtonTitoAgrupaProducto
+        '
+        Me.RadioButtonTitoAgrupaProducto.AutoSize = True
+        Me.RadioButtonTitoAgrupaProducto.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.RadioButtonTitoAgrupaProducto.Location = New System.Drawing.Point(6, 109)
+        Me.RadioButtonTitoAgrupaProducto.Name = "RadioButtonTitoAgrupaProducto"
+        Me.RadioButtonTitoAgrupaProducto.Size = New System.Drawing.Size(80, 17)
+        Me.RadioButtonTitoAgrupaProducto.TabIndex = 2
+        Me.RadioButtonTitoAgrupaProducto.TabStop = True
+        Me.RadioButtonTitoAgrupaProducto.Text = "Por Artículo"
+        Me.RadioButtonTitoAgrupaProducto.UseVisualStyleBackColor = True
+        '
+        'RadioButtonTitoAgrupaFamilia
+        '
+        Me.RadioButtonTitoAgrupaFamilia.AutoSize = True
+        Me.RadioButtonTitoAgrupaFamilia.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.RadioButtonTitoAgrupaFamilia.Location = New System.Drawing.Point(6, 48)
+        Me.RadioButtonTitoAgrupaFamilia.Name = "RadioButtonTitoAgrupaFamilia"
+        Me.RadioButtonTitoAgrupaFamilia.Size = New System.Drawing.Size(75, 17)
+        Me.RadioButtonTitoAgrupaFamilia.TabIndex = 1
+        Me.RadioButtonTitoAgrupaFamilia.TabStop = True
+        Me.RadioButtonTitoAgrupaFamilia.Text = "Por Familia"
+        Me.RadioButtonTitoAgrupaFamilia.UseVisualStyleBackColor = True
+        '
+        'RadioButtonTitoAgrupaGrupo
+        '
+        Me.RadioButtonTitoAgrupaGrupo.AutoSize = True
+        Me.RadioButtonTitoAgrupaGrupo.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.RadioButtonTitoAgrupaGrupo.Location = New System.Drawing.Point(6, 25)
+        Me.RadioButtonTitoAgrupaGrupo.Name = "RadioButtonTitoAgrupaGrupo"
+        Me.RadioButtonTitoAgrupaGrupo.Size = New System.Drawing.Size(72, 17)
+        Me.RadioButtonTitoAgrupaGrupo.TabIndex = 0
+        Me.RadioButtonTitoAgrupaGrupo.TabStop = True
+        Me.RadioButtonTitoAgrupaGrupo.Text = "Por Grupo"
+        Me.RadioButtonTitoAgrupaGrupo.UseVisualStyleBackColor = True
         '
         'GroupBox2
         '
@@ -900,63 +1008,63 @@ Partial Class FormParametrosAlmacen
         Me.Label77.TabIndex = 36
         Me.Label77.Text = "Hotel Nùmero"
         '
-        'TabPageHotelesTito
+        'GroupBox4
         '
-        Me.TabPageHotelesTito.Controls.Add(Me.GroupBox3)
-        Me.TabPageHotelesTito.Location = New System.Drawing.Point(4, 22)
-        Me.TabPageHotelesTito.Name = "TabPageHotelesTito"
-        Me.TabPageHotelesTito.Size = New System.Drawing.Size(834, 411)
-        Me.TabPageHotelesTito.TabIndex = 3
-        Me.TabPageHotelesTito.Text = "Grupo Hermanos T"
-        Me.TabPageHotelesTito.UseVisualStyleBackColor = True
+        Me.GroupBox4.Controls.Add(Me.Label35)
+        Me.GroupBox4.Controls.Add(Me.TextBoxTitoPuntoVerde)
+        Me.GroupBox4.Location = New System.Drawing.Point(15, 171)
+        Me.GroupBox4.Name = "GroupBox4"
+        Me.GroupBox4.Size = New System.Drawing.Size(477, 74)
+        Me.GroupBox4.TabIndex = 19
+        Me.GroupBox4.TabStop = False
+        Me.GroupBox4.Text = "Equivalencias"
         '
-        'GroupBox3
+        'GroupBox5
         '
-        Me.GroupBox3.Controls.Add(Me.RadioButtonTitoAgrupaProducto)
-        Me.GroupBox3.Controls.Add(Me.RadioButtonTitoAgrupaFamilia)
-        Me.GroupBox3.Controls.Add(Me.RadioButtonTitoAgrupaGrupo)
-        Me.GroupBox3.Location = New System.Drawing.Point(15, 19)
-        Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(481, 63)
-        Me.GroupBox3.TabIndex = 0
-        Me.GroupBox3.TabStop = False
-        Me.GroupBox3.Text = "Agrupar Líneas de Documentos Por :"
+        Me.GroupBox5.Controls.Add(Me.Label37)
+        Me.GroupBox5.Controls.Add(Me.TextBoxTitoGrupoContableNegocio)
+        Me.GroupBox5.Controls.Add(Me.Label36)
+        Me.GroupBox5.Controls.Add(Me.TextBoxTitoGrupoIvaNegocio)
+        Me.GroupBox5.Location = New System.Drawing.Point(15, 251)
+        Me.GroupBox5.Name = "GroupBox5"
+        Me.GroupBox5.Size = New System.Drawing.Size(477, 100)
+        Me.GroupBox5.TabIndex = 20
+        Me.GroupBox5.TabStop = False
+        Me.GroupBox5.Text = "Impuestos"
         '
-        'RadioButtonTitoAgrupaGrupo
+        'Label36
         '
-        Me.RadioButtonTitoAgrupaGrupo.AutoSize = True
-        Me.RadioButtonTitoAgrupaGrupo.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.RadioButtonTitoAgrupaGrupo.Location = New System.Drawing.Point(6, 25)
-        Me.RadioButtonTitoAgrupaGrupo.Name = "RadioButtonTitoAgrupaGrupo"
-        Me.RadioButtonTitoAgrupaGrupo.Size = New System.Drawing.Size(72, 17)
-        Me.RadioButtonTitoAgrupaGrupo.TabIndex = 0
-        Me.RadioButtonTitoAgrupaGrupo.TabStop = True
-        Me.RadioButtonTitoAgrupaGrupo.Text = "Por Grupo"
-        Me.RadioButtonTitoAgrupaGrupo.UseVisualStyleBackColor = True
+        Me.Label36.AutoSize = True
+        Me.Label36.Location = New System.Drawing.Point(6, 28)
+        Me.Label36.Name = "Label36"
+        Me.Label36.Size = New System.Drawing.Size(97, 13)
+        Me.Label36.TabIndex = 19
+        Me.Label36.Text = "Grupo Iva Negocio"
         '
-        'RadioButtonTitoAgrupaFamilia
+        'TextBoxTitoGrupoIvaNegocio
         '
-        Me.RadioButtonTitoAgrupaFamilia.AutoSize = True
-        Me.RadioButtonTitoAgrupaFamilia.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.RadioButtonTitoAgrupaFamilia.Location = New System.Drawing.Point(119, 25)
-        Me.RadioButtonTitoAgrupaFamilia.Name = "RadioButtonTitoAgrupaFamilia"
-        Me.RadioButtonTitoAgrupaFamilia.Size = New System.Drawing.Size(75, 17)
-        Me.RadioButtonTitoAgrupaFamilia.TabIndex = 1
-        Me.RadioButtonTitoAgrupaFamilia.TabStop = True
-        Me.RadioButtonTitoAgrupaFamilia.Text = "Por Familia"
-        Me.RadioButtonTitoAgrupaFamilia.UseVisualStyleBackColor = True
+        Me.TextBoxTitoGrupoIvaNegocio.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxTitoGrupoIvaNegocio.Location = New System.Drawing.Point(243, 21)
+        Me.TextBoxTitoGrupoIvaNegocio.Name = "TextBoxTitoGrupoIvaNegocio"
+        Me.TextBoxTitoGrupoIvaNegocio.Size = New System.Drawing.Size(144, 20)
+        Me.TextBoxTitoGrupoIvaNegocio.TabIndex = 20
         '
-        'RadioButtonTitoAgrupaProducto
+        'Label37
         '
-        Me.RadioButtonTitoAgrupaProducto.AutoSize = True
-        Me.RadioButtonTitoAgrupaProducto.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.RadioButtonTitoAgrupaProducto.Location = New System.Drawing.Point(235, 25)
-        Me.RadioButtonTitoAgrupaProducto.Name = "RadioButtonTitoAgrupaProducto"
-        Me.RadioButtonTitoAgrupaProducto.Size = New System.Drawing.Size(80, 17)
-        Me.RadioButtonTitoAgrupaProducto.TabIndex = 2
-        Me.RadioButtonTitoAgrupaProducto.TabStop = True
-        Me.RadioButtonTitoAgrupaProducto.Text = "Por Artículo"
-        Me.RadioButtonTitoAgrupaProducto.UseVisualStyleBackColor = True
+        Me.Label37.AutoSize = True
+        Me.Label37.Location = New System.Drawing.Point(6, 55)
+        Me.Label37.Name = "Label37"
+        Me.Label37.Size = New System.Drawing.Size(124, 13)
+        Me.Label37.TabIndex = 21
+        Me.Label37.Text = "Grupo Contable Negocio"
+        '
+        'TextBoxTitoGrupoContableNegocio
+        '
+        Me.TextBoxTitoGrupoContableNegocio.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxTitoGrupoContableNegocio.Location = New System.Drawing.Point(243, 48)
+        Me.TextBoxTitoGrupoContableNegocio.Name = "TextBoxTitoGrupoContableNegocio"
+        Me.TextBoxTitoGrupoContableNegocio.Size = New System.Drawing.Size(144, 20)
+        Me.TextBoxTitoGrupoContableNegocio.TabIndex = 22
         '
         'FormParametrosAlmacen
         '
@@ -986,10 +1094,14 @@ Partial Class FormParametrosAlmacen
         Me.GroupBoxSeriesdefactura.PerformLayout()
         Me.TabPageSantaMonica.ResumeLayout(False)
         Me.TabPageSantaMonica.PerformLayout()
-        Me.GroupBox2.ResumeLayout(False)
         Me.TabPageHotelesTito.ResumeLayout(False)
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox4.ResumeLayout(False)
+        Me.GroupBox4.PerformLayout()
+        Me.GroupBox5.ResumeLayout(False)
+        Me.GroupBox5.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1076,4 +1188,14 @@ Partial Class FormParametrosAlmacen
     Friend WithEvents RadioButtonTitoAgrupaProducto As RadioButton
     Friend WithEvents RadioButtonTitoAgrupaFamilia As RadioButton
     Friend WithEvents RadioButtonTitoAgrupaGrupo As RadioButton
+    Friend WithEvents TextBoxTitoUnidadMedidaNavision As TextBox
+    Friend WithEvents Label34 As Label
+    Friend WithEvents TextBoxTitoPuntoVerde As TextBox
+    Friend WithEvents Label35 As Label
+    Friend WithEvents GroupBox5 As GroupBox
+    Friend WithEvents Label37 As Label
+    Friend WithEvents TextBoxTitoGrupoContableNegocio As TextBox
+    Friend WithEvents Label36 As Label
+    Friend WithEvents TextBoxTitoGrupoIvaNegocio As TextBox
+    Friend WithEvents GroupBox4 As GroupBox
 End Class
